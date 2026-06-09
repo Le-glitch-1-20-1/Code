@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ma Bibliothèque</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+
+	<!-- SIDEBAR -->
+	<aside id="sidebar">
+		<div class="sidebar-logo">
+			<span class="logo-icon">📚</span>
+			<span class="logo-text">Ma Bibliothèque</span>
+		</div>
+
+		<nav class="sidebar-nav">
+			<button class="nav-item active" data-view="tous">
+				<span class="nav-icon">🏠</span> Tous les livres
+			</button>
+			<button class="nav-item" data-view="en-cours">
+				<span class="nav-icon">📖</span> En cours
+			</button>
+			<button class="nav-item" data-view="lu">
+				<span class="nav-icon">✅</span> Lus
+			</button>
+			<button class="nav-item" data-view="non-lu">
+				<span class="nav-icon">🕐</span> Non lus
+			</button>
+			<button class="nav-item" data-view="prete">
+				<span class="nav-icon">🤝</span> Prêtés
+			</button>
+			<button class="nav-item" data-view="favoris">
+				<span class="nav-icon">⭐</span> Favoris
+			</button>
+			<button class="nav-item" data-view="a-relire">
+				<span class="nav-icon">🔁</span> À relire
+			</button>
+			<button class="nav-item" data-view="liseuse">
+				<span class="nav-icon">📱</span> Liseuse
+			</button>
+		</nav>
+
+		<div class="sidebar-section-title">Genres</div>
+		<nav class="sidebar-nav" id="genre-nav"></nav>
+
+		<div class="sidebar-bottom">
+			<button class="action-btn" id="btn-export">⬆ Exporter</button>
+			<button class="action-btn" id="btn-import">⬇ Importer</button>
+			<button class="action-btn" id="btn-folder">📁 Dossier données</button>
+		</div>
+	</aside>
+
+	<!-- MAIN -->
+	<main id="main">
+		<header id="topbar">
+			<div class="topbar-left">
+				<h1 id="view-title">Tous les livres</h1>
+				<span class="book-count" id="book-count">0 livres</span>
+			</div>
+			<div class="topbar-right">
+				<input type="text" id="search" placeholder="🔍	Rechercher un titre, auteur...">
+				<div class="sort-wrap">
+					<label>Trier</label>
+					<select id="sort">
+						<option value="titre">Titre A→Z</option>
+						<option value="auteur">Auteur A→Z</option>
+						<option value="annee">Année</option>
+						<option value="note">Note</option>
+						<option value="date_ajout">Date d'ajout</option>
+					</select>
+				</div>
+				<div class="view-btns">
+					<button class="vbtn active" id="vgrid" title="Vue grille">⊞</button>
+					<button class="vbtn" id="vlist" title="Vue liste">☰</button>
+				</div>
+				<button class="btn-primary" id="btn-add">+ Ajouter un livre</button>
+			</div>
+		</header>
+
+		<div id="statsbar">
+			<div class="stat-chip" id="stat-total"></div>
+			<div class="stat-chip" id="stat-lu"></div>
+			<div class="stat-chip" id="stat-encours"></div>
+			<div class="stat-chip" id="stat-prete"></div>
+			<div class="stat-chip" id="stat-liseuse"></div>
+			<div class="stat-chip" id="stat-pages"></div>
+		</div>
+
+		<div id="books-container"></div>
+		<div id="empty-state" style="display:none">
+			<div class="empty-icon">📚</div>
+			<p class="empty-title">Aucun livre ici</p>
+			<p class="empty-sub">Ajoute ton premier livre avec le bouton ci-dessus !</p>
+			<button class="btn-primary" id="btn-add-empty">+ Ajouter un livre</button>
+		</div>
+	</main>
+</div>
+
+<!-- MODAL AJOUT / EDITION -->
+<div id="modal-overlay">
+	<div id="modal">
+		<div class="modal-header">
+			<h2 id="modal-title">Ajouter un livre</h2>
+			<button class="modal-close" id="btn-modal-close">✕</button>
+		</div>
+		<div class="modal-body">
+
+			<div class="isbn-lookup-bar">
+				<div class="form-row" style="flex:1">
+					<label>ISBN — recherche automatique</label>
+					<div class="isbn-input-wrap">
+						<input type="text" id="f-isbn" placeholder="Ex : 9782070368228">
+						<button class="isbn-search-btn" id="isbn-btn" title="Rechercher">🔍</button>
+					</div>
+				</div>
+				<div id="isbn-status" class="isbn-status"></div>
+			</div>
+
+			<div class="form-cover-row">
+				<div class="cover-preview" id="cover-preview">
+					<span id="cover-placeholder">📷<br>Couverture</span>
+					<img id="cover-img" src="" style="display:none">
+				</div>
+				<div class="form-main-fields">
+					<div class="form-row">
+						<label>Titre *</label>
+						<input type="text" id="f-titre" placeholder="Titre du livre">
+					</div>
+					<div class="form-row">
+						<label>Auteur</label>
+						<input type="text" id="f-auteur" placeholder="Prénom Nom">
+					</div>
+					<div class="form-2col">
+						<div class="form-row">
+							<label>Genre</label>
+							<select id="f-genre"></select>
+						</div>
+						<div class="form-row">
+							<label>Statut</label>
+							<select id="f-statut">
+								<option>Non lu</option>
+								<option>En cours</option>
+								<option>Lu</option>
+								<option>Prêté</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-row">
+						<label>Support de lecture</label>
+						<div class="support-btns" id="support-btns">
+							<button type="button" class="support-btn active" data-val="Papier">📄 Papier</button>
+							<button type="button" class="support-btn" data-val="Liseuse">📱 Liseuse</button>
+							<button type="button" class="support-btn" data-val="PDF">🖥 PDF</button>
+							<button type="button" class="support-btn" data-val="Audio">🎧 Audio</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="form-2col">
+				<div class="form-row">
+					<label>Année de publication</label>
+					<input type="number" id="f-annee" placeholder="ex: 1984" min="1000" max="2099">
+				</div>
+				<div class="form-row">
+					<label>Nombre de pages</label>
+					<input type="number" id="f-pages" placeholder="ex: 320" min="1">
+				</div>
+			</div>
+			<div class="form-2col">
+				<div class="form-row">
+					<label>Maison d'édition</label>
+					<input type="text" id="f-editeur" placeholder="Gallimard...">
+				</div>
+				<div class="form-row">
+					<label>Langue</label>
+					<select id="f-langue">
+						<option>Français</option><option>Anglais</option><option>Espagnol</option>
+						<option>Allemand</option><option>Italien</option><option>Japonais</option><option>Autre</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-row">
+				<label>Prêté à (si prêté)</label>
+				<input type="text" id="f-prete-a" placeholder="Nom de la personne">
+			</div>
+			<div class="form-row">
+				<label>Note ⭐ <span id="note-val">—</span></label>
+				<input type="range" id="f-note" min="0" max="5" step="0.5" value="0">
+			</div>
+			<div class="form-2col">
+				<div class="form-row">
+					<label>Pages lues (si en cours)</label>
+					<input type="number" id="f-pages-lues" placeholder="ex: 120" min="0">
+				</div>
+				<div class="form-row">
+					<label>Date de lecture</label>
+					<input type="date" id="f-date-lu">
+				</div>
+			</div>
+			<div class="form-row">
+				<label>Résumé / Notes personnelles</label>
+				<textarea id="f-notes" placeholder="Ton avis, un résumé, des notes..."></textarea>
+			</div>
+			<div class="form-2col">
+				<div class="form-row">
+					<label class="checkbox-label">
+						<input type="checkbox" id="f-favori"> ⭐ Ajouter aux favoris
+					</label>
+				</div>
+				<div class="form-row">
+					<label class="checkbox-label">
+						<input type="checkbox" id="f-a-relire"> 🔁 À relire
+					</label>
+				</div>
+			</div>
+		</div>
+
+		<div class="modal-footer">
+			<button class="btn-danger" id="btn-delete" style="display:none">🗑 Supprimer</button>
+			<div style="flex:1"></div>
+			<button class="btn-secondary" id="btn-modal-cancel">Annuler</button>
+			<button class="btn-primary" id="btn-save">💾 Enregistrer</button>
+		</div>
+	</div>
+</div>
+
+<!-- MODAL CONFIRMATION GENRE -->
+<div id="genre-confirm-overlay">
+	<div id="genre-confirm-modal">
+		<div class="modal-header">
+			<h2>Genre détecté</h2>
+			<button class="modal-close" id="btn-genre-close">✕</button>
+		</div>
+		<div class="modal-body" style="gap:12px">
+			<p id="genre-confirm-msg" style="color:var(--text2);font-size:14px;line-height:1.6"></p>
+			<div class="form-row">
+				<label>Genre suggéré (modifiable)</label>
+				<select id="genre-confirm-select"></select>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<div style="flex:1"></div>
+			<button class="btn-secondary" id="btn-genre-ignore">Ignorer</button>
+			<button class="btn-primary" id="btn-genre-apply">✅ Appliquer</button>
+		</div>
+	</div>
+</div>
+
+<!-- MODAL AJOUT GENRE -->
+<div id="add-genre-overlay">
+	<div>
+		<div class="modal-header">
+			<h2>Nouveau genre</h2>
+			<button class="modal-close" id="btn-add-genre-close">✕</button>
+		</div>
+		<div class="modal-body" style="gap:14px">
+			<div class="form-row">
+				<label>Nom du genre *</label>
+				<input type="text" id="new-genre-input" placeholder="Ex: Sci-fi, Manga, Horreur…">
+			</div>
+			<div class="form-row">
+				<label>Emoji (optionnel)</label>
+				<input type="text" id="new-genre-emoji" placeholder="📚" style="max-width:80px;font-size:20px;text-align:center;">
+			</div>
+			<div id="new-genre-error" style="color:var(--red);font-size:12px;min-height:16px;"></div>
+		</div>
+		<div class="modal-footer">
+			<div style="flex:1"></div>
+			<button class="btn-secondary" id="btn-add-genre-cancel">Annuler</button>
+			<button class="btn-primary" id="btn-add-genre-confirm">✅ Créer</button>
+		</div>
+	</div>
+</div>
+
+<div id="toast"></div>
+
+<script src="app.js"></script>
+</body>
+</html>

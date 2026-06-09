@@ -1,0 +1,88 @@
+# ====================================================================
+# EXTENSIONS SPÉCIFIQUES (Demande utilisateur)
+# ====================================================================
+# Bloquer tous les fichiers exécutables universels / Windows / Mobiles
+*.exe
+*.msi
+*.apk
+*.app
+*.dmg
+
+# Bloquer tous les fichiers PDF
+*.pdf
+
+# ====================================================================
+# LANGAGES SPÉCIFIQUES (C, C++, Python) & EXÉCUTABLES LINUX
+# ====================================================================
+# Compilateurs C/C++ (fichiers objets et exécutables temporaires)
+*.o
+*.obj
+*.out
+a.out
+
+# Exécutables Linux génériques sans extension (noms couramment utilisés)
+# Note : Prends l'habitude de nommer tes exécutables avec ".out" (ex: gcc main.c -o programme.out)
+# ou ajoute ici le nom exact de tes exécutables s'ils n'ont pas d'extension.
+main
+test
+run
+app
+programme
+
+# Fichiers de build et caches spécifiques à Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.poetry/
+.venv/
+venv/
+
+# ====================================================================
+# FICHIERS MULTIMÉDIA ET DOCUMENTS LOURDS
+# ====================================================================
+# Vidéos et Audio (souvent trop lourds pour GitHub)
+*.mp4
+*.mov
+*.avi
+*.mkv
+*.mp3
+*.wav
+
+# Fichiers de design / Graphisme lourds
+*.psd
+*.ai
+*.sketch
+*.fig
+
+# Archives lourdes (souvent inutiles à versionner)
+*.zip
+*.tar.gz
+*.rar
+*.7z
+
+# ====================================================================
+# FICHIERS SYSTÈME (Générés automatiquement par votre PC)
+# ====================================================================
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# ====================================================================
+# DOSSIERS DE SÉCURITÉ (À NE JAMAIS PUSH)
+# ====================================================================
+# Fichiers contenant des clés d'API ou mots de passe
+.env
+.env.local
+.env.*.local
+*.pem
+*.key

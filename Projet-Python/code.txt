@@ -1,0 +1,4 @@
+- Fait en sorte que toutes les erreurs, erreurs causées par l'utilisateur, etc. soient gérées ? 
+- fait en sorte que tous les imports du code soient utilisés, entre tous les imports qui ne gèrent pas la résolution, etc. (donc tout ce qui gère le menu, je crois), remplaçables s'ils ne sont pas installés
+- séparer tout ce qui est menu pour qu'il soit facilement modifiable
+- Fait en sorte que tout soit en englais 

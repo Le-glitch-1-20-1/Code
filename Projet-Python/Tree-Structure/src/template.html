@@ -1,0 +1,71 @@
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Explorateur de Fichiers</title>
+	<link rel="stylesheet" href="src/style.css">
+</head>
+<body>
+	<div class="header">
+		<div class="header-top">
+			<div>
+				<h1>📁 Explorateur de Fichiers</h1>
+				<p class="date">Généré le : {{DATE}}</p>
+			</div>
+			<button class="theme-toggle" onclick="toggleTheme()" title="Changer le thème">🌙</button>
+		</div>
+		<div class="stats-bar">
+			<span class="stat-item" id="statFichiers">📄 — fichiers</span>
+			<span class="stat-item" id="statDossiers">📂 — dossiers</span>
+			<span class="stat-item" id="statTaille">💾 — total</span>
+			<span class="stat-item visible-count" id="statVisibles"></span>
+		</div>
+		<div class="toolbar">
+			<div class="container-search">
+				<input type="text" id="searchName" placeholder="🔍 Rechercher par nom…" oninput="filterFiles()">
+				<select id="searchExtension" onchange="filterFiles()">
+					<option value="">Toutes les extensions</option>
+					<option value="__noext__">(Sans extension)</option>
+				</select>
+			</div>
+			<div class="sort-controls">
+				<span class="sort-label">Trier :</span>
+				<button class="sort-btn active" data-sort="nom" onclick="setSortMode('nom', this)">Nom</button>
+				<button class="sort-btn" data-sort="taille" onclick="setSortMode('taille', this)">Taille</button>
+				<button class="sort-btn" data-sort="ext" onclick="setSortMode('ext', this)">Extension</button>
+				<button class="sort-btn sort-dir" id="sortDirBtn" onclick="toggleSortDir()">▲</button>
+			</div>
+			<div class="tree-controls">
+				<button class="ctrl-btn" onclick="expandAll()">⊞ Tout ouvrir</button>
+				<button class="ctrl-btn" onclick="collapseAll()">⊟ Tout fermer</button>
+			</div>
+		</div>
+	</div>
+	<div id="loading-indicator" style="padding: 20px 24px; color: #64748b; font-size: 13px;">⏳ Chargement en cours…</div>
+	<div id="content"></div>
+	<div id="toast" class="toast">✅ Nom copié !</div>
+	<script id="data-json" type="application/json">{{DATA_JSON}}</script>
+	<script id="ext-json"  type="application/json">{{EXTENSIONS_JSON}}</script>
+	<script>
+		(
+			function ()
+			{
+				function parseTag(id, fallback)
+				{
+					try
+					{
+						return JSON.parse(document.getElementById(id).textContent);
+					}
+					catch (e)
+					{
+						console.warn('Données non injectées (' + id + ') — rapport non généré ?'); return fallback;
+					}
+				}
+				window.DATA       = parseTag('data-json', {});
+				window.EXTENSIONS = parseTag('ext-json',  []);
+			}
+		)();
+	</script>
+	<script src="src/render.js" defer></script>
+	<script src="src/script.js" defer></script>
+</body>
+</html>

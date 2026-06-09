@@ -1,0 +1,8 @@
+Wall thickness: 6
+Cell size: 28
+Offset X: -3
+Offset Y: -3
+Start coord: 17, 17
+End coord: 5669, 5670
+Start cell: 0,0
+End cell: 202,202

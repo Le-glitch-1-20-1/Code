@@ -1,0 +1,34 @@
+{
+	"name": "ma-bibliotheque",
+	"version": "1.0.0",
+	"description": "Gestionnaire de bibliothèque personnelle",
+	"main": "main.js",
+	"scripts": {
+		"start": "electron .",
+		"build": "electron-builder --win --x64",
+		"build-portable": "electron-builder --win portable --x64"
+	},
+	"build": {
+		"appId": "com.mabibliotheque.app",
+		"productName": "Ma Bibliothèque",
+		"win": {
+			"target": [
+				{ "target": "nsis", "arch": ["x64"] },
+				{ "target": "portable", "arch": ["x64"] }
+			],
+			"icon": "assets/icon.ico"
+		},
+		"nsis": {
+			"oneClick": false,
+			"allowToChangeInstallationDirectory": true,
+			"installerLanguages": ["fr_FR"],
+			"language": "1036"
+		},
+		"files": ["**/*", "!node_modules/.cache"],
+		"directories": { "output": "dist" }
+	},
+	"devDependencies": {
+		"electron": "^28.0.0",
+		"electron-builder": "^24.0.0"
+	}
+}
