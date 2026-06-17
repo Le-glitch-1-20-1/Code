@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/05/03 15:57:07 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/05/03 15:57:08 by le-glitch        ###   ########.fr       */
+/*   Created: 2026/06/17 07:24:24 by le-glitch         #+#    #+#             */
+/*   Updated: 2026/06/17 07:24:28 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -233,7 +233,10 @@ static inline void	renderer_draw(const t_chunk_map *map, t_camera2d_gol cam,
 	cy_max = (int)ceilf((sh - cam.offset.y) / (CHUNK_SIZE * cam.zoom)) + 1;
 	if (show_grid && cam.zoom >= 4.0f)
 		renderer_draw_grid(cam, &th, cx_min, cx_max, cy_min, cy_max);
-	cell_px = cam.zoom - (cam.zoom >= 4.0f ? 1.0f : 0.0f);
+	if (cam.zoom >= 4.0f)
+		cell_px = cam.zoom - 1.0f;
+	else
+		cell_px = cam.zoom;
 	rdraw_chunks(map, cam, cell_px, &th, show_chunk_debug,
 		cx_min, cx_max, cy_min, cy_max);
 	if (cam.zoom >= 3.0f)

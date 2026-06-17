@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/* chunk_map.h                                         :+:      :+:    :+:   */
+/*   chunk_map.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/* By: student <student@student.42.fr>              +#+  +:+       +#+        */
+/*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/* Created: 2025/01/01 00:00:00 by student           #+#    #+#             */
-/* Updated: 2025/01/01 00:00:00 by student          ###   ########.fr       */
+/*   Created: 2026/06/17 07:06:49 by le-glitch         #+#    #+#             */
+/*   Updated: 2026/06/17 07:06:53 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,6 @@
 # define MAP_SIZE 4096
 # define MAP_MASK 4095
 
-/*
-** Hashmap ouverte avec chainage par liste chainee.
-** Chaque bucket pointe sur une liste de chunks alloues dynamiquement.
-*/
 typedef struct s_chunk_node
 {
 	t_chunk				chunk;
@@ -50,11 +46,11 @@ void			set_cell_global(t_chunk_map *m, int x, int y, int v);
 
 t_chunk_node		*map_first(const t_chunk_map *m, int *bucket_idx);
 t_chunk_node		*map_next(const t_chunk_map *m, int *bucket_idx,
-				t_chunk_node *current);
+					t_chunk_node *current);
 
 void			map_copy(t_chunk_map *dst, const t_chunk_map *src);
 
-int	floor_div(int a, int b);
-int	floor_mod(int a, int b);
+int				floor_div(int a, int b);
+int				floor_mod(int a, int b);
 
 #endif

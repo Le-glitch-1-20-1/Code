@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/05/03 15:59:40 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/05/03 15:59:41 by le-glitch        ###   ########.fr       */
+/*   Created: 2026/06/17 07:38:43 by le-glitch         #+#    #+#             */
+/*   Updated: 2026/06/17 07:38:44 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,9 +93,14 @@ t_btn_state	ui_button(Rectangle r, const char *label, bool active)
 	else
 		bg = C_PANEL;
 	DrawRectangleRec(r, bg);
-	DrawRectangleLinesEx(r, 1.0f, (hov || active) ? C_HI : C_BORDER);
-	text_c(label, FS, r.x + r.width / 2, r.y + r.height / 2,
-		(hov || active) ? C_HI : C_TEXT);
+	if (hov || active)
+		DrawRectangleLinesEx(r, 1.0f, C_HI);
+	else
+		DrawRectangleLinesEx(r, 1.0f, C_BORDER);
+	if (hov || active)
+		text_c(label, FS, r.x + r.width / 2, r.y + r.height / 2, C_HI);
+	else
+		text_c(label, FS, r.x + r.width / 2, r.y + r.height / 2, C_TEXT);
 	if (click)
 		return (BTN_CLICKED);
 	if (hov)

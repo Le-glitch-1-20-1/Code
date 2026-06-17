@@ -1,54 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/* ui_hud.c                                            :+:      :+:    :+:   */
+/*   ui_hud.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/* By: student <student@student.42.fr>              +#+  +:+       +#+        */
+/*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/* Created: 2025/01/01 00:00:00 by student           #+#    #+#             */
-/* Updated: 2025/01/01 00:00:00 by student          ###   ########.fr       */
+/*   Created: 2026/06/17 07:28:19 by le-glitch         #+#    #+#             */
+/*   Updated: 2026/06/17 07:28:20 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ui.h"
 #include "ui_shared.h"
 
-static void	hud_draw_graph(int x, int by, int bh,
-	const int *pop_history, int pop_count, int pop_max)
+static void	hud_graph_loop(const int *pop, int start,
+	int n, int gx2, int gy2, int gh, float bar_w, int pm)
 {
-	int				gw;
-	int				gh;
-	int				gx2;
-	int				gy2;
-	int				start;
-	int				n;
-	float			bar_w;
-	float			bw;
 	int				i;
 	int				v;
 	int				bar_h;
 	unsigned char	intensity;
+	float			bw;
 
-	gw = 140;
-	gh = bh - 6;
-	gx2 = x;
-	gy2 = by + 3;
-	DrawRectangle(gx2, gy2, gw, gh, (Color){18, 18, 28, 200});
-	DrawRectangleLinesEx((Rectangle){gx2, gy2, gw, gh}, 1.0f, C_BORDER);
-	if (pop_count > gw)
-		start = pop_count - gw;
-	else
-		start = 0;
-	n = pop_count - start;
-	bar_w = (float)gw / n;
 	i = 0;
 	while (i < n)
 	{
-		v = pop_history[start + i];
-		bar_h = (int)((float)v / pop_max * (gh - 2));
+		v = pop[start + i];
+		bar_h = (int)((float)v / pm * (gh - 2));
 		if (bar_h < 1 && v > 0)
 			bar_h = 1;
-		intensity = (unsigned char)(100 + 120 * v / pop_max);
+		intensity = (unsigned char)(100 + 120 * v / pm);
 		if (bar_w > 1)
 			bw = bar_w - 0.5f;
 		else
@@ -59,7 +40,29 @@ static void	hud_draw_graph(int x, int by, int bh,
 			(Color){intensity / 2, intensity / 3, intensity, 200});
 		i++;
 	}
-	DrawText("pop", gx2 + 2, gy2 + 1, 10, C_DIM);
+}
+
+static void	hud_draw_graph(int x, int by, int bh,
+	const int *pop_history, int pop_count, int pop_max)
+{
+	int		gw;
+	int		gh;
+	int		start;
+	int		n;
+	float	bar_w;
+
+	gw = 140;
+	gh = bh - 6;
+	DrawRectangle(x, by + 3, gw, gh, (Color){18, 18, 28, 200});
+	DrawRectangleLinesEx((Rectangle){x, by + 3, gw, gh}, 1.0f, C_BORDER);
+	if (pop_count > gw)
+		start = pop_count - gw;
+	else
+		start = 0;
+	n = pop_count - start;
+	bar_w = (float)gw / n;
+	hud_graph_loop(pop_history, start, n, x, by + 3, gh, bar_w, pop_max);
+	DrawText("pop", x + 2, by + 4, 10, C_DIM);
 }
 
 static void	hud_draw_status(bool running, int x, int y)
