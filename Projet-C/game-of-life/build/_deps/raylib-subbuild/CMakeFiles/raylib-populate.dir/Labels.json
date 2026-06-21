@@ -2,37 +2,37 @@
 	"sources" : 
 	[
 		{
-			"file" : "/media/le-glitch/Code/Programation/Projet-C/game-of-life/build/_deps/raylib-subbuild/CMakeFiles/raylib-populate"
+			"file" : "/media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/_deps/raylib-subbuild/CMakeFiles/raylib-populate"
 		},
 		{
-			"file" : "/media/le-glitch/Code/Programation/Projet-C/game-of-life/build/_deps/raylib-subbuild/CMakeFiles/raylib-populate.rule"
+			"file" : "/media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/_deps/raylib-subbuild/CMakeFiles/raylib-populate.rule"
 		},
 		{
-			"file" : "/media/le-glitch/Code/Programation/Projet-C/game-of-life/build/_deps/raylib-subbuild/CMakeFiles/raylib-populate-complete.rule"
+			"file" : "/media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/_deps/raylib-subbuild/CMakeFiles/raylib-populate-complete.rule"
 		},
 		{
-			"file" : "/media/le-glitch/Code/Programation/Projet-C/game-of-life/build/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp/raylib-populate-build.rule"
+			"file" : "/media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp/raylib-populate-build.rule"
 		},
 		{
-			"file" : "/media/le-glitch/Code/Programation/Projet-C/game-of-life/build/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp/raylib-populate-configure.rule"
+			"file" : "/media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp/raylib-populate-configure.rule"
 		},
 		{
-			"file" : "/media/le-glitch/Code/Programation/Projet-C/game-of-life/build/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp/raylib-populate-download.rule"
+			"file" : "/media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp/raylib-populate-download.rule"
 		},
 		{
-			"file" : "/media/le-glitch/Code/Programation/Projet-C/game-of-life/build/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp/raylib-populate-install.rule"
+			"file" : "/media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp/raylib-populate-install.rule"
 		},
 		{
-			"file" : "/media/le-glitch/Code/Programation/Projet-C/game-of-life/build/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp/raylib-populate-mkdir.rule"
+			"file" : "/media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp/raylib-populate-mkdir.rule"
 		},
 		{
-			"file" : "/media/le-glitch/Code/Programation/Projet-C/game-of-life/build/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp/raylib-populate-patch.rule"
+			"file" : "/media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp/raylib-populate-patch.rule"
 		},
 		{
-			"file" : "/media/le-glitch/Code/Programation/Projet-C/game-of-life/build/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp/raylib-populate-test.rule"
+			"file" : "/media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp/raylib-populate-test.rule"
 		},
 		{
-			"file" : "/media/le-glitch/Code/Programation/Projet-C/game-of-life/build/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp/raylib-populate-update.rule"
+			"file" : "/media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp/raylib-populate-update.rule"
 		}
 	],
 	"target" : 

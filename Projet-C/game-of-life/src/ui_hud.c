@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/17 07:28:19 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/17 07:28:20 by le-glitch        ###   ########.fr       */
+/*   Created: 2026/06/21 23:07:15 by le-glitch         #+#    #+#             */
+/*   Updated: 2026/06/21 23:07:18 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static void	hud_graph_loop(const int *pop, int start,
 			bw = bar_w;
 		DrawRectangleRec(
 			(Rectangle){gx2 + i * bar_w, gy2 + gh - 1 - bar_h,
-				bw, (float)bar_h},
+			bw, (float)bar_h},
 			(Color){intensity / 2, intensity / 3, intensity, 200});
 		i++;
 	}

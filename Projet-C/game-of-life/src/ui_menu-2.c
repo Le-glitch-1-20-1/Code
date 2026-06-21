@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ui_menu2.c                                         :+:      :+:    :+:   */
+/*   ui_menu-2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/17 07:15:07 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/17 07:15:09 by le-glitch        ###   ########.fr       */
+/*   Created: 2026/06/21 23:06:08 by le-glitch         #+#    #+#             */
+/*   Updated: 2026/06/21 23:06:09 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,8 @@ bool	ui_draw_credits(void)
 		(int)p.x + pw - 20, (int)p.y + 58, C_BORDER);
 	credits_init(lines);
 	credits_draw_lines(lines, 6, p, pw);
-	if (ui_button(
-		(Rectangle){p.x + pw / 2 - 65, p.y + ph - 42, 130, 32},
-			"Retour", false) == BTN_CLICKED || IsKeyPressed(KEY_ESCAPE))
+	if (ui_button((Rectangle){p.x + pw / 2 - 65, p.y + ph - 42, 130, 32},
+		"Retour", false) == BTN_CLICKED || IsKeyPressed(KEY_ESCAPE))
 		return (true);
 	return (false);
 }

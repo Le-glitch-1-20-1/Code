@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ui_savezone.c                                      :+:      :+:    :+:   */
+/*   ui_savezone-1.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/17 07:22:33 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/17 07:22:34 by le-glitch        ###   ########.fr       */
+/*   Created: 2026/06/21 23:06:43 by le-glitch         #+#    #+#             */
+/*   Updated: 2026/06/21 23:06:44 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,15 @@ void	sz_phase0_draw(t_save_zone_state *sz, t_camera2d_gol cam)
 	sz_draw_dragging(sz, cam);
 }
 
+static int	is_valid_name_char(int k)
+{
+	if ((k >= 'a' && k <= 'z') || (k >= 'A' && k <= 'Z'))
+		return (1);
+	if ((k >= '0' && k <= '9') || k == '_' || k == '-')
+		return (1);
+	return (0);
+}
+
 void	sz_name_edit(t_save_zone_state *sz)
 {
 	int	k;
@@ -135,8 +144,7 @@ void	sz_name_edit(t_save_zone_state *sz)
 	while (k > 0)
 	{
 		len = (int)strlen(sz->name_buf);
-		if (((k >= 'a' && k <= 'z') || (k >= 'A' && k <= 'Z')
-			|| (k >= '0' && k <= '9') || k == '_' || k == '-') && len < 60)
+		if (is_valid_name_char(k) && len < 60)
 		{
 			sz->name_buf[len] = (char)k;
 			sz->name_buf[len + 1] = 0;

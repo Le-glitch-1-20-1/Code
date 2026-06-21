@@ -1,9 +1,9 @@
 CMakeFiles/game-of-life.dir/src/simulation.c.o: \
- /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/simulation.c \
+ /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/simulation.c \
  /usr/include/stdc-predef.h \
- /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/simulation.h \
- /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/chunk_map.h \
- /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/chunk.h \
+ /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/simulation.h \
+ /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/chunk_map.h \
+ /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/chunk.h \
  /usr/lib/gcc/x86_64-linux-gnu/13/include/stdint.h /usr/include/stdint.h \
  /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
  /usr/include/features.h /usr/include/features-time64.h \
@@ -40,19 +40,13 @@ CMakeFiles/game-of-life.dir/src/simulation.c.o: \
  /usr/include/x86_64-linux-gnu/bits/types/__sigset_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/struct_timeval.h \
  /usr/include/x86_64-linux-gnu/bits/types/struct_timespec.h \
- /usr/include/x86_64-linux-gnu/bits/select2.h \
- /usr/include/x86_64-linux-gnu/bits/select-decl.h \
  /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h \
  /usr/include/x86_64-linux-gnu/bits/thread-shared-types.h \
  /usr/include/x86_64-linux-gnu/bits/pthreadtypes-arch.h \
  /usr/include/x86_64-linux-gnu/bits/atomic_wide_counter.h \
  /usr/include/x86_64-linux-gnu/bits/struct_mutex.h \
  /usr/include/x86_64-linux-gnu/bits/struct_rwlock.h /usr/include/alloca.h \
- /usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h \
- /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
- /usr/include/x86_64-linux-gnu/bits/stdlib.h /usr/include/string.h \
+ /usr/include/x86_64-linux-gnu/bits/stdlib-float.h /usr/include/string.h \
  /usr/include/x86_64-linux-gnu/bits/types/locale_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h \
- /usr/include/strings.h \
- /usr/include/x86_64-linux-gnu/bits/strings_fortified.h \
- /usr/include/x86_64-linux-gnu/bits/string_fortified.h
+ /usr/include/strings.h

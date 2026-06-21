@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ui_toolbar.c                                       :+:      :+:    :+:   */
+/*   ui_toolbar-1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/17 07:34:44 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/17 07:34:45 by le-glitch        ###   ########.fr       */
+/*   Created: 2026/06/21 23:06:59 by le-glitch         #+#    #+#             */
+/*   Updated: 2026/06/21 23:07:00 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,13 +136,17 @@ t_ui_action	toolbar_center_btn(int *x, int pad, int bsz)
 	cx2 = rb.x + rb.width / 2;
 	cy2 = rb.y + rb.height / 2;
 	if (hov2)
-		DrawLineEx((Vector2){cx2 - r2, cy2}, (Vector2){cx2 + r2, cy2}, 1.5f, C_HI);
+		DrawLineEx((Vector2){cx2 - r2, cy2},
+			(Vector2){cx2 + r2, cy2}, 1.5f, C_HI);
 	else
-		DrawLineEx((Vector2){cx2 - r2, cy2}, (Vector2){cx2 + r2, cy2}, 1.5f, C_TEXT);
+		DrawLineEx((Vector2){cx2 - r2, cy2},
+			(Vector2){cx2 + r2, cy2}, 1.5f, C_TEXT);
 	if (hov2)
-		DrawLineEx((Vector2){cx2, cy2 - r2}, (Vector2){cx2, cy2 + r2}, 1.5f, C_HI);
+		DrawLineEx((Vector2){cx2, cy2 - r2},
+			(Vector2){cx2, cy2 + r2}, 1.5f, C_HI);
 	else
-		DrawLineEx((Vector2){cx2, cy2 - r2}, (Vector2){cx2, cy2 + r2}, 1.5f, C_TEXT);
+		DrawLineEx((Vector2){cx2, cy2 - r2},
+			(Vector2){cx2, cy2 + r2}, 1.5f, C_TEXT);
 	if (hov2)
 		DrawCircleLines((int)cx2, (int)cy2, (int)(r2 * 0.6f), C_HI);
 	else

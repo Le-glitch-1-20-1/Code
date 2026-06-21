@@ -4,19 +4,19 @@
 cmake_minimum_required(VERSION 3.5)
 
 file(MAKE_DIRECTORY
-  "/media/le-glitch/Code/Programation/Projet-C/game-of-life/build/_deps/raylib-src"
-  "/media/le-glitch/Code/Programation/Projet-C/game-of-life/build/_deps/raylib-build"
-  "/media/le-glitch/Code/Programation/Projet-C/game-of-life/build/_deps/raylib-subbuild/raylib-populate-prefix"
-  "/media/le-glitch/Code/Programation/Projet-C/game-of-life/build/_deps/raylib-subbuild/raylib-populate-prefix/tmp"
-  "/media/le-glitch/Code/Programation/Projet-C/game-of-life/build/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp"
-  "/media/le-glitch/Code/Programation/Projet-C/game-of-life/build/_deps/raylib-subbuild/raylib-populate-prefix/src"
-  "/media/le-glitch/Code/Programation/Projet-C/game-of-life/build/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp"
+  "/media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/_deps/raylib-src"
+  "/media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/_deps/raylib-build"
+  "/media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/_deps/raylib-subbuild/raylib-populate-prefix"
+  "/media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/_deps/raylib-subbuild/raylib-populate-prefix/tmp"
+  "/media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp"
+  "/media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/_deps/raylib-subbuild/raylib-populate-prefix/src"
+  "/media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp"
 )
 
 set(configSubDirs )
 foreach(subDir IN LISTS configSubDirs)
-    file(MAKE_DIRECTORY "/media/le-glitch/Code/Programation/Projet-C/game-of-life/build/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp/${subDir}")
+    file(MAKE_DIRECTORY "/media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp/${subDir}")
 endforeach()
 if(cfgdir)
-  file(MAKE_DIRECTORY "/media/le-glitch/Code/Programation/Projet-C/game-of-life/build/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp${cfgdir}") # cfgdir has leading slash
+  file(MAKE_DIRECTORY "/media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp${cfgdir}") # cfgdir has leading slash
 endif()

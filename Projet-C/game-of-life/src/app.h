@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/17 07:07:30 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/17 07:07:34 by le-glitch        ###   ########.fr       */
+/*   Created: 2026/06/21 23:01:17 by le-glitch         #+#    #+#             */
+/*   Updated: 2026/06/21 23:03:20 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,16 +92,16 @@ void	apply_zoom(t_app *app, float wheel);
 void	handle_pan(t_app *app);
 
 void	draw_line_cells(t_chunk_map *map, int x0, int y0, int x1,
-		int y1, int val);
+			int y1, int val);
 void	stamp_pattern(t_app *app, int ox, int oy);
 void	apply_random_fill(t_chunk_map *map, const t_random_state *rs);
 int		save_zone_rle(const char *path, const t_chunk_map *src,
-		int x0, int y0, int x1, int y1);
+			int x0, int y0, int x1, int y1);
 
 void	draw_selections(t_app *app);
 void	draw_place_preview(t_app *app);
 void	draw_selection_info_box(const char *title, int x0, int y0,
-		int x1, int y1, int alive);
+			int x1, int y1, int alive);
 
 void	handle_drawing(t_app *app, Vector2 mouse, bool on_ui);
 void	handle_clear_select(t_app *app, Vector2 mouse, bool on_ui);
@@ -140,9 +140,9 @@ void	handle_no_ctrl_keys(t_app *app);
 void	handle_no_ctrl_misc(t_app *app);
 
 /* app_draw2.c */
-int			count_cells_in_rect(t_app *app, int xa, int ya, int xb, int yb);
+int		count_cells_in_rect(t_app *app, int xa, int ya, int xb, int yb);
 void	draw_select_overlay(t_app *app, int xa, int ya, int xb, int yb,
-		const char *title, Color fill, Color border);
+			const char *title, Color fill, Color border);
 void	minmax_clear(t_app *app, int *xa, int *ya, int *xb, int *yb);
 void	minmax_copy(t_app *app, int *xa, int *ya, int *xb, int *yb);
 void	draw_selections_clear(t_app *app);
@@ -154,7 +154,7 @@ void	handle_toolbar_act1(t_app *app, t_ui_action act);
 /* app_screens2.c */
 void	fill_pop_buf(t_app *app, int *pbuf, int *pn);
 void	get_rand_bounds(t_app *app, int *xmin, int *xmax,
-		int *ymin, int *ymax);
+			int *ymin, int *ymax);
 void	draw_screen_random_sel(t_app *app);
 void	draw_screen_save_zone_rect(t_app *app);
 void	draw_screen_place_rotate(t_app *app);

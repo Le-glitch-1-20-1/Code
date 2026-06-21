@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/17 07:33:26 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/17 07:33:27 by le-glitch        ###   ########.fr       */
+/*   Created: 2026/06/21 23:06:23 by le-glitch         #+#    #+#             */
+/*   Updated: 2026/06/21 23:06:26 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,8 +117,7 @@ static void	rand_phase1(t_random_state *rs, int sw, int sh)
 	if (ui_button((Rectangle){p.x + 20, p.y + ph - 46, 140, 34},
 		"Remplir", false) == BTN_CLICKED)
 		rs->confirmed = true;
-	if (ui_button(
-		(Rectangle){p.x + pw - 160, p.y + ph - 46, 140, 34},
+	if (ui_button((Rectangle){p.x + pw - 160, p.y + ph - 46, 140, 34},
 		"Annuler", false) == BTN_CLICKED || IsKeyPressed(KEY_ESCAPE))
 		rs->cancelled = true;
 }

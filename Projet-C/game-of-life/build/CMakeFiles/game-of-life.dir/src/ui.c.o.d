@@ -1,11 +1,11 @@
 CMakeFiles/game-of-life.dir/src/ui.c.o: \
- /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/ui.c \
+ /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/ui.c \
  /usr/include/stdc-predef.h \
- /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/ui.h \
- /media/le-glitch/Code/Programation/Projet-C/game-of-life/build/_deps/raylib-src/src/raylib.h \
+ /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/ui.h \
+ /media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/_deps/raylib-src/src/raylib.h \
  /usr/lib/gcc/x86_64-linux-gnu/13/include/stdarg.h \
  /usr/lib/gcc/x86_64-linux-gnu/13/include/stdbool.h \
- /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/config.h \
+ /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/config.h \
  /usr/include/stdio.h \
  /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
  /usr/include/features.h /usr/include/features-time64.h \
@@ -28,18 +28,13 @@ CMakeFiles/game-of-life.dir/src/ui.c.o: \
  /usr/include/x86_64-linux-gnu/bits/types/cookie_io_functions_t.h \
  /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
  /usr/include/x86_64-linux-gnu/bits/floatn.h \
- /usr/include/x86_64-linux-gnu/bits/floatn-common.h \
- /usr/include/x86_64-linux-gnu/bits/stdio2-decl.h \
- /usr/include/x86_64-linux-gnu/bits/stdio.h \
- /usr/include/x86_64-linux-gnu/bits/stdio2.h /usr/include/string.h \
+ /usr/include/x86_64-linux-gnu/bits/floatn-common.h /usr/include/string.h \
  /usr/include/x86_64-linux-gnu/bits/types/locale_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h \
  /usr/include/strings.h \
- /usr/include/x86_64-linux-gnu/bits/strings_fortified.h \
- /usr/include/x86_64-linux-gnu/bits/string_fortified.h \
- /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/renderer.h \
- /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/chunk_map.h \
- /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/chunk.h \
+ /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/renderer.h \
+ /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/chunk_map.h \
+ /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/chunk.h \
  /usr/lib/gcc/x86_64-linux-gnu/13/include/stdint.h /usr/include/stdint.h \
  /usr/include/x86_64-linux-gnu/bits/wchar.h \
  /usr/include/x86_64-linux-gnu/bits/stdint-intn.h \
@@ -52,7 +47,7 @@ CMakeFiles/game-of-life.dir/src/ui.c.o: \
  /usr/include/x86_64-linux-gnu/bits/fp-fast.h \
  /usr/include/x86_64-linux-gnu/bits/mathcalls-helper-functions.h \
  /usr/include/x86_64-linux-gnu/bits/mathcalls.h \
- /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/save.h \
+ /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/save.h \
  /usr/include/stdlib.h /usr/include/x86_64-linux-gnu/bits/waitflags.h \
  /usr/include/x86_64-linux-gnu/bits/waitstatus.h \
  /usr/include/x86_64-linux-gnu/sys/types.h \
@@ -70,14 +65,10 @@ CMakeFiles/game-of-life.dir/src/ui.c.o: \
  /usr/include/x86_64-linux-gnu/bits/types/__sigset_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/struct_timeval.h \
  /usr/include/x86_64-linux-gnu/bits/types/struct_timespec.h \
- /usr/include/x86_64-linux-gnu/bits/select2.h \
- /usr/include/x86_64-linux-gnu/bits/select-decl.h \
  /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h \
  /usr/include/x86_64-linux-gnu/bits/thread-shared-types.h \
  /usr/include/x86_64-linux-gnu/bits/pthreadtypes-arch.h \
  /usr/include/x86_64-linux-gnu/bits/atomic_wide_counter.h \
  /usr/include/x86_64-linux-gnu/bits/struct_mutex.h \
  /usr/include/x86_64-linux-gnu/bits/struct_rwlock.h /usr/include/alloca.h \
- /usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h \
- /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
- /usr/include/x86_64-linux-gnu/bits/stdlib.h /usr/include/ctype.h
+ /usr/include/x86_64-linux-gnu/bits/stdlib-float.h /usr/include/ctype.h

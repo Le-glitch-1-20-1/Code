@@ -4,7 +4,7 @@
 # compile C with /usr/bin/cc
 C_DEFINES = -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP
 
-C_INCLUDES = -I/media/le-glitch/Code/Programation/Projet-C/game-of-life/build/_deps/raylib-src/src -isystem /media/le-glitch/Code/Programation/Projet-C/game-of-life/build/_deps/raylib-src/src/external/glfw/include
+C_INCLUDES = -I/media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/_deps/raylib-src/src -isystem /media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/_deps/raylib-src/src/external/glfw/include
 
-C_FLAGS = -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -O3 -DNDEBUG -std=gnu99
+C_FLAGS = -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -std=gnu99
 

@@ -22,50 +22,50 @@ set(SOURCES
 	src/main.c
 	src/app_init.c
 	src/app_undo.c
-	src/app_map.c
-	src/app_map2.c
-	src/app_input.c
-	src/app_input7.c
-	src/app_input2.c
-	src/app_input3.c
-	src/app_input8.c
-	src/app_input4.c
-	src/app_input5.c
-	src/app_input6.c
-	src/app_draw.c
-	src/app_draw2.c
-	src/app_draw3.c
-	src/app_screens.c
-	src/app_screens2.c
-	src/app_screens3.c
-	src/app_screens4.c
-	src/app_screens5.c
-	src/chunk_map.c
-	src/chunk_map2.c
-	src/chunk_map3.c
-	src/chunk_map4.c
+	src/app_map-1.c
+	src/app_map-2.c
+	src/app_input-1.c
+	src/app_input-7.c
+	src/app_input-2.c
+	src/app_input-3.c
+	src/app_input-8.c
+	src/app_input-4.c
+	src/app_input-5.c
+	src/app_input-6.c
+	src/app_draw-1.c
+	src/app_draw-2.c
+	src/app_draw-3.c
+	src/app_screens-1.c
+	src/app_screens-2.c
+	src/app_screens-3.c
+	src/app_screens-4.c
+	src/app_screens-5.c
+	src/chunk_map-1.c
+	src/chunk_map-2.c
+	src/chunk_map-3.c
+	src/chunk_map-4.c
 	src/simulation.c
-	src/save.c
-	src/save2.c
-	src/save3.c
+	src/save-1.c
+	src/save-2.c
+	src/save-3.c
 	src/ui.c
-	src/ui_icons.c
-	src/ui_icons2.c
-	src/ui_icons3.c
-	src/ui_icons5.c
-	src/ui_icons4.c
-	src/ui_toolbar.c
-	src/ui_toolbar2.c
+	src/ui_icons-1.c
+	src/ui_icons-2.c
+	src/ui_icons-3.c
+	src/ui_icons-5.c
+	src/ui_icons-4.c
+	src/ui_toolbar-1.c
+	src/ui_toolbar-2.c
 	src/ui_hud.c
-	src/ui_menu.c
-	src/ui_menu2.c
-	src/ui_keybinds.c
-	src/ui_keybinds2.c
-	src/ui_keybinds3.c
-	src/ui_savezone.c
-	src/ui_savezone2.c
-	src/ui_browser.c
-	src/ui_browser2.c
+	src/ui_menu-1.c
+	src/ui_menu-2.c
+	src/ui_keybinds-1.c
+	src/ui_keybinds-2.c
+	src/ui_keybinds-3.c
+	src/ui_savezone-1.c
+	src/ui_savezone-2.c
+	src/ui_browser-1.c
+	src/ui_browser-2.c
 	src/ui_random.c
 )
 

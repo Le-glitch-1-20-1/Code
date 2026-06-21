@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ui_menu.c                                          :+:      :+:    :+:   */
+/*   ui_menu-1.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/17 07:28:49 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/17 07:28:50 by le-glitch        ###   ########.fr       */
+/*   Created: 2026/06/21 23:17:24 by le-glitch         #+#    #+#             */
+/*   Updated: 2026/06/21 23:17:40 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,6 @@ t_menu_action	ui_draw_menu(void)
 	t_menu_item		items[4];
 	t_menu_action	act;
 	Rectangle		p;
-	int				sw;
-	int				sh;
 	int				pw;
 	int				ph;
 

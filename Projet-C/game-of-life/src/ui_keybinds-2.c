@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ui_keybinds2.c                                     :+:      :+:    :+:   */
+/*   ui_keybinds-2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/17 07:38:18 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/17 07:38:21 by le-glitch        ###   ########.fr       */
+/*   Created: 2026/06/21 23:05:50 by le-glitch         #+#    #+#             */
+/*   Updated: 2026/06/21 23:05:52 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@
 #include <stddef.h>
 #include <string.h>
 
-int		*kb_field(t_key_config *cfg, int offset);
-const char		*kname(int k);
+int			*kb_field(t_key_config *cfg, int offset);
+const char	*kname(int k);
 
-# define KB_N	28
+#define KB_N	28
 
 extern const t_kb_entry	g_kb_table[];
 

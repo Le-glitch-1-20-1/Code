@@ -57,10 +57,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /media/le-glitch/Code/Programation/Projet-C/game-of-life
+CMAKE_SOURCE_DIR = /media/le-glitch/CODE/Programation/Projet-C/game-of-life
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /media/le-glitch/Code/Programation/Projet-C/game-of-life/build
+CMAKE_BINARY_DIR = /media/le-glitch/CODE/Programation/Projet-C/game-of-life/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -78,7 +78,7 @@ package/fast: package
 # Special rule for the target package_source
 package_source:
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Run CPack packaging tool for source..."
-	/usr/bin/cpack --config ./CPackSourceConfig.cmake /media/le-glitch/Code/Programation/Projet-C/game-of-life/build/CPackSourceConfig.cmake
+	/usr/bin/cpack --config ./CPackSourceConfig.cmake /media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/CPackSourceConfig.cmake
 .PHONY : package_source
 
 # Special rule for the target package_source
@@ -152,9 +152,9 @@ install/strip/fast: preinstall/fast
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /media/le-glitch/Code/Programation/Projet-C/game-of-life/build/CMakeFiles /media/le-glitch/Code/Programation/Projet-C/game-of-life/build//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/CMakeFiles /media/le-glitch/CODE/Programation/Projet-C/game-of-life/build//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /media/le-glitch/Code/Programation/Projet-C/game-of-life/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -246,77 +246,77 @@ update_mappings/fast:
 	$(MAKE) $(MAKESILENT) -f _deps/raylib-build/raylib/external/glfw/src/CMakeFiles/update_mappings.dir/build.make _deps/raylib-build/raylib/external/glfw/src/CMakeFiles/update_mappings.dir/build
 .PHONY : update_mappings/fast
 
-src/app_draw.o: src/app_draw.c.o
-.PHONY : src/app_draw.o
+src/app_draw-1.o: src/app_draw-1.c.o
+.PHONY : src/app_draw-1.o
 
 # target to build an object file
-src/app_draw.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_draw.c.o
-.PHONY : src/app_draw.c.o
+src/app_draw-1.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_draw-1.c.o
+.PHONY : src/app_draw-1.c.o
 
-src/app_draw.i: src/app_draw.c.i
-.PHONY : src/app_draw.i
+src/app_draw-1.i: src/app_draw-1.c.i
+.PHONY : src/app_draw-1.i
 
 # target to preprocess a source file
-src/app_draw.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_draw.c.i
-.PHONY : src/app_draw.c.i
+src/app_draw-1.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_draw-1.c.i
+.PHONY : src/app_draw-1.c.i
 
-src/app_draw.s: src/app_draw.c.s
-.PHONY : src/app_draw.s
+src/app_draw-1.s: src/app_draw-1.c.s
+.PHONY : src/app_draw-1.s
 
 # target to generate assembly for a file
-src/app_draw.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_draw.c.s
-.PHONY : src/app_draw.c.s
+src/app_draw-1.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_draw-1.c.s
+.PHONY : src/app_draw-1.c.s
 
-src/app_draw2.o: src/app_draw2.c.o
-.PHONY : src/app_draw2.o
+src/app_draw-2.o: src/app_draw-2.c.o
+.PHONY : src/app_draw-2.o
 
 # target to build an object file
-src/app_draw2.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_draw2.c.o
-.PHONY : src/app_draw2.c.o
+src/app_draw-2.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_draw-2.c.o
+.PHONY : src/app_draw-2.c.o
 
-src/app_draw2.i: src/app_draw2.c.i
-.PHONY : src/app_draw2.i
+src/app_draw-2.i: src/app_draw-2.c.i
+.PHONY : src/app_draw-2.i
 
 # target to preprocess a source file
-src/app_draw2.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_draw2.c.i
-.PHONY : src/app_draw2.c.i
+src/app_draw-2.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_draw-2.c.i
+.PHONY : src/app_draw-2.c.i
 
-src/app_draw2.s: src/app_draw2.c.s
-.PHONY : src/app_draw2.s
+src/app_draw-2.s: src/app_draw-2.c.s
+.PHONY : src/app_draw-2.s
 
 # target to generate assembly for a file
-src/app_draw2.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_draw2.c.s
-.PHONY : src/app_draw2.c.s
+src/app_draw-2.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_draw-2.c.s
+.PHONY : src/app_draw-2.c.s
 
-src/app_draw3.o: src/app_draw3.c.o
-.PHONY : src/app_draw3.o
+src/app_draw-3.o: src/app_draw-3.c.o
+.PHONY : src/app_draw-3.o
 
 # target to build an object file
-src/app_draw3.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_draw3.c.o
-.PHONY : src/app_draw3.c.o
+src/app_draw-3.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_draw-3.c.o
+.PHONY : src/app_draw-3.c.o
 
-src/app_draw3.i: src/app_draw3.c.i
-.PHONY : src/app_draw3.i
+src/app_draw-3.i: src/app_draw-3.c.i
+.PHONY : src/app_draw-3.i
 
 # target to preprocess a source file
-src/app_draw3.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_draw3.c.i
-.PHONY : src/app_draw3.c.i
+src/app_draw-3.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_draw-3.c.i
+.PHONY : src/app_draw-3.c.i
 
-src/app_draw3.s: src/app_draw3.c.s
-.PHONY : src/app_draw3.s
+src/app_draw-3.s: src/app_draw-3.c.s
+.PHONY : src/app_draw-3.s
 
 # target to generate assembly for a file
-src/app_draw3.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_draw3.c.s
-.PHONY : src/app_draw3.c.s
+src/app_draw-3.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_draw-3.c.s
+.PHONY : src/app_draw-3.c.s
 
 src/app_init.o: src/app_init.c.o
 .PHONY : src/app_init.o
@@ -342,365 +342,365 @@ src/app_init.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_init.c.s
 .PHONY : src/app_init.c.s
 
-src/app_input.o: src/app_input.c.o
-.PHONY : src/app_input.o
+src/app_input-1.o: src/app_input-1.c.o
+.PHONY : src/app_input-1.o
 
 # target to build an object file
-src/app_input.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_input.c.o
-.PHONY : src/app_input.c.o
+src/app_input-1.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_input-1.c.o
+.PHONY : src/app_input-1.c.o
 
-src/app_input.i: src/app_input.c.i
-.PHONY : src/app_input.i
+src/app_input-1.i: src/app_input-1.c.i
+.PHONY : src/app_input-1.i
 
 # target to preprocess a source file
-src/app_input.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_input.c.i
-.PHONY : src/app_input.c.i
+src/app_input-1.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_input-1.c.i
+.PHONY : src/app_input-1.c.i
 
-src/app_input.s: src/app_input.c.s
-.PHONY : src/app_input.s
+src/app_input-1.s: src/app_input-1.c.s
+.PHONY : src/app_input-1.s
 
 # target to generate assembly for a file
-src/app_input.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_input.c.s
-.PHONY : src/app_input.c.s
+src/app_input-1.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_input-1.c.s
+.PHONY : src/app_input-1.c.s
 
-src/app_input2.o: src/app_input2.c.o
-.PHONY : src/app_input2.o
+src/app_input-2.o: src/app_input-2.c.o
+.PHONY : src/app_input-2.o
 
 # target to build an object file
-src/app_input2.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_input2.c.o
-.PHONY : src/app_input2.c.o
+src/app_input-2.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_input-2.c.o
+.PHONY : src/app_input-2.c.o
 
-src/app_input2.i: src/app_input2.c.i
-.PHONY : src/app_input2.i
+src/app_input-2.i: src/app_input-2.c.i
+.PHONY : src/app_input-2.i
 
 # target to preprocess a source file
-src/app_input2.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_input2.c.i
-.PHONY : src/app_input2.c.i
+src/app_input-2.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_input-2.c.i
+.PHONY : src/app_input-2.c.i
 
-src/app_input2.s: src/app_input2.c.s
-.PHONY : src/app_input2.s
+src/app_input-2.s: src/app_input-2.c.s
+.PHONY : src/app_input-2.s
 
 # target to generate assembly for a file
-src/app_input2.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_input2.c.s
-.PHONY : src/app_input2.c.s
+src/app_input-2.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_input-2.c.s
+.PHONY : src/app_input-2.c.s
 
-src/app_input3.o: src/app_input3.c.o
-.PHONY : src/app_input3.o
+src/app_input-3.o: src/app_input-3.c.o
+.PHONY : src/app_input-3.o
 
 # target to build an object file
-src/app_input3.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_input3.c.o
-.PHONY : src/app_input3.c.o
+src/app_input-3.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_input-3.c.o
+.PHONY : src/app_input-3.c.o
 
-src/app_input3.i: src/app_input3.c.i
-.PHONY : src/app_input3.i
+src/app_input-3.i: src/app_input-3.c.i
+.PHONY : src/app_input-3.i
 
 # target to preprocess a source file
-src/app_input3.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_input3.c.i
-.PHONY : src/app_input3.c.i
+src/app_input-3.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_input-3.c.i
+.PHONY : src/app_input-3.c.i
 
-src/app_input3.s: src/app_input3.c.s
-.PHONY : src/app_input3.s
+src/app_input-3.s: src/app_input-3.c.s
+.PHONY : src/app_input-3.s
 
 # target to generate assembly for a file
-src/app_input3.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_input3.c.s
-.PHONY : src/app_input3.c.s
+src/app_input-3.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_input-3.c.s
+.PHONY : src/app_input-3.c.s
 
-src/app_input4.o: src/app_input4.c.o
-.PHONY : src/app_input4.o
+src/app_input-4.o: src/app_input-4.c.o
+.PHONY : src/app_input-4.o
 
 # target to build an object file
-src/app_input4.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_input4.c.o
-.PHONY : src/app_input4.c.o
+src/app_input-4.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_input-4.c.o
+.PHONY : src/app_input-4.c.o
 
-src/app_input4.i: src/app_input4.c.i
-.PHONY : src/app_input4.i
+src/app_input-4.i: src/app_input-4.c.i
+.PHONY : src/app_input-4.i
 
 # target to preprocess a source file
-src/app_input4.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_input4.c.i
-.PHONY : src/app_input4.c.i
+src/app_input-4.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_input-4.c.i
+.PHONY : src/app_input-4.c.i
 
-src/app_input4.s: src/app_input4.c.s
-.PHONY : src/app_input4.s
+src/app_input-4.s: src/app_input-4.c.s
+.PHONY : src/app_input-4.s
 
 # target to generate assembly for a file
-src/app_input4.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_input4.c.s
-.PHONY : src/app_input4.c.s
+src/app_input-4.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_input-4.c.s
+.PHONY : src/app_input-4.c.s
 
-src/app_input5.o: src/app_input5.c.o
-.PHONY : src/app_input5.o
+src/app_input-5.o: src/app_input-5.c.o
+.PHONY : src/app_input-5.o
 
 # target to build an object file
-src/app_input5.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_input5.c.o
-.PHONY : src/app_input5.c.o
+src/app_input-5.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_input-5.c.o
+.PHONY : src/app_input-5.c.o
 
-src/app_input5.i: src/app_input5.c.i
-.PHONY : src/app_input5.i
+src/app_input-5.i: src/app_input-5.c.i
+.PHONY : src/app_input-5.i
 
 # target to preprocess a source file
-src/app_input5.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_input5.c.i
-.PHONY : src/app_input5.c.i
+src/app_input-5.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_input-5.c.i
+.PHONY : src/app_input-5.c.i
 
-src/app_input5.s: src/app_input5.c.s
-.PHONY : src/app_input5.s
+src/app_input-5.s: src/app_input-5.c.s
+.PHONY : src/app_input-5.s
 
 # target to generate assembly for a file
-src/app_input5.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_input5.c.s
-.PHONY : src/app_input5.c.s
+src/app_input-5.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_input-5.c.s
+.PHONY : src/app_input-5.c.s
 
-src/app_input6.o: src/app_input6.c.o
-.PHONY : src/app_input6.o
+src/app_input-6.o: src/app_input-6.c.o
+.PHONY : src/app_input-6.o
 
 # target to build an object file
-src/app_input6.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_input6.c.o
-.PHONY : src/app_input6.c.o
+src/app_input-6.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_input-6.c.o
+.PHONY : src/app_input-6.c.o
 
-src/app_input6.i: src/app_input6.c.i
-.PHONY : src/app_input6.i
+src/app_input-6.i: src/app_input-6.c.i
+.PHONY : src/app_input-6.i
 
 # target to preprocess a source file
-src/app_input6.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_input6.c.i
-.PHONY : src/app_input6.c.i
+src/app_input-6.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_input-6.c.i
+.PHONY : src/app_input-6.c.i
 
-src/app_input6.s: src/app_input6.c.s
-.PHONY : src/app_input6.s
+src/app_input-6.s: src/app_input-6.c.s
+.PHONY : src/app_input-6.s
 
 # target to generate assembly for a file
-src/app_input6.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_input6.c.s
-.PHONY : src/app_input6.c.s
+src/app_input-6.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_input-6.c.s
+.PHONY : src/app_input-6.c.s
 
-src/app_input7.o: src/app_input7.c.o
-.PHONY : src/app_input7.o
+src/app_input-7.o: src/app_input-7.c.o
+.PHONY : src/app_input-7.o
 
 # target to build an object file
-src/app_input7.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_input7.c.o
-.PHONY : src/app_input7.c.o
+src/app_input-7.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_input-7.c.o
+.PHONY : src/app_input-7.c.o
 
-src/app_input7.i: src/app_input7.c.i
-.PHONY : src/app_input7.i
+src/app_input-7.i: src/app_input-7.c.i
+.PHONY : src/app_input-7.i
 
 # target to preprocess a source file
-src/app_input7.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_input7.c.i
-.PHONY : src/app_input7.c.i
+src/app_input-7.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_input-7.c.i
+.PHONY : src/app_input-7.c.i
 
-src/app_input7.s: src/app_input7.c.s
-.PHONY : src/app_input7.s
+src/app_input-7.s: src/app_input-7.c.s
+.PHONY : src/app_input-7.s
 
 # target to generate assembly for a file
-src/app_input7.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_input7.c.s
-.PHONY : src/app_input7.c.s
+src/app_input-7.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_input-7.c.s
+.PHONY : src/app_input-7.c.s
 
-src/app_input8.o: src/app_input8.c.o
-.PHONY : src/app_input8.o
+src/app_input-8.o: src/app_input-8.c.o
+.PHONY : src/app_input-8.o
 
 # target to build an object file
-src/app_input8.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_input8.c.o
-.PHONY : src/app_input8.c.o
+src/app_input-8.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_input-8.c.o
+.PHONY : src/app_input-8.c.o
 
-src/app_input8.i: src/app_input8.c.i
-.PHONY : src/app_input8.i
+src/app_input-8.i: src/app_input-8.c.i
+.PHONY : src/app_input-8.i
 
 # target to preprocess a source file
-src/app_input8.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_input8.c.i
-.PHONY : src/app_input8.c.i
+src/app_input-8.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_input-8.c.i
+.PHONY : src/app_input-8.c.i
 
-src/app_input8.s: src/app_input8.c.s
-.PHONY : src/app_input8.s
+src/app_input-8.s: src/app_input-8.c.s
+.PHONY : src/app_input-8.s
 
 # target to generate assembly for a file
-src/app_input8.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_input8.c.s
-.PHONY : src/app_input8.c.s
+src/app_input-8.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_input-8.c.s
+.PHONY : src/app_input-8.c.s
 
-src/app_map.o: src/app_map.c.o
-.PHONY : src/app_map.o
+src/app_map-1.o: src/app_map-1.c.o
+.PHONY : src/app_map-1.o
 
 # target to build an object file
-src/app_map.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_map.c.o
-.PHONY : src/app_map.c.o
+src/app_map-1.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_map-1.c.o
+.PHONY : src/app_map-1.c.o
 
-src/app_map.i: src/app_map.c.i
-.PHONY : src/app_map.i
+src/app_map-1.i: src/app_map-1.c.i
+.PHONY : src/app_map-1.i
 
 # target to preprocess a source file
-src/app_map.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_map.c.i
-.PHONY : src/app_map.c.i
+src/app_map-1.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_map-1.c.i
+.PHONY : src/app_map-1.c.i
 
-src/app_map.s: src/app_map.c.s
-.PHONY : src/app_map.s
+src/app_map-1.s: src/app_map-1.c.s
+.PHONY : src/app_map-1.s
 
 # target to generate assembly for a file
-src/app_map.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_map.c.s
-.PHONY : src/app_map.c.s
+src/app_map-1.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_map-1.c.s
+.PHONY : src/app_map-1.c.s
 
-src/app_map2.o: src/app_map2.c.o
-.PHONY : src/app_map2.o
+src/app_map-2.o: src/app_map-2.c.o
+.PHONY : src/app_map-2.o
 
 # target to build an object file
-src/app_map2.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_map2.c.o
-.PHONY : src/app_map2.c.o
+src/app_map-2.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_map-2.c.o
+.PHONY : src/app_map-2.c.o
 
-src/app_map2.i: src/app_map2.c.i
-.PHONY : src/app_map2.i
+src/app_map-2.i: src/app_map-2.c.i
+.PHONY : src/app_map-2.i
 
 # target to preprocess a source file
-src/app_map2.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_map2.c.i
-.PHONY : src/app_map2.c.i
+src/app_map-2.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_map-2.c.i
+.PHONY : src/app_map-2.c.i
 
-src/app_map2.s: src/app_map2.c.s
-.PHONY : src/app_map2.s
+src/app_map-2.s: src/app_map-2.c.s
+.PHONY : src/app_map-2.s
 
 # target to generate assembly for a file
-src/app_map2.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_map2.c.s
-.PHONY : src/app_map2.c.s
+src/app_map-2.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_map-2.c.s
+.PHONY : src/app_map-2.c.s
 
-src/app_screens.o: src/app_screens.c.o
-.PHONY : src/app_screens.o
+src/app_screens-1.o: src/app_screens-1.c.o
+.PHONY : src/app_screens-1.o
 
 # target to build an object file
-src/app_screens.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_screens.c.o
-.PHONY : src/app_screens.c.o
+src/app_screens-1.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_screens-1.c.o
+.PHONY : src/app_screens-1.c.o
 
-src/app_screens.i: src/app_screens.c.i
-.PHONY : src/app_screens.i
+src/app_screens-1.i: src/app_screens-1.c.i
+.PHONY : src/app_screens-1.i
 
 # target to preprocess a source file
-src/app_screens.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_screens.c.i
-.PHONY : src/app_screens.c.i
+src/app_screens-1.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_screens-1.c.i
+.PHONY : src/app_screens-1.c.i
 
-src/app_screens.s: src/app_screens.c.s
-.PHONY : src/app_screens.s
+src/app_screens-1.s: src/app_screens-1.c.s
+.PHONY : src/app_screens-1.s
 
 # target to generate assembly for a file
-src/app_screens.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_screens.c.s
-.PHONY : src/app_screens.c.s
+src/app_screens-1.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_screens-1.c.s
+.PHONY : src/app_screens-1.c.s
 
-src/app_screens2.o: src/app_screens2.c.o
-.PHONY : src/app_screens2.o
+src/app_screens-2.o: src/app_screens-2.c.o
+.PHONY : src/app_screens-2.o
 
 # target to build an object file
-src/app_screens2.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_screens2.c.o
-.PHONY : src/app_screens2.c.o
+src/app_screens-2.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_screens-2.c.o
+.PHONY : src/app_screens-2.c.o
 
-src/app_screens2.i: src/app_screens2.c.i
-.PHONY : src/app_screens2.i
+src/app_screens-2.i: src/app_screens-2.c.i
+.PHONY : src/app_screens-2.i
 
 # target to preprocess a source file
-src/app_screens2.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_screens2.c.i
-.PHONY : src/app_screens2.c.i
+src/app_screens-2.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_screens-2.c.i
+.PHONY : src/app_screens-2.c.i
 
-src/app_screens2.s: src/app_screens2.c.s
-.PHONY : src/app_screens2.s
+src/app_screens-2.s: src/app_screens-2.c.s
+.PHONY : src/app_screens-2.s
 
 # target to generate assembly for a file
-src/app_screens2.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_screens2.c.s
-.PHONY : src/app_screens2.c.s
+src/app_screens-2.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_screens-2.c.s
+.PHONY : src/app_screens-2.c.s
 
-src/app_screens3.o: src/app_screens3.c.o
-.PHONY : src/app_screens3.o
+src/app_screens-3.o: src/app_screens-3.c.o
+.PHONY : src/app_screens-3.o
 
 # target to build an object file
-src/app_screens3.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_screens3.c.o
-.PHONY : src/app_screens3.c.o
+src/app_screens-3.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_screens-3.c.o
+.PHONY : src/app_screens-3.c.o
 
-src/app_screens3.i: src/app_screens3.c.i
-.PHONY : src/app_screens3.i
+src/app_screens-3.i: src/app_screens-3.c.i
+.PHONY : src/app_screens-3.i
 
 # target to preprocess a source file
-src/app_screens3.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_screens3.c.i
-.PHONY : src/app_screens3.c.i
+src/app_screens-3.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_screens-3.c.i
+.PHONY : src/app_screens-3.c.i
 
-src/app_screens3.s: src/app_screens3.c.s
-.PHONY : src/app_screens3.s
+src/app_screens-3.s: src/app_screens-3.c.s
+.PHONY : src/app_screens-3.s
 
 # target to generate assembly for a file
-src/app_screens3.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_screens3.c.s
-.PHONY : src/app_screens3.c.s
+src/app_screens-3.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_screens-3.c.s
+.PHONY : src/app_screens-3.c.s
 
-src/app_screens4.o: src/app_screens4.c.o
-.PHONY : src/app_screens4.o
+src/app_screens-4.o: src/app_screens-4.c.o
+.PHONY : src/app_screens-4.o
 
 # target to build an object file
-src/app_screens4.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_screens4.c.o
-.PHONY : src/app_screens4.c.o
+src/app_screens-4.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_screens-4.c.o
+.PHONY : src/app_screens-4.c.o
 
-src/app_screens4.i: src/app_screens4.c.i
-.PHONY : src/app_screens4.i
+src/app_screens-4.i: src/app_screens-4.c.i
+.PHONY : src/app_screens-4.i
 
 # target to preprocess a source file
-src/app_screens4.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_screens4.c.i
-.PHONY : src/app_screens4.c.i
+src/app_screens-4.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_screens-4.c.i
+.PHONY : src/app_screens-4.c.i
 
-src/app_screens4.s: src/app_screens4.c.s
-.PHONY : src/app_screens4.s
+src/app_screens-4.s: src/app_screens-4.c.s
+.PHONY : src/app_screens-4.s
 
 # target to generate assembly for a file
-src/app_screens4.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_screens4.c.s
-.PHONY : src/app_screens4.c.s
+src/app_screens-4.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_screens-4.c.s
+.PHONY : src/app_screens-4.c.s
 
-src/app_screens5.o: src/app_screens5.c.o
-.PHONY : src/app_screens5.o
+src/app_screens-5.o: src/app_screens-5.c.o
+.PHONY : src/app_screens-5.o
 
 # target to build an object file
-src/app_screens5.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_screens5.c.o
-.PHONY : src/app_screens5.c.o
+src/app_screens-5.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_screens-5.c.o
+.PHONY : src/app_screens-5.c.o
 
-src/app_screens5.i: src/app_screens5.c.i
-.PHONY : src/app_screens5.i
+src/app_screens-5.i: src/app_screens-5.c.i
+.PHONY : src/app_screens-5.i
 
 # target to preprocess a source file
-src/app_screens5.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_screens5.c.i
-.PHONY : src/app_screens5.c.i
+src/app_screens-5.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_screens-5.c.i
+.PHONY : src/app_screens-5.c.i
 
-src/app_screens5.s: src/app_screens5.c.s
-.PHONY : src/app_screens5.s
+src/app_screens-5.s: src/app_screens-5.c.s
+.PHONY : src/app_screens-5.s
 
 # target to generate assembly for a file
-src/app_screens5.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_screens5.c.s
-.PHONY : src/app_screens5.c.s
+src/app_screens-5.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_screens-5.c.s
+.PHONY : src/app_screens-5.c.s
 
 src/app_undo.o: src/app_undo.c.o
 .PHONY : src/app_undo.o
@@ -726,101 +726,101 @@ src/app_undo.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/app_undo.c.s
 .PHONY : src/app_undo.c.s
 
-src/chunk_map.o: src/chunk_map.c.o
-.PHONY : src/chunk_map.o
+src/chunk_map-1.o: src/chunk_map-1.c.o
+.PHONY : src/chunk_map-1.o
 
 # target to build an object file
-src/chunk_map.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/chunk_map.c.o
-.PHONY : src/chunk_map.c.o
+src/chunk_map-1.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/chunk_map-1.c.o
+.PHONY : src/chunk_map-1.c.o
 
-src/chunk_map.i: src/chunk_map.c.i
-.PHONY : src/chunk_map.i
+src/chunk_map-1.i: src/chunk_map-1.c.i
+.PHONY : src/chunk_map-1.i
 
 # target to preprocess a source file
-src/chunk_map.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/chunk_map.c.i
-.PHONY : src/chunk_map.c.i
+src/chunk_map-1.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/chunk_map-1.c.i
+.PHONY : src/chunk_map-1.c.i
 
-src/chunk_map.s: src/chunk_map.c.s
-.PHONY : src/chunk_map.s
+src/chunk_map-1.s: src/chunk_map-1.c.s
+.PHONY : src/chunk_map-1.s
 
 # target to generate assembly for a file
-src/chunk_map.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/chunk_map.c.s
-.PHONY : src/chunk_map.c.s
+src/chunk_map-1.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/chunk_map-1.c.s
+.PHONY : src/chunk_map-1.c.s
 
-src/chunk_map2.o: src/chunk_map2.c.o
-.PHONY : src/chunk_map2.o
+src/chunk_map-2.o: src/chunk_map-2.c.o
+.PHONY : src/chunk_map-2.o
 
 # target to build an object file
-src/chunk_map2.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/chunk_map2.c.o
-.PHONY : src/chunk_map2.c.o
+src/chunk_map-2.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/chunk_map-2.c.o
+.PHONY : src/chunk_map-2.c.o
 
-src/chunk_map2.i: src/chunk_map2.c.i
-.PHONY : src/chunk_map2.i
+src/chunk_map-2.i: src/chunk_map-2.c.i
+.PHONY : src/chunk_map-2.i
 
 # target to preprocess a source file
-src/chunk_map2.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/chunk_map2.c.i
-.PHONY : src/chunk_map2.c.i
+src/chunk_map-2.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/chunk_map-2.c.i
+.PHONY : src/chunk_map-2.c.i
 
-src/chunk_map2.s: src/chunk_map2.c.s
-.PHONY : src/chunk_map2.s
+src/chunk_map-2.s: src/chunk_map-2.c.s
+.PHONY : src/chunk_map-2.s
 
 # target to generate assembly for a file
-src/chunk_map2.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/chunk_map2.c.s
-.PHONY : src/chunk_map2.c.s
+src/chunk_map-2.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/chunk_map-2.c.s
+.PHONY : src/chunk_map-2.c.s
 
-src/chunk_map3.o: src/chunk_map3.c.o
-.PHONY : src/chunk_map3.o
+src/chunk_map-3.o: src/chunk_map-3.c.o
+.PHONY : src/chunk_map-3.o
 
 # target to build an object file
-src/chunk_map3.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/chunk_map3.c.o
-.PHONY : src/chunk_map3.c.o
+src/chunk_map-3.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/chunk_map-3.c.o
+.PHONY : src/chunk_map-3.c.o
 
-src/chunk_map3.i: src/chunk_map3.c.i
-.PHONY : src/chunk_map3.i
+src/chunk_map-3.i: src/chunk_map-3.c.i
+.PHONY : src/chunk_map-3.i
 
 # target to preprocess a source file
-src/chunk_map3.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/chunk_map3.c.i
-.PHONY : src/chunk_map3.c.i
+src/chunk_map-3.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/chunk_map-3.c.i
+.PHONY : src/chunk_map-3.c.i
 
-src/chunk_map3.s: src/chunk_map3.c.s
-.PHONY : src/chunk_map3.s
+src/chunk_map-3.s: src/chunk_map-3.c.s
+.PHONY : src/chunk_map-3.s
 
 # target to generate assembly for a file
-src/chunk_map3.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/chunk_map3.c.s
-.PHONY : src/chunk_map3.c.s
+src/chunk_map-3.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/chunk_map-3.c.s
+.PHONY : src/chunk_map-3.c.s
 
-src/chunk_map4.o: src/chunk_map4.c.o
-.PHONY : src/chunk_map4.o
+src/chunk_map-4.o: src/chunk_map-4.c.o
+.PHONY : src/chunk_map-4.o
 
 # target to build an object file
-src/chunk_map4.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/chunk_map4.c.o
-.PHONY : src/chunk_map4.c.o
+src/chunk_map-4.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/chunk_map-4.c.o
+.PHONY : src/chunk_map-4.c.o
 
-src/chunk_map4.i: src/chunk_map4.c.i
-.PHONY : src/chunk_map4.i
+src/chunk_map-4.i: src/chunk_map-4.c.i
+.PHONY : src/chunk_map-4.i
 
 # target to preprocess a source file
-src/chunk_map4.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/chunk_map4.c.i
-.PHONY : src/chunk_map4.c.i
+src/chunk_map-4.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/chunk_map-4.c.i
+.PHONY : src/chunk_map-4.c.i
 
-src/chunk_map4.s: src/chunk_map4.c.s
-.PHONY : src/chunk_map4.s
+src/chunk_map-4.s: src/chunk_map-4.c.s
+.PHONY : src/chunk_map-4.s
 
 # target to generate assembly for a file
-src/chunk_map4.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/chunk_map4.c.s
-.PHONY : src/chunk_map4.c.s
+src/chunk_map-4.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/chunk_map-4.c.s
+.PHONY : src/chunk_map-4.c.s
 
 src/main.o: src/main.c.o
 .PHONY : src/main.o
@@ -846,77 +846,77 @@ src/main.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/main.c.s
 .PHONY : src/main.c.s
 
-src/save.o: src/save.c.o
-.PHONY : src/save.o
+src/save-1.o: src/save-1.c.o
+.PHONY : src/save-1.o
 
 # target to build an object file
-src/save.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/save.c.o
-.PHONY : src/save.c.o
+src/save-1.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/save-1.c.o
+.PHONY : src/save-1.c.o
 
-src/save.i: src/save.c.i
-.PHONY : src/save.i
+src/save-1.i: src/save-1.c.i
+.PHONY : src/save-1.i
 
 # target to preprocess a source file
-src/save.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/save.c.i
-.PHONY : src/save.c.i
+src/save-1.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/save-1.c.i
+.PHONY : src/save-1.c.i
 
-src/save.s: src/save.c.s
-.PHONY : src/save.s
+src/save-1.s: src/save-1.c.s
+.PHONY : src/save-1.s
 
 # target to generate assembly for a file
-src/save.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/save.c.s
-.PHONY : src/save.c.s
+src/save-1.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/save-1.c.s
+.PHONY : src/save-1.c.s
 
-src/save2.o: src/save2.c.o
-.PHONY : src/save2.o
+src/save-2.o: src/save-2.c.o
+.PHONY : src/save-2.o
 
 # target to build an object file
-src/save2.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/save2.c.o
-.PHONY : src/save2.c.o
+src/save-2.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/save-2.c.o
+.PHONY : src/save-2.c.o
 
-src/save2.i: src/save2.c.i
-.PHONY : src/save2.i
+src/save-2.i: src/save-2.c.i
+.PHONY : src/save-2.i
 
 # target to preprocess a source file
-src/save2.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/save2.c.i
-.PHONY : src/save2.c.i
+src/save-2.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/save-2.c.i
+.PHONY : src/save-2.c.i
 
-src/save2.s: src/save2.c.s
-.PHONY : src/save2.s
+src/save-2.s: src/save-2.c.s
+.PHONY : src/save-2.s
 
 # target to generate assembly for a file
-src/save2.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/save2.c.s
-.PHONY : src/save2.c.s
+src/save-2.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/save-2.c.s
+.PHONY : src/save-2.c.s
 
-src/save3.o: src/save3.c.o
-.PHONY : src/save3.o
+src/save-3.o: src/save-3.c.o
+.PHONY : src/save-3.o
 
 # target to build an object file
-src/save3.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/save3.c.o
-.PHONY : src/save3.c.o
+src/save-3.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/save-3.c.o
+.PHONY : src/save-3.c.o
 
-src/save3.i: src/save3.c.i
-.PHONY : src/save3.i
+src/save-3.i: src/save-3.c.i
+.PHONY : src/save-3.i
 
 # target to preprocess a source file
-src/save3.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/save3.c.i
-.PHONY : src/save3.c.i
+src/save-3.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/save-3.c.i
+.PHONY : src/save-3.c.i
 
-src/save3.s: src/save3.c.s
-.PHONY : src/save3.s
+src/save-3.s: src/save-3.c.s
+.PHONY : src/save-3.s
 
 # target to generate assembly for a file
-src/save3.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/save3.c.s
-.PHONY : src/save3.c.s
+src/save-3.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/save-3.c.s
+.PHONY : src/save-3.c.s
 
 src/simulation.o: src/simulation.c.o
 .PHONY : src/simulation.o
@@ -966,53 +966,53 @@ src/ui.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui.c.s
 .PHONY : src/ui.c.s
 
-src/ui_browser.o: src/ui_browser.c.o
-.PHONY : src/ui_browser.o
+src/ui_browser-1.o: src/ui_browser-1.c.o
+.PHONY : src/ui_browser-1.o
 
 # target to build an object file
-src/ui_browser.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_browser.c.o
-.PHONY : src/ui_browser.c.o
+src/ui_browser-1.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_browser-1.c.o
+.PHONY : src/ui_browser-1.c.o
 
-src/ui_browser.i: src/ui_browser.c.i
-.PHONY : src/ui_browser.i
+src/ui_browser-1.i: src/ui_browser-1.c.i
+.PHONY : src/ui_browser-1.i
 
 # target to preprocess a source file
-src/ui_browser.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_browser.c.i
-.PHONY : src/ui_browser.c.i
+src/ui_browser-1.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_browser-1.c.i
+.PHONY : src/ui_browser-1.c.i
 
-src/ui_browser.s: src/ui_browser.c.s
-.PHONY : src/ui_browser.s
+src/ui_browser-1.s: src/ui_browser-1.c.s
+.PHONY : src/ui_browser-1.s
 
 # target to generate assembly for a file
-src/ui_browser.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_browser.c.s
-.PHONY : src/ui_browser.c.s
+src/ui_browser-1.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_browser-1.c.s
+.PHONY : src/ui_browser-1.c.s
 
-src/ui_browser2.o: src/ui_browser2.c.o
-.PHONY : src/ui_browser2.o
+src/ui_browser-2.o: src/ui_browser-2.c.o
+.PHONY : src/ui_browser-2.o
 
 # target to build an object file
-src/ui_browser2.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_browser2.c.o
-.PHONY : src/ui_browser2.c.o
+src/ui_browser-2.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_browser-2.c.o
+.PHONY : src/ui_browser-2.c.o
 
-src/ui_browser2.i: src/ui_browser2.c.i
-.PHONY : src/ui_browser2.i
+src/ui_browser-2.i: src/ui_browser-2.c.i
+.PHONY : src/ui_browser-2.i
 
 # target to preprocess a source file
-src/ui_browser2.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_browser2.c.i
-.PHONY : src/ui_browser2.c.i
+src/ui_browser-2.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_browser-2.c.i
+.PHONY : src/ui_browser-2.c.i
 
-src/ui_browser2.s: src/ui_browser2.c.s
-.PHONY : src/ui_browser2.s
+src/ui_browser-2.s: src/ui_browser-2.c.s
+.PHONY : src/ui_browser-2.s
 
 # target to generate assembly for a file
-src/ui_browser2.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_browser2.c.s
-.PHONY : src/ui_browser2.c.s
+src/ui_browser-2.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_browser-2.c.s
+.PHONY : src/ui_browser-2.c.s
 
 src/ui_hud.o: src/ui_hud.c.o
 .PHONY : src/ui_hud.o
@@ -1038,245 +1038,245 @@ src/ui_hud.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_hud.c.s
 .PHONY : src/ui_hud.c.s
 
-src/ui_icons.o: src/ui_icons.c.o
-.PHONY : src/ui_icons.o
+src/ui_icons-1.o: src/ui_icons-1.c.o
+.PHONY : src/ui_icons-1.o
 
 # target to build an object file
-src/ui_icons.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_icons.c.o
-.PHONY : src/ui_icons.c.o
+src/ui_icons-1.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_icons-1.c.o
+.PHONY : src/ui_icons-1.c.o
 
-src/ui_icons.i: src/ui_icons.c.i
-.PHONY : src/ui_icons.i
+src/ui_icons-1.i: src/ui_icons-1.c.i
+.PHONY : src/ui_icons-1.i
 
 # target to preprocess a source file
-src/ui_icons.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_icons.c.i
-.PHONY : src/ui_icons.c.i
+src/ui_icons-1.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_icons-1.c.i
+.PHONY : src/ui_icons-1.c.i
 
-src/ui_icons.s: src/ui_icons.c.s
-.PHONY : src/ui_icons.s
+src/ui_icons-1.s: src/ui_icons-1.c.s
+.PHONY : src/ui_icons-1.s
 
 # target to generate assembly for a file
-src/ui_icons.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_icons.c.s
-.PHONY : src/ui_icons.c.s
+src/ui_icons-1.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_icons-1.c.s
+.PHONY : src/ui_icons-1.c.s
 
-src/ui_icons2.o: src/ui_icons2.c.o
-.PHONY : src/ui_icons2.o
+src/ui_icons-2.o: src/ui_icons-2.c.o
+.PHONY : src/ui_icons-2.o
 
 # target to build an object file
-src/ui_icons2.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_icons2.c.o
-.PHONY : src/ui_icons2.c.o
+src/ui_icons-2.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_icons-2.c.o
+.PHONY : src/ui_icons-2.c.o
 
-src/ui_icons2.i: src/ui_icons2.c.i
-.PHONY : src/ui_icons2.i
+src/ui_icons-2.i: src/ui_icons-2.c.i
+.PHONY : src/ui_icons-2.i
 
 # target to preprocess a source file
-src/ui_icons2.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_icons2.c.i
-.PHONY : src/ui_icons2.c.i
+src/ui_icons-2.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_icons-2.c.i
+.PHONY : src/ui_icons-2.c.i
 
-src/ui_icons2.s: src/ui_icons2.c.s
-.PHONY : src/ui_icons2.s
+src/ui_icons-2.s: src/ui_icons-2.c.s
+.PHONY : src/ui_icons-2.s
 
 # target to generate assembly for a file
-src/ui_icons2.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_icons2.c.s
-.PHONY : src/ui_icons2.c.s
+src/ui_icons-2.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_icons-2.c.s
+.PHONY : src/ui_icons-2.c.s
 
-src/ui_icons3.o: src/ui_icons3.c.o
-.PHONY : src/ui_icons3.o
+src/ui_icons-3.o: src/ui_icons-3.c.o
+.PHONY : src/ui_icons-3.o
 
 # target to build an object file
-src/ui_icons3.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_icons3.c.o
-.PHONY : src/ui_icons3.c.o
+src/ui_icons-3.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_icons-3.c.o
+.PHONY : src/ui_icons-3.c.o
 
-src/ui_icons3.i: src/ui_icons3.c.i
-.PHONY : src/ui_icons3.i
+src/ui_icons-3.i: src/ui_icons-3.c.i
+.PHONY : src/ui_icons-3.i
 
 # target to preprocess a source file
-src/ui_icons3.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_icons3.c.i
-.PHONY : src/ui_icons3.c.i
+src/ui_icons-3.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_icons-3.c.i
+.PHONY : src/ui_icons-3.c.i
 
-src/ui_icons3.s: src/ui_icons3.c.s
-.PHONY : src/ui_icons3.s
+src/ui_icons-3.s: src/ui_icons-3.c.s
+.PHONY : src/ui_icons-3.s
 
 # target to generate assembly for a file
-src/ui_icons3.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_icons3.c.s
-.PHONY : src/ui_icons3.c.s
+src/ui_icons-3.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_icons-3.c.s
+.PHONY : src/ui_icons-3.c.s
 
-src/ui_icons4.o: src/ui_icons4.c.o
-.PHONY : src/ui_icons4.o
+src/ui_icons-4.o: src/ui_icons-4.c.o
+.PHONY : src/ui_icons-4.o
 
 # target to build an object file
-src/ui_icons4.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_icons4.c.o
-.PHONY : src/ui_icons4.c.o
+src/ui_icons-4.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_icons-4.c.o
+.PHONY : src/ui_icons-4.c.o
 
-src/ui_icons4.i: src/ui_icons4.c.i
-.PHONY : src/ui_icons4.i
+src/ui_icons-4.i: src/ui_icons-4.c.i
+.PHONY : src/ui_icons-4.i
 
 # target to preprocess a source file
-src/ui_icons4.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_icons4.c.i
-.PHONY : src/ui_icons4.c.i
+src/ui_icons-4.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_icons-4.c.i
+.PHONY : src/ui_icons-4.c.i
 
-src/ui_icons4.s: src/ui_icons4.c.s
-.PHONY : src/ui_icons4.s
+src/ui_icons-4.s: src/ui_icons-4.c.s
+.PHONY : src/ui_icons-4.s
 
 # target to generate assembly for a file
-src/ui_icons4.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_icons4.c.s
-.PHONY : src/ui_icons4.c.s
+src/ui_icons-4.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_icons-4.c.s
+.PHONY : src/ui_icons-4.c.s
 
-src/ui_icons5.o: src/ui_icons5.c.o
-.PHONY : src/ui_icons5.o
+src/ui_icons-5.o: src/ui_icons-5.c.o
+.PHONY : src/ui_icons-5.o
 
 # target to build an object file
-src/ui_icons5.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_icons5.c.o
-.PHONY : src/ui_icons5.c.o
+src/ui_icons-5.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_icons-5.c.o
+.PHONY : src/ui_icons-5.c.o
 
-src/ui_icons5.i: src/ui_icons5.c.i
-.PHONY : src/ui_icons5.i
+src/ui_icons-5.i: src/ui_icons-5.c.i
+.PHONY : src/ui_icons-5.i
 
 # target to preprocess a source file
-src/ui_icons5.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_icons5.c.i
-.PHONY : src/ui_icons5.c.i
+src/ui_icons-5.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_icons-5.c.i
+.PHONY : src/ui_icons-5.c.i
 
-src/ui_icons5.s: src/ui_icons5.c.s
-.PHONY : src/ui_icons5.s
+src/ui_icons-5.s: src/ui_icons-5.c.s
+.PHONY : src/ui_icons-5.s
 
 # target to generate assembly for a file
-src/ui_icons5.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_icons5.c.s
-.PHONY : src/ui_icons5.c.s
+src/ui_icons-5.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_icons-5.c.s
+.PHONY : src/ui_icons-5.c.s
 
-src/ui_keybinds.o: src/ui_keybinds.c.o
-.PHONY : src/ui_keybinds.o
+src/ui_keybinds-1.o: src/ui_keybinds-1.c.o
+.PHONY : src/ui_keybinds-1.o
 
 # target to build an object file
-src/ui_keybinds.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_keybinds.c.o
-.PHONY : src/ui_keybinds.c.o
+src/ui_keybinds-1.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_keybinds-1.c.o
+.PHONY : src/ui_keybinds-1.c.o
 
-src/ui_keybinds.i: src/ui_keybinds.c.i
-.PHONY : src/ui_keybinds.i
+src/ui_keybinds-1.i: src/ui_keybinds-1.c.i
+.PHONY : src/ui_keybinds-1.i
 
 # target to preprocess a source file
-src/ui_keybinds.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_keybinds.c.i
-.PHONY : src/ui_keybinds.c.i
+src/ui_keybinds-1.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_keybinds-1.c.i
+.PHONY : src/ui_keybinds-1.c.i
 
-src/ui_keybinds.s: src/ui_keybinds.c.s
-.PHONY : src/ui_keybinds.s
+src/ui_keybinds-1.s: src/ui_keybinds-1.c.s
+.PHONY : src/ui_keybinds-1.s
 
 # target to generate assembly for a file
-src/ui_keybinds.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_keybinds.c.s
-.PHONY : src/ui_keybinds.c.s
+src/ui_keybinds-1.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_keybinds-1.c.s
+.PHONY : src/ui_keybinds-1.c.s
 
-src/ui_keybinds2.o: src/ui_keybinds2.c.o
-.PHONY : src/ui_keybinds2.o
+src/ui_keybinds-2.o: src/ui_keybinds-2.c.o
+.PHONY : src/ui_keybinds-2.o
 
 # target to build an object file
-src/ui_keybinds2.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_keybinds2.c.o
-.PHONY : src/ui_keybinds2.c.o
+src/ui_keybinds-2.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_keybinds-2.c.o
+.PHONY : src/ui_keybinds-2.c.o
 
-src/ui_keybinds2.i: src/ui_keybinds2.c.i
-.PHONY : src/ui_keybinds2.i
+src/ui_keybinds-2.i: src/ui_keybinds-2.c.i
+.PHONY : src/ui_keybinds-2.i
 
 # target to preprocess a source file
-src/ui_keybinds2.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_keybinds2.c.i
-.PHONY : src/ui_keybinds2.c.i
+src/ui_keybinds-2.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_keybinds-2.c.i
+.PHONY : src/ui_keybinds-2.c.i
 
-src/ui_keybinds2.s: src/ui_keybinds2.c.s
-.PHONY : src/ui_keybinds2.s
+src/ui_keybinds-2.s: src/ui_keybinds-2.c.s
+.PHONY : src/ui_keybinds-2.s
 
 # target to generate assembly for a file
-src/ui_keybinds2.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_keybinds2.c.s
-.PHONY : src/ui_keybinds2.c.s
+src/ui_keybinds-2.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_keybinds-2.c.s
+.PHONY : src/ui_keybinds-2.c.s
 
-src/ui_keybinds3.o: src/ui_keybinds3.c.o
-.PHONY : src/ui_keybinds3.o
+src/ui_keybinds-3.o: src/ui_keybinds-3.c.o
+.PHONY : src/ui_keybinds-3.o
 
 # target to build an object file
-src/ui_keybinds3.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_keybinds3.c.o
-.PHONY : src/ui_keybinds3.c.o
+src/ui_keybinds-3.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_keybinds-3.c.o
+.PHONY : src/ui_keybinds-3.c.o
 
-src/ui_keybinds3.i: src/ui_keybinds3.c.i
-.PHONY : src/ui_keybinds3.i
+src/ui_keybinds-3.i: src/ui_keybinds-3.c.i
+.PHONY : src/ui_keybinds-3.i
 
 # target to preprocess a source file
-src/ui_keybinds3.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_keybinds3.c.i
-.PHONY : src/ui_keybinds3.c.i
+src/ui_keybinds-3.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_keybinds-3.c.i
+.PHONY : src/ui_keybinds-3.c.i
 
-src/ui_keybinds3.s: src/ui_keybinds3.c.s
-.PHONY : src/ui_keybinds3.s
+src/ui_keybinds-3.s: src/ui_keybinds-3.c.s
+.PHONY : src/ui_keybinds-3.s
 
 # target to generate assembly for a file
-src/ui_keybinds3.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_keybinds3.c.s
-.PHONY : src/ui_keybinds3.c.s
+src/ui_keybinds-3.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_keybinds-3.c.s
+.PHONY : src/ui_keybinds-3.c.s
 
-src/ui_menu.o: src/ui_menu.c.o
-.PHONY : src/ui_menu.o
+src/ui_menu-1.o: src/ui_menu-1.c.o
+.PHONY : src/ui_menu-1.o
 
 # target to build an object file
-src/ui_menu.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_menu.c.o
-.PHONY : src/ui_menu.c.o
+src/ui_menu-1.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_menu-1.c.o
+.PHONY : src/ui_menu-1.c.o
 
-src/ui_menu.i: src/ui_menu.c.i
-.PHONY : src/ui_menu.i
+src/ui_menu-1.i: src/ui_menu-1.c.i
+.PHONY : src/ui_menu-1.i
 
 # target to preprocess a source file
-src/ui_menu.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_menu.c.i
-.PHONY : src/ui_menu.c.i
+src/ui_menu-1.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_menu-1.c.i
+.PHONY : src/ui_menu-1.c.i
 
-src/ui_menu.s: src/ui_menu.c.s
-.PHONY : src/ui_menu.s
+src/ui_menu-1.s: src/ui_menu-1.c.s
+.PHONY : src/ui_menu-1.s
 
 # target to generate assembly for a file
-src/ui_menu.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_menu.c.s
-.PHONY : src/ui_menu.c.s
+src/ui_menu-1.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_menu-1.c.s
+.PHONY : src/ui_menu-1.c.s
 
-src/ui_menu2.o: src/ui_menu2.c.o
-.PHONY : src/ui_menu2.o
+src/ui_menu-2.o: src/ui_menu-2.c.o
+.PHONY : src/ui_menu-2.o
 
 # target to build an object file
-src/ui_menu2.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_menu2.c.o
-.PHONY : src/ui_menu2.c.o
+src/ui_menu-2.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_menu-2.c.o
+.PHONY : src/ui_menu-2.c.o
 
-src/ui_menu2.i: src/ui_menu2.c.i
-.PHONY : src/ui_menu2.i
+src/ui_menu-2.i: src/ui_menu-2.c.i
+.PHONY : src/ui_menu-2.i
 
 # target to preprocess a source file
-src/ui_menu2.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_menu2.c.i
-.PHONY : src/ui_menu2.c.i
+src/ui_menu-2.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_menu-2.c.i
+.PHONY : src/ui_menu-2.c.i
 
-src/ui_menu2.s: src/ui_menu2.c.s
-.PHONY : src/ui_menu2.s
+src/ui_menu-2.s: src/ui_menu-2.c.s
+.PHONY : src/ui_menu-2.s
 
 # target to generate assembly for a file
-src/ui_menu2.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_menu2.c.s
-.PHONY : src/ui_menu2.c.s
+src/ui_menu-2.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_menu-2.c.s
+.PHONY : src/ui_menu-2.c.s
 
 src/ui_random.o: src/ui_random.c.o
 .PHONY : src/ui_random.o
@@ -1302,101 +1302,101 @@ src/ui_random.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_random.c.s
 .PHONY : src/ui_random.c.s
 
-src/ui_savezone.o: src/ui_savezone.c.o
-.PHONY : src/ui_savezone.o
+src/ui_savezone-1.o: src/ui_savezone-1.c.o
+.PHONY : src/ui_savezone-1.o
 
 # target to build an object file
-src/ui_savezone.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_savezone.c.o
-.PHONY : src/ui_savezone.c.o
+src/ui_savezone-1.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_savezone-1.c.o
+.PHONY : src/ui_savezone-1.c.o
 
-src/ui_savezone.i: src/ui_savezone.c.i
-.PHONY : src/ui_savezone.i
+src/ui_savezone-1.i: src/ui_savezone-1.c.i
+.PHONY : src/ui_savezone-1.i
 
 # target to preprocess a source file
-src/ui_savezone.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_savezone.c.i
-.PHONY : src/ui_savezone.c.i
+src/ui_savezone-1.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_savezone-1.c.i
+.PHONY : src/ui_savezone-1.c.i
 
-src/ui_savezone.s: src/ui_savezone.c.s
-.PHONY : src/ui_savezone.s
+src/ui_savezone-1.s: src/ui_savezone-1.c.s
+.PHONY : src/ui_savezone-1.s
 
 # target to generate assembly for a file
-src/ui_savezone.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_savezone.c.s
-.PHONY : src/ui_savezone.c.s
+src/ui_savezone-1.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_savezone-1.c.s
+.PHONY : src/ui_savezone-1.c.s
 
-src/ui_savezone2.o: src/ui_savezone2.c.o
-.PHONY : src/ui_savezone2.o
+src/ui_savezone-2.o: src/ui_savezone-2.c.o
+.PHONY : src/ui_savezone-2.o
 
 # target to build an object file
-src/ui_savezone2.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_savezone2.c.o
-.PHONY : src/ui_savezone2.c.o
+src/ui_savezone-2.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_savezone-2.c.o
+.PHONY : src/ui_savezone-2.c.o
 
-src/ui_savezone2.i: src/ui_savezone2.c.i
-.PHONY : src/ui_savezone2.i
+src/ui_savezone-2.i: src/ui_savezone-2.c.i
+.PHONY : src/ui_savezone-2.i
 
 # target to preprocess a source file
-src/ui_savezone2.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_savezone2.c.i
-.PHONY : src/ui_savezone2.c.i
+src/ui_savezone-2.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_savezone-2.c.i
+.PHONY : src/ui_savezone-2.c.i
 
-src/ui_savezone2.s: src/ui_savezone2.c.s
-.PHONY : src/ui_savezone2.s
+src/ui_savezone-2.s: src/ui_savezone-2.c.s
+.PHONY : src/ui_savezone-2.s
 
 # target to generate assembly for a file
-src/ui_savezone2.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_savezone2.c.s
-.PHONY : src/ui_savezone2.c.s
+src/ui_savezone-2.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_savezone-2.c.s
+.PHONY : src/ui_savezone-2.c.s
 
-src/ui_toolbar.o: src/ui_toolbar.c.o
-.PHONY : src/ui_toolbar.o
+src/ui_toolbar-1.o: src/ui_toolbar-1.c.o
+.PHONY : src/ui_toolbar-1.o
 
 # target to build an object file
-src/ui_toolbar.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_toolbar.c.o
-.PHONY : src/ui_toolbar.c.o
+src/ui_toolbar-1.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_toolbar-1.c.o
+.PHONY : src/ui_toolbar-1.c.o
 
-src/ui_toolbar.i: src/ui_toolbar.c.i
-.PHONY : src/ui_toolbar.i
+src/ui_toolbar-1.i: src/ui_toolbar-1.c.i
+.PHONY : src/ui_toolbar-1.i
 
 # target to preprocess a source file
-src/ui_toolbar.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_toolbar.c.i
-.PHONY : src/ui_toolbar.c.i
+src/ui_toolbar-1.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_toolbar-1.c.i
+.PHONY : src/ui_toolbar-1.c.i
 
-src/ui_toolbar.s: src/ui_toolbar.c.s
-.PHONY : src/ui_toolbar.s
+src/ui_toolbar-1.s: src/ui_toolbar-1.c.s
+.PHONY : src/ui_toolbar-1.s
 
 # target to generate assembly for a file
-src/ui_toolbar.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_toolbar.c.s
-.PHONY : src/ui_toolbar.c.s
+src/ui_toolbar-1.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_toolbar-1.c.s
+.PHONY : src/ui_toolbar-1.c.s
 
-src/ui_toolbar2.o: src/ui_toolbar2.c.o
-.PHONY : src/ui_toolbar2.o
+src/ui_toolbar-2.o: src/ui_toolbar-2.c.o
+.PHONY : src/ui_toolbar-2.o
 
 # target to build an object file
-src/ui_toolbar2.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_toolbar2.c.o
-.PHONY : src/ui_toolbar2.c.o
+src/ui_toolbar-2.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_toolbar-2.c.o
+.PHONY : src/ui_toolbar-2.c.o
 
-src/ui_toolbar2.i: src/ui_toolbar2.c.i
-.PHONY : src/ui_toolbar2.i
+src/ui_toolbar-2.i: src/ui_toolbar-2.c.i
+.PHONY : src/ui_toolbar-2.i
 
 # target to preprocess a source file
-src/ui_toolbar2.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_toolbar2.c.i
-.PHONY : src/ui_toolbar2.c.i
+src/ui_toolbar-2.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_toolbar-2.c.i
+.PHONY : src/ui_toolbar-2.c.i
 
-src/ui_toolbar2.s: src/ui_toolbar2.c.s
-.PHONY : src/ui_toolbar2.s
+src/ui_toolbar-2.s: src/ui_toolbar-2.c.s
+.PHONY : src/ui_toolbar-2.s
 
 # target to generate assembly for a file
-src/ui_toolbar2.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_toolbar2.c.s
-.PHONY : src/ui_toolbar2.c.s
+src/ui_toolbar-2.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/src/ui_toolbar-2.c.s
+.PHONY : src/ui_toolbar-2.c.s
 
 # Help Target
 help:
@@ -1417,150 +1417,150 @@ help:
 	@echo "... game-of-life"
 	@echo "... glfw"
 	@echo "... raylib"
-	@echo "... src/app_draw.o"
-	@echo "... src/app_draw.i"
-	@echo "... src/app_draw.s"
-	@echo "... src/app_draw2.o"
-	@echo "... src/app_draw2.i"
-	@echo "... src/app_draw2.s"
-	@echo "... src/app_draw3.o"
-	@echo "... src/app_draw3.i"
-	@echo "... src/app_draw3.s"
+	@echo "... src/app_draw-1.o"
+	@echo "... src/app_draw-1.i"
+	@echo "... src/app_draw-1.s"
+	@echo "... src/app_draw-2.o"
+	@echo "... src/app_draw-2.i"
+	@echo "... src/app_draw-2.s"
+	@echo "... src/app_draw-3.o"
+	@echo "... src/app_draw-3.i"
+	@echo "... src/app_draw-3.s"
 	@echo "... src/app_init.o"
 	@echo "... src/app_init.i"
 	@echo "... src/app_init.s"
-	@echo "... src/app_input.o"
-	@echo "... src/app_input.i"
-	@echo "... src/app_input.s"
-	@echo "... src/app_input2.o"
-	@echo "... src/app_input2.i"
-	@echo "... src/app_input2.s"
-	@echo "... src/app_input3.o"
-	@echo "... src/app_input3.i"
-	@echo "... src/app_input3.s"
-	@echo "... src/app_input4.o"
-	@echo "... src/app_input4.i"
-	@echo "... src/app_input4.s"
-	@echo "... src/app_input5.o"
-	@echo "... src/app_input5.i"
-	@echo "... src/app_input5.s"
-	@echo "... src/app_input6.o"
-	@echo "... src/app_input6.i"
-	@echo "... src/app_input6.s"
-	@echo "... src/app_input7.o"
-	@echo "... src/app_input7.i"
-	@echo "... src/app_input7.s"
-	@echo "... src/app_input8.o"
-	@echo "... src/app_input8.i"
-	@echo "... src/app_input8.s"
-	@echo "... src/app_map.o"
-	@echo "... src/app_map.i"
-	@echo "... src/app_map.s"
-	@echo "... src/app_map2.o"
-	@echo "... src/app_map2.i"
-	@echo "... src/app_map2.s"
-	@echo "... src/app_screens.o"
-	@echo "... src/app_screens.i"
-	@echo "... src/app_screens.s"
-	@echo "... src/app_screens2.o"
-	@echo "... src/app_screens2.i"
-	@echo "... src/app_screens2.s"
-	@echo "... src/app_screens3.o"
-	@echo "... src/app_screens3.i"
-	@echo "... src/app_screens3.s"
-	@echo "... src/app_screens4.o"
-	@echo "... src/app_screens4.i"
-	@echo "... src/app_screens4.s"
-	@echo "... src/app_screens5.o"
-	@echo "... src/app_screens5.i"
-	@echo "... src/app_screens5.s"
+	@echo "... src/app_input-1.o"
+	@echo "... src/app_input-1.i"
+	@echo "... src/app_input-1.s"
+	@echo "... src/app_input-2.o"
+	@echo "... src/app_input-2.i"
+	@echo "... src/app_input-2.s"
+	@echo "... src/app_input-3.o"
+	@echo "... src/app_input-3.i"
+	@echo "... src/app_input-3.s"
+	@echo "... src/app_input-4.o"
+	@echo "... src/app_input-4.i"
+	@echo "... src/app_input-4.s"
+	@echo "... src/app_input-5.o"
+	@echo "... src/app_input-5.i"
+	@echo "... src/app_input-5.s"
+	@echo "... src/app_input-6.o"
+	@echo "... src/app_input-6.i"
+	@echo "... src/app_input-6.s"
+	@echo "... src/app_input-7.o"
+	@echo "... src/app_input-7.i"
+	@echo "... src/app_input-7.s"
+	@echo "... src/app_input-8.o"
+	@echo "... src/app_input-8.i"
+	@echo "... src/app_input-8.s"
+	@echo "... src/app_map-1.o"
+	@echo "... src/app_map-1.i"
+	@echo "... src/app_map-1.s"
+	@echo "... src/app_map-2.o"
+	@echo "... src/app_map-2.i"
+	@echo "... src/app_map-2.s"
+	@echo "... src/app_screens-1.o"
+	@echo "... src/app_screens-1.i"
+	@echo "... src/app_screens-1.s"
+	@echo "... src/app_screens-2.o"
+	@echo "... src/app_screens-2.i"
+	@echo "... src/app_screens-2.s"
+	@echo "... src/app_screens-3.o"
+	@echo "... src/app_screens-3.i"
+	@echo "... src/app_screens-3.s"
+	@echo "... src/app_screens-4.o"
+	@echo "... src/app_screens-4.i"
+	@echo "... src/app_screens-4.s"
+	@echo "... src/app_screens-5.o"
+	@echo "... src/app_screens-5.i"
+	@echo "... src/app_screens-5.s"
 	@echo "... src/app_undo.o"
 	@echo "... src/app_undo.i"
 	@echo "... src/app_undo.s"
-	@echo "... src/chunk_map.o"
-	@echo "... src/chunk_map.i"
-	@echo "... src/chunk_map.s"
-	@echo "... src/chunk_map2.o"
-	@echo "... src/chunk_map2.i"
-	@echo "... src/chunk_map2.s"
-	@echo "... src/chunk_map3.o"
-	@echo "... src/chunk_map3.i"
-	@echo "... src/chunk_map3.s"
-	@echo "... src/chunk_map4.o"
-	@echo "... src/chunk_map4.i"
-	@echo "... src/chunk_map4.s"
+	@echo "... src/chunk_map-1.o"
+	@echo "... src/chunk_map-1.i"
+	@echo "... src/chunk_map-1.s"
+	@echo "... src/chunk_map-2.o"
+	@echo "... src/chunk_map-2.i"
+	@echo "... src/chunk_map-2.s"
+	@echo "... src/chunk_map-3.o"
+	@echo "... src/chunk_map-3.i"
+	@echo "... src/chunk_map-3.s"
+	@echo "... src/chunk_map-4.o"
+	@echo "... src/chunk_map-4.i"
+	@echo "... src/chunk_map-4.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
-	@echo "... src/save.o"
-	@echo "... src/save.i"
-	@echo "... src/save.s"
-	@echo "... src/save2.o"
-	@echo "... src/save2.i"
-	@echo "... src/save2.s"
-	@echo "... src/save3.o"
-	@echo "... src/save3.i"
-	@echo "... src/save3.s"
+	@echo "... src/save-1.o"
+	@echo "... src/save-1.i"
+	@echo "... src/save-1.s"
+	@echo "... src/save-2.o"
+	@echo "... src/save-2.i"
+	@echo "... src/save-2.s"
+	@echo "... src/save-3.o"
+	@echo "... src/save-3.i"
+	@echo "... src/save-3.s"
 	@echo "... src/simulation.o"
 	@echo "... src/simulation.i"
 	@echo "... src/simulation.s"
 	@echo "... src/ui.o"
 	@echo "... src/ui.i"
 	@echo "... src/ui.s"
-	@echo "... src/ui_browser.o"
-	@echo "... src/ui_browser.i"
-	@echo "... src/ui_browser.s"
-	@echo "... src/ui_browser2.o"
-	@echo "... src/ui_browser2.i"
-	@echo "... src/ui_browser2.s"
+	@echo "... src/ui_browser-1.o"
+	@echo "... src/ui_browser-1.i"
+	@echo "... src/ui_browser-1.s"
+	@echo "... src/ui_browser-2.o"
+	@echo "... src/ui_browser-2.i"
+	@echo "... src/ui_browser-2.s"
 	@echo "... src/ui_hud.o"
 	@echo "... src/ui_hud.i"
 	@echo "... src/ui_hud.s"
-	@echo "... src/ui_icons.o"
-	@echo "... src/ui_icons.i"
-	@echo "... src/ui_icons.s"
-	@echo "... src/ui_icons2.o"
-	@echo "... src/ui_icons2.i"
-	@echo "... src/ui_icons2.s"
-	@echo "... src/ui_icons3.o"
-	@echo "... src/ui_icons3.i"
-	@echo "... src/ui_icons3.s"
-	@echo "... src/ui_icons4.o"
-	@echo "... src/ui_icons4.i"
-	@echo "... src/ui_icons4.s"
-	@echo "... src/ui_icons5.o"
-	@echo "... src/ui_icons5.i"
-	@echo "... src/ui_icons5.s"
-	@echo "... src/ui_keybinds.o"
-	@echo "... src/ui_keybinds.i"
-	@echo "... src/ui_keybinds.s"
-	@echo "... src/ui_keybinds2.o"
-	@echo "... src/ui_keybinds2.i"
-	@echo "... src/ui_keybinds2.s"
-	@echo "... src/ui_keybinds3.o"
-	@echo "... src/ui_keybinds3.i"
-	@echo "... src/ui_keybinds3.s"
-	@echo "... src/ui_menu.o"
-	@echo "... src/ui_menu.i"
-	@echo "... src/ui_menu.s"
-	@echo "... src/ui_menu2.o"
-	@echo "... src/ui_menu2.i"
-	@echo "... src/ui_menu2.s"
+	@echo "... src/ui_icons-1.o"
+	@echo "... src/ui_icons-1.i"
+	@echo "... src/ui_icons-1.s"
+	@echo "... src/ui_icons-2.o"
+	@echo "... src/ui_icons-2.i"
+	@echo "... src/ui_icons-2.s"
+	@echo "... src/ui_icons-3.o"
+	@echo "... src/ui_icons-3.i"
+	@echo "... src/ui_icons-3.s"
+	@echo "... src/ui_icons-4.o"
+	@echo "... src/ui_icons-4.i"
+	@echo "... src/ui_icons-4.s"
+	@echo "... src/ui_icons-5.o"
+	@echo "... src/ui_icons-5.i"
+	@echo "... src/ui_icons-5.s"
+	@echo "... src/ui_keybinds-1.o"
+	@echo "... src/ui_keybinds-1.i"
+	@echo "... src/ui_keybinds-1.s"
+	@echo "... src/ui_keybinds-2.o"
+	@echo "... src/ui_keybinds-2.i"
+	@echo "... src/ui_keybinds-2.s"
+	@echo "... src/ui_keybinds-3.o"
+	@echo "... src/ui_keybinds-3.i"
+	@echo "... src/ui_keybinds-3.s"
+	@echo "... src/ui_menu-1.o"
+	@echo "... src/ui_menu-1.i"
+	@echo "... src/ui_menu-1.s"
+	@echo "... src/ui_menu-2.o"
+	@echo "... src/ui_menu-2.i"
+	@echo "... src/ui_menu-2.s"
 	@echo "... src/ui_random.o"
 	@echo "... src/ui_random.i"
 	@echo "... src/ui_random.s"
-	@echo "... src/ui_savezone.o"
-	@echo "... src/ui_savezone.i"
-	@echo "... src/ui_savezone.s"
-	@echo "... src/ui_savezone2.o"
-	@echo "... src/ui_savezone2.i"
-	@echo "... src/ui_savezone2.s"
-	@echo "... src/ui_toolbar.o"
-	@echo "... src/ui_toolbar.i"
-	@echo "... src/ui_toolbar.s"
-	@echo "... src/ui_toolbar2.o"
-	@echo "... src/ui_toolbar2.i"
-	@echo "... src/ui_toolbar2.s"
+	@echo "... src/ui_savezone-1.o"
+	@echo "... src/ui_savezone-1.i"
+	@echo "... src/ui_savezone-1.s"
+	@echo "... src/ui_savezone-2.o"
+	@echo "... src/ui_savezone-2.i"
+	@echo "... src/ui_savezone-2.s"
+	@echo "... src/ui_toolbar-1.o"
+	@echo "... src/ui_toolbar-1.i"
+	@echo "... src/ui_toolbar-1.s"
+	@echo "... src/ui_toolbar-2.o"
+	@echo "... src/ui_toolbar-2.i"
+	@echo "... src/ui_toolbar-2.s"
 .PHONY : help
 
 

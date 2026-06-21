@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   app_screens4.c                                     :+:      :+:    :+:   */
+/*   app_screens-4.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/17 07:26:40 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/17 07:26:41 by le-glitch        ###   ########.fr       */
+/*   Created: 2026/06/21 23:08:21 by le-glitch         #+#    #+#             */
+/*   Updated: 2026/06/21 23:08:23 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void	draw_screen_save_zone(t_app *app)
 		draw_screen_save_zone_rect(app);
 	out_path[0] = 0;
 	ready = ui_draw_save_zone(&app->save_zone, app->cam,
-		out_path, sizeof(out_path));
+			out_path, sizeof(out_path));
 	if (ready)
 	{
 		if (system("mkdir -p assets/patterns") != 0)

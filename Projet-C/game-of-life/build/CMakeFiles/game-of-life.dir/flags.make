@@ -4,7 +4,7 @@
 # compile C with /usr/bin/cc
 C_DEFINES = -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP
 
-C_INCLUDES = -I/media/le-glitch/Code/Programation/Projet-C/game-of-life/src -I/media/le-glitch/Code/Programation/Projet-C/game-of-life/build/_deps/raylib-src/src -I/media/le-glitch/Code/Programation/Projet-C/game-of-life/build/_deps/raylib-src/src/external/glfw/include
+C_INCLUDES = -I/media/le-glitch/CODE/Programation/Projet-C/game-of-life/src -I/media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/_deps/raylib-src/src -I/media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/_deps/raylib-src/src/external/glfw/include
 
-C_FLAGS = -O3 -DNDEBUG -std=gnu11 -O2 -Wall -Wextra
+C_FLAGS = -std=gnu11 -O0 -g -Wall -Wextra
 

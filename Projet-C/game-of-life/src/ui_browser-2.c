@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ui_browser2.c                                      :+:      :+:    :+:   */
+/*   ui_browser-2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/17 07:23:56 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/17 07:23:57 by le-glitch        ###   ########.fr       */
+/*   Created: 2026/06/21 23:05:17 by le-glitch         #+#    #+#             */
+/*   Updated: 2026/06/21 23:05:25 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,16 @@
 #include <math.h>
 
 void	draw_rle_preview(const char *path, Rectangle dest);
-void	browser_draw_search(Rectangle p, int pw, char *search,
-	bool *search_edit, int *scroll);
-void	browser_load_files(char names[512][128], int *count);
-int	browser_filter(char names[512][128], int count,
-	int *filtered, const char *search);
 
-# define MAX_RLE	512
+void	browser_draw_search(Rectangle p, int pw, char *search,
+			bool *search_edit, int *scroll);
+
+void	browser_load_files(char names[512][128], int *count);
+
+int		browser_filter(char names[512][128], int count,
+			int *filtered, const char *search);
+
+#define MAX_RLE	512
 
 static bool	browser_draw_list(char names[MAX_RLE][128], int *filtered,
 	int fcount, Rectangle p, int list_top, int list_bot, int *scroll,
@@ -44,11 +47,13 @@ static bool	browser_draw_list(char names[MAX_RLE][128], int *filtered,
 	int			fl;
 	float		sbh;
 	float		sby;
+	int			sc;
+	float		diff;
 	bool		hov;
 	Vector2		mm;
 	Rectangle	row;
-	const char		*slash;
-	const char		*dname;
+	const char	*slash;
+	const char	*dname;
 	char		folder[32];
 	int			list_w;
 
@@ -58,7 +63,7 @@ static bool	browser_draw_list(char names[MAX_RLE][128], int *filtered,
 	lx = (int)p.x + 16;
 	mm = GetMousePosition();
 	if (CheckCollisionPointRec(mm, (Rectangle){p.x, p.y + 82,
-		(float)(list_w + 20), (float)((int)p.height - 132)}))
+			(float)(list_w + 20), (float)((int)p.height - 132)}))
 		*scroll -= (int)GetMouseWheelMove();
 	if (*scroll < 0)
 		*scroll = 0;
@@ -121,8 +126,10 @@ static bool	browser_draw_list(char names[MAX_RLE][128], int *filtered,
 	}
 	if (fcount > vis && vis > 0)
 	{
-		sbh = (float)(list_bot - list_top) * vis / fcount;
-		sby = list_top + (float)(list_bot - list_top) * (*scroll) / fcount;
+		sc = *scroll;
+		diff = (float)(list_bot - list_top);
+		sbh = diff * vis / fcount;
+		sby = list_top + diff * sc / fcount;
 		DrawRectangle(lx + list_w - 4, list_top, 4, list_bot - list_top,
 			(Color){30, 30, 48, 200});
 		DrawRectangle(lx + list_w - 4, (int)sby, 4, (int)sbh, C_BORDER);
@@ -175,7 +182,7 @@ bool	ui_draw_load_browser(char *out_path, int path_len)
 	browser_draw_search(p, pw, search, &search_edit, &scroll);
 	fcount = browser_filter(names, count, filtered, search);
 	chosen = browser_draw_list(names, filtered, fcount, p,
-		list_top, list_bot, &scroll, &hovered_idx, out_path, path_len);
+			list_top, list_bot, &scroll, &hovered_idx, out_path, path_len);
 	if (fcount == 0 && count == 0)
 	{
 		text_c("Aucun fichier .rle trouve.", FS,
@@ -214,8 +221,7 @@ bool	ui_draw_load_browser(char *out_path, int path_len)
 		text_c("l'apercu", FS - 2, pr.x + pr.width / 2,
 			pr.y + (list_bot - list_top) / 2 + 26, C_DIM);
 	}
-	if (ui_button(
-		(Rectangle){p.x + pw / 2 - 65, p.y + ph - 42, 130, 32},
+	if (ui_button((Rectangle){p.x + pw / 2 - 65, p.y + ph - 42, 130, 32},
 		"Annuler", false) == BTN_CLICKED || IsKeyPressed(KEY_ESCAPE))
 	{
 		count = -1;

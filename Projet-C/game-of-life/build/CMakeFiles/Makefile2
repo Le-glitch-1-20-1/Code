@@ -54,10 +54,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /media/le-glitch/Code/Programation/Projet-C/game-of-life
+CMAKE_SOURCE_DIR = /media/le-glitch/CODE/Programation/Projet-C/game-of-life
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /media/le-glitch/Code/Programation/Projet-C/game-of-life/build
+CMAKE_BINARY_DIR = /media/le-glitch/CODE/Programation/Projet-C/game-of-life/build
 
 #=============================================================================
 # Directory level rules for the build root directory
@@ -148,14 +148,14 @@ CMakeFiles/game-of-life.dir/all: _deps/raylib-build/raylib/CMakeFiles/raylib.dir
 CMakeFiles/game-of-life.dir/all: _deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/game-of-life.dir/build.make CMakeFiles/game-of-life.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/media/le-glitch/Code/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49 "Built target game-of-life"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49 "Built target game-of-life"
 .PHONY : CMakeFiles/game-of-life.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/game-of-life.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /media/le-glitch/Code/Programation/Projet-C/game-of-life/build/CMakeFiles 81
+	$(CMAKE_COMMAND) -E cmake_progress_start /media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/CMakeFiles 81
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/game-of-life.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /media/le-glitch/Code/Programation/Projet-C/game-of-life/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/CMakeFiles 0
 .PHONY : CMakeFiles/game-of-life.dir/rule
 
 # Convenience name for target.
@@ -174,14 +174,14 @@ CMakeFiles/game-of-life.dir/clean:
 _deps/raylib-build/CMakeFiles/uninstall.dir/all:
 	$(MAKE) $(MAKESILENT) -f _deps/raylib-build/CMakeFiles/uninstall.dir/build.make _deps/raylib-build/CMakeFiles/uninstall.dir/depend
 	$(MAKE) $(MAKESILENT) -f _deps/raylib-build/CMakeFiles/uninstall.dir/build.make _deps/raylib-build/CMakeFiles/uninstall.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/media/le-glitch/Code/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num= "Built target uninstall"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num= "Built target uninstall"
 .PHONY : _deps/raylib-build/CMakeFiles/uninstall.dir/all
 
 # Build rule for subdir invocation for target.
 _deps/raylib-build/CMakeFiles/uninstall.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /media/le-glitch/Code/Programation/Projet-C/game-of-life/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/CMakeFiles 0
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 _deps/raylib-build/CMakeFiles/uninstall.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /media/le-glitch/Code/Programation/Projet-C/game-of-life/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/CMakeFiles 0
 .PHONY : _deps/raylib-build/CMakeFiles/uninstall.dir/rule
 
 # Convenience name for target.
@@ -200,14 +200,14 @@ _deps/raylib-build/CMakeFiles/uninstall.dir/clean:
 _deps/raylib-build/raylib/CMakeFiles/raylib.dir/all: _deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw.dir/all
 	$(MAKE) $(MAKESILENT) -f _deps/raylib-build/raylib/CMakeFiles/raylib.dir/build.make _deps/raylib-build/raylib/CMakeFiles/raylib.dir/depend
 	$(MAKE) $(MAKESILENT) -f _deps/raylib-build/raylib/CMakeFiles/raylib.dir/build.make _deps/raylib-build/raylib/CMakeFiles/raylib.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/media/le-glitch/Code/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=74,75,76,77,78,79,80,81 "Built target raylib"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=74,75,76,77,78,79,80,81 "Built target raylib"
 .PHONY : _deps/raylib-build/raylib/CMakeFiles/raylib.dir/all
 
 # Build rule for subdir invocation for target.
 _deps/raylib-build/raylib/CMakeFiles/raylib.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /media/le-glitch/Code/Programation/Projet-C/game-of-life/build/CMakeFiles 32
+	$(CMAKE_COMMAND) -E cmake_progress_start /media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/CMakeFiles 32
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 _deps/raylib-build/raylib/CMakeFiles/raylib.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /media/le-glitch/Code/Programation/Projet-C/game-of-life/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/CMakeFiles 0
 .PHONY : _deps/raylib-build/raylib/CMakeFiles/raylib.dir/rule
 
 # Convenience name for target.
@@ -226,14 +226,14 @@ _deps/raylib-build/raylib/CMakeFiles/raylib.dir/clean:
 _deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw.dir/all:
 	$(MAKE) $(MAKESILENT) -f _deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw.dir/build.make _deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw.dir/depend
 	$(MAKE) $(MAKESILENT) -f _deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw.dir/build.make _deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/media/le-glitch/Code/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73 "Built target glfw"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73 "Built target glfw"
 .PHONY : _deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw.dir/all
 
 # Build rule for subdir invocation for target.
 _deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /media/le-glitch/Code/Programation/Projet-C/game-of-life/build/CMakeFiles 24
+	$(CMAKE_COMMAND) -E cmake_progress_start /media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/CMakeFiles 24
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 _deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /media/le-glitch/Code/Programation/Projet-C/game-of-life/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/CMakeFiles 0
 .PHONY : _deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw.dir/rule
 
 # Convenience name for target.
@@ -252,14 +252,14 @@ _deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw.dir/clean:
 _deps/raylib-build/raylib/external/glfw/src/CMakeFiles/update_mappings.dir/all:
 	$(MAKE) $(MAKESILENT) -f _deps/raylib-build/raylib/external/glfw/src/CMakeFiles/update_mappings.dir/build.make _deps/raylib-build/raylib/external/glfw/src/CMakeFiles/update_mappings.dir/depend
 	$(MAKE) $(MAKESILENT) -f _deps/raylib-build/raylib/external/glfw/src/CMakeFiles/update_mappings.dir/build.make _deps/raylib-build/raylib/external/glfw/src/CMakeFiles/update_mappings.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/media/le-glitch/Code/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=82 "Built target update_mappings"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=82 "Built target update_mappings"
 .PHONY : _deps/raylib-build/raylib/external/glfw/src/CMakeFiles/update_mappings.dir/all
 
 # Build rule for subdir invocation for target.
 _deps/raylib-build/raylib/external/glfw/src/CMakeFiles/update_mappings.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /media/le-glitch/Code/Programation/Projet-C/game-of-life/build/CMakeFiles 1
+	$(CMAKE_COMMAND) -E cmake_progress_start /media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/CMakeFiles 1
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 _deps/raylib-build/raylib/external/glfw/src/CMakeFiles/update_mappings.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /media/le-glitch/Code/Programation/Projet-C/game-of-life/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/CMakeFiles 0
 .PHONY : _deps/raylib-build/raylib/external/glfw/src/CMakeFiles/update_mappings.dir/rule
 
 # Convenience name for target.

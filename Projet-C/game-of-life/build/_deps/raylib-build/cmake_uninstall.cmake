@@ -1,8 +1,8 @@
-if(NOT EXISTS "/media/le-glitch/Code/Programation/Projet-C/game-of-life/build/install_manifest.txt")
-  message(FATAL_ERROR "Cannot find install manifest: /media/le-glitch/Code/Programation/Projet-C/game-of-life/build/install_manifest.txt")
+if(NOT EXISTS "/media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/install_manifest.txt")
+  message(FATAL_ERROR "Cannot find install manifest: /media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/install_manifest.txt")
 endif()
 
-file(READ "/media/le-glitch/Code/Programation/Projet-C/game-of-life/build/install_manifest.txt" files)
+file(READ "/media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/install_manifest.txt" files)
 string(REGEX REPLACE "\n" ";" files "${files}")
 foreach(file ${files})
   message(STATUS "Uninstalling $ENV{DESTDIR}${file}")

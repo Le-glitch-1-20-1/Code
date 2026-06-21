@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   app_input6.c                                       :+:      :+:    :+:   */
+/*   app_input-6.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/17 07:37:06 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/17 07:37:07 by le-glitch        ###   ########.fr       */
+/*   Created: 2026/06/21 23:08:03 by le-glitch         #+#    #+#             */
+/*   Updated: 2026/06/21 23:08:06 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "simulation.h"
 #include <math.h>
 
-int	handle_escape(t_app *app, bool ctrl);
+int		handle_escape(t_app *app, bool ctrl);
 void	handle_ctrl_shortcuts(t_app *app);
 
 void	handle_speed(t_app *app)

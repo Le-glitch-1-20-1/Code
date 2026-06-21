@@ -1,11 +1,11 @@
 _deps/raylib-build/raylib/CMakeFiles/raylib.dir/utils.c.o: \
- /media/le-glitch/Code/Programation/Projet-C/game-of-life/build/_deps/raylib-src/src/utils.c \
+ /media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/_deps/raylib-src/src/utils.c \
  /usr/include/stdc-predef.h \
- /media/le-glitch/Code/Programation/Projet-C/game-of-life/build/_deps/raylib-src/src/raylib.h \
+ /media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/_deps/raylib-src/src/raylib.h \
  /usr/lib/gcc/x86_64-linux-gnu/13/include/stdarg.h \
  /usr/lib/gcc/x86_64-linux-gnu/13/include/stdbool.h \
- /media/le-glitch/Code/Programation/Projet-C/game-of-life/build/_deps/raylib-src/src/config.h \
- /media/le-glitch/Code/Programation/Projet-C/game-of-life/build/_deps/raylib-src/src/utils.h \
+ /media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/_deps/raylib-src/src/config.h \
+ /media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/_deps/raylib-src/src/utils.h \
  /usr/include/stdlib.h \
  /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
  /usr/include/features.h /usr/include/features-time64.h \
@@ -39,17 +39,13 @@ _deps/raylib-build/raylib/CMakeFiles/raylib.dir/utils.c.o: \
  /usr/include/x86_64-linux-gnu/bits/types/__sigset_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/struct_timeval.h \
  /usr/include/x86_64-linux-gnu/bits/types/struct_timespec.h \
- /usr/include/x86_64-linux-gnu/bits/select2.h \
- /usr/include/x86_64-linux-gnu/bits/select-decl.h \
  /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h \
  /usr/include/x86_64-linux-gnu/bits/thread-shared-types.h \
  /usr/include/x86_64-linux-gnu/bits/pthreadtypes-arch.h \
  /usr/include/x86_64-linux-gnu/bits/atomic_wide_counter.h \
  /usr/include/x86_64-linux-gnu/bits/struct_mutex.h \
  /usr/include/x86_64-linux-gnu/bits/struct_rwlock.h /usr/include/alloca.h \
- /usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h \
- /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
- /usr/include/x86_64-linux-gnu/bits/stdlib.h /usr/include/stdio.h \
+ /usr/include/x86_64-linux-gnu/bits/stdlib-float.h /usr/include/stdio.h \
  /usr/include/x86_64-linux-gnu/bits/types/__fpos_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/__mbstate_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/__fpos64_t.h \
@@ -57,12 +53,7 @@ _deps/raylib-build/raylib/CMakeFiles/raylib.dir/utils.c.o: \
  /usr/include/x86_64-linux-gnu/bits/types/FILE.h \
  /usr/include/x86_64-linux-gnu/bits/types/struct_FILE.h \
  /usr/include/x86_64-linux-gnu/bits/types/cookie_io_functions_t.h \
- /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
- /usr/include/x86_64-linux-gnu/bits/stdio2-decl.h \
- /usr/include/x86_64-linux-gnu/bits/stdio.h \
- /usr/include/x86_64-linux-gnu/bits/stdio2.h /usr/include/string.h \
+ /usr/include/x86_64-linux-gnu/bits/stdio_lim.h /usr/include/string.h \
  /usr/include/x86_64-linux-gnu/bits/types/locale_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h \
- /usr/include/strings.h \
- /usr/include/x86_64-linux-gnu/bits/strings_fortified.h \
- /usr/include/x86_64-linux-gnu/bits/string_fortified.h
+ /usr/include/strings.h

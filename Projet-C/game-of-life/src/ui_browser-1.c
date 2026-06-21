@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ui_browser.c                                       :+:      :+:    :+:   */
+/*   ui_browser-1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/17 07:35:25 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/17 07:35:26 by le-glitch        ###   ########.fr       */
+/*   Created: 2026/06/21 23:04:57 by le-glitch         #+#    #+#             */
+/*   Updated: 2026/06/21 23:04:58 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 #include <ctype.h>
 #include <math.h>
 
-# define MAX_RLE	512
+#define MAX_RLE	512
 
 void	browser_load_files(char names[MAX_RLE][128], int *count)
 {
@@ -63,8 +63,8 @@ int	browser_filter(char names[MAX_RLE][128], int count,
 	int			sl;
 	char		dlow[128];
 	char		slow[64];
-	const char		*slash;
-	const char		*dname;
+	const char	*slash;
+	const char	*dname;
 
 	fcount = 0;
 	i = 0;

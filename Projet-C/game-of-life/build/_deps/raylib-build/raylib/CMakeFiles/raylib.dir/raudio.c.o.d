@@ -1,12 +1,12 @@
 _deps/raylib-build/raylib/CMakeFiles/raylib.dir/raudio.c.o: \
- /media/le-glitch/Code/Programation/Projet-C/game-of-life/build/_deps/raylib-src/src/raudio.c \
+ /media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/_deps/raylib-src/src/raudio.c \
  /usr/include/stdc-predef.h \
- /media/le-glitch/Code/Programation/Projet-C/game-of-life/build/_deps/raylib-src/src/raylib.h \
+ /media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/_deps/raylib-src/src/raylib.h \
  /usr/lib/gcc/x86_64-linux-gnu/13/include/stdarg.h \
  /usr/lib/gcc/x86_64-linux-gnu/13/include/stdbool.h \
- /media/le-glitch/Code/Programation/Projet-C/game-of-life/build/_deps/raylib-src/src/config.h \
- /media/le-glitch/Code/Programation/Projet-C/game-of-life/build/_deps/raylib-src/src/utils.h \
- /media/le-glitch/Code/Programation/Projet-C/game-of-life/build/_deps/raylib-src/src/external/miniaudio.h \
+ /media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/_deps/raylib-src/src/config.h \
+ /media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/_deps/raylib-src/src/utils.h \
+ /media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/_deps/raylib-src/src/external/miniaudio.h \
  /usr/lib/gcc/x86_64-linux-gnu/13/include/stddef.h /usr/include/pthread.h \
  /usr/include/features.h /usr/include/features-time64.h \
  /usr/include/x86_64-linux-gnu/bits/wordsize.h \
@@ -71,30 +71,19 @@ _deps/raylib-build/raylib/CMakeFiles/raylib.dir/raudio.c.o: \
  /usr/include/x86_64-linux-gnu/bits/select.h \
  /usr/include/x86_64-linux-gnu/bits/types/sigset_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/struct_timeval.h \
- /usr/include/x86_64-linux-gnu/bits/select2.h \
- /usr/include/x86_64-linux-gnu/bits/select-decl.h /usr/include/alloca.h \
- /usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h \
- /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
- /usr/include/x86_64-linux-gnu/bits/stdlib.h /usr/include/string.h \
- /usr/include/strings.h \
- /usr/include/x86_64-linux-gnu/bits/strings_fortified.h \
- /usr/include/x86_64-linux-gnu/bits/string_fortified.h \
- /usr/include/stdio.h /usr/include/x86_64-linux-gnu/bits/types/__fpos_t.h \
+ /usr/include/alloca.h /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
+ /usr/include/string.h /usr/include/strings.h /usr/include/stdio.h \
+ /usr/include/x86_64-linux-gnu/bits/types/__fpos_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/__mbstate_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/__fpos64_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/__FILE.h \
  /usr/include/x86_64-linux-gnu/bits/types/FILE.h \
  /usr/include/x86_64-linux-gnu/bits/types/struct_FILE.h \
  /usr/include/x86_64-linux-gnu/bits/types/cookie_io_functions_t.h \
- /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
- /usr/include/x86_64-linux-gnu/bits/stdio2-decl.h \
- /usr/include/x86_64-linux-gnu/bits/stdio.h \
- /usr/include/x86_64-linux-gnu/bits/stdio2.h /usr/include/wchar.h \
+ /usr/include/x86_64-linux-gnu/bits/stdio_lim.h /usr/include/wchar.h \
  /usr/include/x86_64-linux-gnu/bits/wchar.h \
  /usr/include/x86_64-linux-gnu/bits/types/wint_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/mbstate_t.h \
- /usr/include/x86_64-linux-gnu/bits/wchar2-decl.h \
- /usr/include/x86_64-linux-gnu/bits/wchar2.h \
  /usr/include/x86_64-linux-gnu/sys/time.h \
  /usr/include/x86_64-linux-gnu/sys/stat.h \
  /usr/include/x86_64-linux-gnu/bits/stat.h \
@@ -112,21 +101,18 @@ _deps/raylib-build/raylib/CMakeFiles/raylib.dir/raudio.c.o: \
  /usr/include/x86_64-linux-gnu/bits/confname.h \
  /usr/include/x86_64-linux-gnu/bits/getopt_posix.h \
  /usr/include/x86_64-linux-gnu/bits/getopt_core.h \
- /usr/include/x86_64-linux-gnu/bits/unistd.h \
- /usr/include/x86_64-linux-gnu/bits/unistd-decl.h \
  /usr/include/x86_64-linux-gnu/bits/unistd_ext.h /usr/include/poll.h \
  /usr/include/x86_64-linux-gnu/sys/poll.h \
  /usr/include/x86_64-linux-gnu/bits/poll.h \
- /usr/include/x86_64-linux-gnu/bits/poll2.h \
  /usr/include/x86_64-linux-gnu/sys/eventfd.h \
  /usr/lib/gcc/x86_64-linux-gnu/13/include/stdint.h /usr/include/stdint.h \
  /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h \
  /usr/include/x86_64-linux-gnu/bits/stdint-least.h \
  /usr/include/x86_64-linux-gnu/bits/eventfd.h \
- /media/le-glitch/Code/Programation/Projet-C/game-of-life/build/_deps/raylib-src/src/external/dr_wav.h \
- /media/le-glitch/Code/Programation/Projet-C/game-of-life/build/_deps/raylib-src/src/external/stb_vorbis.c \
- /media/le-glitch/Code/Programation/Projet-C/game-of-life/build/_deps/raylib-src/src/external/dr_mp3.h \
- /media/le-glitch/Code/Programation/Projet-C/game-of-life/build/_deps/raylib-src/src/external/qoa.h \
- /media/le-glitch/Code/Programation/Projet-C/game-of-life/build/_deps/raylib-src/src/external/qoaplay.c \
- /media/le-glitch/Code/Programation/Projet-C/game-of-life/build/_deps/raylib-src/src/external/jar_xm.h \
- /media/le-glitch/Code/Programation/Projet-C/game-of-life/build/_deps/raylib-src/src/external/jar_mod.h
+ /media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/_deps/raylib-src/src/external/dr_wav.h \
+ /media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/_deps/raylib-src/src/external/stb_vorbis.c \
+ /media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/_deps/raylib-src/src/external/dr_mp3.h \
+ /media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/_deps/raylib-src/src/external/qoa.h \
+ /media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/_deps/raylib-src/src/external/qoaplay.c \
+ /media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/_deps/raylib-src/src/external/jar_xm.h \
+ /media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/_deps/raylib-src/src/external/jar_mod.h

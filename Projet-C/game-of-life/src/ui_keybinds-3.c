@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ui_keybinds3.c                                     :+:      :+:    :+:   */
+/*   ui_keybinds-3.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/17 07:18:20 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/17 07:18:25 by le-glitch        ###   ########.fr       */
+/*   Created: 2026/06/21 23:04:34 by le-glitch         #+#    #+#             */
+/*   Updated: 2026/06/21 23:04:35 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,18 @@
 #include <stddef.h>
 #include <string.h>
 
-int		*kb_field(t_key_config *cfg, int offset);
-const char		*kname(int k);
-void	kb_draw_sep(int list_x, int list_w, int cy, const t_kb_entry *e, int rh_sep);
-void	kb_draw_row(int list_x, int list_w, int cy, int i, int wait_idx, t_key_config *cfg);
-int	kb_scroll(Rectangle panel, int scroll_px, int total_h, int list_h);
-int	kb_capture(t_key_config *cfg, int wait_idx);
+int			*kb_field(t_key_config *cfg, int offset);
+const char	*kname(int k);
 
-# define KB_N	28
+void		kb_draw_sep(int list_x, int list_w, int cy,
+				const t_kb_entry *e, int rh_sep);
+void		kb_draw_row(int list_x, int list_w, int cy, int i,
+				int wait_idx, t_key_config *cfg);
+int			kb_scroll(Rectangle panel, int scroll_px,
+				int total_h, int list_h);
+int			kb_capture(t_key_config *cfg, int wait_idx);
+
+#define KB_N	28
 
 extern const t_kb_entry	g_kb_table[];
 
@@ -156,10 +160,9 @@ bool	ui_draw_keybinds(t_key_config *cfg)
 	kb_draw_list(list_x, pw - 28, list_top, list_bot, scroll_px,
 		wait_idx, cfg);
 	EndScissorMode();
-	kb_draw_scrollbar(
-	list_x, pw - 28, list_top, list_h, kb_total_h(), scroll_px);
-	if (ui_button(
-		(Rectangle){p.x + pw / 2.0f - 65, p.y + ph - 40, 130, 32},
+	kb_draw_scrollbar(list_x, pw - 28, list_top, list_h,
+		kb_total_h(), scroll_px);
+	if (ui_button((Rectangle){p.x + pw / 2.0f - 65, p.y + ph - 40, 130, 32},
 		"Retour", false) == BTN_CLICKED || IsKeyPressed(KEY_ESCAPE))
 	{
 		wait_idx = -1;

@@ -53,10 +53,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /media/le-glitch/Code/Programation/Projet-C/game-of-life
+CMAKE_SOURCE_DIR = /media/le-glitch/CODE/Programation/Projet-C/game-of-life
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /media/le-glitch/Code/Programation/Projet-C/game-of-life/build
+CMAKE_BINARY_DIR = /media/le-glitch/CODE/Programation/Projet-C/game-of-life/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/game-of-life.dir/depend.make
@@ -70,793 +70,793 @@ include CMakeFiles/game-of-life.dir/progress.make
 include CMakeFiles/game-of-life.dir/flags.make
 
 CMakeFiles/game-of-life.dir/src/main.c.o: CMakeFiles/game-of-life.dir/flags.make
-CMakeFiles/game-of-life.dir/src/main.c.o: /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/main.c
+CMakeFiles/game-of-life.dir/src/main.c.o: /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/main.c
 CMakeFiles/game-of-life.dir/src/main.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/Code/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/game-of-life.dir/src/main.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/main.c.o -MF CMakeFiles/game-of-life.dir/src/main.c.o.d -o CMakeFiles/game-of-life.dir/src/main.c.o -c /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/main.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/game-of-life.dir/src/main.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/main.c.o -MF CMakeFiles/game-of-life.dir/src/main.c.o.d -o CMakeFiles/game-of-life.dir/src/main.c.o -c /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/main.c
 
 CMakeFiles/game-of-life.dir/src/main.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/main.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/main.c > CMakeFiles/game-of-life.dir/src/main.c.i
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/main.c > CMakeFiles/game-of-life.dir/src/main.c.i
 
 CMakeFiles/game-of-life.dir/src/main.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/main.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/main.c -o CMakeFiles/game-of-life.dir/src/main.c.s
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/main.c -o CMakeFiles/game-of-life.dir/src/main.c.s
 
 CMakeFiles/game-of-life.dir/src/app_init.c.o: CMakeFiles/game-of-life.dir/flags.make
-CMakeFiles/game-of-life.dir/src/app_init.c.o: /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/app_init.c
+CMakeFiles/game-of-life.dir/src/app_init.c.o: /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/app_init.c
 CMakeFiles/game-of-life.dir/src/app_init.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/Code/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/game-of-life.dir/src/app_init.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/app_init.c.o -MF CMakeFiles/game-of-life.dir/src/app_init.c.o.d -o CMakeFiles/game-of-life.dir/src/app_init.c.o -c /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/app_init.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/game-of-life.dir/src/app_init.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/app_init.c.o -MF CMakeFiles/game-of-life.dir/src/app_init.c.o.d -o CMakeFiles/game-of-life.dir/src/app_init.c.o -c /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/app_init.c
 
 CMakeFiles/game-of-life.dir/src/app_init.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/app_init.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/app_init.c > CMakeFiles/game-of-life.dir/src/app_init.c.i
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/app_init.c > CMakeFiles/game-of-life.dir/src/app_init.c.i
 
 CMakeFiles/game-of-life.dir/src/app_init.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/app_init.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/app_init.c -o CMakeFiles/game-of-life.dir/src/app_init.c.s
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/app_init.c -o CMakeFiles/game-of-life.dir/src/app_init.c.s
 
 CMakeFiles/game-of-life.dir/src/app_undo.c.o: CMakeFiles/game-of-life.dir/flags.make
-CMakeFiles/game-of-life.dir/src/app_undo.c.o: /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/app_undo.c
+CMakeFiles/game-of-life.dir/src/app_undo.c.o: /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/app_undo.c
 CMakeFiles/game-of-life.dir/src/app_undo.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/Code/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/game-of-life.dir/src/app_undo.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/app_undo.c.o -MF CMakeFiles/game-of-life.dir/src/app_undo.c.o.d -o CMakeFiles/game-of-life.dir/src/app_undo.c.o -c /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/app_undo.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/game-of-life.dir/src/app_undo.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/app_undo.c.o -MF CMakeFiles/game-of-life.dir/src/app_undo.c.o.d -o CMakeFiles/game-of-life.dir/src/app_undo.c.o -c /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/app_undo.c
 
 CMakeFiles/game-of-life.dir/src/app_undo.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/app_undo.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/app_undo.c > CMakeFiles/game-of-life.dir/src/app_undo.c.i
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/app_undo.c > CMakeFiles/game-of-life.dir/src/app_undo.c.i
 
 CMakeFiles/game-of-life.dir/src/app_undo.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/app_undo.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/app_undo.c -o CMakeFiles/game-of-life.dir/src/app_undo.c.s
-
-CMakeFiles/game-of-life.dir/src/app_map.c.o: CMakeFiles/game-of-life.dir/flags.make
-CMakeFiles/game-of-life.dir/src/app_map.c.o: /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/app_map.c
-CMakeFiles/game-of-life.dir/src/app_map.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/Code/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building C object CMakeFiles/game-of-life.dir/src/app_map.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/app_map.c.o -MF CMakeFiles/game-of-life.dir/src/app_map.c.o.d -o CMakeFiles/game-of-life.dir/src/app_map.c.o -c /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/app_map.c
-
-CMakeFiles/game-of-life.dir/src/app_map.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/app_map.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/app_map.c > CMakeFiles/game-of-life.dir/src/app_map.c.i
-
-CMakeFiles/game-of-life.dir/src/app_map.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/app_map.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/app_map.c -o CMakeFiles/game-of-life.dir/src/app_map.c.s
-
-CMakeFiles/game-of-life.dir/src/app_map2.c.o: CMakeFiles/game-of-life.dir/flags.make
-CMakeFiles/game-of-life.dir/src/app_map2.c.o: /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/app_map2.c
-CMakeFiles/game-of-life.dir/src/app_map2.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/Code/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building C object CMakeFiles/game-of-life.dir/src/app_map2.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/app_map2.c.o -MF CMakeFiles/game-of-life.dir/src/app_map2.c.o.d -o CMakeFiles/game-of-life.dir/src/app_map2.c.o -c /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/app_map2.c
-
-CMakeFiles/game-of-life.dir/src/app_map2.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/app_map2.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/app_map2.c > CMakeFiles/game-of-life.dir/src/app_map2.c.i
-
-CMakeFiles/game-of-life.dir/src/app_map2.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/app_map2.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/app_map2.c -o CMakeFiles/game-of-life.dir/src/app_map2.c.s
-
-CMakeFiles/game-of-life.dir/src/app_input.c.o: CMakeFiles/game-of-life.dir/flags.make
-CMakeFiles/game-of-life.dir/src/app_input.c.o: /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/app_input.c
-CMakeFiles/game-of-life.dir/src/app_input.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/Code/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building C object CMakeFiles/game-of-life.dir/src/app_input.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/app_input.c.o -MF CMakeFiles/game-of-life.dir/src/app_input.c.o.d -o CMakeFiles/game-of-life.dir/src/app_input.c.o -c /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/app_input.c
-
-CMakeFiles/game-of-life.dir/src/app_input.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/app_input.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/app_input.c > CMakeFiles/game-of-life.dir/src/app_input.c.i
-
-CMakeFiles/game-of-life.dir/src/app_input.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/app_input.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/app_input.c -o CMakeFiles/game-of-life.dir/src/app_input.c.s
-
-CMakeFiles/game-of-life.dir/src/app_input7.c.o: CMakeFiles/game-of-life.dir/flags.make
-CMakeFiles/game-of-life.dir/src/app_input7.c.o: /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/app_input7.c
-CMakeFiles/game-of-life.dir/src/app_input7.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/Code/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building C object CMakeFiles/game-of-life.dir/src/app_input7.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/app_input7.c.o -MF CMakeFiles/game-of-life.dir/src/app_input7.c.o.d -o CMakeFiles/game-of-life.dir/src/app_input7.c.o -c /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/app_input7.c
-
-CMakeFiles/game-of-life.dir/src/app_input7.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/app_input7.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/app_input7.c > CMakeFiles/game-of-life.dir/src/app_input7.c.i
-
-CMakeFiles/game-of-life.dir/src/app_input7.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/app_input7.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/app_input7.c -o CMakeFiles/game-of-life.dir/src/app_input7.c.s
-
-CMakeFiles/game-of-life.dir/src/app_input2.c.o: CMakeFiles/game-of-life.dir/flags.make
-CMakeFiles/game-of-life.dir/src/app_input2.c.o: /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/app_input2.c
-CMakeFiles/game-of-life.dir/src/app_input2.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/Code/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building C object CMakeFiles/game-of-life.dir/src/app_input2.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/app_input2.c.o -MF CMakeFiles/game-of-life.dir/src/app_input2.c.o.d -o CMakeFiles/game-of-life.dir/src/app_input2.c.o -c /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/app_input2.c
-
-CMakeFiles/game-of-life.dir/src/app_input2.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/app_input2.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/app_input2.c > CMakeFiles/game-of-life.dir/src/app_input2.c.i
-
-CMakeFiles/game-of-life.dir/src/app_input2.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/app_input2.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/app_input2.c -o CMakeFiles/game-of-life.dir/src/app_input2.c.s
-
-CMakeFiles/game-of-life.dir/src/app_input3.c.o: CMakeFiles/game-of-life.dir/flags.make
-CMakeFiles/game-of-life.dir/src/app_input3.c.o: /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/app_input3.c
-CMakeFiles/game-of-life.dir/src/app_input3.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/Code/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building C object CMakeFiles/game-of-life.dir/src/app_input3.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/app_input3.c.o -MF CMakeFiles/game-of-life.dir/src/app_input3.c.o.d -o CMakeFiles/game-of-life.dir/src/app_input3.c.o -c /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/app_input3.c
-
-CMakeFiles/game-of-life.dir/src/app_input3.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/app_input3.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/app_input3.c > CMakeFiles/game-of-life.dir/src/app_input3.c.i
-
-CMakeFiles/game-of-life.dir/src/app_input3.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/app_input3.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/app_input3.c -o CMakeFiles/game-of-life.dir/src/app_input3.c.s
-
-CMakeFiles/game-of-life.dir/src/app_input8.c.o: CMakeFiles/game-of-life.dir/flags.make
-CMakeFiles/game-of-life.dir/src/app_input8.c.o: /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/app_input8.c
-CMakeFiles/game-of-life.dir/src/app_input8.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/Code/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building C object CMakeFiles/game-of-life.dir/src/app_input8.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/app_input8.c.o -MF CMakeFiles/game-of-life.dir/src/app_input8.c.o.d -o CMakeFiles/game-of-life.dir/src/app_input8.c.o -c /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/app_input8.c
-
-CMakeFiles/game-of-life.dir/src/app_input8.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/app_input8.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/app_input8.c > CMakeFiles/game-of-life.dir/src/app_input8.c.i
-
-CMakeFiles/game-of-life.dir/src/app_input8.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/app_input8.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/app_input8.c -o CMakeFiles/game-of-life.dir/src/app_input8.c.s
-
-CMakeFiles/game-of-life.dir/src/app_input4.c.o: CMakeFiles/game-of-life.dir/flags.make
-CMakeFiles/game-of-life.dir/src/app_input4.c.o: /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/app_input4.c
-CMakeFiles/game-of-life.dir/src/app_input4.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/Code/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building C object CMakeFiles/game-of-life.dir/src/app_input4.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/app_input4.c.o -MF CMakeFiles/game-of-life.dir/src/app_input4.c.o.d -o CMakeFiles/game-of-life.dir/src/app_input4.c.o -c /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/app_input4.c
-
-CMakeFiles/game-of-life.dir/src/app_input4.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/app_input4.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/app_input4.c > CMakeFiles/game-of-life.dir/src/app_input4.c.i
-
-CMakeFiles/game-of-life.dir/src/app_input4.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/app_input4.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/app_input4.c -o CMakeFiles/game-of-life.dir/src/app_input4.c.s
-
-CMakeFiles/game-of-life.dir/src/app_input5.c.o: CMakeFiles/game-of-life.dir/flags.make
-CMakeFiles/game-of-life.dir/src/app_input5.c.o: /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/app_input5.c
-CMakeFiles/game-of-life.dir/src/app_input5.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/Code/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building C object CMakeFiles/game-of-life.dir/src/app_input5.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/app_input5.c.o -MF CMakeFiles/game-of-life.dir/src/app_input5.c.o.d -o CMakeFiles/game-of-life.dir/src/app_input5.c.o -c /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/app_input5.c
-
-CMakeFiles/game-of-life.dir/src/app_input5.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/app_input5.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/app_input5.c > CMakeFiles/game-of-life.dir/src/app_input5.c.i
-
-CMakeFiles/game-of-life.dir/src/app_input5.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/app_input5.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/app_input5.c -o CMakeFiles/game-of-life.dir/src/app_input5.c.s
-
-CMakeFiles/game-of-life.dir/src/app_input6.c.o: CMakeFiles/game-of-life.dir/flags.make
-CMakeFiles/game-of-life.dir/src/app_input6.c.o: /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/app_input6.c
-CMakeFiles/game-of-life.dir/src/app_input6.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/Code/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building C object CMakeFiles/game-of-life.dir/src/app_input6.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/app_input6.c.o -MF CMakeFiles/game-of-life.dir/src/app_input6.c.o.d -o CMakeFiles/game-of-life.dir/src/app_input6.c.o -c /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/app_input6.c
-
-CMakeFiles/game-of-life.dir/src/app_input6.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/app_input6.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/app_input6.c > CMakeFiles/game-of-life.dir/src/app_input6.c.i
-
-CMakeFiles/game-of-life.dir/src/app_input6.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/app_input6.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/app_input6.c -o CMakeFiles/game-of-life.dir/src/app_input6.c.s
-
-CMakeFiles/game-of-life.dir/src/app_draw.c.o: CMakeFiles/game-of-life.dir/flags.make
-CMakeFiles/game-of-life.dir/src/app_draw.c.o: /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/app_draw.c
-CMakeFiles/game-of-life.dir/src/app_draw.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/Code/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building C object CMakeFiles/game-of-life.dir/src/app_draw.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/app_draw.c.o -MF CMakeFiles/game-of-life.dir/src/app_draw.c.o.d -o CMakeFiles/game-of-life.dir/src/app_draw.c.o -c /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/app_draw.c
-
-CMakeFiles/game-of-life.dir/src/app_draw.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/app_draw.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/app_draw.c > CMakeFiles/game-of-life.dir/src/app_draw.c.i
-
-CMakeFiles/game-of-life.dir/src/app_draw.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/app_draw.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/app_draw.c -o CMakeFiles/game-of-life.dir/src/app_draw.c.s
-
-CMakeFiles/game-of-life.dir/src/app_draw2.c.o: CMakeFiles/game-of-life.dir/flags.make
-CMakeFiles/game-of-life.dir/src/app_draw2.c.o: /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/app_draw2.c
-CMakeFiles/game-of-life.dir/src/app_draw2.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/Code/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building C object CMakeFiles/game-of-life.dir/src/app_draw2.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/app_draw2.c.o -MF CMakeFiles/game-of-life.dir/src/app_draw2.c.o.d -o CMakeFiles/game-of-life.dir/src/app_draw2.c.o -c /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/app_draw2.c
-
-CMakeFiles/game-of-life.dir/src/app_draw2.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/app_draw2.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/app_draw2.c > CMakeFiles/game-of-life.dir/src/app_draw2.c.i
-
-CMakeFiles/game-of-life.dir/src/app_draw2.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/app_draw2.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/app_draw2.c -o CMakeFiles/game-of-life.dir/src/app_draw2.c.s
-
-CMakeFiles/game-of-life.dir/src/app_draw3.c.o: CMakeFiles/game-of-life.dir/flags.make
-CMakeFiles/game-of-life.dir/src/app_draw3.c.o: /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/app_draw3.c
-CMakeFiles/game-of-life.dir/src/app_draw3.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/Code/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building C object CMakeFiles/game-of-life.dir/src/app_draw3.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/app_draw3.c.o -MF CMakeFiles/game-of-life.dir/src/app_draw3.c.o.d -o CMakeFiles/game-of-life.dir/src/app_draw3.c.o -c /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/app_draw3.c
-
-CMakeFiles/game-of-life.dir/src/app_draw3.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/app_draw3.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/app_draw3.c > CMakeFiles/game-of-life.dir/src/app_draw3.c.i
-
-CMakeFiles/game-of-life.dir/src/app_draw3.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/app_draw3.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/app_draw3.c -o CMakeFiles/game-of-life.dir/src/app_draw3.c.s
-
-CMakeFiles/game-of-life.dir/src/app_screens.c.o: CMakeFiles/game-of-life.dir/flags.make
-CMakeFiles/game-of-life.dir/src/app_screens.c.o: /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/app_screens.c
-CMakeFiles/game-of-life.dir/src/app_screens.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/Code/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building C object CMakeFiles/game-of-life.dir/src/app_screens.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/app_screens.c.o -MF CMakeFiles/game-of-life.dir/src/app_screens.c.o.d -o CMakeFiles/game-of-life.dir/src/app_screens.c.o -c /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/app_screens.c
-
-CMakeFiles/game-of-life.dir/src/app_screens.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/app_screens.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/app_screens.c > CMakeFiles/game-of-life.dir/src/app_screens.c.i
-
-CMakeFiles/game-of-life.dir/src/app_screens.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/app_screens.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/app_screens.c -o CMakeFiles/game-of-life.dir/src/app_screens.c.s
-
-CMakeFiles/game-of-life.dir/src/app_screens2.c.o: CMakeFiles/game-of-life.dir/flags.make
-CMakeFiles/game-of-life.dir/src/app_screens2.c.o: /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/app_screens2.c
-CMakeFiles/game-of-life.dir/src/app_screens2.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/Code/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building C object CMakeFiles/game-of-life.dir/src/app_screens2.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/app_screens2.c.o -MF CMakeFiles/game-of-life.dir/src/app_screens2.c.o.d -o CMakeFiles/game-of-life.dir/src/app_screens2.c.o -c /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/app_screens2.c
-
-CMakeFiles/game-of-life.dir/src/app_screens2.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/app_screens2.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/app_screens2.c > CMakeFiles/game-of-life.dir/src/app_screens2.c.i
-
-CMakeFiles/game-of-life.dir/src/app_screens2.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/app_screens2.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/app_screens2.c -o CMakeFiles/game-of-life.dir/src/app_screens2.c.s
-
-CMakeFiles/game-of-life.dir/src/app_screens3.c.o: CMakeFiles/game-of-life.dir/flags.make
-CMakeFiles/game-of-life.dir/src/app_screens3.c.o: /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/app_screens3.c
-CMakeFiles/game-of-life.dir/src/app_screens3.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/Code/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building C object CMakeFiles/game-of-life.dir/src/app_screens3.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/app_screens3.c.o -MF CMakeFiles/game-of-life.dir/src/app_screens3.c.o.d -o CMakeFiles/game-of-life.dir/src/app_screens3.c.o -c /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/app_screens3.c
-
-CMakeFiles/game-of-life.dir/src/app_screens3.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/app_screens3.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/app_screens3.c > CMakeFiles/game-of-life.dir/src/app_screens3.c.i
-
-CMakeFiles/game-of-life.dir/src/app_screens3.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/app_screens3.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/app_screens3.c -o CMakeFiles/game-of-life.dir/src/app_screens3.c.s
-
-CMakeFiles/game-of-life.dir/src/app_screens4.c.o: CMakeFiles/game-of-life.dir/flags.make
-CMakeFiles/game-of-life.dir/src/app_screens4.c.o: /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/app_screens4.c
-CMakeFiles/game-of-life.dir/src/app_screens4.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/Code/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Building C object CMakeFiles/game-of-life.dir/src/app_screens4.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/app_screens4.c.o -MF CMakeFiles/game-of-life.dir/src/app_screens4.c.o.d -o CMakeFiles/game-of-life.dir/src/app_screens4.c.o -c /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/app_screens4.c
-
-CMakeFiles/game-of-life.dir/src/app_screens4.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/app_screens4.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/app_screens4.c > CMakeFiles/game-of-life.dir/src/app_screens4.c.i
-
-CMakeFiles/game-of-life.dir/src/app_screens4.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/app_screens4.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/app_screens4.c -o CMakeFiles/game-of-life.dir/src/app_screens4.c.s
-
-CMakeFiles/game-of-life.dir/src/app_screens5.c.o: CMakeFiles/game-of-life.dir/flags.make
-CMakeFiles/game-of-life.dir/src/app_screens5.c.o: /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/app_screens5.c
-CMakeFiles/game-of-life.dir/src/app_screens5.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/Code/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_21) "Building C object CMakeFiles/game-of-life.dir/src/app_screens5.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/app_screens5.c.o -MF CMakeFiles/game-of-life.dir/src/app_screens5.c.o.d -o CMakeFiles/game-of-life.dir/src/app_screens5.c.o -c /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/app_screens5.c
-
-CMakeFiles/game-of-life.dir/src/app_screens5.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/app_screens5.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/app_screens5.c > CMakeFiles/game-of-life.dir/src/app_screens5.c.i
-
-CMakeFiles/game-of-life.dir/src/app_screens5.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/app_screens5.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/app_screens5.c -o CMakeFiles/game-of-life.dir/src/app_screens5.c.s
-
-CMakeFiles/game-of-life.dir/src/chunk_map.c.o: CMakeFiles/game-of-life.dir/flags.make
-CMakeFiles/game-of-life.dir/src/chunk_map.c.o: /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/chunk_map.c
-CMakeFiles/game-of-life.dir/src/chunk_map.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/Code/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_22) "Building C object CMakeFiles/game-of-life.dir/src/chunk_map.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/chunk_map.c.o -MF CMakeFiles/game-of-life.dir/src/chunk_map.c.o.d -o CMakeFiles/game-of-life.dir/src/chunk_map.c.o -c /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/chunk_map.c
-
-CMakeFiles/game-of-life.dir/src/chunk_map.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/chunk_map.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/chunk_map.c > CMakeFiles/game-of-life.dir/src/chunk_map.c.i
-
-CMakeFiles/game-of-life.dir/src/chunk_map.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/chunk_map.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/chunk_map.c -o CMakeFiles/game-of-life.dir/src/chunk_map.c.s
-
-CMakeFiles/game-of-life.dir/src/chunk_map2.c.o: CMakeFiles/game-of-life.dir/flags.make
-CMakeFiles/game-of-life.dir/src/chunk_map2.c.o: /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/chunk_map2.c
-CMakeFiles/game-of-life.dir/src/chunk_map2.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/Code/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_23) "Building C object CMakeFiles/game-of-life.dir/src/chunk_map2.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/chunk_map2.c.o -MF CMakeFiles/game-of-life.dir/src/chunk_map2.c.o.d -o CMakeFiles/game-of-life.dir/src/chunk_map2.c.o -c /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/chunk_map2.c
-
-CMakeFiles/game-of-life.dir/src/chunk_map2.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/chunk_map2.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/chunk_map2.c > CMakeFiles/game-of-life.dir/src/chunk_map2.c.i
-
-CMakeFiles/game-of-life.dir/src/chunk_map2.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/chunk_map2.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/chunk_map2.c -o CMakeFiles/game-of-life.dir/src/chunk_map2.c.s
-
-CMakeFiles/game-of-life.dir/src/chunk_map3.c.o: CMakeFiles/game-of-life.dir/flags.make
-CMakeFiles/game-of-life.dir/src/chunk_map3.c.o: /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/chunk_map3.c
-CMakeFiles/game-of-life.dir/src/chunk_map3.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/Code/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_24) "Building C object CMakeFiles/game-of-life.dir/src/chunk_map3.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/chunk_map3.c.o -MF CMakeFiles/game-of-life.dir/src/chunk_map3.c.o.d -o CMakeFiles/game-of-life.dir/src/chunk_map3.c.o -c /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/chunk_map3.c
-
-CMakeFiles/game-of-life.dir/src/chunk_map3.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/chunk_map3.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/chunk_map3.c > CMakeFiles/game-of-life.dir/src/chunk_map3.c.i
-
-CMakeFiles/game-of-life.dir/src/chunk_map3.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/chunk_map3.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/chunk_map3.c -o CMakeFiles/game-of-life.dir/src/chunk_map3.c.s
-
-CMakeFiles/game-of-life.dir/src/chunk_map4.c.o: CMakeFiles/game-of-life.dir/flags.make
-CMakeFiles/game-of-life.dir/src/chunk_map4.c.o: /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/chunk_map4.c
-CMakeFiles/game-of-life.dir/src/chunk_map4.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/Code/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_25) "Building C object CMakeFiles/game-of-life.dir/src/chunk_map4.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/chunk_map4.c.o -MF CMakeFiles/game-of-life.dir/src/chunk_map4.c.o.d -o CMakeFiles/game-of-life.dir/src/chunk_map4.c.o -c /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/chunk_map4.c
-
-CMakeFiles/game-of-life.dir/src/chunk_map4.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/chunk_map4.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/chunk_map4.c > CMakeFiles/game-of-life.dir/src/chunk_map4.c.i
-
-CMakeFiles/game-of-life.dir/src/chunk_map4.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/chunk_map4.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/chunk_map4.c -o CMakeFiles/game-of-life.dir/src/chunk_map4.c.s
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/app_undo.c -o CMakeFiles/game-of-life.dir/src/app_undo.c.s
+
+CMakeFiles/game-of-life.dir/src/app_map-1.c.o: CMakeFiles/game-of-life.dir/flags.make
+CMakeFiles/game-of-life.dir/src/app_map-1.c.o: /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/app_map-1.c
+CMakeFiles/game-of-life.dir/src/app_map-1.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building C object CMakeFiles/game-of-life.dir/src/app_map-1.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/app_map-1.c.o -MF CMakeFiles/game-of-life.dir/src/app_map-1.c.o.d -o CMakeFiles/game-of-life.dir/src/app_map-1.c.o -c /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/app_map-1.c
+
+CMakeFiles/game-of-life.dir/src/app_map-1.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/app_map-1.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/app_map-1.c > CMakeFiles/game-of-life.dir/src/app_map-1.c.i
+
+CMakeFiles/game-of-life.dir/src/app_map-1.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/app_map-1.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/app_map-1.c -o CMakeFiles/game-of-life.dir/src/app_map-1.c.s
+
+CMakeFiles/game-of-life.dir/src/app_map-2.c.o: CMakeFiles/game-of-life.dir/flags.make
+CMakeFiles/game-of-life.dir/src/app_map-2.c.o: /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/app_map-2.c
+CMakeFiles/game-of-life.dir/src/app_map-2.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building C object CMakeFiles/game-of-life.dir/src/app_map-2.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/app_map-2.c.o -MF CMakeFiles/game-of-life.dir/src/app_map-2.c.o.d -o CMakeFiles/game-of-life.dir/src/app_map-2.c.o -c /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/app_map-2.c
+
+CMakeFiles/game-of-life.dir/src/app_map-2.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/app_map-2.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/app_map-2.c > CMakeFiles/game-of-life.dir/src/app_map-2.c.i
+
+CMakeFiles/game-of-life.dir/src/app_map-2.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/app_map-2.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/app_map-2.c -o CMakeFiles/game-of-life.dir/src/app_map-2.c.s
+
+CMakeFiles/game-of-life.dir/src/app_input-1.c.o: CMakeFiles/game-of-life.dir/flags.make
+CMakeFiles/game-of-life.dir/src/app_input-1.c.o: /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/app_input-1.c
+CMakeFiles/game-of-life.dir/src/app_input-1.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building C object CMakeFiles/game-of-life.dir/src/app_input-1.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/app_input-1.c.o -MF CMakeFiles/game-of-life.dir/src/app_input-1.c.o.d -o CMakeFiles/game-of-life.dir/src/app_input-1.c.o -c /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/app_input-1.c
+
+CMakeFiles/game-of-life.dir/src/app_input-1.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/app_input-1.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/app_input-1.c > CMakeFiles/game-of-life.dir/src/app_input-1.c.i
+
+CMakeFiles/game-of-life.dir/src/app_input-1.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/app_input-1.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/app_input-1.c -o CMakeFiles/game-of-life.dir/src/app_input-1.c.s
+
+CMakeFiles/game-of-life.dir/src/app_input-7.c.o: CMakeFiles/game-of-life.dir/flags.make
+CMakeFiles/game-of-life.dir/src/app_input-7.c.o: /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/app_input-7.c
+CMakeFiles/game-of-life.dir/src/app_input-7.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building C object CMakeFiles/game-of-life.dir/src/app_input-7.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/app_input-7.c.o -MF CMakeFiles/game-of-life.dir/src/app_input-7.c.o.d -o CMakeFiles/game-of-life.dir/src/app_input-7.c.o -c /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/app_input-7.c
+
+CMakeFiles/game-of-life.dir/src/app_input-7.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/app_input-7.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/app_input-7.c > CMakeFiles/game-of-life.dir/src/app_input-7.c.i
+
+CMakeFiles/game-of-life.dir/src/app_input-7.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/app_input-7.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/app_input-7.c -o CMakeFiles/game-of-life.dir/src/app_input-7.c.s
+
+CMakeFiles/game-of-life.dir/src/app_input-2.c.o: CMakeFiles/game-of-life.dir/flags.make
+CMakeFiles/game-of-life.dir/src/app_input-2.c.o: /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/app_input-2.c
+CMakeFiles/game-of-life.dir/src/app_input-2.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building C object CMakeFiles/game-of-life.dir/src/app_input-2.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/app_input-2.c.o -MF CMakeFiles/game-of-life.dir/src/app_input-2.c.o.d -o CMakeFiles/game-of-life.dir/src/app_input-2.c.o -c /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/app_input-2.c
+
+CMakeFiles/game-of-life.dir/src/app_input-2.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/app_input-2.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/app_input-2.c > CMakeFiles/game-of-life.dir/src/app_input-2.c.i
+
+CMakeFiles/game-of-life.dir/src/app_input-2.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/app_input-2.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/app_input-2.c -o CMakeFiles/game-of-life.dir/src/app_input-2.c.s
+
+CMakeFiles/game-of-life.dir/src/app_input-3.c.o: CMakeFiles/game-of-life.dir/flags.make
+CMakeFiles/game-of-life.dir/src/app_input-3.c.o: /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/app_input-3.c
+CMakeFiles/game-of-life.dir/src/app_input-3.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building C object CMakeFiles/game-of-life.dir/src/app_input-3.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/app_input-3.c.o -MF CMakeFiles/game-of-life.dir/src/app_input-3.c.o.d -o CMakeFiles/game-of-life.dir/src/app_input-3.c.o -c /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/app_input-3.c
+
+CMakeFiles/game-of-life.dir/src/app_input-3.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/app_input-3.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/app_input-3.c > CMakeFiles/game-of-life.dir/src/app_input-3.c.i
+
+CMakeFiles/game-of-life.dir/src/app_input-3.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/app_input-3.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/app_input-3.c -o CMakeFiles/game-of-life.dir/src/app_input-3.c.s
+
+CMakeFiles/game-of-life.dir/src/app_input-8.c.o: CMakeFiles/game-of-life.dir/flags.make
+CMakeFiles/game-of-life.dir/src/app_input-8.c.o: /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/app_input-8.c
+CMakeFiles/game-of-life.dir/src/app_input-8.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building C object CMakeFiles/game-of-life.dir/src/app_input-8.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/app_input-8.c.o -MF CMakeFiles/game-of-life.dir/src/app_input-8.c.o.d -o CMakeFiles/game-of-life.dir/src/app_input-8.c.o -c /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/app_input-8.c
+
+CMakeFiles/game-of-life.dir/src/app_input-8.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/app_input-8.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/app_input-8.c > CMakeFiles/game-of-life.dir/src/app_input-8.c.i
+
+CMakeFiles/game-of-life.dir/src/app_input-8.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/app_input-8.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/app_input-8.c -o CMakeFiles/game-of-life.dir/src/app_input-8.c.s
+
+CMakeFiles/game-of-life.dir/src/app_input-4.c.o: CMakeFiles/game-of-life.dir/flags.make
+CMakeFiles/game-of-life.dir/src/app_input-4.c.o: /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/app_input-4.c
+CMakeFiles/game-of-life.dir/src/app_input-4.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building C object CMakeFiles/game-of-life.dir/src/app_input-4.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/app_input-4.c.o -MF CMakeFiles/game-of-life.dir/src/app_input-4.c.o.d -o CMakeFiles/game-of-life.dir/src/app_input-4.c.o -c /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/app_input-4.c
+
+CMakeFiles/game-of-life.dir/src/app_input-4.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/app_input-4.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/app_input-4.c > CMakeFiles/game-of-life.dir/src/app_input-4.c.i
+
+CMakeFiles/game-of-life.dir/src/app_input-4.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/app_input-4.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/app_input-4.c -o CMakeFiles/game-of-life.dir/src/app_input-4.c.s
+
+CMakeFiles/game-of-life.dir/src/app_input-5.c.o: CMakeFiles/game-of-life.dir/flags.make
+CMakeFiles/game-of-life.dir/src/app_input-5.c.o: /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/app_input-5.c
+CMakeFiles/game-of-life.dir/src/app_input-5.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building C object CMakeFiles/game-of-life.dir/src/app_input-5.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/app_input-5.c.o -MF CMakeFiles/game-of-life.dir/src/app_input-5.c.o.d -o CMakeFiles/game-of-life.dir/src/app_input-5.c.o -c /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/app_input-5.c
+
+CMakeFiles/game-of-life.dir/src/app_input-5.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/app_input-5.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/app_input-5.c > CMakeFiles/game-of-life.dir/src/app_input-5.c.i
+
+CMakeFiles/game-of-life.dir/src/app_input-5.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/app_input-5.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/app_input-5.c -o CMakeFiles/game-of-life.dir/src/app_input-5.c.s
+
+CMakeFiles/game-of-life.dir/src/app_input-6.c.o: CMakeFiles/game-of-life.dir/flags.make
+CMakeFiles/game-of-life.dir/src/app_input-6.c.o: /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/app_input-6.c
+CMakeFiles/game-of-life.dir/src/app_input-6.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building C object CMakeFiles/game-of-life.dir/src/app_input-6.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/app_input-6.c.o -MF CMakeFiles/game-of-life.dir/src/app_input-6.c.o.d -o CMakeFiles/game-of-life.dir/src/app_input-6.c.o -c /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/app_input-6.c
+
+CMakeFiles/game-of-life.dir/src/app_input-6.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/app_input-6.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/app_input-6.c > CMakeFiles/game-of-life.dir/src/app_input-6.c.i
+
+CMakeFiles/game-of-life.dir/src/app_input-6.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/app_input-6.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/app_input-6.c -o CMakeFiles/game-of-life.dir/src/app_input-6.c.s
+
+CMakeFiles/game-of-life.dir/src/app_draw-1.c.o: CMakeFiles/game-of-life.dir/flags.make
+CMakeFiles/game-of-life.dir/src/app_draw-1.c.o: /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/app_draw-1.c
+CMakeFiles/game-of-life.dir/src/app_draw-1.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building C object CMakeFiles/game-of-life.dir/src/app_draw-1.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/app_draw-1.c.o -MF CMakeFiles/game-of-life.dir/src/app_draw-1.c.o.d -o CMakeFiles/game-of-life.dir/src/app_draw-1.c.o -c /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/app_draw-1.c
+
+CMakeFiles/game-of-life.dir/src/app_draw-1.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/app_draw-1.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/app_draw-1.c > CMakeFiles/game-of-life.dir/src/app_draw-1.c.i
+
+CMakeFiles/game-of-life.dir/src/app_draw-1.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/app_draw-1.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/app_draw-1.c -o CMakeFiles/game-of-life.dir/src/app_draw-1.c.s
+
+CMakeFiles/game-of-life.dir/src/app_draw-2.c.o: CMakeFiles/game-of-life.dir/flags.make
+CMakeFiles/game-of-life.dir/src/app_draw-2.c.o: /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/app_draw-2.c
+CMakeFiles/game-of-life.dir/src/app_draw-2.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building C object CMakeFiles/game-of-life.dir/src/app_draw-2.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/app_draw-2.c.o -MF CMakeFiles/game-of-life.dir/src/app_draw-2.c.o.d -o CMakeFiles/game-of-life.dir/src/app_draw-2.c.o -c /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/app_draw-2.c
+
+CMakeFiles/game-of-life.dir/src/app_draw-2.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/app_draw-2.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/app_draw-2.c > CMakeFiles/game-of-life.dir/src/app_draw-2.c.i
+
+CMakeFiles/game-of-life.dir/src/app_draw-2.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/app_draw-2.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/app_draw-2.c -o CMakeFiles/game-of-life.dir/src/app_draw-2.c.s
+
+CMakeFiles/game-of-life.dir/src/app_draw-3.c.o: CMakeFiles/game-of-life.dir/flags.make
+CMakeFiles/game-of-life.dir/src/app_draw-3.c.o: /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/app_draw-3.c
+CMakeFiles/game-of-life.dir/src/app_draw-3.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building C object CMakeFiles/game-of-life.dir/src/app_draw-3.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/app_draw-3.c.o -MF CMakeFiles/game-of-life.dir/src/app_draw-3.c.o.d -o CMakeFiles/game-of-life.dir/src/app_draw-3.c.o -c /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/app_draw-3.c
+
+CMakeFiles/game-of-life.dir/src/app_draw-3.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/app_draw-3.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/app_draw-3.c > CMakeFiles/game-of-life.dir/src/app_draw-3.c.i
+
+CMakeFiles/game-of-life.dir/src/app_draw-3.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/app_draw-3.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/app_draw-3.c -o CMakeFiles/game-of-life.dir/src/app_draw-3.c.s
+
+CMakeFiles/game-of-life.dir/src/app_screens-1.c.o: CMakeFiles/game-of-life.dir/flags.make
+CMakeFiles/game-of-life.dir/src/app_screens-1.c.o: /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/app_screens-1.c
+CMakeFiles/game-of-life.dir/src/app_screens-1.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building C object CMakeFiles/game-of-life.dir/src/app_screens-1.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/app_screens-1.c.o -MF CMakeFiles/game-of-life.dir/src/app_screens-1.c.o.d -o CMakeFiles/game-of-life.dir/src/app_screens-1.c.o -c /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/app_screens-1.c
+
+CMakeFiles/game-of-life.dir/src/app_screens-1.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/app_screens-1.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/app_screens-1.c > CMakeFiles/game-of-life.dir/src/app_screens-1.c.i
+
+CMakeFiles/game-of-life.dir/src/app_screens-1.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/app_screens-1.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/app_screens-1.c -o CMakeFiles/game-of-life.dir/src/app_screens-1.c.s
+
+CMakeFiles/game-of-life.dir/src/app_screens-2.c.o: CMakeFiles/game-of-life.dir/flags.make
+CMakeFiles/game-of-life.dir/src/app_screens-2.c.o: /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/app_screens-2.c
+CMakeFiles/game-of-life.dir/src/app_screens-2.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building C object CMakeFiles/game-of-life.dir/src/app_screens-2.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/app_screens-2.c.o -MF CMakeFiles/game-of-life.dir/src/app_screens-2.c.o.d -o CMakeFiles/game-of-life.dir/src/app_screens-2.c.o -c /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/app_screens-2.c
+
+CMakeFiles/game-of-life.dir/src/app_screens-2.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/app_screens-2.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/app_screens-2.c > CMakeFiles/game-of-life.dir/src/app_screens-2.c.i
+
+CMakeFiles/game-of-life.dir/src/app_screens-2.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/app_screens-2.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/app_screens-2.c -o CMakeFiles/game-of-life.dir/src/app_screens-2.c.s
+
+CMakeFiles/game-of-life.dir/src/app_screens-3.c.o: CMakeFiles/game-of-life.dir/flags.make
+CMakeFiles/game-of-life.dir/src/app_screens-3.c.o: /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/app_screens-3.c
+CMakeFiles/game-of-life.dir/src/app_screens-3.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building C object CMakeFiles/game-of-life.dir/src/app_screens-3.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/app_screens-3.c.o -MF CMakeFiles/game-of-life.dir/src/app_screens-3.c.o.d -o CMakeFiles/game-of-life.dir/src/app_screens-3.c.o -c /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/app_screens-3.c
+
+CMakeFiles/game-of-life.dir/src/app_screens-3.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/app_screens-3.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/app_screens-3.c > CMakeFiles/game-of-life.dir/src/app_screens-3.c.i
+
+CMakeFiles/game-of-life.dir/src/app_screens-3.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/app_screens-3.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/app_screens-3.c -o CMakeFiles/game-of-life.dir/src/app_screens-3.c.s
+
+CMakeFiles/game-of-life.dir/src/app_screens-4.c.o: CMakeFiles/game-of-life.dir/flags.make
+CMakeFiles/game-of-life.dir/src/app_screens-4.c.o: /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/app_screens-4.c
+CMakeFiles/game-of-life.dir/src/app_screens-4.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Building C object CMakeFiles/game-of-life.dir/src/app_screens-4.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/app_screens-4.c.o -MF CMakeFiles/game-of-life.dir/src/app_screens-4.c.o.d -o CMakeFiles/game-of-life.dir/src/app_screens-4.c.o -c /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/app_screens-4.c
+
+CMakeFiles/game-of-life.dir/src/app_screens-4.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/app_screens-4.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/app_screens-4.c > CMakeFiles/game-of-life.dir/src/app_screens-4.c.i
+
+CMakeFiles/game-of-life.dir/src/app_screens-4.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/app_screens-4.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/app_screens-4.c -o CMakeFiles/game-of-life.dir/src/app_screens-4.c.s
+
+CMakeFiles/game-of-life.dir/src/app_screens-5.c.o: CMakeFiles/game-of-life.dir/flags.make
+CMakeFiles/game-of-life.dir/src/app_screens-5.c.o: /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/app_screens-5.c
+CMakeFiles/game-of-life.dir/src/app_screens-5.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_21) "Building C object CMakeFiles/game-of-life.dir/src/app_screens-5.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/app_screens-5.c.o -MF CMakeFiles/game-of-life.dir/src/app_screens-5.c.o.d -o CMakeFiles/game-of-life.dir/src/app_screens-5.c.o -c /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/app_screens-5.c
+
+CMakeFiles/game-of-life.dir/src/app_screens-5.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/app_screens-5.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/app_screens-5.c > CMakeFiles/game-of-life.dir/src/app_screens-5.c.i
+
+CMakeFiles/game-of-life.dir/src/app_screens-5.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/app_screens-5.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/app_screens-5.c -o CMakeFiles/game-of-life.dir/src/app_screens-5.c.s
+
+CMakeFiles/game-of-life.dir/src/chunk_map-1.c.o: CMakeFiles/game-of-life.dir/flags.make
+CMakeFiles/game-of-life.dir/src/chunk_map-1.c.o: /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/chunk_map-1.c
+CMakeFiles/game-of-life.dir/src/chunk_map-1.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_22) "Building C object CMakeFiles/game-of-life.dir/src/chunk_map-1.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/chunk_map-1.c.o -MF CMakeFiles/game-of-life.dir/src/chunk_map-1.c.o.d -o CMakeFiles/game-of-life.dir/src/chunk_map-1.c.o -c /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/chunk_map-1.c
+
+CMakeFiles/game-of-life.dir/src/chunk_map-1.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/chunk_map-1.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/chunk_map-1.c > CMakeFiles/game-of-life.dir/src/chunk_map-1.c.i
+
+CMakeFiles/game-of-life.dir/src/chunk_map-1.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/chunk_map-1.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/chunk_map-1.c -o CMakeFiles/game-of-life.dir/src/chunk_map-1.c.s
+
+CMakeFiles/game-of-life.dir/src/chunk_map-2.c.o: CMakeFiles/game-of-life.dir/flags.make
+CMakeFiles/game-of-life.dir/src/chunk_map-2.c.o: /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/chunk_map-2.c
+CMakeFiles/game-of-life.dir/src/chunk_map-2.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_23) "Building C object CMakeFiles/game-of-life.dir/src/chunk_map-2.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/chunk_map-2.c.o -MF CMakeFiles/game-of-life.dir/src/chunk_map-2.c.o.d -o CMakeFiles/game-of-life.dir/src/chunk_map-2.c.o -c /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/chunk_map-2.c
+
+CMakeFiles/game-of-life.dir/src/chunk_map-2.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/chunk_map-2.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/chunk_map-2.c > CMakeFiles/game-of-life.dir/src/chunk_map-2.c.i
+
+CMakeFiles/game-of-life.dir/src/chunk_map-2.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/chunk_map-2.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/chunk_map-2.c -o CMakeFiles/game-of-life.dir/src/chunk_map-2.c.s
+
+CMakeFiles/game-of-life.dir/src/chunk_map-3.c.o: CMakeFiles/game-of-life.dir/flags.make
+CMakeFiles/game-of-life.dir/src/chunk_map-3.c.o: /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/chunk_map-3.c
+CMakeFiles/game-of-life.dir/src/chunk_map-3.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_24) "Building C object CMakeFiles/game-of-life.dir/src/chunk_map-3.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/chunk_map-3.c.o -MF CMakeFiles/game-of-life.dir/src/chunk_map-3.c.o.d -o CMakeFiles/game-of-life.dir/src/chunk_map-3.c.o -c /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/chunk_map-3.c
+
+CMakeFiles/game-of-life.dir/src/chunk_map-3.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/chunk_map-3.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/chunk_map-3.c > CMakeFiles/game-of-life.dir/src/chunk_map-3.c.i
+
+CMakeFiles/game-of-life.dir/src/chunk_map-3.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/chunk_map-3.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/chunk_map-3.c -o CMakeFiles/game-of-life.dir/src/chunk_map-3.c.s
+
+CMakeFiles/game-of-life.dir/src/chunk_map-4.c.o: CMakeFiles/game-of-life.dir/flags.make
+CMakeFiles/game-of-life.dir/src/chunk_map-4.c.o: /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/chunk_map-4.c
+CMakeFiles/game-of-life.dir/src/chunk_map-4.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_25) "Building C object CMakeFiles/game-of-life.dir/src/chunk_map-4.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/chunk_map-4.c.o -MF CMakeFiles/game-of-life.dir/src/chunk_map-4.c.o.d -o CMakeFiles/game-of-life.dir/src/chunk_map-4.c.o -c /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/chunk_map-4.c
+
+CMakeFiles/game-of-life.dir/src/chunk_map-4.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/chunk_map-4.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/chunk_map-4.c > CMakeFiles/game-of-life.dir/src/chunk_map-4.c.i
+
+CMakeFiles/game-of-life.dir/src/chunk_map-4.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/chunk_map-4.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/chunk_map-4.c -o CMakeFiles/game-of-life.dir/src/chunk_map-4.c.s
 
 CMakeFiles/game-of-life.dir/src/simulation.c.o: CMakeFiles/game-of-life.dir/flags.make
-CMakeFiles/game-of-life.dir/src/simulation.c.o: /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/simulation.c
+CMakeFiles/game-of-life.dir/src/simulation.c.o: /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/simulation.c
 CMakeFiles/game-of-life.dir/src/simulation.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/Code/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_26) "Building C object CMakeFiles/game-of-life.dir/src/simulation.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/simulation.c.o -MF CMakeFiles/game-of-life.dir/src/simulation.c.o.d -o CMakeFiles/game-of-life.dir/src/simulation.c.o -c /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/simulation.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_26) "Building C object CMakeFiles/game-of-life.dir/src/simulation.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/simulation.c.o -MF CMakeFiles/game-of-life.dir/src/simulation.c.o.d -o CMakeFiles/game-of-life.dir/src/simulation.c.o -c /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/simulation.c
 
 CMakeFiles/game-of-life.dir/src/simulation.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/simulation.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/simulation.c > CMakeFiles/game-of-life.dir/src/simulation.c.i
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/simulation.c > CMakeFiles/game-of-life.dir/src/simulation.c.i
 
 CMakeFiles/game-of-life.dir/src/simulation.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/simulation.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/simulation.c -o CMakeFiles/game-of-life.dir/src/simulation.c.s
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/simulation.c -o CMakeFiles/game-of-life.dir/src/simulation.c.s
 
-CMakeFiles/game-of-life.dir/src/save.c.o: CMakeFiles/game-of-life.dir/flags.make
-CMakeFiles/game-of-life.dir/src/save.c.o: /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/save.c
-CMakeFiles/game-of-life.dir/src/save.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/Code/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_27) "Building C object CMakeFiles/game-of-life.dir/src/save.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/save.c.o -MF CMakeFiles/game-of-life.dir/src/save.c.o.d -o CMakeFiles/game-of-life.dir/src/save.c.o -c /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/save.c
+CMakeFiles/game-of-life.dir/src/save-1.c.o: CMakeFiles/game-of-life.dir/flags.make
+CMakeFiles/game-of-life.dir/src/save-1.c.o: /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/save-1.c
+CMakeFiles/game-of-life.dir/src/save-1.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_27) "Building C object CMakeFiles/game-of-life.dir/src/save-1.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/save-1.c.o -MF CMakeFiles/game-of-life.dir/src/save-1.c.o.d -o CMakeFiles/game-of-life.dir/src/save-1.c.o -c /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/save-1.c
 
-CMakeFiles/game-of-life.dir/src/save.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/save.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/save.c > CMakeFiles/game-of-life.dir/src/save.c.i
+CMakeFiles/game-of-life.dir/src/save-1.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/save-1.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/save-1.c > CMakeFiles/game-of-life.dir/src/save-1.c.i
 
-CMakeFiles/game-of-life.dir/src/save.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/save.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/save.c -o CMakeFiles/game-of-life.dir/src/save.c.s
+CMakeFiles/game-of-life.dir/src/save-1.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/save-1.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/save-1.c -o CMakeFiles/game-of-life.dir/src/save-1.c.s
 
-CMakeFiles/game-of-life.dir/src/save2.c.o: CMakeFiles/game-of-life.dir/flags.make
-CMakeFiles/game-of-life.dir/src/save2.c.o: /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/save2.c
-CMakeFiles/game-of-life.dir/src/save2.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/Code/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_28) "Building C object CMakeFiles/game-of-life.dir/src/save2.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/save2.c.o -MF CMakeFiles/game-of-life.dir/src/save2.c.o.d -o CMakeFiles/game-of-life.dir/src/save2.c.o -c /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/save2.c
+CMakeFiles/game-of-life.dir/src/save-2.c.o: CMakeFiles/game-of-life.dir/flags.make
+CMakeFiles/game-of-life.dir/src/save-2.c.o: /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/save-2.c
+CMakeFiles/game-of-life.dir/src/save-2.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_28) "Building C object CMakeFiles/game-of-life.dir/src/save-2.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/save-2.c.o -MF CMakeFiles/game-of-life.dir/src/save-2.c.o.d -o CMakeFiles/game-of-life.dir/src/save-2.c.o -c /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/save-2.c
 
-CMakeFiles/game-of-life.dir/src/save2.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/save2.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/save2.c > CMakeFiles/game-of-life.dir/src/save2.c.i
+CMakeFiles/game-of-life.dir/src/save-2.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/save-2.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/save-2.c > CMakeFiles/game-of-life.dir/src/save-2.c.i
 
-CMakeFiles/game-of-life.dir/src/save2.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/save2.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/save2.c -o CMakeFiles/game-of-life.dir/src/save2.c.s
+CMakeFiles/game-of-life.dir/src/save-2.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/save-2.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/save-2.c -o CMakeFiles/game-of-life.dir/src/save-2.c.s
 
-CMakeFiles/game-of-life.dir/src/save3.c.o: CMakeFiles/game-of-life.dir/flags.make
-CMakeFiles/game-of-life.dir/src/save3.c.o: /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/save3.c
-CMakeFiles/game-of-life.dir/src/save3.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/Code/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_29) "Building C object CMakeFiles/game-of-life.dir/src/save3.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/save3.c.o -MF CMakeFiles/game-of-life.dir/src/save3.c.o.d -o CMakeFiles/game-of-life.dir/src/save3.c.o -c /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/save3.c
+CMakeFiles/game-of-life.dir/src/save-3.c.o: CMakeFiles/game-of-life.dir/flags.make
+CMakeFiles/game-of-life.dir/src/save-3.c.o: /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/save-3.c
+CMakeFiles/game-of-life.dir/src/save-3.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_29) "Building C object CMakeFiles/game-of-life.dir/src/save-3.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/save-3.c.o -MF CMakeFiles/game-of-life.dir/src/save-3.c.o.d -o CMakeFiles/game-of-life.dir/src/save-3.c.o -c /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/save-3.c
 
-CMakeFiles/game-of-life.dir/src/save3.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/save3.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/save3.c > CMakeFiles/game-of-life.dir/src/save3.c.i
+CMakeFiles/game-of-life.dir/src/save-3.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/save-3.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/save-3.c > CMakeFiles/game-of-life.dir/src/save-3.c.i
 
-CMakeFiles/game-of-life.dir/src/save3.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/save3.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/save3.c -o CMakeFiles/game-of-life.dir/src/save3.c.s
+CMakeFiles/game-of-life.dir/src/save-3.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/save-3.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/save-3.c -o CMakeFiles/game-of-life.dir/src/save-3.c.s
 
 CMakeFiles/game-of-life.dir/src/ui.c.o: CMakeFiles/game-of-life.dir/flags.make
-CMakeFiles/game-of-life.dir/src/ui.c.o: /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/ui.c
+CMakeFiles/game-of-life.dir/src/ui.c.o: /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/ui.c
 CMakeFiles/game-of-life.dir/src/ui.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/Code/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_30) "Building C object CMakeFiles/game-of-life.dir/src/ui.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/ui.c.o -MF CMakeFiles/game-of-life.dir/src/ui.c.o.d -o CMakeFiles/game-of-life.dir/src/ui.c.o -c /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/ui.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_30) "Building C object CMakeFiles/game-of-life.dir/src/ui.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/ui.c.o -MF CMakeFiles/game-of-life.dir/src/ui.c.o.d -o CMakeFiles/game-of-life.dir/src/ui.c.o -c /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/ui.c
 
 CMakeFiles/game-of-life.dir/src/ui.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/ui.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/ui.c > CMakeFiles/game-of-life.dir/src/ui.c.i
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/ui.c > CMakeFiles/game-of-life.dir/src/ui.c.i
 
 CMakeFiles/game-of-life.dir/src/ui.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/ui.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/ui.c -o CMakeFiles/game-of-life.dir/src/ui.c.s
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/ui.c -o CMakeFiles/game-of-life.dir/src/ui.c.s
 
-CMakeFiles/game-of-life.dir/src/ui_icons.c.o: CMakeFiles/game-of-life.dir/flags.make
-CMakeFiles/game-of-life.dir/src/ui_icons.c.o: /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/ui_icons.c
-CMakeFiles/game-of-life.dir/src/ui_icons.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/Code/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_31) "Building C object CMakeFiles/game-of-life.dir/src/ui_icons.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/ui_icons.c.o -MF CMakeFiles/game-of-life.dir/src/ui_icons.c.o.d -o CMakeFiles/game-of-life.dir/src/ui_icons.c.o -c /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/ui_icons.c
+CMakeFiles/game-of-life.dir/src/ui_icons-1.c.o: CMakeFiles/game-of-life.dir/flags.make
+CMakeFiles/game-of-life.dir/src/ui_icons-1.c.o: /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/ui_icons-1.c
+CMakeFiles/game-of-life.dir/src/ui_icons-1.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_31) "Building C object CMakeFiles/game-of-life.dir/src/ui_icons-1.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/ui_icons-1.c.o -MF CMakeFiles/game-of-life.dir/src/ui_icons-1.c.o.d -o CMakeFiles/game-of-life.dir/src/ui_icons-1.c.o -c /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/ui_icons-1.c
 
-CMakeFiles/game-of-life.dir/src/ui_icons.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/ui_icons.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/ui_icons.c > CMakeFiles/game-of-life.dir/src/ui_icons.c.i
+CMakeFiles/game-of-life.dir/src/ui_icons-1.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/ui_icons-1.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/ui_icons-1.c > CMakeFiles/game-of-life.dir/src/ui_icons-1.c.i
 
-CMakeFiles/game-of-life.dir/src/ui_icons.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/ui_icons.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/ui_icons.c -o CMakeFiles/game-of-life.dir/src/ui_icons.c.s
+CMakeFiles/game-of-life.dir/src/ui_icons-1.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/ui_icons-1.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/ui_icons-1.c -o CMakeFiles/game-of-life.dir/src/ui_icons-1.c.s
 
-CMakeFiles/game-of-life.dir/src/ui_icons2.c.o: CMakeFiles/game-of-life.dir/flags.make
-CMakeFiles/game-of-life.dir/src/ui_icons2.c.o: /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/ui_icons2.c
-CMakeFiles/game-of-life.dir/src/ui_icons2.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/Code/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_32) "Building C object CMakeFiles/game-of-life.dir/src/ui_icons2.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/ui_icons2.c.o -MF CMakeFiles/game-of-life.dir/src/ui_icons2.c.o.d -o CMakeFiles/game-of-life.dir/src/ui_icons2.c.o -c /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/ui_icons2.c
+CMakeFiles/game-of-life.dir/src/ui_icons-2.c.o: CMakeFiles/game-of-life.dir/flags.make
+CMakeFiles/game-of-life.dir/src/ui_icons-2.c.o: /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/ui_icons-2.c
+CMakeFiles/game-of-life.dir/src/ui_icons-2.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_32) "Building C object CMakeFiles/game-of-life.dir/src/ui_icons-2.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/ui_icons-2.c.o -MF CMakeFiles/game-of-life.dir/src/ui_icons-2.c.o.d -o CMakeFiles/game-of-life.dir/src/ui_icons-2.c.o -c /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/ui_icons-2.c
 
-CMakeFiles/game-of-life.dir/src/ui_icons2.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/ui_icons2.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/ui_icons2.c > CMakeFiles/game-of-life.dir/src/ui_icons2.c.i
+CMakeFiles/game-of-life.dir/src/ui_icons-2.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/ui_icons-2.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/ui_icons-2.c > CMakeFiles/game-of-life.dir/src/ui_icons-2.c.i
 
-CMakeFiles/game-of-life.dir/src/ui_icons2.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/ui_icons2.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/ui_icons2.c -o CMakeFiles/game-of-life.dir/src/ui_icons2.c.s
+CMakeFiles/game-of-life.dir/src/ui_icons-2.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/ui_icons-2.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/ui_icons-2.c -o CMakeFiles/game-of-life.dir/src/ui_icons-2.c.s
 
-CMakeFiles/game-of-life.dir/src/ui_icons3.c.o: CMakeFiles/game-of-life.dir/flags.make
-CMakeFiles/game-of-life.dir/src/ui_icons3.c.o: /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/ui_icons3.c
-CMakeFiles/game-of-life.dir/src/ui_icons3.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/Code/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_33) "Building C object CMakeFiles/game-of-life.dir/src/ui_icons3.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/ui_icons3.c.o -MF CMakeFiles/game-of-life.dir/src/ui_icons3.c.o.d -o CMakeFiles/game-of-life.dir/src/ui_icons3.c.o -c /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/ui_icons3.c
+CMakeFiles/game-of-life.dir/src/ui_icons-3.c.o: CMakeFiles/game-of-life.dir/flags.make
+CMakeFiles/game-of-life.dir/src/ui_icons-3.c.o: /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/ui_icons-3.c
+CMakeFiles/game-of-life.dir/src/ui_icons-3.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_33) "Building C object CMakeFiles/game-of-life.dir/src/ui_icons-3.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/ui_icons-3.c.o -MF CMakeFiles/game-of-life.dir/src/ui_icons-3.c.o.d -o CMakeFiles/game-of-life.dir/src/ui_icons-3.c.o -c /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/ui_icons-3.c
 
-CMakeFiles/game-of-life.dir/src/ui_icons3.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/ui_icons3.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/ui_icons3.c > CMakeFiles/game-of-life.dir/src/ui_icons3.c.i
+CMakeFiles/game-of-life.dir/src/ui_icons-3.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/ui_icons-3.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/ui_icons-3.c > CMakeFiles/game-of-life.dir/src/ui_icons-3.c.i
 
-CMakeFiles/game-of-life.dir/src/ui_icons3.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/ui_icons3.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/ui_icons3.c -o CMakeFiles/game-of-life.dir/src/ui_icons3.c.s
+CMakeFiles/game-of-life.dir/src/ui_icons-3.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/ui_icons-3.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/ui_icons-3.c -o CMakeFiles/game-of-life.dir/src/ui_icons-3.c.s
 
-CMakeFiles/game-of-life.dir/src/ui_icons5.c.o: CMakeFiles/game-of-life.dir/flags.make
-CMakeFiles/game-of-life.dir/src/ui_icons5.c.o: /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/ui_icons5.c
-CMakeFiles/game-of-life.dir/src/ui_icons5.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/Code/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_34) "Building C object CMakeFiles/game-of-life.dir/src/ui_icons5.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/ui_icons5.c.o -MF CMakeFiles/game-of-life.dir/src/ui_icons5.c.o.d -o CMakeFiles/game-of-life.dir/src/ui_icons5.c.o -c /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/ui_icons5.c
+CMakeFiles/game-of-life.dir/src/ui_icons-5.c.o: CMakeFiles/game-of-life.dir/flags.make
+CMakeFiles/game-of-life.dir/src/ui_icons-5.c.o: /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/ui_icons-5.c
+CMakeFiles/game-of-life.dir/src/ui_icons-5.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_34) "Building C object CMakeFiles/game-of-life.dir/src/ui_icons-5.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/ui_icons-5.c.o -MF CMakeFiles/game-of-life.dir/src/ui_icons-5.c.o.d -o CMakeFiles/game-of-life.dir/src/ui_icons-5.c.o -c /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/ui_icons-5.c
 
-CMakeFiles/game-of-life.dir/src/ui_icons5.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/ui_icons5.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/ui_icons5.c > CMakeFiles/game-of-life.dir/src/ui_icons5.c.i
+CMakeFiles/game-of-life.dir/src/ui_icons-5.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/ui_icons-5.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/ui_icons-5.c > CMakeFiles/game-of-life.dir/src/ui_icons-5.c.i
 
-CMakeFiles/game-of-life.dir/src/ui_icons5.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/ui_icons5.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/ui_icons5.c -o CMakeFiles/game-of-life.dir/src/ui_icons5.c.s
+CMakeFiles/game-of-life.dir/src/ui_icons-5.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/ui_icons-5.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/ui_icons-5.c -o CMakeFiles/game-of-life.dir/src/ui_icons-5.c.s
 
-CMakeFiles/game-of-life.dir/src/ui_icons4.c.o: CMakeFiles/game-of-life.dir/flags.make
-CMakeFiles/game-of-life.dir/src/ui_icons4.c.o: /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/ui_icons4.c
-CMakeFiles/game-of-life.dir/src/ui_icons4.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/Code/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_35) "Building C object CMakeFiles/game-of-life.dir/src/ui_icons4.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/ui_icons4.c.o -MF CMakeFiles/game-of-life.dir/src/ui_icons4.c.o.d -o CMakeFiles/game-of-life.dir/src/ui_icons4.c.o -c /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/ui_icons4.c
+CMakeFiles/game-of-life.dir/src/ui_icons-4.c.o: CMakeFiles/game-of-life.dir/flags.make
+CMakeFiles/game-of-life.dir/src/ui_icons-4.c.o: /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/ui_icons-4.c
+CMakeFiles/game-of-life.dir/src/ui_icons-4.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_35) "Building C object CMakeFiles/game-of-life.dir/src/ui_icons-4.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/ui_icons-4.c.o -MF CMakeFiles/game-of-life.dir/src/ui_icons-4.c.o.d -o CMakeFiles/game-of-life.dir/src/ui_icons-4.c.o -c /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/ui_icons-4.c
 
-CMakeFiles/game-of-life.dir/src/ui_icons4.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/ui_icons4.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/ui_icons4.c > CMakeFiles/game-of-life.dir/src/ui_icons4.c.i
+CMakeFiles/game-of-life.dir/src/ui_icons-4.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/ui_icons-4.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/ui_icons-4.c > CMakeFiles/game-of-life.dir/src/ui_icons-4.c.i
 
-CMakeFiles/game-of-life.dir/src/ui_icons4.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/ui_icons4.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/ui_icons4.c -o CMakeFiles/game-of-life.dir/src/ui_icons4.c.s
+CMakeFiles/game-of-life.dir/src/ui_icons-4.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/ui_icons-4.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/ui_icons-4.c -o CMakeFiles/game-of-life.dir/src/ui_icons-4.c.s
 
-CMakeFiles/game-of-life.dir/src/ui_toolbar.c.o: CMakeFiles/game-of-life.dir/flags.make
-CMakeFiles/game-of-life.dir/src/ui_toolbar.c.o: /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/ui_toolbar.c
-CMakeFiles/game-of-life.dir/src/ui_toolbar.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/Code/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_36) "Building C object CMakeFiles/game-of-life.dir/src/ui_toolbar.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/ui_toolbar.c.o -MF CMakeFiles/game-of-life.dir/src/ui_toolbar.c.o.d -o CMakeFiles/game-of-life.dir/src/ui_toolbar.c.o -c /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/ui_toolbar.c
+CMakeFiles/game-of-life.dir/src/ui_toolbar-1.c.o: CMakeFiles/game-of-life.dir/flags.make
+CMakeFiles/game-of-life.dir/src/ui_toolbar-1.c.o: /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/ui_toolbar-1.c
+CMakeFiles/game-of-life.dir/src/ui_toolbar-1.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_36) "Building C object CMakeFiles/game-of-life.dir/src/ui_toolbar-1.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/ui_toolbar-1.c.o -MF CMakeFiles/game-of-life.dir/src/ui_toolbar-1.c.o.d -o CMakeFiles/game-of-life.dir/src/ui_toolbar-1.c.o -c /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/ui_toolbar-1.c
 
-CMakeFiles/game-of-life.dir/src/ui_toolbar.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/ui_toolbar.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/ui_toolbar.c > CMakeFiles/game-of-life.dir/src/ui_toolbar.c.i
+CMakeFiles/game-of-life.dir/src/ui_toolbar-1.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/ui_toolbar-1.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/ui_toolbar-1.c > CMakeFiles/game-of-life.dir/src/ui_toolbar-1.c.i
 
-CMakeFiles/game-of-life.dir/src/ui_toolbar.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/ui_toolbar.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/ui_toolbar.c -o CMakeFiles/game-of-life.dir/src/ui_toolbar.c.s
+CMakeFiles/game-of-life.dir/src/ui_toolbar-1.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/ui_toolbar-1.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/ui_toolbar-1.c -o CMakeFiles/game-of-life.dir/src/ui_toolbar-1.c.s
 
-CMakeFiles/game-of-life.dir/src/ui_toolbar2.c.o: CMakeFiles/game-of-life.dir/flags.make
-CMakeFiles/game-of-life.dir/src/ui_toolbar2.c.o: /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/ui_toolbar2.c
-CMakeFiles/game-of-life.dir/src/ui_toolbar2.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/Code/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_37) "Building C object CMakeFiles/game-of-life.dir/src/ui_toolbar2.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/ui_toolbar2.c.o -MF CMakeFiles/game-of-life.dir/src/ui_toolbar2.c.o.d -o CMakeFiles/game-of-life.dir/src/ui_toolbar2.c.o -c /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/ui_toolbar2.c
+CMakeFiles/game-of-life.dir/src/ui_toolbar-2.c.o: CMakeFiles/game-of-life.dir/flags.make
+CMakeFiles/game-of-life.dir/src/ui_toolbar-2.c.o: /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/ui_toolbar-2.c
+CMakeFiles/game-of-life.dir/src/ui_toolbar-2.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_37) "Building C object CMakeFiles/game-of-life.dir/src/ui_toolbar-2.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/ui_toolbar-2.c.o -MF CMakeFiles/game-of-life.dir/src/ui_toolbar-2.c.o.d -o CMakeFiles/game-of-life.dir/src/ui_toolbar-2.c.o -c /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/ui_toolbar-2.c
 
-CMakeFiles/game-of-life.dir/src/ui_toolbar2.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/ui_toolbar2.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/ui_toolbar2.c > CMakeFiles/game-of-life.dir/src/ui_toolbar2.c.i
+CMakeFiles/game-of-life.dir/src/ui_toolbar-2.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/ui_toolbar-2.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/ui_toolbar-2.c > CMakeFiles/game-of-life.dir/src/ui_toolbar-2.c.i
 
-CMakeFiles/game-of-life.dir/src/ui_toolbar2.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/ui_toolbar2.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/ui_toolbar2.c -o CMakeFiles/game-of-life.dir/src/ui_toolbar2.c.s
+CMakeFiles/game-of-life.dir/src/ui_toolbar-2.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/ui_toolbar-2.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/ui_toolbar-2.c -o CMakeFiles/game-of-life.dir/src/ui_toolbar-2.c.s
 
 CMakeFiles/game-of-life.dir/src/ui_hud.c.o: CMakeFiles/game-of-life.dir/flags.make
-CMakeFiles/game-of-life.dir/src/ui_hud.c.o: /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/ui_hud.c
+CMakeFiles/game-of-life.dir/src/ui_hud.c.o: /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/ui_hud.c
 CMakeFiles/game-of-life.dir/src/ui_hud.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/Code/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_38) "Building C object CMakeFiles/game-of-life.dir/src/ui_hud.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/ui_hud.c.o -MF CMakeFiles/game-of-life.dir/src/ui_hud.c.o.d -o CMakeFiles/game-of-life.dir/src/ui_hud.c.o -c /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/ui_hud.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_38) "Building C object CMakeFiles/game-of-life.dir/src/ui_hud.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/ui_hud.c.o -MF CMakeFiles/game-of-life.dir/src/ui_hud.c.o.d -o CMakeFiles/game-of-life.dir/src/ui_hud.c.o -c /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/ui_hud.c
 
 CMakeFiles/game-of-life.dir/src/ui_hud.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/ui_hud.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/ui_hud.c > CMakeFiles/game-of-life.dir/src/ui_hud.c.i
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/ui_hud.c > CMakeFiles/game-of-life.dir/src/ui_hud.c.i
 
 CMakeFiles/game-of-life.dir/src/ui_hud.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/ui_hud.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/ui_hud.c -o CMakeFiles/game-of-life.dir/src/ui_hud.c.s
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/ui_hud.c -o CMakeFiles/game-of-life.dir/src/ui_hud.c.s
 
-CMakeFiles/game-of-life.dir/src/ui_menu.c.o: CMakeFiles/game-of-life.dir/flags.make
-CMakeFiles/game-of-life.dir/src/ui_menu.c.o: /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/ui_menu.c
-CMakeFiles/game-of-life.dir/src/ui_menu.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/Code/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_39) "Building C object CMakeFiles/game-of-life.dir/src/ui_menu.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/ui_menu.c.o -MF CMakeFiles/game-of-life.dir/src/ui_menu.c.o.d -o CMakeFiles/game-of-life.dir/src/ui_menu.c.o -c /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/ui_menu.c
+CMakeFiles/game-of-life.dir/src/ui_menu-1.c.o: CMakeFiles/game-of-life.dir/flags.make
+CMakeFiles/game-of-life.dir/src/ui_menu-1.c.o: /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/ui_menu-1.c
+CMakeFiles/game-of-life.dir/src/ui_menu-1.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_39) "Building C object CMakeFiles/game-of-life.dir/src/ui_menu-1.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/ui_menu-1.c.o -MF CMakeFiles/game-of-life.dir/src/ui_menu-1.c.o.d -o CMakeFiles/game-of-life.dir/src/ui_menu-1.c.o -c /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/ui_menu-1.c
 
-CMakeFiles/game-of-life.dir/src/ui_menu.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/ui_menu.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/ui_menu.c > CMakeFiles/game-of-life.dir/src/ui_menu.c.i
+CMakeFiles/game-of-life.dir/src/ui_menu-1.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/ui_menu-1.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/ui_menu-1.c > CMakeFiles/game-of-life.dir/src/ui_menu-1.c.i
 
-CMakeFiles/game-of-life.dir/src/ui_menu.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/ui_menu.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/ui_menu.c -o CMakeFiles/game-of-life.dir/src/ui_menu.c.s
+CMakeFiles/game-of-life.dir/src/ui_menu-1.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/ui_menu-1.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/ui_menu-1.c -o CMakeFiles/game-of-life.dir/src/ui_menu-1.c.s
 
-CMakeFiles/game-of-life.dir/src/ui_menu2.c.o: CMakeFiles/game-of-life.dir/flags.make
-CMakeFiles/game-of-life.dir/src/ui_menu2.c.o: /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/ui_menu2.c
-CMakeFiles/game-of-life.dir/src/ui_menu2.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/Code/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_40) "Building C object CMakeFiles/game-of-life.dir/src/ui_menu2.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/ui_menu2.c.o -MF CMakeFiles/game-of-life.dir/src/ui_menu2.c.o.d -o CMakeFiles/game-of-life.dir/src/ui_menu2.c.o -c /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/ui_menu2.c
+CMakeFiles/game-of-life.dir/src/ui_menu-2.c.o: CMakeFiles/game-of-life.dir/flags.make
+CMakeFiles/game-of-life.dir/src/ui_menu-2.c.o: /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/ui_menu-2.c
+CMakeFiles/game-of-life.dir/src/ui_menu-2.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_40) "Building C object CMakeFiles/game-of-life.dir/src/ui_menu-2.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/ui_menu-2.c.o -MF CMakeFiles/game-of-life.dir/src/ui_menu-2.c.o.d -o CMakeFiles/game-of-life.dir/src/ui_menu-2.c.o -c /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/ui_menu-2.c
 
-CMakeFiles/game-of-life.dir/src/ui_menu2.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/ui_menu2.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/ui_menu2.c > CMakeFiles/game-of-life.dir/src/ui_menu2.c.i
+CMakeFiles/game-of-life.dir/src/ui_menu-2.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/ui_menu-2.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/ui_menu-2.c > CMakeFiles/game-of-life.dir/src/ui_menu-2.c.i
 
-CMakeFiles/game-of-life.dir/src/ui_menu2.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/ui_menu2.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/ui_menu2.c -o CMakeFiles/game-of-life.dir/src/ui_menu2.c.s
+CMakeFiles/game-of-life.dir/src/ui_menu-2.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/ui_menu-2.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/ui_menu-2.c -o CMakeFiles/game-of-life.dir/src/ui_menu-2.c.s
 
-CMakeFiles/game-of-life.dir/src/ui_keybinds.c.o: CMakeFiles/game-of-life.dir/flags.make
-CMakeFiles/game-of-life.dir/src/ui_keybinds.c.o: /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/ui_keybinds.c
-CMakeFiles/game-of-life.dir/src/ui_keybinds.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/Code/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_41) "Building C object CMakeFiles/game-of-life.dir/src/ui_keybinds.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/ui_keybinds.c.o -MF CMakeFiles/game-of-life.dir/src/ui_keybinds.c.o.d -o CMakeFiles/game-of-life.dir/src/ui_keybinds.c.o -c /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/ui_keybinds.c
+CMakeFiles/game-of-life.dir/src/ui_keybinds-1.c.o: CMakeFiles/game-of-life.dir/flags.make
+CMakeFiles/game-of-life.dir/src/ui_keybinds-1.c.o: /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/ui_keybinds-1.c
+CMakeFiles/game-of-life.dir/src/ui_keybinds-1.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_41) "Building C object CMakeFiles/game-of-life.dir/src/ui_keybinds-1.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/ui_keybinds-1.c.o -MF CMakeFiles/game-of-life.dir/src/ui_keybinds-1.c.o.d -o CMakeFiles/game-of-life.dir/src/ui_keybinds-1.c.o -c /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/ui_keybinds-1.c
 
-CMakeFiles/game-of-life.dir/src/ui_keybinds.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/ui_keybinds.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/ui_keybinds.c > CMakeFiles/game-of-life.dir/src/ui_keybinds.c.i
+CMakeFiles/game-of-life.dir/src/ui_keybinds-1.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/ui_keybinds-1.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/ui_keybinds-1.c > CMakeFiles/game-of-life.dir/src/ui_keybinds-1.c.i
 
-CMakeFiles/game-of-life.dir/src/ui_keybinds.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/ui_keybinds.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/ui_keybinds.c -o CMakeFiles/game-of-life.dir/src/ui_keybinds.c.s
+CMakeFiles/game-of-life.dir/src/ui_keybinds-1.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/ui_keybinds-1.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/ui_keybinds-1.c -o CMakeFiles/game-of-life.dir/src/ui_keybinds-1.c.s
 
-CMakeFiles/game-of-life.dir/src/ui_keybinds2.c.o: CMakeFiles/game-of-life.dir/flags.make
-CMakeFiles/game-of-life.dir/src/ui_keybinds2.c.o: /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/ui_keybinds2.c
-CMakeFiles/game-of-life.dir/src/ui_keybinds2.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/Code/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_42) "Building C object CMakeFiles/game-of-life.dir/src/ui_keybinds2.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/ui_keybinds2.c.o -MF CMakeFiles/game-of-life.dir/src/ui_keybinds2.c.o.d -o CMakeFiles/game-of-life.dir/src/ui_keybinds2.c.o -c /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/ui_keybinds2.c
+CMakeFiles/game-of-life.dir/src/ui_keybinds-2.c.o: CMakeFiles/game-of-life.dir/flags.make
+CMakeFiles/game-of-life.dir/src/ui_keybinds-2.c.o: /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/ui_keybinds-2.c
+CMakeFiles/game-of-life.dir/src/ui_keybinds-2.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_42) "Building C object CMakeFiles/game-of-life.dir/src/ui_keybinds-2.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/ui_keybinds-2.c.o -MF CMakeFiles/game-of-life.dir/src/ui_keybinds-2.c.o.d -o CMakeFiles/game-of-life.dir/src/ui_keybinds-2.c.o -c /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/ui_keybinds-2.c
 
-CMakeFiles/game-of-life.dir/src/ui_keybinds2.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/ui_keybinds2.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/ui_keybinds2.c > CMakeFiles/game-of-life.dir/src/ui_keybinds2.c.i
+CMakeFiles/game-of-life.dir/src/ui_keybinds-2.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/ui_keybinds-2.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/ui_keybinds-2.c > CMakeFiles/game-of-life.dir/src/ui_keybinds-2.c.i
 
-CMakeFiles/game-of-life.dir/src/ui_keybinds2.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/ui_keybinds2.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/ui_keybinds2.c -o CMakeFiles/game-of-life.dir/src/ui_keybinds2.c.s
+CMakeFiles/game-of-life.dir/src/ui_keybinds-2.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/ui_keybinds-2.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/ui_keybinds-2.c -o CMakeFiles/game-of-life.dir/src/ui_keybinds-2.c.s
 
-CMakeFiles/game-of-life.dir/src/ui_keybinds3.c.o: CMakeFiles/game-of-life.dir/flags.make
-CMakeFiles/game-of-life.dir/src/ui_keybinds3.c.o: /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/ui_keybinds3.c
-CMakeFiles/game-of-life.dir/src/ui_keybinds3.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/Code/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_43) "Building C object CMakeFiles/game-of-life.dir/src/ui_keybinds3.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/ui_keybinds3.c.o -MF CMakeFiles/game-of-life.dir/src/ui_keybinds3.c.o.d -o CMakeFiles/game-of-life.dir/src/ui_keybinds3.c.o -c /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/ui_keybinds3.c
+CMakeFiles/game-of-life.dir/src/ui_keybinds-3.c.o: CMakeFiles/game-of-life.dir/flags.make
+CMakeFiles/game-of-life.dir/src/ui_keybinds-3.c.o: /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/ui_keybinds-3.c
+CMakeFiles/game-of-life.dir/src/ui_keybinds-3.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_43) "Building C object CMakeFiles/game-of-life.dir/src/ui_keybinds-3.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/ui_keybinds-3.c.o -MF CMakeFiles/game-of-life.dir/src/ui_keybinds-3.c.o.d -o CMakeFiles/game-of-life.dir/src/ui_keybinds-3.c.o -c /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/ui_keybinds-3.c
 
-CMakeFiles/game-of-life.dir/src/ui_keybinds3.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/ui_keybinds3.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/ui_keybinds3.c > CMakeFiles/game-of-life.dir/src/ui_keybinds3.c.i
+CMakeFiles/game-of-life.dir/src/ui_keybinds-3.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/ui_keybinds-3.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/ui_keybinds-3.c > CMakeFiles/game-of-life.dir/src/ui_keybinds-3.c.i
 
-CMakeFiles/game-of-life.dir/src/ui_keybinds3.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/ui_keybinds3.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/ui_keybinds3.c -o CMakeFiles/game-of-life.dir/src/ui_keybinds3.c.s
+CMakeFiles/game-of-life.dir/src/ui_keybinds-3.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/ui_keybinds-3.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/ui_keybinds-3.c -o CMakeFiles/game-of-life.dir/src/ui_keybinds-3.c.s
 
-CMakeFiles/game-of-life.dir/src/ui_savezone.c.o: CMakeFiles/game-of-life.dir/flags.make
-CMakeFiles/game-of-life.dir/src/ui_savezone.c.o: /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/ui_savezone.c
-CMakeFiles/game-of-life.dir/src/ui_savezone.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/Code/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_44) "Building C object CMakeFiles/game-of-life.dir/src/ui_savezone.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/ui_savezone.c.o -MF CMakeFiles/game-of-life.dir/src/ui_savezone.c.o.d -o CMakeFiles/game-of-life.dir/src/ui_savezone.c.o -c /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/ui_savezone.c
+CMakeFiles/game-of-life.dir/src/ui_savezone-1.c.o: CMakeFiles/game-of-life.dir/flags.make
+CMakeFiles/game-of-life.dir/src/ui_savezone-1.c.o: /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/ui_savezone-1.c
+CMakeFiles/game-of-life.dir/src/ui_savezone-1.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_44) "Building C object CMakeFiles/game-of-life.dir/src/ui_savezone-1.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/ui_savezone-1.c.o -MF CMakeFiles/game-of-life.dir/src/ui_savezone-1.c.o.d -o CMakeFiles/game-of-life.dir/src/ui_savezone-1.c.o -c /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/ui_savezone-1.c
 
-CMakeFiles/game-of-life.dir/src/ui_savezone.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/ui_savezone.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/ui_savezone.c > CMakeFiles/game-of-life.dir/src/ui_savezone.c.i
+CMakeFiles/game-of-life.dir/src/ui_savezone-1.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/ui_savezone-1.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/ui_savezone-1.c > CMakeFiles/game-of-life.dir/src/ui_savezone-1.c.i
 
-CMakeFiles/game-of-life.dir/src/ui_savezone.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/ui_savezone.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/ui_savezone.c -o CMakeFiles/game-of-life.dir/src/ui_savezone.c.s
+CMakeFiles/game-of-life.dir/src/ui_savezone-1.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/ui_savezone-1.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/ui_savezone-1.c -o CMakeFiles/game-of-life.dir/src/ui_savezone-1.c.s
 
-CMakeFiles/game-of-life.dir/src/ui_savezone2.c.o: CMakeFiles/game-of-life.dir/flags.make
-CMakeFiles/game-of-life.dir/src/ui_savezone2.c.o: /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/ui_savezone2.c
-CMakeFiles/game-of-life.dir/src/ui_savezone2.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/Code/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_45) "Building C object CMakeFiles/game-of-life.dir/src/ui_savezone2.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/ui_savezone2.c.o -MF CMakeFiles/game-of-life.dir/src/ui_savezone2.c.o.d -o CMakeFiles/game-of-life.dir/src/ui_savezone2.c.o -c /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/ui_savezone2.c
+CMakeFiles/game-of-life.dir/src/ui_savezone-2.c.o: CMakeFiles/game-of-life.dir/flags.make
+CMakeFiles/game-of-life.dir/src/ui_savezone-2.c.o: /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/ui_savezone-2.c
+CMakeFiles/game-of-life.dir/src/ui_savezone-2.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_45) "Building C object CMakeFiles/game-of-life.dir/src/ui_savezone-2.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/ui_savezone-2.c.o -MF CMakeFiles/game-of-life.dir/src/ui_savezone-2.c.o.d -o CMakeFiles/game-of-life.dir/src/ui_savezone-2.c.o -c /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/ui_savezone-2.c
 
-CMakeFiles/game-of-life.dir/src/ui_savezone2.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/ui_savezone2.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/ui_savezone2.c > CMakeFiles/game-of-life.dir/src/ui_savezone2.c.i
+CMakeFiles/game-of-life.dir/src/ui_savezone-2.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/ui_savezone-2.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/ui_savezone-2.c > CMakeFiles/game-of-life.dir/src/ui_savezone-2.c.i
 
-CMakeFiles/game-of-life.dir/src/ui_savezone2.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/ui_savezone2.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/ui_savezone2.c -o CMakeFiles/game-of-life.dir/src/ui_savezone2.c.s
+CMakeFiles/game-of-life.dir/src/ui_savezone-2.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/ui_savezone-2.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/ui_savezone-2.c -o CMakeFiles/game-of-life.dir/src/ui_savezone-2.c.s
 
-CMakeFiles/game-of-life.dir/src/ui_browser.c.o: CMakeFiles/game-of-life.dir/flags.make
-CMakeFiles/game-of-life.dir/src/ui_browser.c.o: /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/ui_browser.c
-CMakeFiles/game-of-life.dir/src/ui_browser.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/Code/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_46) "Building C object CMakeFiles/game-of-life.dir/src/ui_browser.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/ui_browser.c.o -MF CMakeFiles/game-of-life.dir/src/ui_browser.c.o.d -o CMakeFiles/game-of-life.dir/src/ui_browser.c.o -c /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/ui_browser.c
+CMakeFiles/game-of-life.dir/src/ui_browser-1.c.o: CMakeFiles/game-of-life.dir/flags.make
+CMakeFiles/game-of-life.dir/src/ui_browser-1.c.o: /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/ui_browser-1.c
+CMakeFiles/game-of-life.dir/src/ui_browser-1.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_46) "Building C object CMakeFiles/game-of-life.dir/src/ui_browser-1.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/ui_browser-1.c.o -MF CMakeFiles/game-of-life.dir/src/ui_browser-1.c.o.d -o CMakeFiles/game-of-life.dir/src/ui_browser-1.c.o -c /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/ui_browser-1.c
 
-CMakeFiles/game-of-life.dir/src/ui_browser.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/ui_browser.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/ui_browser.c > CMakeFiles/game-of-life.dir/src/ui_browser.c.i
+CMakeFiles/game-of-life.dir/src/ui_browser-1.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/ui_browser-1.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/ui_browser-1.c > CMakeFiles/game-of-life.dir/src/ui_browser-1.c.i
 
-CMakeFiles/game-of-life.dir/src/ui_browser.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/ui_browser.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/ui_browser.c -o CMakeFiles/game-of-life.dir/src/ui_browser.c.s
+CMakeFiles/game-of-life.dir/src/ui_browser-1.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/ui_browser-1.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/ui_browser-1.c -o CMakeFiles/game-of-life.dir/src/ui_browser-1.c.s
 
-CMakeFiles/game-of-life.dir/src/ui_browser2.c.o: CMakeFiles/game-of-life.dir/flags.make
-CMakeFiles/game-of-life.dir/src/ui_browser2.c.o: /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/ui_browser2.c
-CMakeFiles/game-of-life.dir/src/ui_browser2.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/Code/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_47) "Building C object CMakeFiles/game-of-life.dir/src/ui_browser2.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/ui_browser2.c.o -MF CMakeFiles/game-of-life.dir/src/ui_browser2.c.o.d -o CMakeFiles/game-of-life.dir/src/ui_browser2.c.o -c /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/ui_browser2.c
+CMakeFiles/game-of-life.dir/src/ui_browser-2.c.o: CMakeFiles/game-of-life.dir/flags.make
+CMakeFiles/game-of-life.dir/src/ui_browser-2.c.o: /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/ui_browser-2.c
+CMakeFiles/game-of-life.dir/src/ui_browser-2.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_47) "Building C object CMakeFiles/game-of-life.dir/src/ui_browser-2.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/ui_browser-2.c.o -MF CMakeFiles/game-of-life.dir/src/ui_browser-2.c.o.d -o CMakeFiles/game-of-life.dir/src/ui_browser-2.c.o -c /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/ui_browser-2.c
 
-CMakeFiles/game-of-life.dir/src/ui_browser2.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/ui_browser2.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/ui_browser2.c > CMakeFiles/game-of-life.dir/src/ui_browser2.c.i
+CMakeFiles/game-of-life.dir/src/ui_browser-2.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/ui_browser-2.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/ui_browser-2.c > CMakeFiles/game-of-life.dir/src/ui_browser-2.c.i
 
-CMakeFiles/game-of-life.dir/src/ui_browser2.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/ui_browser2.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/ui_browser2.c -o CMakeFiles/game-of-life.dir/src/ui_browser2.c.s
+CMakeFiles/game-of-life.dir/src/ui_browser-2.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/ui_browser-2.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/ui_browser-2.c -o CMakeFiles/game-of-life.dir/src/ui_browser-2.c.s
 
 CMakeFiles/game-of-life.dir/src/ui_random.c.o: CMakeFiles/game-of-life.dir/flags.make
-CMakeFiles/game-of-life.dir/src/ui_random.c.o: /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/ui_random.c
+CMakeFiles/game-of-life.dir/src/ui_random.c.o: /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/ui_random.c
 CMakeFiles/game-of-life.dir/src/ui_random.c.o: CMakeFiles/game-of-life.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/Code/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_48) "Building C object CMakeFiles/game-of-life.dir/src/ui_random.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/ui_random.c.o -MF CMakeFiles/game-of-life.dir/src/ui_random.c.o.d -o CMakeFiles/game-of-life.dir/src/ui_random.c.o -c /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/ui_random.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_48) "Building C object CMakeFiles/game-of-life.dir/src/ui_random.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game-of-life.dir/src/ui_random.c.o -MF CMakeFiles/game-of-life.dir/src/ui_random.c.o.d -o CMakeFiles/game-of-life.dir/src/ui_random.c.o -c /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/ui_random.c
 
 CMakeFiles/game-of-life.dir/src/ui_random.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game-of-life.dir/src/ui_random.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/ui_random.c > CMakeFiles/game-of-life.dir/src/ui_random.c.i
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/ui_random.c > CMakeFiles/game-of-life.dir/src/ui_random.c.i
 
 CMakeFiles/game-of-life.dir/src/ui_random.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game-of-life.dir/src/ui_random.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/Code/Programation/Projet-C/game-of-life/src/ui_random.c -o CMakeFiles/game-of-life.dir/src/ui_random.c.s
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /media/le-glitch/CODE/Programation/Projet-C/game-of-life/src/ui_random.c -o CMakeFiles/game-of-life.dir/src/ui_random.c.s
 
 # Object files for target game-of-life
 game__of__life_OBJECTS = \
 "CMakeFiles/game-of-life.dir/src/main.c.o" \
 "CMakeFiles/game-of-life.dir/src/app_init.c.o" \
 "CMakeFiles/game-of-life.dir/src/app_undo.c.o" \
-"CMakeFiles/game-of-life.dir/src/app_map.c.o" \
-"CMakeFiles/game-of-life.dir/src/app_map2.c.o" \
-"CMakeFiles/game-of-life.dir/src/app_input.c.o" \
-"CMakeFiles/game-of-life.dir/src/app_input7.c.o" \
-"CMakeFiles/game-of-life.dir/src/app_input2.c.o" \
-"CMakeFiles/game-of-life.dir/src/app_input3.c.o" \
-"CMakeFiles/game-of-life.dir/src/app_input8.c.o" \
-"CMakeFiles/game-of-life.dir/src/app_input4.c.o" \
-"CMakeFiles/game-of-life.dir/src/app_input5.c.o" \
-"CMakeFiles/game-of-life.dir/src/app_input6.c.o" \
-"CMakeFiles/game-of-life.dir/src/app_draw.c.o" \
-"CMakeFiles/game-of-life.dir/src/app_draw2.c.o" \
-"CMakeFiles/game-of-life.dir/src/app_draw3.c.o" \
-"CMakeFiles/game-of-life.dir/src/app_screens.c.o" \
-"CMakeFiles/game-of-life.dir/src/app_screens2.c.o" \
-"CMakeFiles/game-of-life.dir/src/app_screens3.c.o" \
-"CMakeFiles/game-of-life.dir/src/app_screens4.c.o" \
-"CMakeFiles/game-of-life.dir/src/app_screens5.c.o" \
-"CMakeFiles/game-of-life.dir/src/chunk_map.c.o" \
-"CMakeFiles/game-of-life.dir/src/chunk_map2.c.o" \
-"CMakeFiles/game-of-life.dir/src/chunk_map3.c.o" \
-"CMakeFiles/game-of-life.dir/src/chunk_map4.c.o" \
+"CMakeFiles/game-of-life.dir/src/app_map-1.c.o" \
+"CMakeFiles/game-of-life.dir/src/app_map-2.c.o" \
+"CMakeFiles/game-of-life.dir/src/app_input-1.c.o" \
+"CMakeFiles/game-of-life.dir/src/app_input-7.c.o" \
+"CMakeFiles/game-of-life.dir/src/app_input-2.c.o" \
+"CMakeFiles/game-of-life.dir/src/app_input-3.c.o" \
+"CMakeFiles/game-of-life.dir/src/app_input-8.c.o" \
+"CMakeFiles/game-of-life.dir/src/app_input-4.c.o" \
+"CMakeFiles/game-of-life.dir/src/app_input-5.c.o" \
+"CMakeFiles/game-of-life.dir/src/app_input-6.c.o" \
+"CMakeFiles/game-of-life.dir/src/app_draw-1.c.o" \
+"CMakeFiles/game-of-life.dir/src/app_draw-2.c.o" \
+"CMakeFiles/game-of-life.dir/src/app_draw-3.c.o" \
+"CMakeFiles/game-of-life.dir/src/app_screens-1.c.o" \
+"CMakeFiles/game-of-life.dir/src/app_screens-2.c.o" \
+"CMakeFiles/game-of-life.dir/src/app_screens-3.c.o" \
+"CMakeFiles/game-of-life.dir/src/app_screens-4.c.o" \
+"CMakeFiles/game-of-life.dir/src/app_screens-5.c.o" \
+"CMakeFiles/game-of-life.dir/src/chunk_map-1.c.o" \
+"CMakeFiles/game-of-life.dir/src/chunk_map-2.c.o" \
+"CMakeFiles/game-of-life.dir/src/chunk_map-3.c.o" \
+"CMakeFiles/game-of-life.dir/src/chunk_map-4.c.o" \
 "CMakeFiles/game-of-life.dir/src/simulation.c.o" \
-"CMakeFiles/game-of-life.dir/src/save.c.o" \
-"CMakeFiles/game-of-life.dir/src/save2.c.o" \
-"CMakeFiles/game-of-life.dir/src/save3.c.o" \
+"CMakeFiles/game-of-life.dir/src/save-1.c.o" \
+"CMakeFiles/game-of-life.dir/src/save-2.c.o" \
+"CMakeFiles/game-of-life.dir/src/save-3.c.o" \
 "CMakeFiles/game-of-life.dir/src/ui.c.o" \
-"CMakeFiles/game-of-life.dir/src/ui_icons.c.o" \
-"CMakeFiles/game-of-life.dir/src/ui_icons2.c.o" \
-"CMakeFiles/game-of-life.dir/src/ui_icons3.c.o" \
-"CMakeFiles/game-of-life.dir/src/ui_icons5.c.o" \
-"CMakeFiles/game-of-life.dir/src/ui_icons4.c.o" \
-"CMakeFiles/game-of-life.dir/src/ui_toolbar.c.o" \
-"CMakeFiles/game-of-life.dir/src/ui_toolbar2.c.o" \
+"CMakeFiles/game-of-life.dir/src/ui_icons-1.c.o" \
+"CMakeFiles/game-of-life.dir/src/ui_icons-2.c.o" \
+"CMakeFiles/game-of-life.dir/src/ui_icons-3.c.o" \
+"CMakeFiles/game-of-life.dir/src/ui_icons-5.c.o" \
+"CMakeFiles/game-of-life.dir/src/ui_icons-4.c.o" \
+"CMakeFiles/game-of-life.dir/src/ui_toolbar-1.c.o" \
+"CMakeFiles/game-of-life.dir/src/ui_toolbar-2.c.o" \
 "CMakeFiles/game-of-life.dir/src/ui_hud.c.o" \
-"CMakeFiles/game-of-life.dir/src/ui_menu.c.o" \
-"CMakeFiles/game-of-life.dir/src/ui_menu2.c.o" \
-"CMakeFiles/game-of-life.dir/src/ui_keybinds.c.o" \
-"CMakeFiles/game-of-life.dir/src/ui_keybinds2.c.o" \
-"CMakeFiles/game-of-life.dir/src/ui_keybinds3.c.o" \
-"CMakeFiles/game-of-life.dir/src/ui_savezone.c.o" \
-"CMakeFiles/game-of-life.dir/src/ui_savezone2.c.o" \
-"CMakeFiles/game-of-life.dir/src/ui_browser.c.o" \
-"CMakeFiles/game-of-life.dir/src/ui_browser2.c.o" \
+"CMakeFiles/game-of-life.dir/src/ui_menu-1.c.o" \
+"CMakeFiles/game-of-life.dir/src/ui_menu-2.c.o" \
+"CMakeFiles/game-of-life.dir/src/ui_keybinds-1.c.o" \
+"CMakeFiles/game-of-life.dir/src/ui_keybinds-2.c.o" \
+"CMakeFiles/game-of-life.dir/src/ui_keybinds-3.c.o" \
+"CMakeFiles/game-of-life.dir/src/ui_savezone-1.c.o" \
+"CMakeFiles/game-of-life.dir/src/ui_savezone-2.c.o" \
+"CMakeFiles/game-of-life.dir/src/ui_browser-1.c.o" \
+"CMakeFiles/game-of-life.dir/src/ui_browser-2.c.o" \
 "CMakeFiles/game-of-life.dir/src/ui_random.c.o"
 
 # External object files for target game-of-life
 game__of__life_EXTERNAL_OBJECTS =
 
-/media/le-glitch/Code/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/main.c.o
-/media/le-glitch/Code/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/app_init.c.o
-/media/le-glitch/Code/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/app_undo.c.o
-/media/le-glitch/Code/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/app_map.c.o
-/media/le-glitch/Code/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/app_map2.c.o
-/media/le-glitch/Code/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/app_input.c.o
-/media/le-glitch/Code/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/app_input7.c.o
-/media/le-glitch/Code/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/app_input2.c.o
-/media/le-glitch/Code/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/app_input3.c.o
-/media/le-glitch/Code/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/app_input8.c.o
-/media/le-glitch/Code/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/app_input4.c.o
-/media/le-glitch/Code/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/app_input5.c.o
-/media/le-glitch/Code/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/app_input6.c.o
-/media/le-glitch/Code/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/app_draw.c.o
-/media/le-glitch/Code/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/app_draw2.c.o
-/media/le-glitch/Code/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/app_draw3.c.o
-/media/le-glitch/Code/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/app_screens.c.o
-/media/le-glitch/Code/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/app_screens2.c.o
-/media/le-glitch/Code/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/app_screens3.c.o
-/media/le-glitch/Code/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/app_screens4.c.o
-/media/le-glitch/Code/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/app_screens5.c.o
-/media/le-glitch/Code/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/chunk_map.c.o
-/media/le-glitch/Code/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/chunk_map2.c.o
-/media/le-glitch/Code/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/chunk_map3.c.o
-/media/le-glitch/Code/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/chunk_map4.c.o
-/media/le-glitch/Code/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/simulation.c.o
-/media/le-glitch/Code/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/save.c.o
-/media/le-glitch/Code/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/save2.c.o
-/media/le-glitch/Code/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/save3.c.o
-/media/le-glitch/Code/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/ui.c.o
-/media/le-glitch/Code/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/ui_icons.c.o
-/media/le-glitch/Code/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/ui_icons2.c.o
-/media/le-glitch/Code/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/ui_icons3.c.o
-/media/le-glitch/Code/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/ui_icons5.c.o
-/media/le-glitch/Code/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/ui_icons4.c.o
-/media/le-glitch/Code/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/ui_toolbar.c.o
-/media/le-glitch/Code/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/ui_toolbar2.c.o
-/media/le-glitch/Code/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/ui_hud.c.o
-/media/le-glitch/Code/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/ui_menu.c.o
-/media/le-glitch/Code/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/ui_menu2.c.o
-/media/le-glitch/Code/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/ui_keybinds.c.o
-/media/le-glitch/Code/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/ui_keybinds2.c.o
-/media/le-glitch/Code/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/ui_keybinds3.c.o
-/media/le-glitch/Code/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/ui_savezone.c.o
-/media/le-glitch/Code/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/ui_savezone2.c.o
-/media/le-glitch/Code/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/ui_browser.c.o
-/media/le-glitch/Code/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/ui_browser2.c.o
-/media/le-glitch/Code/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/ui_random.c.o
-/media/le-glitch/Code/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/build.make
-/media/le-glitch/Code/Programation/Projet-C/game-of-life/game-of-life: _deps/raylib-build/raylib/libraylib.a
-/media/le-glitch/Code/Programation/Projet-C/game-of-life/game-of-life: /usr/lib/x86_64-linux-gnu/libOpenGL.so
-/media/le-glitch/Code/Programation/Projet-C/game-of-life/game-of-life: /usr/lib/x86_64-linux-gnu/libGLX.so
-/media/le-glitch/Code/Programation/Projet-C/game-of-life/game-of-life: /usr/lib/x86_64-linux-gnu/libGLU.so
-/media/le-glitch/Code/Programation/Projet-C/game-of-life/game-of-life: _deps/raylib-build/raylib/external/glfw/src/libglfw3.a
-/media/le-glitch/Code/Programation/Projet-C/game-of-life/game-of-life: /usr/lib/x86_64-linux-gnu/librt.a
-/media/le-glitch/Code/Programation/Projet-C/game-of-life/game-of-life: /usr/lib/x86_64-linux-gnu/libm.so
-/media/le-glitch/Code/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/media/le-glitch/Code/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_49) "Linking C executable /media/le-glitch/Code/Programation/Projet-C/game-of-life/game-of-life"
+/media/le-glitch/CODE/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/main.c.o
+/media/le-glitch/CODE/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/app_init.c.o
+/media/le-glitch/CODE/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/app_undo.c.o
+/media/le-glitch/CODE/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/app_map-1.c.o
+/media/le-glitch/CODE/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/app_map-2.c.o
+/media/le-glitch/CODE/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/app_input-1.c.o
+/media/le-glitch/CODE/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/app_input-7.c.o
+/media/le-glitch/CODE/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/app_input-2.c.o
+/media/le-glitch/CODE/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/app_input-3.c.o
+/media/le-glitch/CODE/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/app_input-8.c.o
+/media/le-glitch/CODE/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/app_input-4.c.o
+/media/le-glitch/CODE/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/app_input-5.c.o
+/media/le-glitch/CODE/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/app_input-6.c.o
+/media/le-glitch/CODE/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/app_draw-1.c.o
+/media/le-glitch/CODE/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/app_draw-2.c.o
+/media/le-glitch/CODE/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/app_draw-3.c.o
+/media/le-glitch/CODE/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/app_screens-1.c.o
+/media/le-glitch/CODE/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/app_screens-2.c.o
+/media/le-glitch/CODE/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/app_screens-3.c.o
+/media/le-glitch/CODE/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/app_screens-4.c.o
+/media/le-glitch/CODE/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/app_screens-5.c.o
+/media/le-glitch/CODE/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/chunk_map-1.c.o
+/media/le-glitch/CODE/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/chunk_map-2.c.o
+/media/le-glitch/CODE/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/chunk_map-3.c.o
+/media/le-glitch/CODE/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/chunk_map-4.c.o
+/media/le-glitch/CODE/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/simulation.c.o
+/media/le-glitch/CODE/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/save-1.c.o
+/media/le-glitch/CODE/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/save-2.c.o
+/media/le-glitch/CODE/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/save-3.c.o
+/media/le-glitch/CODE/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/ui.c.o
+/media/le-glitch/CODE/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/ui_icons-1.c.o
+/media/le-glitch/CODE/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/ui_icons-2.c.o
+/media/le-glitch/CODE/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/ui_icons-3.c.o
+/media/le-glitch/CODE/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/ui_icons-5.c.o
+/media/le-glitch/CODE/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/ui_icons-4.c.o
+/media/le-glitch/CODE/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/ui_toolbar-1.c.o
+/media/le-glitch/CODE/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/ui_toolbar-2.c.o
+/media/le-glitch/CODE/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/ui_hud.c.o
+/media/le-glitch/CODE/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/ui_menu-1.c.o
+/media/le-glitch/CODE/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/ui_menu-2.c.o
+/media/le-glitch/CODE/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/ui_keybinds-1.c.o
+/media/le-glitch/CODE/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/ui_keybinds-2.c.o
+/media/le-glitch/CODE/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/ui_keybinds-3.c.o
+/media/le-glitch/CODE/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/ui_savezone-1.c.o
+/media/le-glitch/CODE/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/ui_savezone-2.c.o
+/media/le-glitch/CODE/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/ui_browser-1.c.o
+/media/le-glitch/CODE/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/ui_browser-2.c.o
+/media/le-glitch/CODE/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/src/ui_random.c.o
+/media/le-glitch/CODE/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/build.make
+/media/le-glitch/CODE/Programation/Projet-C/game-of-life/game-of-life: _deps/raylib-build/raylib/libraylib.a
+/media/le-glitch/CODE/Programation/Projet-C/game-of-life/game-of-life: /usr/lib/x86_64-linux-gnu/libOpenGL.so
+/media/le-glitch/CODE/Programation/Projet-C/game-of-life/game-of-life: /usr/lib/x86_64-linux-gnu/libGLX.so
+/media/le-glitch/CODE/Programation/Projet-C/game-of-life/game-of-life: /usr/lib/x86_64-linux-gnu/libGLU.so
+/media/le-glitch/CODE/Programation/Projet-C/game-of-life/game-of-life: _deps/raylib-build/raylib/external/glfw/src/libglfw3.a
+/media/le-glitch/CODE/Programation/Projet-C/game-of-life/game-of-life: /usr/lib/x86_64-linux-gnu/librt.a
+/media/le-glitch/CODE/Programation/Projet-C/game-of-life/game-of-life: /usr/lib/x86_64-linux-gnu/libm.so
+/media/le-glitch/CODE/Programation/Projet-C/game-of-life/game-of-life: CMakeFiles/game-of-life.dir/link.txt
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_49) "Linking C executable /media/le-glitch/CODE/Programation/Projet-C/game-of-life/game-of-life"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/game-of-life.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
-CMakeFiles/game-of-life.dir/build: /media/le-glitch/Code/Programation/Projet-C/game-of-life/game-of-life
+CMakeFiles/game-of-life.dir/build: /media/le-glitch/CODE/Programation/Projet-C/game-of-life/game-of-life
 .PHONY : CMakeFiles/game-of-life.dir/build
 
 CMakeFiles/game-of-life.dir/clean:
@@ -864,6 +864,6 @@ CMakeFiles/game-of-life.dir/clean:
 .PHONY : CMakeFiles/game-of-life.dir/clean
 
 CMakeFiles/game-of-life.dir/depend:
-	cd /media/le-glitch/Code/Programation/Projet-C/game-of-life/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /media/le-glitch/Code/Programation/Projet-C/game-of-life /media/le-glitch/Code/Programation/Projet-C/game-of-life /media/le-glitch/Code/Programation/Projet-C/game-of-life/build /media/le-glitch/Code/Programation/Projet-C/game-of-life/build /media/le-glitch/Code/Programation/Projet-C/game-of-life/build/CMakeFiles/game-of-life.dir/DependInfo.cmake "--color=$(COLOR)"
+	cd /media/le-glitch/CODE/Programation/Projet-C/game-of-life/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /media/le-glitch/CODE/Programation/Projet-C/game-of-life /media/le-glitch/CODE/Programation/Projet-C/game-of-life /media/le-glitch/CODE/Programation/Projet-C/game-of-life/build /media/le-glitch/CODE/Programation/Projet-C/game-of-life/build /media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/CMakeFiles/game-of-life.dir/DependInfo.cmake "--color=$(COLOR)"
 .PHONY : CMakeFiles/game-of-life.dir/depend
 

@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/17 07:26:12 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/17 07:26:13 by le-glitch        ###   ########.fr       */
+/*   Created: 2026/06/21 23:01:58 by le-glitch         #+#    #+#             */
+/*   Updated: 2026/06/21 23:03:20 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,12 +74,12 @@ typedef enum e_ui_action
 typedef struct s_hud_info
 {
 	int				generation;
-	bool				running;
-	float				speed;
+	bool			running;
+	float			speed;
 	int				alive_count;
 	int				gx;
 	int				gy;
-	const int			*pop_history;
+	const int		*pop_history;
 	int				pop_count;
 	int				pop_max;
 }	t_hud_info;
@@ -87,8 +87,8 @@ typedef struct s_hud_info
 t_ui_action		ui_draw_toolbar(bool running, float *speed, int theme_idx);
 t_ui_action		toolbar_center_btn(int *x, int pad, int bsz);
 void			ui_draw_hud(int generation, bool running, float speed,
-			int alive_count, int gx, int gy,
-			const int *pop_history, int pop_count, int pop_max);
+					int alive_count, int gx, int gy,
+					const int *pop_history, int pop_count, int pop_max);
 
 /*
 ** Actions du menu principal.
@@ -125,7 +125,7 @@ typedef struct s_save_zone_state
 
 void			sz_name_edit(t_save_zone_state *sz);
 bool			ui_draw_save_zone(t_save_zone_state *sz, t_camera2d_gol cam,
-			char *out_path, int path_len);
+					char *out_path, int path_len);
 
 bool			ui_draw_load_browser(char *out_path, int path_len);
 
@@ -188,7 +188,7 @@ t_ui_action		toolbar_tools(int *x, int pad, int bsz);
 /* ui_menu.c */
 void			credits_init(t_credit_line *lines);
 void			credits_draw_lines(t_credit_line *lines, int n,
-				Rectangle p, int pw);
+					Rectangle p, int pw);
 
 /* ui_keybinds.c */
 int				*kb_field(t_key_config *cfg, int offset);
@@ -199,10 +199,11 @@ const char		*kname_fn(int k, char *buf);
 
 /* ui_keybinds2.c */
 void			kb_draw_sep(int list_x, int list_w, int cy,
-			const t_kb_entry *e, int rh_sep);
+					const t_kb_entry *e, int rh_sep);
 void			kb_draw_row(int list_x, int list_w, int cy, int i,
-			int wait_idx, t_key_config *cfg);
-int				kb_scroll(Rectangle panel, int scroll_px, int total_h, int list_h);
+					int wait_idx, t_key_config *cfg);
+int				kb_scroll(Rectangle panel, int scroll_px,
+					int total_h, int list_h);
 int				kb_capture(t_key_config *cfg, int wait_idx);
 
 /* ui_savezone.c */

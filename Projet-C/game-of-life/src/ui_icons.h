@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/17 07:04:12 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/17 07:04:17 by le-glitch        ###   ########.fr       */
+/*   Created: 2026/06/21 23:03:51 by le-glitch         #+#    #+#             */
+/*   Updated: 2026/06/21 23:03:54 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void		icon_copy(float cx, float cy, float r, Color c);
 void		icon_clear_zone(float cx, float cy, float r, Color c);
 void		icon_paste(float cx, float cy, float r, Color c);
 
-t_btn_state		icon_button(Rectangle rect, t_icon_draw draw_fn,
+t_btn_state	icon_button(Rectangle rect, t_icon_draw draw_fn,
 				const char *tooltip, bool active);
 
 #endif

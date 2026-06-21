@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/17 07:06:49 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/17 07:06:53 by le-glitch        ###   ########.fr       */
+/*   Created: 2026/06/21 23:03:01 by le-glitch         #+#    #+#             */
+/*   Updated: 2026/06/21 23:03:20 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,10 @@
 # define MAP_SIZE 4096
 # define MAP_MASK 4095
 
+/*
+** Hashmap ouverte avec chainage par liste chainee.
+** Chaque bucket pointe sur une liste de chunks alloues dynamiquement.
+*/
 typedef struct s_chunk_node
 {
 	t_chunk				chunk;
@@ -44,8 +48,8 @@ int				map_alive_count(const t_chunk_map *m);
 int				get_cell_global(const t_chunk_map *m, int x, int y);
 void			set_cell_global(t_chunk_map *m, int x, int y, int v);
 
-t_chunk_node		*map_first(const t_chunk_map *m, int *bucket_idx);
-t_chunk_node		*map_next(const t_chunk_map *m, int *bucket_idx,
+t_chunk_node	*map_first(const t_chunk_map *m, int *bucket_idx);
+t_chunk_node	*map_next(const t_chunk_map *m, int *bucket_idx,
 					t_chunk_node *current);
 
 void			map_copy(t_chunk_map *dst, const t_chunk_map *src);
