@@ -1,3 +1,0 @@
-/media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/_deps/raylib-subbuild/CMakeFiles/raylib-populate.dir
-/media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/_deps/raylib-subbuild/CMakeFiles/edit_cache.dir
-/media/le-glitch/CODE/Programation/Projet-C/game-of-life/build/_deps/raylib-subbuild/CMakeFiles/rebuild_cache.dir
