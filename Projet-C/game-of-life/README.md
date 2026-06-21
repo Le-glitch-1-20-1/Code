@@ -23,11 +23,17 @@ game-of-life/
 ## Compilation
 
 ```bash
-mkdir build && cd build
+rm -rf build && mkdir build && cd build
 cmake .. -DCMAKE_BUILD_TYPE=Release
 cmake --build . -j$(nproc)
 cd ..
 ./game-of-life
+```
+
+## Recompilation
+
+```bash
+cmake --build build -j$(nproc) && ./game-of-life
 ```
 
 ## Raccourcis clavier
