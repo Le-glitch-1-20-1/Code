@@ -6,7 +6,7 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:08:33 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 09:46:22 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 11:07:43 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ int		sim_collect_dedup(unsigned int *seen, unsigned int set_mask,
 void	sim_visit_neighbors(t_chunk_node *node,
 			t_dedup_ctx *dedup, t_todo_ctx *todo);
 int		sim_collect_todo(t_chunk_map *map, int *todo, int cap);
-
 void	simulation_step(t_chunk_map *map);
 
 #endif

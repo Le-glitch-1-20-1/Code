@@ -6,13 +6,11 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:08:33 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 07:28:14 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 11:07:33 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "simulation.h"
-
-#include "main.h"
 
 int	count_neighbors(const t_chunk_map *m, int gx, int gy)
 {
