@@ -6,13 +6,11 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:36:06 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 07:26:57 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 09:10:38 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "chunk_map.h"
-
-#include "main.h"
+#include "chunk.h"
 
 int	get_cell_global(const t_chunk_map *m, int x, int y)
 {

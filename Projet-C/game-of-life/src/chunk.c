@@ -6,13 +6,11 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:13:14 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 07:27:02 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 09:10:33 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "chunk.h"
-
-#include "main.h"
 
 int	chunk_get(const t_chunk *c, int x, int y)
 {

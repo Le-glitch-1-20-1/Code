@@ -6,13 +6,11 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:12:18 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 07:28:00 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 09:12:59 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "save.h"
-
-#include "main.h"
 
 void	bbox_update(const t_chunk *c, int lx, int ly,
 	int *x0, int *y0, int *x1, int *y1)

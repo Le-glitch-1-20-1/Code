@@ -6,14 +6,11 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:36:37 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 07:25:51 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 09:08:11 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "app.h"
-#include "simulation.h"
-
-#include "main.h"
 
 void	handle_key_random(t_app *app);
 void	handle_key_save(t_app *app);

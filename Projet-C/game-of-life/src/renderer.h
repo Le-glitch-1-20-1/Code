@@ -1,4 +1,3 @@
-
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -7,15 +6,19 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:24:24 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/22 20:33:24 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 09:19:47 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef RENDERER_H
 # define RENDERER_H
 
-# include "chunk_map.h"
-
+# include "app.h"
+# include "chunk.h"
+# include "config.h"
+# include "save.h"
+# include "simulation.h"
+# include "ui.h"
 # include "main.h"
 
 # define THEME_COUNT 5

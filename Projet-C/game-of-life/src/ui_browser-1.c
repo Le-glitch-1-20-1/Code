@@ -6,16 +6,11 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/21 23:04:57 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 07:28:24 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 09:18:09 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ui.h"
-#include "ui_shared.h"
-#include "save.h"
-#include "chunk_map.h"
-
-#include "main.h"
 
 #define MAX_RLE	512
 

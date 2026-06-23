@@ -6,14 +6,11 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/21 23:06:08 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 07:28:55 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 09:18:45 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ui.h"
-#include "ui_shared.h"
-
-#include "main.h"
 
 void	credits_init(t_credit_line *lines);
 void	credits_draw_lines(t_credit_line *lines, int n, Rectangle p, int pw);

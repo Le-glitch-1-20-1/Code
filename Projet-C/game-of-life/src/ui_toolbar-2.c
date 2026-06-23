@@ -6,16 +6,11 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:04:52 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 07:29:09 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 09:18:59 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ui.h"
-#include "ui_shared.h"
-#include "ui_icons.h"
-#include "renderer.h"
-
-#include "main.h"
 
 t_ui_action	toolbar_sim(int *x, int pad, int bsz, bool running);
 t_ui_action	toolbar_files(int *x, int pad, int bsz);

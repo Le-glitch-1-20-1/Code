@@ -6,18 +6,41 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/21 23:01:58 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 07:29:17 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 09:19:24 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef UI_H
 # define UI_H
 
+# include "app.h"
+# include "chunk.h"
 # include "config.h"
 # include "renderer.h"
-# include "chunk_map.h"
-
+# include "save.h"
+# include "simulation.h"
 # include "main.h"
+
+# define C_BG		(Color){14,  14,  18,  255}
+# define C_PANEL	(Color){24,  24,  34,  245}
+# define C_PANEL2	(Color){30,  30,  44,  255}
+# define C_BORDER	(Color){55,  55,  80,  255}
+# define C_HI		(Color){127, 119, 221, 255}
+# define C_TEXT		(Color){210, 210, 225, 255}
+# define C_DIM		(Color){100, 100, 125, 255}
+# define C_HOVER	(Color){42,  40,  68,  255}
+# define C_ACTIVE	(Color){72,  66,  148, 255}
+# define C_GREEN	(Color){72,  200, 120, 255}
+# define C_YELLOW	(Color){230, 185, 55,  255}
+# define C_RED		(Color){210, 72,  72,  255}
+# define C_OVERLAY	(Color){0,   0,   0,   195}
+# define C_ACCENT2	(Color){80,  195, 145, 255}
+# define C_ORANGE	(Color){220, 140, 50,  255}
+
+# define FS		15
+# define FM		18
+# define FL		24
+# define FXL	32
 
 typedef enum e_screen
 {
@@ -137,6 +160,13 @@ typedef struct s_kb_entry
 	int				offset;
 }	t_kb_entry;
 
+typedef void (*t_icon_draw)(
+	float cx,
+	float cy,
+	float r,
+	Color c
+);
+
 t_btn_state		ui_button(Rectangle r, const char *label, bool active);
 t_ui_action		ui_draw_toolbar(bool running, float *speed, int theme_idx);
 t_ui_action		toolbar_center_btn(int *x, int pad, int bsz);
@@ -144,6 +174,8 @@ t_ui_action		toolbar_sim(int *x, int pad, int bsz, bool running);
 t_ui_action		toolbar_files(int *x, int pad, int bsz);
 t_ui_action		toolbar_tools(int *x, int pad, int bsz);
 t_menu_action	ui_draw_menu(void);
+t_btn_state	icon_button(Rectangle rect, t_icon_draw draw_fn,
+				const char *tooltip, bool active);
 
 void			ui_draw_hud(int generation, bool running, float speed,
 					int alive_count, int gx, int gy,
@@ -162,6 +194,25 @@ void			sz_phase0_input(t_save_zone_state *sz, t_camera2d_gol cam);
 void			sz_phase0_draw(t_save_zone_state *sz, t_camera2d_gol cam);
 void			sz_draw_empty(void);
 void			sz_draw_dragging(t_save_zone_state *sz, t_camera2d_gol cam);
+void			icon_play(float cx, float cy, float r, Color c);
+void			icon_pause(float cx, float cy, float r, Color c);
+void			icon_step(float cx, float cy, float r, Color c);
+void			icon_clear(float cx, float cy, float r, Color c);
+void			icon_save(float cx, float cy, float r, Color c);
+void			icon_load(float cx, float cy, float r, Color c);
+void			icon_random(float cx, float cy, float r, Color c);
+void			icon_menu(float cx, float cy, float r, Color c);
+void			icon_grid(float cx, float cy, float r, Color c);
+void			icon_hud(float cx, float cy, float r, Color c);
+void			icon_chunk_debug(float cx, float cy, float r, Color c);
+void			icon_undo(float cx, float cy, float r, Color c);
+void			icon_copy(float cx, float cy, float r, Color c);
+void			icon_clear_zone(float cx, float cy, float r, Color c);
+void			icon_paste(float cx, float cy, float r, Color c);
+void			panel_draw(Rectangle r, Color bg, Color border);
+void			text_c(const char *t, int fs, float cx, float cy, Color c);
+void			overlay(void);
+void			draw_tooltip(Rectangle rect, const char *tooltip);
 bool			ui_draw_keybinds(t_key_config *cfg);
 bool			ui_draw_credits(void);
 bool			ui_draw_save_zone(t_save_zone_state *sz, t_camera2d_gol cam,

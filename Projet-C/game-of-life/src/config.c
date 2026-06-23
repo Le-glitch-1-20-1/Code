@@ -6,13 +6,11 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:11:16 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 07:27:23 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 09:12:04 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "config.h"
-
-#include "main.h"
 
 void	cfg_default_part1(t_key_config *cfg)
 {

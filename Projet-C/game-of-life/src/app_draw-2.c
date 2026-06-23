@@ -6,14 +6,11 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:31:09 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 07:25:20 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 09:07:53 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "app.h"
-#include "renderer.h"
-
-#include "main.h"
 
 int	count_cells_in_rect(t_app *app, int xa, int ya, int xb, int yb)
 {

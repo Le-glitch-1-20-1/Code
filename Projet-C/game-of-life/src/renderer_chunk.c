@@ -6,13 +6,11 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:24:24 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 07:27:38 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 09:12:48 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "renderer.h"
-
-#include "main.h"
 
 Color	get_chunk_dbg_color(void)
 {

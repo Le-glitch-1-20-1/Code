@@ -6,14 +6,11 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:17:39 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 07:26:43 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 09:08:49 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "app.h"
-#include "chunk_map.h"
-
-#include "main.h"
 
 void	push_undo(t_app *app)
 {

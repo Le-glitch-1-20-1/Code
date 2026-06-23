@@ -6,15 +6,11 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:29:40 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 07:25:28 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 09:07:58 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "app.h"
-#include "chunk_map.h"
-#include "config.h"
-
-#include "main.h"
 
 static void	app_init_defaults(t_app *app)
 {

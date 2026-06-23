@@ -6,14 +6,11 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/21 23:07:41 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 07:25:25 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 09:07:55 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "app.h"
-#include "renderer.h"
-
-#include "main.h"
 
 void	draw_select_overlay(t_app *app, int xa, int ya,
 			int xb, int yb, const char *title, Color fill, Color border);

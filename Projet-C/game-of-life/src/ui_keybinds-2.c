@@ -6,15 +6,11 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/21 23:05:50 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 07:28:48 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 09:18:37 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ui.h"
-#include "ui_shared.h"
-#include "config.h"
-
-#include "main.h"
 
 int			*kb_field(t_key_config *cfg, int offset);
 const char	*kname(int k);

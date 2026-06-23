@@ -6,14 +6,11 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:19:44 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 07:25:47 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 09:08:07 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "app.h"
-#include "simulation.h"
-
-#include "main.h"
 
 void	get_clear_bounds(t_app *app, int *xa, int *ya, int *xb, int *yb)
 {

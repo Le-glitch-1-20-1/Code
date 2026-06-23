@@ -6,14 +6,11 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/21 23:07:15 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 07:28:29 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 09:18:18 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ui.h"
-#include "ui_shared.h"
-
-#include "main.h"
 
 static void	hud_graph_loop(const int *pop, int start,
 	int n, int gx2, int gy2, int gh, float bar_w, int pm)

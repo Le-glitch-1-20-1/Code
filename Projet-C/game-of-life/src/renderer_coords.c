@@ -6,13 +6,11 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:24:24 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 07:27:40 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 09:12:45 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "renderer.h"
-
-#include "main.h"
 
 Vector2	screen_to_cell(t_camera2d_gol cam, Vector2 screen)
 {

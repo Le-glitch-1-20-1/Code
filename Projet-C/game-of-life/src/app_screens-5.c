@@ -6,16 +6,11 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:05:42 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 07:26:41 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 09:08:45 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "app.h"
-#include "renderer.h"
-#include "save.h"
-#include "simulation.h"
-
-#include "main.h"
 
 void	draw_screen_load(t_app *app)
 {

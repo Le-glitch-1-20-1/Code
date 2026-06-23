@@ -6,13 +6,11 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:11:16 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 07:27:15 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 09:11:59 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "config.h"
-
-#include "main.h"
 
 t_key_config	load_key_config(const char *path)
 {

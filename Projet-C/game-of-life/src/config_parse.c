@@ -6,13 +6,11 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:11:16 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 07:27:19 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 09:12:02 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "config.h"
-
-#include "main.h"
 
 void	cfg_parse_line(t_key_config *cfg, char *key, int val)
 {
