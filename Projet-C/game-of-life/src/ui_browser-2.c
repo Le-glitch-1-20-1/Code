@@ -6,7 +6,7 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/21 23:05:17 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 09:18:14 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 10:10:24 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,41 +28,68 @@ static bool	browser_draw_list(char names[MAX_RLE][128], int *filtered,
 	int fcount, Rectangle p, int list_top, int list_bot, int *scroll,
 	int *hovered_idx, char *out_path, int path_len)
 {
-	int			rh;
-	int			vis;
-	int			lx;
-	int			ms;
-	bool		chosen;
-	int			i;
-	int			ri;
-	int			ry;
-	int			tw;
-	int			fl;
-	float		sbh;
-	float		sby;
-	int			sc;
-	float		diff;
-	bool		hov;
-	Vector2		mm;
-	Rectangle	row;
-	const char	*slash;
-	const char	*dname;
-	char		folder[32];
-	int			list_w;
+	int				rh;
+	int				vis;
+	int				lx;
+	int				ms;
+	bool			chosen;
+	int				i;
+	int				ri;
+	int				ry;
+	int				tw;
+	int				fl;
+	float			sbh;
+	float			sby;
+	bool			hov;
+	Vector2			mm;
+	Rectangle		row;
+	const char		*slash;
+	const char		*dname;
+	char			folder[32];
+	int				list_w;
+	static bool		sb_dragging = false;
+	static float	sb_drag_y = 0;
+	static int		sb_drag_scroll = 0;
+	int				sb_x;
+	float			track_h;
+	Rectangle		sb_thumb_r;
 
-	list_w = (int)p.width - 530;
+	list_w = (int)p.width - 520 - 8;
 	rh = 32;
 	vis = (list_bot - list_top) / rh;
 	lx = (int)p.x + 16;
 	mm = GetMousePosition();
+	sb_x = lx + list_w - 5;
+	track_h = (float)(list_bot - list_top);
+	ms = fcount - vis;
+	if (ms < 0)
+		ms = 0;
+	sb_thumb_r = (Rectangle){0, 0, 0, 0};
+	if (fcount > vis && vis > 0)
+	{
+		sbh = track_h * vis / fcount;
+		if (sbh < 20)
+			sbh = 20;
+		sby = list_top + (track_h - sbh) * (*scroll) / ms;
+		sb_thumb_r = (Rectangle){(float)sb_x, sby, 8, sbh};
+		if (IsMouseButtonPressed(0)
+			&& CheckCollisionPointRec(mm, sb_thumb_r))
+		{
+			sb_dragging = true;
+			sb_drag_y = mm.y;
+			sb_drag_scroll = *scroll;
+		}
+		if (sb_dragging)
+			*scroll = sb_drag_scroll
+				+ (int)((mm.y - sb_drag_y) * ms / (track_h - sbh));
+		if (IsMouseButtonReleased(0))
+			sb_dragging = false;
+	}
 	if (CheckCollisionPointRec(mm, (Rectangle){p.x, p.y + 82,
 			(float)(list_w + 20), (float)((int)p.height - 132)}))
 		*scroll -= (int)GetMouseWheelMove();
 	if (*scroll < 0)
 		*scroll = 0;
-	ms = fcount - vis;
-	if (ms < 0)
-		ms = 0;
 	if (*scroll > ms)
 		*scroll = ms;
 	*hovered_idx = -1;
@@ -119,13 +146,14 @@ static bool	browser_draw_list(char names[MAX_RLE][128], int *filtered,
 	}
 	if (fcount > vis && vis > 0)
 	{
-		sc = *scroll;
-		diff = (float)(list_bot - list_top);
-		sbh = diff * vis / fcount;
-		sby = list_top + diff * sc / fcount;
-		DrawRectangle(lx + list_w - 4, list_top, 4, list_bot - list_top,
+		DrawRectangle(sb_x, list_top, 8, list_bot - list_top,
 			(Color){30, 30, 48, 200});
-		DrawRectangle(lx + list_w - 4, (int)sby, 4, (int)sbh, C_BORDER);
+		if (sb_dragging)
+			DrawRectangleRec(sb_thumb_r, C_HI);
+		else if (CheckCollisionPointRec(mm, sb_thumb_r))
+			DrawRectangleRec(sb_thumb_r, C_BORDER);
+		else
+			DrawRectangleRec(sb_thumb_r, (Color){80, 80, 110, 255});
 	}
 	return (chosen);
 }
