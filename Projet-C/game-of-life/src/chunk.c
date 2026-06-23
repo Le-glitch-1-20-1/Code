@@ -1,33 +1,58 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   chunk.h                                            :+:      :+:    :+:   */
+/*   chunk.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:13:14 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 07:18:08 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 07:27:02 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CHUNK_H
-# define CHUNK_H
+#include "chunk.h"
 
-# include "main.h"
+#include "main.h"
 
-# define CHUNK_SIZE 16
-
-typedef struct s_chunk
+int	chunk_get(const t_chunk *c, int x, int y)
 {
-	int			cx;
-	int			cy;
-	uint16_t	cells[CHUNK_SIZE];
-	int			alive_count;
-}	t_chunk;
+	return ((c->cells[y] >> x) & 1);
+}
 
-void	chunk_set(t_chunk *c, int x, int y, int v);
-void	chunk_clear(t_chunk *c);
-int		chunk_get(const t_chunk *c, int x, int y);
-int		chunk_is_dead(const t_chunk *c);
+void	chunk_set(t_chunk *c, int x, int y, int v)
+{
+	if (v)
+	{
+		if (!chunk_get(c, x, y))
+		{
+			c->cells[y] |= (1u << x);
+			c->alive_count++;
+		}
+	}
+	else
+	{
+		if (chunk_get(c, x, y))
+		{
+			c->cells[y] &= ~(1u << x);
+			c->alive_count--;
+		}
+	}
+}
 
-#endif
+void	chunk_clear(t_chunk *c)
+{
+	int	i;
+
+	i = 0;
+	while (i < CHUNK_SIZE)
+	{
+		c->cells[i] = 0;
+		i++;
+	}
+	c->alive_count = 0;
+}
+
+int	chunk_is_dead(const t_chunk *c)
+{
+	return (c->alive_count == 0);
+}

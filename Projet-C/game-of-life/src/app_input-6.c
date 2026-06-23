@@ -6,14 +6,14 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/21 23:08:03 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/21 23:08:06 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 07:26:02 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "app.h"
-#include "raylib.h"
 #include "simulation.h"
-#include <math.h>
+
+#include "main.h"
 
 int		handle_escape(t_app *app, bool ctrl);
 void	handle_ctrl_shortcuts(t_app *app);

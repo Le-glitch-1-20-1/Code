@@ -6,14 +6,12 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:27:29 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/21 23:19:32 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 07:27:30 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "app.h"
-#include "raylib.h"
-#include <stdlib.h>
-#include <time.h>
+#include "main.h"
 
 int	main(void)
 {

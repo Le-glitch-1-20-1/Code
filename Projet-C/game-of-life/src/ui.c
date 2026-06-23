@@ -6,7 +6,7 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:38:43 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/21 23:20:08 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 07:29:12 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,8 @@
 #include "renderer.h"
 #include "save.h"
 #include "config.h"
-#include <stdio.h>
-#include <string.h>
-#include <stddef.h>
-#include <math.h>
-#include <stdlib.h>
-#include <ctype.h>
+
+#include "main.h"
 
 #define C_BG		(Color){14,  14,  18,  255}
 #define C_PANEL		(Color){24,  24,  34,  245}

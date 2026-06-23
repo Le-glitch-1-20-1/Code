@@ -15,6 +15,7 @@ if (NOT raylib_FOUND)
 	)
 	set(BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 	FetchContent_MakeAvailable(raylib)
+	target_compile_options(raylib PRIVATE -w)
 endif()
 
 # ── Sources ───────────────────────────────────────────────────────────────────
@@ -44,7 +45,18 @@ set(SOURCES
 	src/chunk_map-2.c
 	src/chunk_map-3.c
 	src/chunk_map-4.c
+	src/chunk.c
+	src/config.c
+	src/config_parse.c
+	src/config_io.c
+	src/renderer_theme-1.c
+	src/renderer_theme-2.c
+	src/renderer_coords.c
+	src/renderer_grid.c
+	src/renderer_chunk.c
+	src/renderer_draw.c
 	src/simulation.c
+	src/simulation_collect.c
 	src/save-1.c
 	src/save-2.c
 	src/save-3.c

@@ -1,33 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   chunk.h                                            :+:      :+:    :+:   */
+/*   main.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/17 07:13:14 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 07:18:08 by le-glitch        ###   ########.fr       */
+/*   Created: 2026/06/23 06:56:26 by le-glitch         #+#    #+#             */
+/*   Updated: 2026/06/23 07:10:42 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CHUNK_H
-# define CHUNK_H
+#ifndef MAIN_H
+# define MAIN_H
 
-# include "main.h"
+# include <stdio.h>
+# include <stdlib.h>
+# include <string.h>
+# include <unistd.h>
+# include <fcntl.h>
+# include <time.h>
+# include <math.h>
+# include <stddef.h>
+# include <ctype.h>
+# include <dirent.h>
+# include <stdbool.h>
+# include <stdint.h>
 
-# define CHUNK_SIZE 16
-
-typedef struct s_chunk
-{
-	int			cx;
-	int			cy;
-	uint16_t	cells[CHUNK_SIZE];
-	int			alive_count;
-}	t_chunk;
-
-void	chunk_set(t_chunk *c, int x, int y, int v);
-void	chunk_clear(t_chunk *c);
-int		chunk_get(const t_chunk *c, int x, int y);
-int		chunk_is_dead(const t_chunk *c);
+# include "raylib.h"
 
 #endif

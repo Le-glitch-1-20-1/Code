@@ -6,15 +6,14 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:14:30 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/21 23:20:03 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 07:29:02 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ui.h"
 #include "ui_shared.h"
-#include <stdlib.h>
-#include <string.h>
-#include <math.h>
+
+#include "main.h"
 
 void	sz_phase0_input(t_save_zone_state *sz, t_camera2d_gol cam);
 void	sz_phase0_draw(t_save_zone_state *sz, t_camera2d_gol cam);

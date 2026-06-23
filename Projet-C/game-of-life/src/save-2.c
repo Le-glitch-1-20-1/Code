@@ -6,15 +6,13 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:09:04 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/21 23:19:44 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 07:28:03 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "save.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <ctype.h>
+
+#include "main.h"
 
 int	rle_find_last(const t_chunk_map *map,
 	int gy, int x0, int x1)

@@ -6,12 +6,13 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:32:57 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/21 23:19:48 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 07:28:16 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "simulation.h"
-#include <stdlib.h>
+
+#include "main.h"
 
 static void	sim_step_cell(t_chunk_map *map, t_chunk_map *next,
 	int gx, int gy)

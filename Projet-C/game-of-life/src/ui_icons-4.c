@@ -6,13 +6,15 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:37:54 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/21 23:19:58 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 07:28:39 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ui.h"
 #include "ui_shared.h"
 #include "ui_icons.h"
+
+#include "main.h"
 
 void	icon_play(float cx, float cy, float r, Color c)
 {

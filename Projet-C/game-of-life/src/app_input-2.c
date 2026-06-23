@@ -6,15 +6,14 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:27:53 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/21 23:18:36 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 07:25:44 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "app.h"
-#include "raylib.h"
 #include "simulation.h"
-#include <math.h>
-#include <stdlib.h>
+
+#include "main.h"
 
 static void	handle_drawing_start(t_app *app, int gx, int gy)
 {

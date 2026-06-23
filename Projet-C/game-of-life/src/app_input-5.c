@@ -6,14 +6,14 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:13:54 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/21 23:18:51 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 07:25:56 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "app.h"
-#include "raylib.h"
 #include "simulation.h"
-#include <math.h>
+
+#include "main.h"
 
 void	handle_no_ctrl_keys(t_app *app);
 void	handle_no_ctrl_misc(t_app *app);

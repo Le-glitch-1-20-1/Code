@@ -6,14 +6,14 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:06:13 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/21 23:18:34 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 07:25:32 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "app.h"
-#include "raylib.h"
 #include "simulation.h"
-#include <math.h>
+
+#include "main.h"
 
 void	apply_zoom(t_app *app, float wheel)
 {

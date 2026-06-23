@@ -6,15 +6,15 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:33:57 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/21 23:18:21 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 07:25:28 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "app.h"
-#include "raylib.h"
 #include "renderer.h"
 #include "save.h"
-#include <math.h>
+
+#include "main.h"
 
 void	draw_selection_info_box(const char *title, int x0, int y0,
 	int x1, int y1, int alive)

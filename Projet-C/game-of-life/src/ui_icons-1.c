@@ -6,13 +6,15 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:19:08 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/21 23:19:53 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 07:28:31 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ui.h"
 #include "ui_shared.h"
 #include "ui_icons.h"
+
+#include "main.h"
 
 static Color	icon_get_color(bool hov, bool active)
 {

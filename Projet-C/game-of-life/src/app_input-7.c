@@ -6,14 +6,14 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:30:44 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/21 23:19:18 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 07:26:03 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "app.h"
-#include "raylib.h"
 #include "simulation.h"
-#include <math.h>
+
+#include "main.h"
 
 int	bresenham_sx(int x0, int x1)
 {

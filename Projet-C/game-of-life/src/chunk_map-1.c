@@ -6,13 +6,13 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:10:42 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/21 23:19:16 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 07:26:51 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "chunk_map.h"
-#include <stdlib.h>
-#include <string.h>
+
+#include "main.h"
 
 static unsigned int	hash_coord(int cx, int cy)
 {

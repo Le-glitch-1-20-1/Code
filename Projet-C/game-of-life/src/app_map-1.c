@@ -6,14 +6,15 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:25:39 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/21 23:18:58 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 07:26:11 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "app.h"
 #include "chunk_map.h"
 #include "save.h"
-#include <math.h>
+
+#include "main.h"
 
 static void	center_map_iter(t_chunk_map *m, t_chunk_map *tmp, int cx, int cy)
 {

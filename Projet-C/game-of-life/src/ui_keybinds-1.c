@@ -6,15 +6,15 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:20:27 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/21 23:20:01 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 07:28:46 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ui.h"
 #include "ui_shared.h"
 #include "config.h"
-#include <stddef.h>
-#include <string.h>
+
+#include "main.h"
 
 #define KB_N	28
 

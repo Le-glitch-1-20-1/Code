@@ -6,16 +6,16 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:24:54 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/21 23:19:03 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 07:26:22 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "app.h"
-#include "raylib.h"
 #include "renderer.h"
 #include "save.h"
 #include "simulation.h"
-#include <math.h>
+
+#include "main.h"
 
 static void	toolbar_act_clear(t_app *app)
 {

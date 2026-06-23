@@ -6,12 +6,13 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:16:21 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/21 23:19:24 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 07:26:55 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "chunk_map.h"
-#include <stddef.h>
+
+#include "main.h"
 
 t_chunk_node	*map_first(const t_chunk_map *m, int *bucket_idx)
 {

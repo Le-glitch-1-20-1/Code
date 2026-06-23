@@ -6,16 +6,16 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:05:42 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/21 23:19:12 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 07:26:41 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "app.h"
-#include "raylib.h"
 #include "renderer.h"
 #include "save.h"
 #include "simulation.h"
-#include <math.h>
+
+#include "main.h"
 
 void	draw_screen_load(t_app *app)
 {
@@ -102,12 +102,15 @@ void	draw_frame_screens(t_app *app)
 void	draw_frame(t_app *app)
 {
 	t_color_theme	th;
+	t_render_opts	opts;
 
 	th = get_theme(app->theme_idx);
 	BeginDrawing();
 	ClearBackground(th.bg);
-	renderer_draw(&app->map, app->cam, app->show_grid,
-		app->show_chunk_debug, app->theme_idx);
+	opts.show_grid = app->show_grid;
+	opts.show_chunk_debug = app->show_chunk_debug;
+	opts.theme_idx = app->theme_idx;
+	renderer_draw(&app->map, app->cam, &opts);
 	draw_selections(app);
 	draw_frame_screens(app);
 	EndDrawing();

@@ -6,22 +6,19 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/21 23:01:58 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/21 23:03:20 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 07:29:17 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef UI_H
 # define UI_H
 
-# include "raylib.h"
 # include "config.h"
 # include "renderer.h"
 # include "chunk_map.h"
-# include <stdbool.h>
 
-/*
-** Ecrans de l'application.
-*/
+# include "main.h"
+
 typedef enum e_screen
 {
 	SCREEN_GAME,
@@ -35,9 +32,6 @@ typedef enum e_screen
 	SCREEN_RANDOM,
 }	t_screen;
 
-/*
-** Etat d'un bouton.
-*/
 typedef enum e_btn_state
 {
 	BTN_IDLE,
@@ -45,11 +39,6 @@ typedef enum e_btn_state
 	BTN_CLICKED,
 }	t_btn_state;
 
-t_btn_state		ui_button(Rectangle r, const char *label, bool active);
-
-/*
-** Actions declenchees par la toolbar.
-*/
 typedef enum e_ui_action
 {
 	UI_ACTION_NONE,
@@ -84,15 +73,6 @@ typedef struct s_hud_info
 	int				pop_max;
 }	t_hud_info;
 
-t_ui_action		ui_draw_toolbar(bool running, float *speed, int theme_idx);
-t_ui_action		toolbar_center_btn(int *x, int pad, int bsz);
-void			ui_draw_hud(int generation, bool running, float speed,
-					int alive_count, int gx, int gy,
-					const int *pop_history, int pop_count, int pop_max);
-
-/*
-** Actions du menu principal.
-*/
 typedef enum e_menu_action
 {
 	MENU_NONE,
@@ -102,14 +82,6 @@ typedef enum e_menu_action
 	MENU_QUIT,
 }	t_menu_action;
 
-t_menu_action	ui_draw_menu(void);
-
-bool			ui_draw_keybinds(t_key_config *cfg);
-bool			ui_draw_credits(void);
-
-/*
-** Etat de la selection de zone pour sauvegarde.
-*/
 typedef struct s_save_zone_state
 {
 	int		phase;
@@ -123,15 +95,6 @@ typedef struct s_save_zone_state
 	char	name_buf[64];
 }	t_save_zone_state;
 
-void			sz_name_edit(t_save_zone_state *sz);
-bool			ui_draw_save_zone(t_save_zone_state *sz, t_camera2d_gol cam,
-					char *out_path, int path_len);
-
-bool			ui_draw_load_browser(char *out_path, int path_len);
-
-/*
-** Etat du placement de pattern.
-*/
 typedef struct s_place_state
 {
 	int		rotation;
@@ -141,9 +104,6 @@ typedef struct s_place_state
 	bool	cancelled;
 }	t_place_state;
 
-/*
-** Etat du remplissage aleatoire.
-*/
 typedef struct s_random_state
 {
 	int		phase;
@@ -156,9 +116,6 @@ typedef struct s_random_state
 	bool	confirmed;
 	bool	cancelled;
 }	t_random_state;
-
-void			ui_draw_random_overlay(t_random_state *rs, t_camera2d_gol cam);
-void			ui_draw_message(const char *msg, float timer);
 
 typedef struct s_menu_item
 {
@@ -180,36 +137,43 @@ typedef struct s_kb_entry
 	int				offset;
 }	t_kb_entry;
 
-/* ui_toolbar.c */
+t_btn_state		ui_button(Rectangle r, const char *label, bool active);
+t_ui_action		ui_draw_toolbar(bool running, float *speed, int theme_idx);
+t_ui_action		toolbar_center_btn(int *x, int pad, int bsz);
 t_ui_action		toolbar_sim(int *x, int pad, int bsz, bool running);
 t_ui_action		toolbar_files(int *x, int pad, int bsz);
 t_ui_action		toolbar_tools(int *x, int pad, int bsz);
+t_menu_action	ui_draw_menu(void);
 
-/* ui_menu.c */
+void			ui_draw_hud(int generation, bool running, float speed,
+					int alive_count, int gx, int gy,
+					const int *pop_history, int pop_count, int pop_max);
+void			sz_name_edit(t_save_zone_state *sz);
+void			ui_draw_random_overlay(t_random_state *rs, t_camera2d_gol cam);
+void			ui_draw_message(const char *msg, float timer);
 void			credits_init(t_credit_line *lines);
 void			credits_draw_lines(t_credit_line *lines, int n,
 					Rectangle p, int pw);
-
-/* ui_keybinds.c */
-int				*kb_field(t_key_config *cfg, int offset);
-const char		*kname(int k);
-const char		*kname_mod(int k);
-const char		*kname_arrow(int k);
-const char		*kname_fn(int k, char *buf);
-
-/* ui_keybinds2.c */
 void			kb_draw_sep(int list_x, int list_w, int cy,
 					const t_kb_entry *e, int rh_sep);
 void			kb_draw_row(int list_x, int list_w, int cy, int i,
 					int wait_idx, t_key_config *cfg);
-int				kb_scroll(Rectangle panel, int scroll_px,
-					int total_h, int list_h);
-int				kb_capture(t_key_config *cfg, int wait_idx);
-
-/* ui_savezone.c */
 void			sz_phase0_input(t_save_zone_state *sz, t_camera2d_gol cam);
 void			sz_phase0_draw(t_save_zone_state *sz, t_camera2d_gol cam);
 void			sz_draw_empty(void);
 void			sz_draw_dragging(t_save_zone_state *sz, t_camera2d_gol cam);
+bool			ui_draw_keybinds(t_key_config *cfg);
+bool			ui_draw_credits(void);
+bool			ui_draw_save_zone(t_save_zone_state *sz, t_camera2d_gol cam,
+					char *out_path, int path_len);
+bool			ui_draw_load_browser(char *out_path, int path_len);
+int				*kb_field(t_key_config *cfg, int offset);
+int				kb_scroll(Rectangle panel, int scroll_px,
+					int total_h, int list_h);
+int				kb_capture(t_key_config *cfg, int wait_idx);
+const char		*kname(int k);
+const char		*kname_mod(int k);
+const char		*kname_arrow(int k);
+const char		*kname_fn(int k, char *buf);
 
 #endif

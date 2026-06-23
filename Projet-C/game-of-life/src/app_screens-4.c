@@ -6,16 +6,16 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/21 23:08:21 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/21 23:08:23 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 07:26:37 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "app.h"
-#include "raylib.h"
 #include "renderer.h"
 #include "save.h"
 #include "simulation.h"
-#include <math.h>
+
+#include "main.h"
 
 void	draw_screen_random_sel(t_app *app);
 

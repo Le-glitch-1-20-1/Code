@@ -6,7 +6,7 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/21 23:05:17 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/21 23:05:25 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 07:28:26 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,8 @@
 #include "ui_shared.h"
 #include "save.h"
 #include "chunk_map.h"
-#include <dirent.h>
-#include <string.h>
-#include <ctype.h>
-#include <math.h>
+
+#include "main.h"
 
 void	draw_rle_preview(const char *path, Rectangle dest);
 

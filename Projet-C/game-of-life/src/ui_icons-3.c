@@ -6,13 +6,15 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:10:04 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/21 23:19:56 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 07:28:37 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ui.h"
 #include "ui_shared.h"
 #include "ui_icons.h"
+
+#include "main.h"
 
 void	icon_hud(float cx, float cy, float r, Color c)
 {
@@ -52,13 +54,18 @@ void	icon_chunk_debug(float cx, float cy, float r, Color c)
 void	icon_undo(float cx, float cy, float r, Color c)
 {
 	Vector2	tip[3];
+	Vector2	center;
+	Vector2	end_pt;
+	float	rad;
 
-	DrawCircleLines((int)cx, (int)cy, (int)(r * 0.75f), c);
-	DrawRectangle((int)(cx - r * 0.1f), (int)(cy - r * 0.85f),
-		(int)(r * 0.75f), (int)(r * 0.75f), C_PANEL);
-	tip[0] = (Vector2){cx - r * 0.85f, cy - r * 0.25f};
-	tip[1] = (Vector2){cx - r * 0.35f, cy - r * 0.8f};
-	tip[2] = (Vector2){cx - r * 0.35f, cy + r * 0.3f};
+	center = (Vector2){cx, cy};
+	DrawRing(center, r * 0.5f, r * 0.75f, 30.0f, 360.0f, 32, c);
+	rad = 63.0f * DEG2RAD;
+	end_pt.x = cx + cosf(rad) * r * 0.625f;
+	end_pt.y = cy + sinf(rad) * r * 0.625f;
+	tip[0] = (Vector2){end_pt.x, end_pt.y - r * 0.38f};
+	tip[1] = (Vector2){end_pt.x, end_pt.y + r * 0.38f};
+	tip[2] = (Vector2){end_pt.x + r * 0.45f, end_pt.y};
 	DrawTriangle(tip[0], tip[1], tip[2], c);
 }
 

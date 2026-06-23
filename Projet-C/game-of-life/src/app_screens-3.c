@@ -6,16 +6,16 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:21:42 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/21 23:19:07 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 07:26:33 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "app.h"
-#include "raylib.h"
 #include "renderer.h"
 #include "save.h"
 #include "simulation.h"
-#include <math.h>
+
+#include "main.h"
 
 void	toolbar_act_paste(t_app *app);
 void	handle_toolbar_act1(t_app *app, t_ui_action act);

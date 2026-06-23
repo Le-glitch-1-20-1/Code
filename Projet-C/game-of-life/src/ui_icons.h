@@ -6,14 +6,14 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/21 23:03:51 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/21 23:03:54 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 07:18:36 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef UI_ICONS_H
 # define UI_ICONS_H
 
-# include "raylib.h"
+# include "main.h"
 
 typedef void	(*t_icon_draw)(float cx, float cy, float r, Color c);
 

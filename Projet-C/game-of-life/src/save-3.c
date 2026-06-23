@@ -6,15 +6,13 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:27:10 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/21 23:19:46 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 07:28:05 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "save.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <ctype.h>
+
+#include "main.h"
 
 void	json_write_cells(FILE *f, const t_chunk_map *map)
 {

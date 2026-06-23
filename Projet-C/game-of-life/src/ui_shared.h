@@ -6,15 +6,14 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:15:38 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/21 23:20:05 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 07:18:58 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef UI_SHARED_H
 # define UI_SHARED_H
 
-# include "raylib.h"
-# include <stdbool.h>
+# include "main.h"
 
 # define C_BG		(Color){14,  14,  18,  255}
 # define C_PANEL	(Color){24,  24,  34,  245}
