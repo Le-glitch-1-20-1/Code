@@ -6,13 +6,13 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:24:24 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 09:12:43 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 22:10:25 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "renderer.h"
 
-static t_view_bounds	compute_view_bounds(t_camera2d_gol cam)
+t_view_bounds	compute_view_bounds(t_camera2d_gol cam)
 {
 	t_view_bounds	b;
 	int				sw;
@@ -27,7 +27,7 @@ static t_view_bounds	compute_view_bounds(t_camera2d_gol cam)
 	return (b);
 }
 
-static void	draw_crosshair(t_camera2d_gol cam)
+void	draw_crosshair(t_camera2d_gol cam)
 {
 	Color	c;
 
@@ -40,8 +40,8 @@ static void	draw_crosshair(t_camera2d_gol cam)
 		(Vector2){cam.offset.x, cam.offset.y + 6}, c);
 }
 
-void	renderer_draw(const t_chunk_map *map, t_camera2d_gol cam,
-	const t_render_opts *opts)
+void	renderer_draw(const t_chunk_map *map, t_camera2d_gol cam, 
+			const t_render_opts *opts)
 {
 	t_color_theme	th;
 	t_view_bounds	b;

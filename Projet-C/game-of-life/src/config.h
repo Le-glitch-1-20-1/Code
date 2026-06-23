@@ -6,7 +6,7 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:11:16 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 09:45:48 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 16:05:19 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,15 +42,18 @@ typedef struct s_key_config
 	int	load;
 }	t_key_config;
 
-
+// config_io.c
+void			save_key_config(const char *path, const t_key_config *cfg);
 t_key_config	load_key_config(const char *path);
-t_key_config	cfg_default_move(void);
-t_key_config	default_key_config(void);
 
+// config_parse.c
+void			cfg_parse_line1(t_key_config *cfg, char *key, int val);
+void			cfg_parse_line2(t_key_config *cfg, char *key, int val);
+
+// config.c
 void			cfg_default_part1(t_key_config *cfg);
 void			cfg_default_part2(t_key_config *cfg);
-void			cfg_parse_line(t_key_config *cfg, char *key, int val);
-void			cfg_parse_line2(t_key_config *cfg, char *key, int val);
-void			save_key_config(const char *path, const t_key_config *cfg);
+t_key_config	cfg_default_move(void);
+t_key_config	default_key_config(void);
 
 #endif

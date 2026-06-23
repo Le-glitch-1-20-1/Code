@@ -6,29 +6,14 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/21 23:04:34 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 09:18:39 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 23:05:57 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ui.h"
 
-int			*kb_field(t_key_config *cfg, int offset);
-const char	*kname(int k);
-
-void		kb_draw_sep(int list_x, int list_w, int cy,
-				const t_kb_entry *e, int rh_sep);
-void		kb_draw_row(int list_x, int list_w, int cy, int i,
-				int wait_idx, t_key_config *cfg);
-int			kb_scroll(Rectangle panel, int scroll_px,
-				int total_h, int list_h);
-int			kb_capture(t_key_config *cfg, int wait_idx);
-
-#define KB_N	28
-
-extern const t_kb_entry	g_kb_table[];
-
-static int	kb_row_click(int list_x, int list_w, int cy, int i,
-	int wait_idx, t_key_config *cfg)
+int	kb_row_click(int list_x, int list_w, int cy, int i, int wait_idx,
+		t_key_config *cfg)
 {
 	const char	*kn;
 	int			kw;
@@ -50,8 +35,8 @@ static int	kb_row_click(int list_x, int list_w, int cy, int i,
 	return (wait_idx);
 }
 
-static void	kb_draw_list(int list_x, int list_w, int list_top,
-	int list_bot, int scroll_px, int wait_idx, t_key_config *cfg)
+void	kb_draw_list(int list_x, int list_w, int list_top, int list_bot,
+			int scroll_px, int wait_idx, t_key_config *cfg)
 {
 	int	cy;
 	int	i;
@@ -83,8 +68,8 @@ static void	kb_draw_list(int list_x, int list_w, int list_top,
 	}
 }
 
-static void	kb_draw_scrollbar(int list_x, int list_w, int list_top,
-	int list_h, int total_h, int scroll_px)
+void	kb_draw_scrollbar(int list_x, int list_w, int list_top, int list_h,
+			int total_h, int scroll_px)
 {
 	float	ratio;
 	float	bar_h;
@@ -102,7 +87,7 @@ static void	kb_draw_scrollbar(int list_x, int list_w, int list_top,
 	DrawRectangle(list_x + list_w + 2, (int)bar_y, 4, (int)bar_h, C_BORDER);
 }
 
-static int	kb_total_h(void)
+int	kb_total_h(void)
 {
 	int	total_h;
 	int	k;

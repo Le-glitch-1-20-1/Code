@@ -6,27 +6,27 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:19:08 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 09:18:20 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 22:29:31 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ui.h"
 
-static Color	icon_get_color(bool hov, bool active)
+Color	icon_get_color(bool hov, bool active)
 {
 	if (hov || active)
 		return (C_HI);
 	return (C_TEXT);
 }
 
-static Color	icon_get_border(bool hov, bool active)
+Color	icon_get_border(bool hov, bool active)
 {
 	if (hov || active)
 		return (C_HI);
 	return (C_BORDER);
 }
 
-static float	icon_get_radius(Rectangle rect)
+float	icon_get_radius(Rectangle rect)
 {
 	if (rect.width < rect.height)
 		return (rect.width * 0.35f);
@@ -34,7 +34,7 @@ static float	icon_get_radius(Rectangle rect)
 }
 
 t_btn_state	icon_button(Rectangle rect, t_icon_draw draw_fn,
-	const char *tooltip, bool active)
+				const char *tooltip, bool active)
 {
 	Vector2	m;
 	bool	hov;

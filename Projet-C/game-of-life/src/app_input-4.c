@@ -6,14 +6,11 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:36:37 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 09:08:11 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 15:32:01 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "app.h"
-
-void	handle_key_random(t_app *app);
-void	handle_key_save(t_app *app);
 
 int	handle_escape(t_app *app, bool ctrl)
 {
@@ -41,7 +38,7 @@ int	handle_escape(t_app *app, bool ctrl)
 	return (1);
 }
 
-static void	ctrl_paste(t_app *app)
+void	ctrl_paste(t_app *app)
 {
 	if (!app->clipboard_valid)
 		return ;

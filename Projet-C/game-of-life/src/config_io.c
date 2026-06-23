@@ -6,7 +6,7 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:11:16 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 09:11:59 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 23:13:36 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_key_config	load_key_config(const char *path)
 		return (cfg);
 	while (fscanf(f, " %63[^=]=%d", key, &val) == 2)
 	{
-		cfg_parse_line(&cfg, key, val);
+		cfg_parse_line1(&cfg, key, val);
 		cfg_parse_line2(&cfg, key, val);
 	}
 	fclose(f);

@@ -6,14 +6,14 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/21 23:07:15 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 09:18:18 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 22:26:01 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ui.h"
 
-static void	hud_graph_loop(const int *pop, int start,
-	int n, int gx2, int gy2, int gh, float bar_w, int pm)
+void	hud_graph_loop(const int *pop, int start, int n, int gx2, int gy2,
+			int gh, float bar_w, int pm)
 {
 	int				i;
 	int				v;
@@ -41,8 +41,8 @@ static void	hud_graph_loop(const int *pop, int start,
 	}
 }
 
-static void	hud_draw_graph(int x, int by, int bh,
-	const int *pop_history, int pop_count, int pop_max)
+void	hud_draw_graph(int x, int by, int bh, const int *pop_history,
+			int pop_count, int pop_max)
 {
 	int		gw;
 	int		gh;
@@ -64,7 +64,7 @@ static void	hud_draw_graph(int x, int by, int bh,
 	DrawText("pop", x + 2, by + 4, 10, C_DIM);
 }
 
-static void	hud_draw_status(bool running, int x, int y)
+void	hud_draw_status(bool running, int x, int y)
 {
 	if (running)
 		DrawText("[RUN]", x, y, FS, C_GREEN);
@@ -72,8 +72,8 @@ static void	hud_draw_status(bool running, int x, int y)
 		DrawText("[PAU]", x, y, FS, C_YELLOW);
 }
 
-static void	hud_draw_text(int generation, float speed, int alive_count,
-	int gx, int gy, int by)
+void	hud_draw_text(int generation, float speed, int alive_count, int gx,
+			int gy, int by)
 {
 	int		bh;
 	int		x;

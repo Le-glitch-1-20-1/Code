@@ -6,7 +6,7 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:06:13 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 09:08:02 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 15:16:24 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	apply_zoom(t_app *app, float wheel)
 	}
 }
 
-static void	handle_pan_keys(t_app *app)
+void	handle_pan_keys(t_app *app)
 {
 	t_key_config	*k;
 
@@ -56,7 +56,7 @@ static void	handle_pan_keys(t_app *app)
 		app->cam.offset.x -= PAN_SPEED;
 }
 
-static void	handle_pan_mouse(t_app *app, Vector2 mouse)
+void	handle_pan_mouse(t_app *app, Vector2 mouse)
 {
 	if (IsMouseButtonPressed(MOUSE_BUTTON_MIDDLE))
 	{

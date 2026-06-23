@@ -6,14 +6,11 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:21:42 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 09:08:37 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 15:42:34 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "app.h"
-
-void	toolbar_act_paste(t_app *app);
-void	handle_toolbar_act1(t_app *app, t_ui_action act);
 
 void	handle_toolbar_select(t_app *app, t_ui_action act)
 {
@@ -37,7 +34,7 @@ void	handle_toolbar_select(t_app *app, t_ui_action act)
 		toolbar_act_paste(app);
 }
 
-static void	handle_toolbar_act2(t_app *app, t_ui_action act)
+void	handle_toolbar_act2(t_app *app, t_ui_action act)
 {
 	if (act == UI_ACTION_MENU)
 	{

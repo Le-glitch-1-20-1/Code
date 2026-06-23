@@ -6,14 +6,14 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:33:57 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 09:07:49 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 21:59:53 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "app.h"
 
-void	draw_selection_info_box(const char *title, int x0, int y0,
-	int x1, int y1, int alive)
+void	draw_selection_info_box(const char *title, int x0, int y0, int x1,
+			int y1, int alive)
 {
 	char	info1[80];
 	char	info2[80];
@@ -71,7 +71,7 @@ void	stamp_pattern(t_app *app, int ox, int oy)
 	}
 }
 
-static void	draw_place_preview_cells(t_app *app, int gx, int gy, float cs)
+void	draw_place_preview_cells(t_app *app, int gx, int gy, float cs)
 {
 	t_chunk_node	*n;
 	const t_chunk	*c;
@@ -108,8 +108,8 @@ static void	draw_place_preview_cells(t_app *app, int gx, int gy, float cs)
 	}
 }
 
-static void	draw_place_preview_rect(t_app *app, int x0, int y0,
-	int x1, int y1, int gx, int gy)
+void	draw_place_preview_rect(t_app *app, int x0, int y0, int x1, int y1,
+			int gx, int gy)
 {
 	float	sx;
 	float	sy;

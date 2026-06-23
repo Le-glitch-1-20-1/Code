@@ -6,14 +6,13 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:32:57 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 11:07:30 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 22:17:04 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "simulation.h"
 
-static void	sim_step_cell(t_chunk_map *map, t_chunk_map *next,
-	int gx, int gy)
+void	sim_step_cell(t_chunk_map *map, t_chunk_map *next, int gx, int gy)
 {
 	int	alive;
 	int	nb;
@@ -29,8 +28,7 @@ static void	sim_step_cell(t_chunk_map *map, t_chunk_map *next,
 		set_cell_global(next, gx, gy, 1);
 }
 
-static void	sim_step_chunk(t_chunk_map *map, t_chunk_map *next,
-	int *todo, int i)
+void	sim_step_chunk(t_chunk_map *map, t_chunk_map *next, int *todo, int i)
 {
 	int	lx;
 	int	ly;
@@ -52,8 +50,8 @@ static void	sim_step_chunk(t_chunk_map *map, t_chunk_map *next,
 	}
 }
 
-static void	sim_compute_next(t_chunk_map *map, t_chunk_map *next,
-	int *todo, int todo_count)
+void	sim_compute_next(t_chunk_map *map, t_chunk_map *next, int *todo,
+			int todo_count)
 {
 	int	i;
 

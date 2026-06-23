@@ -6,7 +6,7 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:24:24 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 09:12:48 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 22:10:09 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ Color	get_chunk_dbg_color(void)
 	return ((Color){60, 60, 80, 80});
 }
 
-static void	draw_chunk_cells(const t_chunk *c, t_camera2d_gol cam,
-	const t_draw_style *st, Vector2 base)
+void	draw_chunk_cells(const t_chunk *c, t_camera2d_gol cam,
+			const t_draw_style *st, Vector2 base)
 {
 	int	lx;
 	int	ly;
@@ -44,7 +44,7 @@ static void	draw_chunk_cells(const t_chunk *c, t_camera2d_gol cam,
 }
 
 void	renderer_draw_chunk(const t_chunk *c, t_camera2d_gol cam,
-	const t_draw_style *st)
+			const t_draw_style *st)
 {
 	Vector2	base;
 
@@ -58,7 +58,7 @@ void	renderer_draw_chunk(const t_chunk *c, t_camera2d_gol cam,
 }
 
 void	rdraw_chunks(const t_chunk_map *map, t_camera2d_gol cam,
-	const t_draw_style *st, const t_view_bounds *b)
+			const t_draw_style *st, const t_view_bounds *b)
 {
 	const t_chunk	*c;
 	int				cy;

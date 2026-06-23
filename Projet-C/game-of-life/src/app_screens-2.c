@@ -6,7 +6,7 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:17:07 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 09:08:34 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 22:04:39 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,7 @@ void	draw_screen_game(t_app *app)
 	draw_screen_game_hud(app);
 }
 
-void	get_rand_bounds(t_app *app, int *xmin, int *xmax,
-	int *ymin, int *ymax)
+void	get_rand_bounds(t_app *app, int *xmin, int *xmax, int *ymin, int *ymax)
 {
 	if (app->rand_state.x0 < app->rand_state.x1)
 		*xmin = app->rand_state.x0;

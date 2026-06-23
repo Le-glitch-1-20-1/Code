@@ -6,7 +6,7 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/21 23:01:58 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 09:46:49 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 23:05:41 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,12 @@
 # define C_ACCENT2	(Color){80,  195, 145, 255}
 # define C_ORANGE	(Color){220, 140, 50,  255}
 
-# define FS		15
-# define FM		18
-# define FL		24
-# define FXL	32
+# define FS			15
+# define FM			18
+# define FL			24
+# define FXL		32
+# define MAX_RLE	512
+# define KB_N		28
 
 typedef enum e_screen
 {
@@ -165,64 +167,154 @@ typedef void (*t_icon_draw)(
 	Color c
 );
 
-t_btn_state		ui_button(Rectangle r, const char *label, bool active);
-t_ui_action		ui_draw_toolbar(bool running, float *speed, int theme_idx);
-t_ui_action		toolbar_center_btn(int *x, int pad, int bsz);
-t_ui_action		toolbar_sim(int *x, int pad, int bsz, bool running);
-t_ui_action		toolbar_files(int *x, int pad, int bsz);
-t_ui_action		toolbar_tools(int *x, int pad, int bsz);
-t_menu_action	ui_draw_menu(void);
-t_btn_state	icon_button(Rectangle rect, t_icon_draw draw_fn,
-				const char *tooltip, bool active);
+// ui_browser-1.c
+void			browser_load_files(char names[MAX_RLE][128], int *count);
+void			draw_rle_preview_cells(t_chunk_map *map, Rectangle dest,
+					int x0, int y0, int x1, int y1);
+void			draw_rle_preview(const char *path, Rectangle dest);
+void			browser_draw_search(Rectangle p, int pw, char *search,
+					bool *search_edit, int *scroll);
+int				browser_filter(char names[MAX_RLE][128], int count,
+					int *filtered, const char *search);
 
+// ui_browser-2.c
+bool			browser_draw_list(char names[MAX_RLE][128], int *filtered,
+					int fcount, Rectangle p, int list_top, int list_bot,
+					int *scroll, int *hovered_idx, char *out_path,
+					int path_len);
+bool			ui_draw_load_browser(char *out_path, int path_len);
+
+// ui_hud.c
+void			hud_graph_loop(const int *pop, int start, int n, int gx2,
+					int gy2, int gh, float bar_w, int pm);
+void			hud_draw_graph(int x, int by, int bh, const int *pop_history,
+					int pop_count, int pop_max);
+void			hud_draw_status(bool running, int x, int y);
+void			hud_draw_text(int generation, float speed, int alive_count,
+					int gx, int gy, int by);
 void			ui_draw_hud(int generation, bool running, float speed,
-					int alive_count, int gx, int gy,
-					const int *pop_history, int pop_count, int pop_max);
-void			sz_name_edit(t_save_zone_state *sz);
-void			ui_draw_random_overlay(t_random_state *rs, t_camera2d_gol cam);
+					int alive_count, int gx, int gy, const int *pop_history,
+					int pop_count, int pop_max);
 void			ui_draw_message(const char *msg, float timer);
-void			credits_init(t_credit_line *lines);
-void			credits_draw_lines(t_credit_line *lines, int n,
-					Rectangle p, int pw);
-void			kb_draw_sep(int list_x, int list_w, int cy,
-					const t_kb_entry *e, int rh_sep);
-void			kb_draw_row(int list_x, int list_w, int cy, int i,
-					int wait_idx, t_key_config *cfg);
-void			sz_phase0_input(t_save_zone_state *sz, t_camera2d_gol cam);
-void			sz_phase0_draw(t_save_zone_state *sz, t_camera2d_gol cam);
-void			sz_draw_empty(void);
-void			sz_draw_dragging(t_save_zone_state *sz, t_camera2d_gol cam);
-void			icon_play(float cx, float cy, float r, Color c);
-void			icon_pause(float cx, float cy, float r, Color c);
-void			icon_step(float cx, float cy, float r, Color c);
-void			icon_clear(float cx, float cy, float r, Color c);
+
+// ui_icons-1.c
+float			icon_get_radius(Rectangle rect);
+Color			icon_get_color(bool hov, bool active);
+Color			icon_get_border(bool hov, bool active);
+t_btn_state		icon_button(Rectangle rect, t_icon_draw draw_fn,
+					const char *tooltip, bool active);
+
+// ui_icons-2.c
 void			icon_save(float cx, float cy, float r, Color c);
 void			icon_load(float cx, float cy, float r, Color c);
 void			icon_random(float cx, float cy, float r, Color c);
 void			icon_menu(float cx, float cy, float r, Color c);
 void			icon_grid(float cx, float cy, float r, Color c);
+
+// ui_icons-3.c
 void			icon_hud(float cx, float cy, float r, Color c);
 void			icon_chunk_debug(float cx, float cy, float r, Color c);
 void			icon_undo(float cx, float cy, float r, Color c);
 void			icon_copy(float cx, float cy, float r, Color c);
 void			icon_clear_zone(float cx, float cy, float r, Color c);
+
+// ui_icons-4.c
+void			icon_play(float cx, float cy, float r, Color c);
+void			icon_pause(float cx, float cy, float r, Color c);
+void			icon_step(float cx, float cy, float r, Color c);
+void			icon_clear(float cx, float cy, float r, Color c);
+
+// ui_icons-5.c
 void			icon_paste(float cx, float cy, float r, Color c);
+
+// ui_keybinds-1.c
+int				*kb_field(t_key_config *cfg, int offset);
+const char		*kname_mod(int k);
+const char		*kname_arrow(int k);
+const char		*kname_fn(int k, char *buf);
+const char		*kname(int k);
+extern const	t_kb_entry    g_kb_table[];
+
+// ui_keybinds-2.c
+void			kb_draw_sep(int list_x, int list_w, int cy,
+					const t_kb_entry *e, int rh_sep);
+void			kb_draw_key_badge(int list_x, int list_w, int cy, int i,
+					int wait_idx, t_key_config *cfg, int rh_key);
+void			kb_draw_row(int list_x, int list_w, int cy, int i,
+					int wait_idx, t_key_config *cfg);
+int				kb_scroll(Rectangle panel, int scroll_px, int total_h,
+					int list_h);
+int				kb_capture(t_key_config *cfg, int wait_idx);
+
+// ui_keybinds-3.c
+void			kb_draw_list(int list_x, int list_w, int list_top,
+					int list_bot, int scroll_px, int wait_idx,
+					t_key_config *cfg);
+void			kb_draw_scrollbar(int list_x, int list_w, int list_top,
+					int list_h, int total_h, int scroll_px);
+bool			ui_draw_keybinds(t_key_config *cfg);
+int				kb_row_click(int list_x, int list_w, int cy, int i,
+					int wait_idx, t_key_config *cfg);
+int				kb_total_h(void);
+
+// ui_menu-1.c
+void			menu_init_items(t_menu_item *items);
+void			credits_init(t_credit_line *lines);
+void			credits_draw_lines(t_credit_line *lines, int n, Rectangle p,
+					int pw);
+t_menu_action	menu_draw_panel(t_menu_item *items, Rectangle p, int pw,
+					int ph);
+t_menu_action	ui_draw_menu(void);
+
+// ui_menu-2.c
+bool			ui_draw_credits(void);
+
+// ui_random.c
+void			rand_swap_coords(t_random_state *rs);
+void			rand_phase0(t_random_state *rs, t_camera2d_gol cam);
+void			rand_slider_input(t_random_state *rs, Rectangle hit, int slx,
+					int slw);
+void			rand_draw_slider(t_random_state *rs, Rectangle p, int pw);
+void			rand_phase1_buttons(t_random_state *rs, Rectangle p, int pw,
+					int ph);
+void			rand_phase1(t_random_state *rs, int sw, int sh);
+void			ui_draw_random_overlay(t_random_state *rs, t_camera2d_gol cam);
+
+// ui_savezone-1.c
+void			sz_phase0_input(t_save_zone_state *sz, t_camera2d_gol cam);
+void			sz_draw_empty(void);
+void			sz_draw_dragging(t_save_zone_state *sz, t_camera2d_gol cam);
+void			sz_phase0_draw(t_save_zone_state *sz, t_camera2d_gol cam);
+void			sz_name_edit(t_save_zone_state *sz);
+int				is_valid_name_char(int k);
+
+// ui_savezone-2.c
+void			sz_draw_info(t_save_zone_state *sz, Rectangle p, int pw);
+void			sz_draw_namefield(t_save_zone_state *sz, Rectangle p, int pw,
+					bool *editing);
+bool			sz_phase1(t_save_zone_state *sz, int sw, int sh,
+					char *out_path, int path_len);
+bool			ui_draw_save_zone(t_save_zone_state *sz, t_camera2d_gol cam,
+					char *out_path, int path_len);
+
+// ui_toolbar-1.c
+t_ui_action		toolbar_sim(int *x, int pad, int bsz, bool running);
+t_ui_action		toolbar_files(int *x, int pad, int bsz);
+t_ui_action		toolbar_tools(int *x, int pad, int bsz);
+t_ui_action		toolbar_center_btn(int *x, int pad, int bsz);
+
+// ui_toolbar-2.c
+void			toolbar_speed(int *x, int pad, int bsz, float *speed);
+t_ui_action		toolbar_view_theme(int *x, int pad, int bsz, int theme_idx,
+					t_ui_action act);
+t_ui_action		toolbar_view(int *x, int pad, int bsz, int theme_idx);
+t_ui_action		ui_draw_toolbar(bool running, float *speed, int theme_idx);
+
+// ui.c
 void			panel_draw(Rectangle r, Color bg, Color border);
 void			text_c(const char *t, int fs, float cx, float cy, Color c);
 void			overlay(void);
 void			draw_tooltip(Rectangle rect, const char *tooltip);
-bool			ui_draw_keybinds(t_key_config *cfg);
-bool			ui_draw_credits(void);
-bool			ui_draw_save_zone(t_save_zone_state *sz, t_camera2d_gol cam,
-					char *out_path, int path_len);
-bool			ui_draw_load_browser(char *out_path, int path_len);
-int				*kb_field(t_key_config *cfg, int offset);
-int				kb_scroll(Rectangle panel, int scroll_px,
-					int total_h, int list_h);
-int				kb_capture(t_key_config *cfg, int wait_idx);
-const char		*kname(int k);
-const char		*kname_mod(int k);
-const char		*kname_arrow(int k);
-const char		*kname_fn(int k, char *buf);
+t_btn_state		ui_button(Rectangle r, const char *label, bool active);
 
 #endif

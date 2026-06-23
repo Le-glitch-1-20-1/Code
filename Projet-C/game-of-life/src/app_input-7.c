@@ -6,7 +6,7 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:30:44 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 09:08:19 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 22:01:12 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ int	bresenham_sy(int y0, int y1)
 	return (-1);
 }
 
-void	draw_line_cells(t_chunk_map *map, int x0, int y0,
-	int x1, int y1, int val)
+void	draw_line_cells(t_chunk_map *map, int x0, int y0, int x1, int y1,
+			int val)
 {
 	int	dx;
 	int	dy;

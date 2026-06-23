@@ -6,14 +6,11 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:13:54 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 09:08:14 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 15:33:51 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "app.h"
-
-void	handle_no_ctrl_keys(t_app *app);
-void	handle_no_ctrl_misc(t_app *app);
 
 void	handle_key_random(t_app *app)
 {
@@ -34,7 +31,7 @@ void	handle_key_save(t_app *app)
 	app->screen = SCREEN_SAVE_ZONE;
 }
 
-static void	handle_no_ctrl_clear(t_app *app)
+void	handle_no_ctrl_clear(t_app *app)
 {
 	t_key_config	*k;
 
@@ -51,7 +48,7 @@ static void	handle_no_ctrl_clear(t_app *app)
 	app->pop_max = 0;
 }
 
-static void	handle_no_ctrl_center(t_app *app)
+void	handle_no_ctrl_center(t_app *app)
 {
 	t_key_config	*k;
 

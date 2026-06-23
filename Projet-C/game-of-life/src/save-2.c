@@ -6,14 +6,13 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:09:04 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 09:12:56 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 22:13:59 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "save.h"
 
-int	rle_find_last(const t_chunk_map *map,
-	int gy, int x0, int x1)
+int	rle_find_last(const t_chunk_map *map, int gy, int x0, int x1)
 {
 	int	gx;
 
@@ -65,8 +64,8 @@ int	save_rle(const char *path, const t_chunk_map *map)
 	return (0);
 }
 
-int	rle_parse_tag(t_chunk_map *map, char tag,
-	int count, int *cur_x, int *cur_y, int ox, int oy)
+int	rle_parse_tag(t_chunk_map *map, char tag, int count, int *cur_x,
+		int *cur_y, int ox, int oy)
 {
 	int	i;
 
@@ -92,8 +91,8 @@ int	rle_parse_tag(t_chunk_map *map, char tag,
 	return (0);
 }
 
-void	rle_parse_chars(t_chunk_map *map, char *p,
-	int *done, int *cur_x, int *cur_y, int ox, int oy)
+void	rle_parse_chars(t_chunk_map *map, char *p, int *done, int *cur_x,
+			int *cur_y, int ox, int oy)
 {
 	int	count;
 
@@ -114,8 +113,7 @@ void	rle_parse_chars(t_chunk_map *map, char *p,
 	}
 }
 
-int	load_rle(const char *path, t_chunk_map *map,
-	int offset_x, int offset_y)
+int	load_rle(const char *path, t_chunk_map *map, int offset_x, int offset_y)
 {
 	FILE	*f;
 	char	line[1024];

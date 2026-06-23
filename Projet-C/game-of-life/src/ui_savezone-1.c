@@ -6,7 +6,7 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/21 23:06:43 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 09:18:50 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 22:48:16 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ void	sz_phase0_draw(t_save_zone_state *sz, t_camera2d_gol cam)
 	sz_draw_dragging(sz, cam);
 }
 
-static int	is_valid_name_char(int k)
+int	is_valid_name_char(int k)
 {
 	if ((k >= 'a' && k <= 'z') || (k >= 'A' && k <= 'Z'))
 		return (1);

@@ -6,13 +6,13 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:24:54 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 09:08:31 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 15:39:53 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "app.h"
 
-static void	toolbar_act_clear(t_app *app)
+void	toolbar_act_clear(t_app *app)
 {
 	push_undo(app);
 	map_free(&app->map);
@@ -24,7 +24,7 @@ static void	toolbar_act_clear(t_app *app)
 	app->pop_max = 0;
 }
 
-static void	toolbar_act_save(t_app *app)
+void	toolbar_act_save(t_app *app)
 {
 	app->was_running = app->running;
 	app->running = false;

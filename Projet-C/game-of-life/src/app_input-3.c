@@ -6,7 +6,7 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:19:44 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 09:08:07 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 15:17:42 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	get_clear_bounds(t_app *app, int *xa, int *ya, int *xb, int *yb)
 		*yb = app->clear_y1;
 }
 
-static void	clear_select_apply(t_app *app)
+void	clear_select_apply(t_app *app)
 {
 	int	xa;
 	int	ya;

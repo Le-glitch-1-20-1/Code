@@ -6,14 +6,11 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/21 23:08:03 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 09:08:16 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 15:34:13 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "app.h"
-
-int		handle_escape(t_app *app, bool ctrl);
-void	handle_ctrl_shortcuts(t_app *app);
 
 void	handle_speed(t_app *app)
 {

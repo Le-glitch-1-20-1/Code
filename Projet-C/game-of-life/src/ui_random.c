@@ -6,17 +6,36 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/21 23:06:23 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 09:18:48 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 22:47:01 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ui.h"
 
-static void	rand_phase0(t_random_state *rs, t_camera2d_gol cam)
+void	rand_swap_coords(t_random_state *rs)
+{
+	int	t;
+
+	if (rs->x0 > rs->x1)
+	{
+		t = rs->x0;
+		rs->x0 = rs->x1;
+		rs->x1 = t;
+	}
+	if (rs->y0 > rs->y1)
+	{
+		t = rs->y0;
+		rs->y0 = rs->y1;
+		rs->y1 = t;
+	}
+	if (rs->x1 - rs->x0 + 1 > 1 && rs->y1 - rs->y0 + 1 > 1)
+		rs->phase = 1;
+}
+
+void	rand_phase0(t_random_state *rs, t_camera2d_gol cam)
 {
 	Vector2	m;
 	bool	on_ui;
-	int		t;
 
 	m = GetMousePosition();
 	on_ui = (m.y < 42);
@@ -36,36 +55,37 @@ static void	rand_phase0(t_random_state *rs, t_camera2d_gol cam)
 	if (rs->dragging && IsMouseButtonReleased(MOUSE_BUTTON_LEFT))
 	{
 		rs->dragging = false;
-		if (rs->x0 > rs->x1)
-		{
-			t = rs->x0;
-			rs->x0 = rs->x1;
-			rs->x1 = t;
-		}
-		if (rs->y0 > rs->y1)
-		{
-			t = rs->y0;
-			rs->y0 = rs->y1;
-			rs->y1 = t;
-		}
-		if (rs->x1 - rs->x0 + 1 > 1 && rs->y1 - rs->y0 + 1 > 1)
-			rs->phase = 1;
+		rand_swap_coords(rs);
 	}
 	if (IsKeyPressed(KEY_ESCAPE))
 		rs->cancelled = true;
 }
 
-static void	rand_draw_slider(t_random_state *rs, Rectangle p, int pw)
+void	rand_slider_input(t_random_state *rs, Rectangle hit, int slx, int slw)
+{
+	Vector2	mm;
+	float	nt;
+
+	mm = GetMousePosition();
+	if (!CheckCollisionPointRec(mm, hit) || !IsMouseButtonDown(0))
+		return ;
+	nt = (mm.x - slx) / slw;
+	if (nt < 0)
+		nt = 0;
+	if (nt > 1)
+		nt = 1;
+	rs->density = nt;
+}
+
+void	rand_draw_slider(t_random_state *rs, Rectangle p, int pw)
 {
 	int			slx;
 	int			sly;
 	int			slw;
 	int			pos;
-	float		nt;
 	char		dpct[16];
 	char		preview[48];
 	Rectangle	hit;
-	Vector2		mm;
 
 	slx = (int)p.x + 90;
 	sly = (int)p.y + 88;
@@ -75,16 +95,7 @@ static void	rand_draw_slider(t_random_state *rs, Rectangle p, int pw)
 	DrawRectangle(slx, sly, pos, 4, C_HI);
 	DrawCircle(slx + pos, sly + 2, 6, C_HI);
 	hit = (Rectangle){(float)slx, (float)(p.y + 74), (float)slw, 24};
-	mm = GetMousePosition();
-	if (CheckCollisionPointRec(mm, hit) && IsMouseButtonDown(0))
-	{
-		nt = (mm.x - slx) / slw;
-		if (nt < 0)
-			nt = 0;
-		if (nt > 1)
-			nt = 1;
-		rs->density = nt;
-	}
+	rand_slider_input(rs, hit, slx, slw);
 	snprintf(dpct, sizeof(dpct), "%.0f%%", rs->density * 100);
 	DrawText(dpct, slx + slw + 8, sly - 3, FS, C_HI);
 	snprintf(preview, sizeof(preview), "~%d cellules vivantes",
@@ -92,7 +103,17 @@ static void	rand_draw_slider(t_random_state *rs, Rectangle p, int pw)
 	DrawText(preview, (int)p.x + 20, (int)p.y + 108, FS - 1, C_DIM);
 }
 
-static void	rand_phase1(t_random_state *rs, int sw, int sh)
+void	rand_phase1_buttons(t_random_state *rs, Rectangle p, int pw, int ph)
+{
+	if (ui_button((Rectangle){p.x + 20, p.y + ph - 46, 140, 34},
+		"Remplir", false) == BTN_CLICKED)
+		rs->confirmed = true;
+	if (ui_button((Rectangle){p.x + pw - 160, p.y + ph - 46, 140, 34},
+		"Annuler", false) == BTN_CLICKED || IsKeyPressed(KEY_ESCAPE))
+		rs->cancelled = true;
+}
+
+void	rand_phase1(t_random_state *rs, int sw, int sh)
 {
 	char		info[64];
 	Rectangle	p;
@@ -112,12 +133,7 @@ static void	rand_phase1(t_random_state *rs, int sw, int sh)
 	DrawText(info, (int)p.x + 20, (int)p.y + 54, FS, C_TEXT);
 	DrawText("Densite :", (int)p.x + 20, (int)p.y + 82, FS, C_DIM);
 	rand_draw_slider(rs, p, pw);
-	if (ui_button((Rectangle){p.x + 20, p.y + ph - 46, 140, 34},
-		"Remplir", false) == BTN_CLICKED)
-		rs->confirmed = true;
-	if (ui_button((Rectangle){p.x + pw - 160, p.y + ph - 46, 140, 34},
-		"Annuler", false) == BTN_CLICKED || IsKeyPressed(KEY_ESCAPE))
-		rs->cancelled = true;
+	rand_phase1_buttons(rs, p, pw, ph);
 }
 
 void	ui_draw_random_overlay(t_random_state *rs, t_camera2d_gol cam)

@@ -6,15 +6,11 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/21 23:07:41 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 09:07:55 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 15:14:48 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "app.h"
-
-void	draw_select_overlay(t_app *app, int xa, int ya,
-			int xb, int yb, const char *title, Color fill, Color border);
-void	draw_selections_clear(t_app *app);
 
 void	minmax_copy(t_app *app, int *xa, int *ya, int *xb, int *yb)
 {
@@ -36,7 +32,7 @@ void	minmax_copy(t_app *app, int *xa, int *ya, int *xb, int *yb)
 		*yb = app->copy_y1;
 }
 
-static void	draw_selections_copy(t_app *app)
+void	draw_selections_copy(t_app *app)
 {
 	int	xa;
 	int	ya;

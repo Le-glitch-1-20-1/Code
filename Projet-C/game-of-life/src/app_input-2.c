@@ -6,13 +6,13 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:27:53 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 09:08:04 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 15:17:13 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "app.h"
 
-static void	handle_drawing_start(t_app *app, int gx, int gy)
+void	handle_drawing_start(t_app *app, int gx, int gy)
 {
 	bool	lb;
 	bool	rb;
@@ -32,7 +32,7 @@ static void	handle_drawing_start(t_app *app, int gx, int gy)
 	set_cell_global(&app->map, gx, gy, app->draw_val);
 }
 
-static void	handle_drawing_move(t_app *app, int gx, int gy)
+void	handle_drawing_move(t_app *app, int gx, int gy)
 {
 	bool	lb;
 	bool	rb;

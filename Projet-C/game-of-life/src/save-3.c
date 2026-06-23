@@ -6,7 +6,7 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:27:10 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 09:12:53 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 22:14:15 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,7 @@ void	json_write_cells(FILE *f, const t_chunk_map *map)
 	}
 }
 
-int	save_json(const char *path, const char *name,
-	const t_chunk_map *map)
+int	save_json(const char *path, const char *name, const t_chunk_map *map)
 {
 	FILE	*f;
 
@@ -67,8 +66,7 @@ int	save_json(const char *path, const char *name,
 	return (0);
 }
 
-int	load_json(const char *path, t_chunk_map *map,
-	int offset_x, int offset_y)
+int	load_json(const char *path, t_chunk_map *map, int offset_x, int offset_y)
 {
 	FILE	*f;
 	int		c;

@@ -6,16 +6,13 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:25:15 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 09:08:22 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 15:36:10 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "app.h"
 
-void	get_copy_bounds(t_app *app, int *xa, int *ya, int *xb, int *yb);
-void	copy_select_fill(t_app *app, int xa, int ya, int xb, int yb);
-
-static void	copy_select_apply(t_app *app)
+void	copy_select_apply(t_app *app)
 {
 	int	xa;
 	int	ya;

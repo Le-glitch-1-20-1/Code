@@ -6,18 +6,14 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:04:52 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 09:18:59 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 22:55:23 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ui.h"
 
-t_ui_action	toolbar_sim(int *x, int pad, int bsz, bool running);
-t_ui_action	toolbar_files(int *x, int pad, int bsz);
-t_ui_action	toolbar_tools(int *x, int pad, int bsz);
-
-static t_ui_action	toolbar_view_theme(int *x, int pad, int bsz,
-	int theme_idx, t_ui_action act)
+t_ui_action	toolbar_view_theme(int *x, int pad, int bsz, int theme_idx,
+				t_ui_action act)
 {
 	t_color_theme	ti;
 	Rectangle		tr;
@@ -61,7 +57,7 @@ static t_ui_action	toolbar_view_theme(int *x, int pad, int bsz,
 	return (act);
 }
 
-static t_ui_action	toolbar_view(int *x, int pad, int bsz, int theme_idx)
+t_ui_action	toolbar_view(int *x, int pad, int bsz, int theme_idx)
 {
 	t_ui_action	act;
 	int			rx;
@@ -88,7 +84,7 @@ static t_ui_action	toolbar_view(int *x, int pad, int bsz, int theme_idx)
 	return (act);
 }
 
-static void	toolbar_speed(int *x, int pad, int bsz, float *speed)
+void	toolbar_speed(int *x, int pad, int bsz, float *speed)
 {
 	int			sw2;
 	int			ty;

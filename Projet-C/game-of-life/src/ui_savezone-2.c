@@ -6,16 +6,13 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:14:30 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 09:18:53 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 22:49:56 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ui.h"
 
-void	sz_phase0_input(t_save_zone_state *sz, t_camera2d_gol cam);
-void	sz_phase0_draw(t_save_zone_state *sz, t_camera2d_gol cam);
-
-static void	sz_draw_info(t_save_zone_state *sz, Rectangle p, int pw)
+void	sz_draw_info(t_save_zone_state *sz, Rectangle p, int pw)
 {
 	char	info[64];
 	char	info2[64];
@@ -35,8 +32,8 @@ static void	sz_draw_info(t_save_zone_state *sz, Rectangle p, int pw)
 		FS - 2, C_DIM);
 }
 
-static void	sz_draw_namefield(t_save_zone_state *sz, Rectangle p,
-	int pw, bool *editing)
+void	sz_draw_namefield(t_save_zone_state *sz, Rectangle p, int pw,
+			bool *editing)
 {
 	Rectangle	box;
 	Vector2		mm;
@@ -65,8 +62,8 @@ static void	sz_draw_namefield(t_save_zone_state *sz, Rectangle p,
 			(int)box.y + (32 - FS) / 2, FS, C_HI);
 }
 
-static bool	sz_phase1(t_save_zone_state *sz, int sw, int sh,
-	char *out_path, int path_len)
+bool	sz_phase1(t_save_zone_state *sz, int sw, int sh, char *out_path,
+			int path_len)
 {
 	static bool	editing = false;
 	const char	*nm;

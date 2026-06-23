@@ -6,14 +6,14 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:23:22 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 09:08:28 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 22:01:41 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "app.h"
 
-int	save_zone_rle(const char *path, const t_chunk_map *src,
-	int x0, int y0, int x1, int y1)
+int	save_zone_rle(const char *path, const t_chunk_map *src, int x0, int y0,
+		int x1, int y1)
 {
 	t_chunk_map	tmp;
 	int			r;

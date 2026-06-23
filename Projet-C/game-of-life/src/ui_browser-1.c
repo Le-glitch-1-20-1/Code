@@ -6,13 +6,11 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/21 23:04:57 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 09:18:09 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 23:04:46 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ui.h"
-
-#define MAX_RLE	512
 
 void	browser_load_files(char names[MAX_RLE][128], int *count)
 {
@@ -46,8 +44,8 @@ void	browser_load_files(char names[MAX_RLE][128], int *count)
 	}
 }
 
-int	browser_filter(char names[MAX_RLE][128], int count,
-	int *filtered, const char *search)
+int	browser_filter(char names[MAX_RLE][128], int count, int *filtered,
+		const char *search)
 {
 	int			fcount;
 	int			i;
@@ -104,8 +102,8 @@ int	browser_filter(char names[MAX_RLE][128], int count,
 	return (fcount);
 }
 
-static void	draw_rle_preview_cells(t_chunk_map *map, Rectangle dest,
-	int x0, int y0, int x1, int y1)
+void	draw_rle_preview_cells(t_chunk_map *map, Rectangle dest, int x0,
+			int y0, int x1, int y1)
 {
 	t_chunk_node	*node;
 	const t_chunk	*c;
@@ -214,7 +212,7 @@ void	draw_rle_preview(const char *path, Rectangle dest)
 }
 
 void	browser_draw_search(Rectangle p, int pw, char *search,
-	bool *search_edit, int *scroll)
+			bool *search_edit, int *scroll)
 {
 	Rectangle	sbox;
 	Vector2		mm;

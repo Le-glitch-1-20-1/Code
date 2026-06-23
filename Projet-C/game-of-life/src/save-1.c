@@ -6,14 +6,14 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:12:18 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 09:12:59 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 22:13:09 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "save.h"
 
-void	bbox_update(const t_chunk *c, int lx, int ly,
-	int *x0, int *y0, int *x1, int *y1)
+void	bbox_update(const t_chunk *c, int lx, int ly, int *x0, int *y0,
+			int *x1, int *y1)
 {
 	int	gx;
 	int	gy;
@@ -30,8 +30,7 @@ void	bbox_update(const t_chunk *c, int lx, int ly,
 		*y1 = gy;
 }
 
-void	bbox_scan_chunk(const t_chunk *c,
-	int *x0, int *y0, int *x1, int *y1)
+void	bbox_scan_chunk(const t_chunk *c, int *x0, int *y0, int *x1, int *y1)
 {
 	int	lx;
 	int	ly;
@@ -53,8 +52,8 @@ void	bbox_scan_chunk(const t_chunk *c,
 	}
 }
 
-void	map_bounding_box(const t_chunk_map *m,
-	int *x0, int *y0, int *x1, int *y1)
+void	map_bounding_box(const t_chunk_map *m, int *x0, int *y0, int *x1,
+			int *y1)
 {
 	t_chunk_node	*node;
 	int				bucket;
@@ -78,8 +77,8 @@ void	map_bounding_box(const t_chunk_map *m,
 	}
 }
 
-void	rle_write_token(FILE *f, char *line_buf,
-	int *line_len, int run, char cur)
+void	rle_write_token(FILE *f, char *line_buf, int *line_len, int run,
+			char cur)
 {
 	char	token[32];
 	int		tlen;
@@ -98,8 +97,8 @@ void	rle_write_token(FILE *f, char *line_buf,
 	*line_len += tlen;
 }
 
-void	rle_write_row(FILE *f, const t_chunk_map *map,
-	char *line_buf, int *line_len, int gy, int x0, int x1, int last)
+void	rle_write_row(FILE *f, const t_chunk_map *map, char *line_buf,
+			int *line_len, int gy, int x0, int x1, int last)
 {
 	int		gx;
 	int		run;

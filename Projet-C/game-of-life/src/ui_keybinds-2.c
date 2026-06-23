@@ -6,21 +6,14 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/21 23:05:50 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 09:18:37 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 23:05:50 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ui.h"
 
-int			*kb_field(t_key_config *cfg, int offset);
-const char	*kname(int k);
-
-#define KB_N	28
-
-extern const t_kb_entry	g_kb_table[];
-
-void	kb_draw_sep(int list_x, int list_w, int cy,
-	const t_kb_entry *e, int rh_sep)
+void	kb_draw_sep(int list_x, int list_w, int cy, const t_kb_entry *e,
+			int rh_sep)
 {
 	int	sy;
 
@@ -33,8 +26,8 @@ void	kb_draw_sep(int list_x, int list_w, int cy,
 		sy + (rh_sep - 6 - FS) / 2, FS, C_HI);
 }
 
-void	kb_draw_key_badge(int list_x, int list_w, int cy,
-	int i, int wait_idx, t_key_config *cfg, int rh_key)
+void	kb_draw_key_badge(int list_x, int list_w, int cy, int i, int wait_idx,
+			t_key_config *cfg, int rh_key)
 {
 	const char	*kn;
 	int			kw;
@@ -58,8 +51,8 @@ void	kb_draw_key_badge(int list_x, int list_w, int cy,
 		text_c(kn, FS, kb.x + kb.width / 2, kb.y + kb.height / 2, C_HI);
 }
 
-void	kb_draw_row(int list_x, int list_w, int cy, int i,
-	int wait_idx, t_key_config *cfg)
+void	kb_draw_row(int list_x, int list_w, int cy, int i, int wait_idx,
+			t_key_config *cfg)
 {
 	const t_kb_entry	*e;
 	bool				iw;

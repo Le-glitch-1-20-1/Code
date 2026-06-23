@@ -6,13 +6,13 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:25:39 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 09:08:24 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 15:37:53 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "app.h"
 
-static void	center_map_iter(t_chunk_map *m, t_chunk_map *tmp, int cx, int cy)
+void	center_map_iter(t_chunk_map *m, t_chunk_map *tmp, int cx, int cy)
 {
 	t_chunk_node	*n;
 	const t_chunk	*c;
@@ -46,7 +46,7 @@ static void	center_map_iter(t_chunk_map *m, t_chunk_map *tmp, int cx, int cy)
 	}
 }
 
-static int	get_center(int a, int b)
+int	get_center(int a, int b)
 {
 	return ((a + b) / 2);
 }
@@ -71,7 +71,7 @@ void	center_map(t_chunk_map *m)
 	*m = tmp;
 }
 
-static void	rotate_chunk(t_chunk_map *dst, const t_chunk *c)
+void	rotate_chunk(t_chunk_map *dst, const t_chunk *c)
 {
 	int	lx;
 	int	ly;

@@ -6,13 +6,13 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:29:40 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 09:07:58 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 15:15:13 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "app.h"
 
-static void	app_init_defaults(t_app *app)
+void	app_init_defaults(t_app *app)
 {
 	app->cam.offset = (Vector2){800, 450};
 	app->cam.zoom = 12.0f;
@@ -29,7 +29,7 @@ static void	app_init_defaults(t_app *app)
 	app->undo_count = 0;
 }
 
-static void	app_init_undo(t_app *app)
+void	app_init_undo(t_app *app)
 {
 	int	i;
 

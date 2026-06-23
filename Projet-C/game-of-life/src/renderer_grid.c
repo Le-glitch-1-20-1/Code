@@ -6,14 +6,14 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:24:24 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 09:12:40 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 22:10:55 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "renderer.h"
 
-void	rdraw_grid_cols(t_camera2d_gol cam,
-	const t_color_theme *th, const t_view_bounds *b)
+void	rdraw_grid_cols(t_camera2d_gol cam, const t_color_theme *th, 
+			const t_view_bounds *b)
 {
 	int		cx;
 	int		lx;
@@ -35,8 +35,8 @@ void	rdraw_grid_cols(t_camera2d_gol cam,
 	}
 }
 
-void	rdraw_grid_rows(t_camera2d_gol cam,
-	const t_color_theme *th, const t_view_bounds *b)
+void	rdraw_grid_rows(t_camera2d_gol cam, const t_color_theme *th, 
+			const t_view_bounds *b)
 {
 	int		cy;
 	int		ly;
@@ -58,8 +58,8 @@ void	rdraw_grid_rows(t_camera2d_gol cam,
 	}
 }
 
-void	renderer_draw_grid(t_camera2d_gol cam,
-	const t_color_theme *th, const t_view_bounds *b)
+void	renderer_draw_grid(t_camera2d_gol cam, const t_color_theme *th,
+			const t_view_bounds *b)
 {
 	rdraw_grid_cols(cam, th, b);
 	rdraw_grid_rows(cam, th, b);

@@ -6,13 +6,11 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:20:27 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 09:18:34 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 23:05:35 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ui.h"
-
-#define KB_N	28
 
 const t_kb_entry	g_kb_table[] = {
 {NULL, "Navigation", -1},

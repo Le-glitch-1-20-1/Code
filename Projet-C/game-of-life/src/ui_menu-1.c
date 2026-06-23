@@ -6,13 +6,13 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/21 23:17:24 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 09:18:42 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 22:44:07 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ui.h"
 
-static void	menu_init_items(t_menu_item *items)
+void	menu_init_items(t_menu_item *items)
 {
 	items[0].l = "Reprendre";
 	items[0].a = MENU_RESUME;
@@ -24,8 +24,8 @@ static void	menu_init_items(t_menu_item *items)
 	items[3].a = MENU_QUIT;
 }
 
-static t_menu_action	menu_draw_panel(t_menu_item *items, Rectangle p,
-	int pw, int ph)
+t_menu_action	menu_draw_panel(t_menu_item *items, Rectangle p, int pw,
+					int ph)
 {
 	t_menu_action	act;
 	float			bw;
@@ -95,8 +95,7 @@ void	credits_init(t_credit_line *lines)
 	lines[5].c = C_TEXT;
 }
 
-void	credits_draw_lines(t_credit_line *lines, int n, Rectangle p,
-	int pw)
+void	credits_draw_lines(t_credit_line *lines, int n, Rectangle p, int pw)
 {
 	int	i;
 	int	y;

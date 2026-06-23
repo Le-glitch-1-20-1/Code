@@ -60,7 +60,7 @@ def strip_comments(src):
 # ── Extraction d'includes ─────────────────────────────────────────────────────
 def get_includes(path):
 	incs = []
-	for line in open(path):
+	for line in open(path, encoding='utf-8', errors='replace'):
 		m = re.match(r'\s*#\s*include\s+"([^"]+)"', line)
 		if m:
 			incs.append(m.group(1))
@@ -73,7 +73,7 @@ FUNC_START = re.compile(
 SKIP_KW = {'if','while','for','switch','return','sizeof','typedef','else','do'}
 
 def get_defined_funcs(path):
-	lines = strip_comments(open(path).read()).split('\n')
+	lines = strip_comments(open(path, encoding='utf-8', errors='replace').read()).split('\n')
 	funcs = []
 	i = 0
 	while i < len(lines):
@@ -95,7 +95,7 @@ def get_defined_funcs(path):
 # ── Extraction de prototypes déclarés dans les .h ────────────────────────────
 def get_declared_funcs(path):
 	funcs = []
-	for line in strip_comments(open(path).read()).split('\n'):
+	for line in strip_comments(open(path, encoding='utf-8', errors='replace').read()).split('\n'):
 		line = line.strip()
 		if not (';' in line and '(' in line):
 			continue
@@ -111,7 +111,7 @@ CALL_RE = re.compile(r'\b(\w+)\s*\(')
 
 def get_calls_with_caller(path):
 	"""Retourne {callee: set(callers)} en suivant la profondeur des accolades."""
-	lines = strip_comments(open(path).read()).split('\n')
+	lines = strip_comments(open(path, encoding='utf-8', errors='replace').read()).split('\n')
 	result = {}
 	current_func = None
 	brace_depth = 0
@@ -237,33 +237,83 @@ group_nodes = {g: [] for g in groups_order}
 for f in sorted(nodes.keys()):
 	group_nodes.setdefault(nodes[f]["group"], []).append(f)
 
+# Tout groupe non prévu dans groups_order (ex: "other", ou un nouveau préfixe
+# pas encore connu de get_group) est ajouté à la fin — sinon ces fichiers
+# n'obtiennent jamais de position et disparaissent silencieusement de la carte.
+for g in group_nodes:
+	if g not in groups_order:
+		groups_order.append(g)
+
+NODE_W = 200
+NODE_H = 42
+NODE_GAP_X = 12
+NODE_GAP_Y = 10
+COLS = 6
+
 init_pos = {}
 y = 80
 for g in groups_order:
 	gn = group_nodes.get(g, [])
 	if not gn:
 		continue
-	x, row = 140.0, 0
-	for f in gn:
-		init_pos[f] = {"x": x, "y": y}
-		x += 184.0
-		row += 1
-		if row >= 6:
-			x, y, row = 140.0, y + 46, 0
-	y += 100
+	x0 = 140.0
+	for i, f in enumerate(gn):
+		col = i % COLS
+		row = i // COLS
+		init_pos[f] = {"x": x0 + col * (NODE_W + NODE_GAP_X), "y": y + row * (NODE_H + NODE_GAP_Y)}
+	rows_used = (len(gn) - 1) // COLS + 1
+	y += rows_used * (NODE_H + NODE_GAP_Y) + 80
 
 # ── Injection dans le HTML ────────────────────────────────────────────────────
-with open(OUTPUT) as f:
+with open(OUTPUT, encoding='utf-8') as f:
 	html = f.read()
 
-html = re.sub(r'const NODES_DATA = \{.*?\};', f'const NODES_DATA = {json.dumps(nodes, ensure_ascii=False)};', html, flags=re.DOTALL)
-html = re.sub(r'const EDGES_DATA = \[.*?\];', f'const EDGES_DATA = {json.dumps(edges, ensure_ascii=False)};', html, flags=re.DOTALL)
-html = re.sub(r'const INIT_POS\s*=\s*\{.*?\};', f'const INIT_POS = {json.dumps(init_pos, ensure_ascii=False)};', html, flags=re.DOTALL)
+nodes_json = json.dumps(nodes, ensure_ascii=False)
+edges_json = json.dumps(edges, ensure_ascii=False)
+pos_json = json.dumps(init_pos, ensure_ascii=False)
 
-with open(OUTPUT, 'w') as f:
+html, n_nodes = re.subn(r'const NODES_DATA = \{.*?\};', f'const NODES_DATA = {nodes_json};', html, flags=re.DOTALL)
+html, n_edges = re.subn(r'const EDGES_DATA = \[.*?\];', f'const EDGES_DATA = {edges_json};', html, flags=re.DOTALL)
+html, n_pos = re.subn(r'const INIT_POS\s*=\s*\{.*?\};', f'const INIT_POS = {pos_json};', html, flags=re.DOTALL)
+
+missing = [name for name, n in (("NODES_DATA", n_nodes), ("EDGES_DATA", n_edges), ("INIT_POS", n_pos)) if n == 0]
+if missing:
+	print(f"Erreur : bloc(s) introuvable(s) dans {OUTPUT} : {', '.join(missing)}")
+	print("Le fichier HTML n'a pas été modifié — vérifie que le template contient bien ces déclarations 'const'.")
+	sys.exit(1)
+
+# Sauvegarde de l'ancien fichier au cas où l'injection produirait un résultat inattendu
+backup_path = OUTPUT + ".bak"
+try:
+	with open(backup_path, 'w', encoding='utf-8') as f:
+		f.write(open(OUTPUT, encoding='utf-8').read())
+except OSError:
+	pass
+
+with open(OUTPUT, 'w', encoding='utf-8') as f:
 	f.write(html)
 
 print(f"✓ {len(nodes)} nœuds, {len(edges)} arêtes → {OUTPUT}")
+if os.path.isfile(backup_path):
+	print(f"  (sauvegarde de l'ancienne version : {backup_path})")
+
+# ── Rapport de cohérence ──────────────────────────────────────────────────────
+# Fonctions définies dans plus d'un fichier : le mapping appel→callee est alors
+# ambigu (la carte choisit une des définitions, signalé aussi via callee_multi_def
+# dans les edges, mais c'est plus visible listé ici directement).
+multi_def = {fn: fs for fn, fs in func_defined_in.items() if len(fs) > 1}
+if multi_def:
+	print(f"\n⚠ {len(multi_def)} fonction(s) définie(s) dans plusieurs fichiers (résolution d'appel ambiguë) :")
+	for fn, fs in sorted(multi_def.items()):
+		print(f"   - {fn}() → {', '.join(fs)}")
+
+# Fichiers .c sans aucune fonction détectée : souvent un signe que FUNC_START
+# n'a pas reconnu le style de signature utilisé (macro, type custom non listé...).
+empty_c = [f for f, info in nodes.items() if not info["is_header"] and not info["funcs"]]
+if empty_c:
+	print(f"\n⚠ {len(empty_c)} fichier(s) .c sans fonction détectée (vérifier le style des signatures) :")
+	for f in empty_c:
+		print(f"   - {f}")
 
 
 # Lancer depuis n'importe où :

@@ -6,7 +6,7 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:08:33 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 11:07:33 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 22:16:44 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ int	count_neighbors(const t_chunk_map *m, int gx, int gy)
 	return (n);
 }
 
-int	sim_collect_dedup(unsigned int *seen, unsigned int set_mask,
-	int ncx, int ncy)
+int	sim_collect_dedup(unsigned int *seen, unsigned int set_mask, int ncx,
+		int ncy)
 {
 	unsigned int		key;
 	unsigned int		stored;
@@ -50,8 +50,8 @@ int	sim_collect_dedup(unsigned int *seen, unsigned int set_mask,
 	return (0);
 }
 
-void	sim_visit_neighbors(t_chunk_node *node,
-	t_dedup_ctx *dedup, t_todo_ctx *todo)
+void	sim_visit_neighbors(t_chunk_node *node, t_dedup_ctx *dedup,
+			t_todo_ctx *todo)
 {
 	int	dx;
 	int	dy;
@@ -79,7 +79,7 @@ void	sim_visit_neighbors(t_chunk_node *node,
 	}
 }
 
-static t_dedup_ctx	sim_init_dedup(int cap)
+t_dedup_ctx	sim_init_dedup(int cap)
 {
 	t_dedup_ctx	dedup;
 	int			set_size;

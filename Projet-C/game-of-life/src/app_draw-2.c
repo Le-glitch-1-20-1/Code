@@ -6,7 +6,7 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:31:09 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 09:07:53 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 22:00:11 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ int	count_cells_in_rect(t_app *app, int xa, int ya, int xb, int yb)
 	return (count);
 }
 
-void	draw_select_overlay(t_app *app, int xa, int ya,
-	int xb, int yb, const char *title, Color fill, Color border)
+void	draw_select_overlay(t_app *app, int xa, int ya, int xb, int yb,
+			const char *title, Color fill, Color border)
 {
 	float	sx;
 	float	sy;

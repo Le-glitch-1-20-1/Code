@@ -6,25 +6,13 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/21 23:05:17 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 10:10:24 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 23:05:10 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ui.h"
 
-void	draw_rle_preview(const char *path, Rectangle dest);
-
-void	browser_draw_search(Rectangle p, int pw, char *search,
-			bool *search_edit, int *scroll);
-
-void	browser_load_files(char names[512][128], int *count);
-
-int		browser_filter(char names[512][128], int count,
-			int *filtered, const char *search);
-
-#define MAX_RLE	512
-
-static bool	browser_draw_list(char names[MAX_RLE][128], int *filtered,
+bool	browser_draw_list(char names[MAX_RLE][128], int *filtered,
 	int fcount, Rectangle p, int list_top, int list_bot, int *scroll,
 	int *hovered_idx, char *out_path, int path_len)
 {
