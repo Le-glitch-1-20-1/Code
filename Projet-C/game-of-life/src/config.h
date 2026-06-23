@@ -6,19 +6,13 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:11:16 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 09:19:55 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 09:45:48 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CONFIG_H
 # define CONFIG_H
 
-# include "app.h"
-# include "chunk.h"
-# include "renderer.h"
-# include "save.h"
-# include "simulation.h"
-# include "ui.h"
 # include "main.h"
 
 typedef struct s_key_config

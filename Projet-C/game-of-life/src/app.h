@@ -6,20 +6,20 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/21 23:01:17 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 09:20:07 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 09:47:01 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef APP_H
 # define APP_H
 
+# include "main.h"
 # include "chunk.h"
 # include "config.h"
 # include "renderer.h"
 # include "save.h"
 # include "simulation.h"
 # include "ui.h"
-# include "main.h"
 
 # define CONFIG_FILE		"keys.cfg"
 # define PAN_SPEED			6.0f

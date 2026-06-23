@@ -6,19 +6,13 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:13:14 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 09:20:00 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 09:45:39 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CHUNK_H
 # define CHUNK_H
 
-# include "app.h"
-# include "config.h"
-# include "renderer.h"
-# include "save.h"
-# include "simulation.h"
-# include "ui.h"
 # include "main.h"
 
 # define CHUNK_SIZE 16

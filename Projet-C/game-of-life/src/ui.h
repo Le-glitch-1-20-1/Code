@@ -6,20 +6,18 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/21 23:01:58 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 09:19:24 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 09:46:49 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef UI_H
 # define UI_H
 
-# include "app.h"
+# include "main.h"
 # include "chunk.h"
 # include "config.h"
 # include "renderer.h"
 # include "save.h"
-# include "simulation.h"
-# include "main.h"
 
 # define C_BG		(Color){14,  14,  18,  255}
 # define C_PANEL	(Color){24,  24,  34,  245}

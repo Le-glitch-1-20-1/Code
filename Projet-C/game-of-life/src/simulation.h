@@ -6,20 +6,15 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:08:33 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 09:19:33 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 09:46:22 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SIMULATION_H
 # define SIMULATION_H
 
-# include "app.h"
-# include "chunk.h"
-# include "config.h"
-# include "renderer.h"
-# include "save.h"
-# include "ui.h"
 # include "main.h"
+# include "chunk.h"
 
 typedef struct s_dedup_ctx
 {

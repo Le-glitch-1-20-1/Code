@@ -6,20 +6,15 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/21 23:02:19 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 09:19:41 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 09:46:30 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SAVE_H
 # define SAVE_H
 
-# include "app.h"
-# include "chunk.h"
-# include "config.h"
-# include "renderer.h"
-# include "simulation.h"
-# include "ui.h"
 # include "main.h"
+# include "chunk.h"
 
 void		bbox_update(const t_chunk *c, int lx, int ly,
 				int *x0, int *y0, int *x1, int *y1);

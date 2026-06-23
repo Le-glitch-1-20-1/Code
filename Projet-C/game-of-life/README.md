@@ -47,7 +47,8 @@ cd ..
 ## Recompilation
 
 ```bash
-cmake --build build -j$(nproc) && ./game-of-life
+cmake --build build -j$(nproc)
+./game-of-life
 ```
 
 ---
