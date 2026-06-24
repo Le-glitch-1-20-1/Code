@@ -5,35 +5,48 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/17 07:23:22 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 22:01:41 by le-glitch        ###   ########.fr       */
+/*   Created: 2026/06/17 07:25:39 by le-glitch         #+#    #+#             */
+/*   Updated: 2026/06/24 22:56:30 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "app.h"
 
-int	save_zone_rle(const char *path, const t_chunk_map *src, int x0, int y0,
-		int x1, int y1)
+void	rotate_chunk(t_chunk_map *dst, const t_chunk *c)
 {
-	t_chunk_map	tmp;
-	int			r;
-	int			x;
-	int			y;
+	int	lx;
+	int	ly;
 
-	map_init(&tmp);
-	y = y0;
-	while (y <= y1)
+	ly = 0;
+	while (ly < CHUNK_SIZE)
 	{
-		x = x0;
-		while (x <= x1)
+		if (c->cells[ly])
 		{
-			if (get_cell_global(src, x, y))
-				set_cell_global(&tmp, x - x0, y - y0, 1);
-			x++;
+			lx = 0;
+			while (lx < CHUNK_SIZE)
+			{
+				if (chunk_get(c, lx, ly))
+					set_cell_global(dst,
+						c->cy * CHUNK_SIZE + ly,
+						-(c->cx * CHUNK_SIZE + lx), 1);
+				lx++;
+			}
 		}
-		y++;
+		ly++;
 	}
-	r = save_rle(path, &tmp);
-	map_free(&tmp);
-	return (r);
+}
+
+void	rotate_map_90(const t_chunk_map *src, t_chunk_map *dst)
+{
+	t_chunk	*n;
+	int		bi;
+
+	map_init(dst);
+	bi = 0;
+	n = map_first((t_chunk_map *)src, &bi);
+	while (n)
+	{
+		rotate_chunk(dst, n);
+		n = map_next((t_chunk_map *)src, &bi, n);
+	}
 }

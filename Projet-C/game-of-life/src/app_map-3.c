@@ -1,31 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   renderer_coords.c                                  :+:      :+:    :+:   */
+/*   app_map-3.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/17 07:24:24 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/24 22:51:19 by le-glitch        ###   ########.fr       */
+/*   Created: 2026/06/17 07:23:22 by le-glitch         #+#    #+#             */
+/*   Updated: 2026/06/24 23:06:26 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "renderer.h"
+#include "app.h"
 
-Vector2	screen_to_cell(t_camera2d_gol cam, Vector2 screen)
+int	save_zone_rle(const char *path, const t_chunk_map *src, int x0, int y0,
+		int x1, int y1)
 {
-	Vector2	result;
+	t_chunk_map	tmp;
+	int			r;
+	int			x;
+	int			y;
 
-	result.x = (screen.x - cam.offset.x) / cam.zoom;
-	result.y = (screen.y - cam.offset.y) / cam.zoom;
-	return (result);
-}
-
-Vector2	cell_to_screen(t_camera2d_gol cam, float cx, float cy)
-{
-	Vector2	result;
-
-	result.x = cx * cam.zoom + cam.offset.x;
-	result.y = cy * cam.zoom + cam.offset.y;
-	return (result);
+	map_init(&tmp);
+	y = y0;
+	while (y <= y1)
+	{
+		x = x0;
+		while (x <= x1)
+		{
+			if (get_cell_global(src, x, y))
+				set_cell_global(&tmp, x - x0, y - y0, 1);
+			x++;
+		}
+		y++;
+	}
+	r = save_rle(path, &tmp);
+	map_free(&tmp);
+	return (r);
 }

@@ -5,89 +5,42 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/17 07:31:09 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/24 11:28:35 by le-glitch        ###   ########.fr       */
+/*   Created: 2026/06/17 07:33:57 by le-glitch         #+#    #+#             */
+/*   Updated: 2026/06/24 23:01:22 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "app.h"
 
-int	count_cells_in_rect(t_app *app, int xa, int ya, int xb, int yb)
-{
-	int	count;
-	int	x;
-	int	y;
-
-	count = 0;
-	y = ya;
-	while (y <= yb)
-	{
-		x = xa;
-		while (x <= xb)
-		{
-			if (get_cell_global(&app->map, x, y))
-				count++;
-			x++;
-		}
-		y++;
-	}
-	return (count);
-}
-
-void	draw_select_overlay(t_app *app, int xa, int ya, int xb, int yb,
-			const char *title, Color fill, Color border)
+void	draw_place_preview_rect(t_app *app, t_prev_rect r)
 {
 	float	sx;
 	float	sy;
 	float	rw;
 	float	rh;
-	int		count;
 
-	sx = xa * app->cam.zoom + app->cam.offset.x;
-	sy = ya * app->cam.zoom + app->cam.offset.y;
-	rw = (xb - xa + 1) * app->cam.zoom;
-	rh = (yb - ya + 1) * app->cam.zoom;
-	DrawRectangleRec((Rectangle){sx, sy, rw, rh}, fill);
-	DrawRectangleLinesEx((Rectangle){sx, sy, rw, rh}, 2.0f, border);
-	count = count_cells_in_rect(app, xa, ya, xb, yb);
-	draw_selection_info_box((t_sel_box){title, xa, ya, xb, yb, count});
+	sx = (r.x0 + r.gx) * app->cam.zoom + app->cam.offset.x;
+	sy = (r.y0 + r.gy) * app->cam.zoom + app->cam.offset.y;
+	rw = (r.x1 - r.x0 + 1) * app->cam.zoom;
+	rh = (r.y1 - r.y0 + 1) * app->cam.zoom;
+	DrawRectangle((int)sx, (int)sy, (int)rw, (int)rh,
+		(Color){221, 185, 60, 40});
+	DrawRectangleLinesEx((Rectangle){sx, sy, rw, rh}, 2.0f,
+		(Color){221, 185, 60, 200});
 }
 
-void	minmax_clear(t_app *app, int *xa, int *ya, int *xb, int *yb)
+void	draw_place_preview(t_app *app)
 {
-	if (app->clear_x0 < app->clear_x1)
-		*xa = app->clear_x0;
-	else
-		*xa = app->clear_x1;
-	if (app->clear_y0 < app->clear_y1)
-		*ya = app->clear_y0;
-	else
-		*ya = app->clear_y1;
-	if (app->clear_x0 > app->clear_x1)
-		*xb = app->clear_x0;
-	else
-		*xb = app->clear_x1;
-	if (app->clear_y0 > app->clear_y1)
-		*yb = app->clear_y0;
-	else
-		*yb = app->clear_y1;
-}
+	t_prev_ctx	ctx;
 
-void	draw_selections_clear(t_app *app)
-{
-	int	xa;
-	int	ya;
-	int	xb;
-	int	yb;
-
-	if (!app->clear_select_mode)
+	ctx.mouse = GetMousePosition();
+	ctx.gx = (int)floorf((ctx.mouse.x - app->cam.offset.x) / app->cam.zoom);
+	ctx.gy = (int)floorf((ctx.mouse.y - app->cam.offset.y) / app->cam.zoom);
+	map_bounding_box(&app->place_map, &ctx.x0, &ctx.y0, &ctx.x1, &ctx.y1);
+	if (ctx.x0 > ctx.x1)
 		return ;
-	if (!app->clear_select_drag)
-	{
-		draw_selection_info_box((t_sel_box){"Effacer", 0, 0, -1, -1, 0});
-		return ;
-	}
-	minmax_clear(app, &xa, &ya, &xb, &yb);
-	draw_select_overlay(app, xa, ya, xb, yb, "Effacer",
-		(Color){220, 50, 50, 55}, (Color){255, 80, 80, 230});
+	draw_place_preview_rect(app, (t_prev_rect){ctx.x0, ctx.y0,
+		ctx.x1, ctx.y1, ctx.gx, ctx.gy});
+	ctx.cs = app->cam.zoom - 1.0f;
+	draw_place_preview_cells(app, ctx.gx, ctx.gy, ctx.cs);
 }

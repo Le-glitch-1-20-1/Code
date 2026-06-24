@@ -6,42 +6,46 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:25:39 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/24 11:17:43 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/24 23:03:44 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "app.h"
 
+static void	center_map_row(t_chunk_map *tmp, const t_chunk *c, int cx, int cy)
+{
+	int	lx;
+	int	ly;
+
+	ly = 0;
+	while (ly < CHUNK_SIZE)
+	{
+		if (c->cells[ly])
+		{
+			lx = 0;
+			while (lx < CHUNK_SIZE)
+			{
+				if (chunk_get(c, lx, ly))
+					set_cell_global(tmp,
+						c->cx * CHUNK_SIZE + lx - cx,
+						c->cy * CHUNK_SIZE + ly - cy, 1);
+				lx++;
+			}
+		}
+		ly++;
+	}
+}
+
 void	center_map_iter(t_chunk_map *m, t_chunk_map *tmp, int cx, int cy)
 {
-	t_chunk			*n;
-	const t_chunk	*c;
-	int				bi;
-	int				lx;
-	int				ly;
+	t_chunk	*n;
+	int		bi;
 
 	bi = 0;
 	n = map_first(m, &bi);
 	while (n)
 	{
-		c = n;
-		ly = 0;
-		while (ly < CHUNK_SIZE)
-		{
-			if (c->cells[ly])
-			{
-				lx = 0;
-				while (lx < CHUNK_SIZE)
-				{
-					if (chunk_get(c, lx, ly))
-						set_cell_global(tmp,
-							c->cx * CHUNK_SIZE + lx - cx,
-							c->cy * CHUNK_SIZE + ly - cy, 1);
-					lx++;
-				}
-			}
-			ly++;
-		}
+		center_map_row(tmp, n, cx, cy);
 		n = map_next(m, &bi, n);
 	}
 }
@@ -69,43 +73,4 @@ void	center_map(t_chunk_map *m)
 	center_map_iter(m, &tmp, cx, cy);
 	map_free(m);
 	*m = tmp;
-}
-
-void	rotate_chunk(t_chunk_map *dst, const t_chunk *c)
-{
-	int	lx;
-	int	ly;
-
-	ly = 0;
-	while (ly < CHUNK_SIZE)
-	{
-		if (c->cells[ly])
-		{
-			lx = 0;
-			while (lx < CHUNK_SIZE)
-			{
-				if (chunk_get(c, lx, ly))
-					set_cell_global(dst,
-						c->cy * CHUNK_SIZE + ly,
-						-(c->cx * CHUNK_SIZE + lx), 1);
-				lx++;
-			}
-		}
-		ly++;
-	}
-}
-
-void	rotate_map_90(const t_chunk_map *src, t_chunk_map *dst)
-{
-	t_chunk	*n;
-	int		bi;
-
-	map_init(dst);
-	bi = 0;
-	n = map_first((t_chunk_map *)src, &bi);
-	while (n)
-	{
-		rotate_chunk(dst, n);
-		n = map_next((t_chunk_map *)src, &bi, n);
-	}
 }

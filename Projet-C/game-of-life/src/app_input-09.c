@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   app_input-8.c                                      :+:      :+:    :+:   */
+/*   app_input-09.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:25:15 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 15:36:10 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/24 22:58:51 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,10 @@
 
 void	copy_select_apply(t_app *app)
 {
-	int	xa;
-	int	ya;
-	int	xb;
-	int	yb;
+	t_rect	r;
 
-	get_copy_bounds(app, &xa, &ya, &xb, &yb);
-	copy_select_fill(app, xa, ya, xb, yb);
+	get_copy_bounds(app, &r);
+	copy_select_fill(app, r);
 }
 
 void	handle_copy_select(t_app *app, Vector2 mouse, bool on_ui)
