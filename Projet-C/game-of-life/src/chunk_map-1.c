@@ -6,7 +6,7 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:10:42 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 15:53:15 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/24 11:00:38 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ void	map_init(t_chunk_map *m)
 
 void	map_free(t_chunk_map *m)
 {
-	t_chunk_node	*node;
-	t_chunk_node	*next;
+	t_chunk			*node;
+	t_chunk			*next;
 	int				i;
 
 	i = 0;
@@ -50,15 +50,15 @@ void	map_free(t_chunk_map *m)
 
 t_chunk	*map_get(const t_chunk_map *m, int cx, int cy)
 {
-	t_chunk_node	*node;
+	t_chunk			*node;
 	unsigned int	idx;
 
 	idx = hash_coord(cx, cy);
 	node = m->buckets[idx];
 	while (node)
 	{
-		if (node->chunk.cx == cx && node->chunk.cy == cy)
-			return (&node->chunk);
+		if (node->cx == cx && node->cy == cy)
+			return (node);
 		node = node->next;
 	}
 	return (NULL);
@@ -66,25 +66,25 @@ t_chunk	*map_get(const t_chunk_map *m, int cx, int cy)
 
 t_chunk	*map_get_or_create(t_chunk_map *m, int cx, int cy)
 {
-	t_chunk_node	*node;
-	t_chunk_node	*new_node;
+	t_chunk			*node;
+	t_chunk			*new_node;
 	unsigned int	idx;
 
 	idx = hash_coord(cx, cy);
 	node = m->buckets[idx];
 	while (node)
 	{
-		if (node->chunk.cx == cx && node->chunk.cy == cy)
-			return (&node->chunk);
+		if (node->cx == cx && node->cy == cy)
+			return (node);
 		node = node->next;
 	}
-	new_node = (t_chunk_node *)calloc(1, sizeof(t_chunk_node));
+	new_node = (t_chunk *)calloc(1, sizeof(t_chunk));
 	if (!new_node)
 		return (NULL);
-	new_node->chunk.cx = cx;
-	new_node->chunk.cy = cy;
+	new_node->cx = cx;
+	new_node->cy = cy;
 	new_node->next = m->buckets[idx];
 	m->buckets[idx] = new_node;
 	m->chunk_count++;
-	return (&new_node->chunk);
+	return (new_node);
 }

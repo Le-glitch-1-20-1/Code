@@ -6,7 +6,7 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:08:33 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 22:17:43 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/24 11:17:32 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void		sim_compute_next(t_chunk_map *map, t_chunk_map *next, int *todo,
 void		simulation_step(t_chunk_map *map);
 
 // simulation_collect.c
-void		sim_visit_neighbors(t_chunk_node *node, t_dedup_ctx *dedup,
+void		sim_visit_neighbors(t_chunk *node, t_dedup_ctx *dedup,
 				t_todo_ctx *todo);
 int			count_neighbors(const t_chunk_map *m, int gx, int gy);
 int			sim_collect_dedup(unsigned int *seen, unsigned int set_mask,

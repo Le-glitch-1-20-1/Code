@@ -137,7 +137,11 @@ def get_calls_with_caller(path):
 	return result
 
 # ── Scan du répertoire ────────────────────────────────────────────────────────
-files = sorted(f for f in os.listdir(SRC) if f.endswith('.c') or f.endswith('.h'))
+# .h en premier dans chaque groupe, puis .c triés alphabétiquement
+files = sorted(
+	(f for f in os.listdir(SRC) if f.endswith('.c') or f.endswith('.h')),
+	key=lambda f: (0 if f.endswith('.h') else 1, f)
+)
 
 nodes = {}
 for f in files:
@@ -232,37 +236,39 @@ for f, info in nodes.items():
 				add_edge(f, inc, "implements", impl, len(impl))
 
 # ── Positions initiales ───────────────────────────────────────────────────────
+# Ces constantes DOIVENT rester synchronisées avec le JS dans le HTML :
+#   GRID_X = NODE_W + NODE_GAP  (230)
+#   GRID_Y = NODE_H + NODE_GAP  (72)
+NODE_W    = 200
+NODE_H    = 42
+NODE_GAP  = 30   # même valeur pour X et Y (NODE_GAP dans le JS)
+GRID_X    = NODE_W + NODE_GAP  # 230
+GRID_Y    = NODE_H + NODE_GAP  # 72
+COLS      = 6
+ROW_GAP   = 2    # lignes vides entre groupes (en unités de GRID_Y)
+
 groups_order = ["main", "app", "chunk", "config", "renderer", "save", "sim", "ui"]
 group_nodes = {g: [] for g in groups_order}
-for f in sorted(nodes.keys()):
+for f in sorted(nodes.keys(), key=lambda f: (0 if f.endswith('.h') else 1, f)):
 	group_nodes.setdefault(nodes[f]["group"], []).append(f)
 
-# Tout groupe non prévu dans groups_order (ex: "other", ou un nouveau préfixe
-# pas encore connu de get_group) est ajouté à la fin — sinon ces fichiers
-# n'obtiennent jamais de position et disparaissent silencieusement de la carte.
+# Groupes inconnus ajoutés à la fin
 for g in group_nodes:
 	if g not in groups_order:
 		groups_order.append(g)
 
-NODE_W = 200
-NODE_H = 42
-NODE_GAP_X = 12
-NODE_GAP_Y = 10
-COLS = 6
-
 init_pos = {}
-y = 80
+row_start = 1  # ligne de grille de départ (col et row en unités de GRID)
 for g in groups_order:
 	gn = group_nodes.get(g, [])
 	if not gn:
 		continue
-	x0 = 140.0
 	for i, f in enumerate(gn):
-		col = i % COLS
-		row = i // COLS
-		init_pos[f] = {"x": x0 + col * (NODE_W + NODE_GAP_X), "y": y + row * (NODE_H + NODE_GAP_Y)}
+		col = (i % COLS) + 1   # col 1-based pour laisser une marge à gauche
+		row = row_start + (i // COLS)
+		init_pos[f] = {"x": col * GRID_X, "y": row * GRID_Y}
 	rows_used = (len(gn) - 1) // COLS + 1
-	y += rows_used * (NODE_H + NODE_GAP_Y) + 80
+	row_start += rows_used + ROW_GAP
 
 # ── Injection dans le HTML ────────────────────────────────────────────────────
 with open(OUTPUT, encoding='utf-8') as f:

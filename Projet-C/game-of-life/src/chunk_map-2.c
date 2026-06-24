@@ -6,7 +6,7 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:21:10 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 09:10:44 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/24 11:00:48 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ int	floor_mod(int a, int b)
 
 void	map_remove(t_chunk_map *m, int cx, int cy)
 {
-	t_chunk_node	**pp;
-	t_chunk_node	*node;
+	t_chunk			**pp;
+	t_chunk			*node;
 	unsigned int	idx;
 
 	idx = (unsigned int)(cx * 1000003) ^ (unsigned int)(cy * 999983);
@@ -34,7 +34,7 @@ void	map_remove(t_chunk_map *m, int cx, int cy)
 	while (*pp)
 	{
 		node = *pp;
-		if (node->chunk.cx == cx && node->chunk.cy == cy)
+		if (node->cx == cx && node->cy == cy)
 		{
 			*pp = node->next;
 			free(node);
@@ -47,9 +47,9 @@ void	map_remove(t_chunk_map *m, int cx, int cy)
 
 void	map_remove_dead(t_chunk_map *m)
 {
-	t_chunk_node	**pp;
-	t_chunk_node	*node;
-	int				i;
+	t_chunk		**pp;
+	t_chunk		*node;
+	int			i;
 
 	i = 0;
 	while (i < MAP_SIZE)
@@ -58,7 +58,7 @@ void	map_remove_dead(t_chunk_map *m)
 		while (*pp)
 		{
 			node = *pp;
-			if (chunk_is_dead(&node->chunk))
+			if (chunk_is_dead(node))
 			{
 				*pp = node->next;
 				free(node);
@@ -73,9 +73,9 @@ void	map_remove_dead(t_chunk_map *m)
 
 int	map_alive_count(const t_chunk_map *m)
 {
-	t_chunk_node	*node;
-	int				total;
-	int				i;
+	t_chunk	*node;
+	int		total;
+	int		i;
 
 	total = 0;
 	i = 0;
@@ -84,7 +84,7 @@ int	map_alive_count(const t_chunk_map *m)
 		node = m->buckets[i];
 		while (node)
 		{
-			total += node->chunk.alive_count;
+			total += node->alive_count;
 			node = node->next;
 		}
 		i++;

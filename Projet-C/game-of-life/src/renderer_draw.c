@@ -6,13 +6,13 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:24:24 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 22:10:25 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/24 11:09:27 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "renderer.h"
 
-t_view_bounds	compute_view_bounds(t_camera2d_gol cam)
+static t_view_bounds	compute_view_bounds(t_camera2d_gol cam)
 {
 	t_view_bounds	b;
 	int				sw;
@@ -40,27 +40,29 @@ void	draw_crosshair(t_camera2d_gol cam)
 		(Vector2){cam.offset.x, cam.offset.y + 6}, c);
 }
 
-void	renderer_draw(const t_chunk_map *map, t_camera2d_gol cam, 
-			const t_render_opts *opts)
+static void	renderer_prepare(t_camera2d_gol cam, t_renderer *r)
 {
-	t_color_theme	th;
-	t_view_bounds	b;
-	t_draw_style	st;
-	int				idx;
+	int	idx;
 
-	idx = opts->theme_idx;
+	idx = r->theme_idx;
 	if (idx < 0 || idx >= THEME_COUNT)
 		idx = 0;
-	th = get_theme(idx);
-	b = compute_view_bounds(cam);
-	if (opts->show_grid && cam.zoom >= 4.0f)
-		renderer_draw_grid(cam, &th, &b);
-	st.th = &th;
-	st.show_dbg = opts->show_chunk_debug;
+	r->th = get_theme(idx);
 	if (cam.zoom >= 4.0f)
-		st.cell_px = cam.zoom - 1.0f;
+		r->cell_px = cam.zoom - 1.0f;
 	else
-		st.cell_px = cam.zoom;
-	rdraw_chunks(map, cam, &st, &b);
+		r->cell_px = cam.zoom;
+}
+
+void	renderer_draw(const t_chunk_map *map, t_camera2d_gol cam,
+			t_renderer *r)
+{
+	t_view_bounds	b;
+
+	renderer_prepare(cam, r);
+	b = compute_view_bounds(cam);
+	if (r->show_grid && cam.zoom >= 4.0f)
+		renderer_draw_grid(cam, r, &b);
+	rdraw_chunks(map, cam, r, &b);
 	draw_crosshair(cam);
 }

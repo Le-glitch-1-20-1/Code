@@ -6,7 +6,7 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:25:39 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 15:37:53 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/24 11:17:43 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	center_map_iter(t_chunk_map *m, t_chunk_map *tmp, int cx, int cy)
 {
-	t_chunk_node	*n;
+	t_chunk			*n;
 	const t_chunk	*c;
 	int				bi;
 	int				lx;
@@ -24,7 +24,7 @@ void	center_map_iter(t_chunk_map *m, t_chunk_map *tmp, int cx, int cy)
 	n = map_first(m, &bi);
 	while (n)
 	{
-		c = &n->chunk;
+		c = n;
 		ly = 0;
 		while (ly < CHUNK_SIZE)
 		{
@@ -97,15 +97,15 @@ void	rotate_chunk(t_chunk_map *dst, const t_chunk *c)
 
 void	rotate_map_90(const t_chunk_map *src, t_chunk_map *dst)
 {
-	t_chunk_node	*n;
-	int				bi;
+	t_chunk	*n;
+	int		bi;
 
 	map_init(dst);
 	bi = 0;
 	n = map_first((t_chunk_map *)src, &bi);
 	while (n)
 	{
-		rotate_chunk(dst, &n->chunk);
+		rotate_chunk(dst, n);
 		n = map_next((t_chunk_map *)src, &bi, n);
 	}
 }
