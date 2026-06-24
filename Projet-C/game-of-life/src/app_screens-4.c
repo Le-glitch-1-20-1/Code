@@ -6,7 +6,7 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/21 23:08:21 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 15:43:09 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/24 11:29:07 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	draw_screen_random(t_app *app)
 		if (app->rand_state.dragging)
 			draw_screen_random_sel(app);
 		else
-			draw_selection_info_box("Hasard", 0, 0, -1, -1, 0);
+			draw_selection_info_box((t_sel_box){"Hasard", 0, 0, -1, -1, 0});
 	}
 	ui_draw_random_overlay(&app->rand_state, app->cam);
 	if (app->rand_state.confirmed)
@@ -126,8 +126,8 @@ void	draw_screen_place(t_app *app)
 	mpos = GetMousePosition();
 	gx = (int)floorf((mpos.x - app->cam.offset.x) / app->cam.zoom);
 	gy = (int)floorf((mpos.y - app->cam.offset.y) / app->cam.zoom);
-	draw_selection_info_box("Pattern", gx + x0, gy + y0, gx + x1, gy + y1,
-		map_alive_count(&app->place_map));
+	draw_selection_info_box((t_sel_box){"Pattern", gx + x0, gy + y0,
+		gx + x1, gy + y1, map_alive_count(&app->place_map)});
 	wheel = GetMouseWheelMove();
 	if (wheel != 0)
 		apply_zoom(app, wheel);

@@ -6,7 +6,7 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/21 23:07:41 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 15:14:48 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/24 11:28:48 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	draw_selections_copy(t_app *app)
 		return ;
 	if (!app->copy_select_drag)
 	{
-		draw_selection_info_box("Copier", 0, 0, -1, -1, 0);
+		draw_selection_info_box((t_sel_box){"Copier", 0, 0, -1, -1, 0});
 		return ;
 	}
 	minmax_copy(app, &xa, &ya, &xb, &yb);

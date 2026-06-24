@@ -6,7 +6,7 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:17:07 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 22:04:39 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/24 11:28:58 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,5 +104,5 @@ void	draw_screen_random_sel(t_app *app)
 		(Color){221, 185, 60, 200});
 	alive = (int)((x_max - x_min + 1) * (y_max - y_min + 1)
 			* app->rand_state.density);
-	draw_selection_info_box("Hasard", x_min, y_min, x_max, y_max, alive);
+	draw_selection_info_box((t_sel_box){"Hasard", x_min, y_min, x_max, y_max, alive});
 }

@@ -6,7 +6,7 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:12:18 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 22:13:09 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/24 11:22:12 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	bbox_scan_chunk(const t_chunk *c, int *x0, int *y0, int *x1, int *y1)
 void	map_bounding_box(const t_chunk_map *m, int *x0, int *y0, int *x1,
 			int *y1)
 {
-	t_chunk_node	*node;
+	t_chunk			*node;
 	int				bucket;
 
 	*x0 = 0x7FFFFFFF;
@@ -65,7 +65,7 @@ void	map_bounding_box(const t_chunk_map *m, int *x0, int *y0, int *x1,
 	node = map_first((t_chunk_map *)m, &bucket);
 	while (node)
 	{
-		bbox_scan_chunk(&node->chunk, x0, y0, x1, y1);
+		bbox_scan_chunk(node, x0, y0, x1, y1);
 		node = map_next((t_chunk_map *)m, &bucket, node);
 	}
 	if (*x0 == 0x7FFFFFFF)

@@ -6,7 +6,7 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:08:33 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 22:16:44 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/24 11:21:27 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	sim_collect_dedup(unsigned int *seen, unsigned int set_mask, int ncx,
 	return (0);
 }
 
-void	sim_visit_neighbors(t_chunk_node *node, t_dedup_ctx *dedup,
+void	sim_visit_neighbors(t_chunk *node, t_dedup_ctx *dedup,
 			t_todo_ctx *todo)
 {
 	int	dx;
@@ -64,8 +64,8 @@ void	sim_visit_neighbors(t_chunk_node *node, t_dedup_ctx *dedup,
 		dy = -1;
 		while (dy <= 1)
 		{
-			ncx = node->chunk.cx + dx;
-			ncy = node->chunk.cy + dy;
+			ncx = node->cx + dx;
+			ncy = node->cy + dy;
 			if (sim_collect_dedup(dedup->seen, dedup->smask, ncx, ncy)
 				&& *(todo->todo_count) < todo->cap)
 			{
@@ -95,7 +95,7 @@ t_dedup_ctx	sim_init_dedup(int cap)
 
 int	sim_collect_todo(t_chunk_map *map, int *todo, int cap)
 {
-	t_chunk_node	*node;
+	t_chunk			*node;
 	t_dedup_ctx		dedup;
 	t_todo_ctx		tctx;
 	int				todo_count;

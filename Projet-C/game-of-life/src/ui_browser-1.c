@@ -6,7 +6,7 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/21 23:04:57 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 23:04:46 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/24 11:21:56 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ int	browser_filter(char names[MAX_RLE][128], int count, int *filtered,
 void	draw_rle_preview_cells(t_chunk_map *map, Rectangle dest, int x0,
 			int y0, int x1, int y1)
 {
-	t_chunk_node	*node;
+	t_chunk			*node;
 	const t_chunk	*c;
 	int				bi;
 	int				ly;
@@ -137,7 +137,7 @@ void	draw_rle_preview_cells(t_chunk_map *map, Rectangle dest, int x0,
 	node = map_first(map, &bi);
 	while (node)
 	{
-		c = &node->chunk;
+		c = node;
 		ly = 0;
 		while (ly < CHUNK_SIZE)
 		{

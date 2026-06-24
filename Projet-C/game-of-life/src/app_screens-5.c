@@ -6,7 +6,7 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:05:42 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 09:08:45 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/24 11:23:02 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void	draw_frame_screens(t_app *app)
 void	draw_frame(t_app *app)
 {
 	t_color_theme	th;
-	t_render_opts	opts;
+	t_renderer		opts;
 
 	th = get_theme(app->theme_idx);
 	BeginDrawing();

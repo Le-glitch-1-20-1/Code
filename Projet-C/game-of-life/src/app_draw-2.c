@@ -6,7 +6,7 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:31:09 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 22:00:11 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/24 11:28:35 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	draw_select_overlay(t_app *app, int xa, int ya, int xb, int yb,
 	DrawRectangleRec((Rectangle){sx, sy, rw, rh}, fill);
 	DrawRectangleLinesEx((Rectangle){sx, sy, rw, rh}, 2.0f, border);
 	count = count_cells_in_rect(app, xa, ya, xb, yb);
-	draw_selection_info_box(title, xa, ya, xb, yb, count);
+	draw_selection_info_box((t_sel_box){title, xa, ya, xb, yb, count});
 }
 
 void	minmax_clear(t_app *app, int *xa, int *ya, int *xb, int *yb)
@@ -84,7 +84,7 @@ void	draw_selections_clear(t_app *app)
 		return ;
 	if (!app->clear_select_drag)
 	{
-		draw_selection_info_box("Effacer", 0, 0, -1, -1, 0);
+		draw_selection_info_box((t_sel_box){"Effacer", 0, 0, -1, -1, 0});
 		return ;
 	}
 	minmax_clear(app, &xa, &ya, &xb, &yb);

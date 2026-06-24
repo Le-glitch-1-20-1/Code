@@ -6,7 +6,7 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:27:10 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 22:14:15 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/24 11:22:04 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	json_write_cells(FILE *f, const t_chunk_map *map)
 {
-	t_chunk_node	*node;
+	t_chunk			*node;
 	const t_chunk	*c;
 	int				bucket;
 	int				first;
@@ -25,7 +25,7 @@ void	json_write_cells(FILE *f, const t_chunk_map *map)
 	node = map_first((t_chunk_map *)map, &bucket);
 	while (node)
 	{
-		c = &node->chunk;
+		c = node;
 		ly = 0;
 		while (ly < CHUNK_SIZE)
 		{

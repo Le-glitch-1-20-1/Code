@@ -6,7 +6,7 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/21 23:01:17 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 22:04:31 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/24 11:27:49 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,38 @@
 # define ZOOM_MAX			128.0f
 # define POP_HISTORY_LEN	240
 # define UNDO_LEN			20
+
+typedef struct s_sel_box
+{
+	const char	*title;
+	int			x0;
+	int			y0;
+	int			x1;
+	int			y1;
+	int			alive;
+}	t_sel_box;
+
+typedef struct s_prev_rect
+{
+	int	x0;
+	int	y0;
+	int	x1;
+	int	y1;
+	int	gx;
+	int	gy;
+}	t_prev_rect;
+
+typedef struct s_prev_ctx
+{
+	Vector2	mouse;
+	int		x0;
+	int		y0;
+	int		x1;
+	int		y1;
+	int		gx;
+	int		gy;
+	float	cs;
+}	t_prev_ctx;
 
 typedef struct s_app
 {
@@ -81,13 +113,14 @@ typedef struct s_app
 }	t_app;
 
 // app_draw-1.c
-void	draw_selection_info_box(const char *title, int x0, int y0, int x1,
-			int y1, int alive);
+void	draw_selection_info_box(t_sel_box b);
 void	stamp_pattern(t_app *app, int ox, int oy);
 void	draw_place_preview_cells(t_app *app, int gx, int gy, float cs);
-void	draw_place_preview_rect(t_app *app, int x0, int y0, int x1, int y1,
-			int gx, int gy);
+void	draw_place_preview_rect(t_app *app, t_prev_rect r);
 void	draw_place_preview(t_app *app);
+void	draw_preview_chunk(t_app *app, const t_chunk *c, int gx, int gy,
+			float cs);
+void	stamp_chunk(t_app *app, const t_chunk *c, int ox, int oy);
 
 // app_draw-2.c
 void	draw_select_overlay(t_app *app, int xa, int ya, int xb, int yb,
