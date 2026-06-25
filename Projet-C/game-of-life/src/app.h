@@ -6,7 +6,7 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/21 23:01:17 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/24 11:27:49 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/25 08:21:19 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,21 @@ typedef struct s_sel_box
 	int			y1;
 	int			alive;
 }	t_sel_box;
+
+typedef struct s_rect
+{
+	int	xa;
+	int	ya;
+	int	xb;
+	int	yb;
+}	t_rect;
+
+typedef struct s_overlay_style
+{
+	const char	*title;
+	Color		fill;
+	Color		border;
+}	t_overlay_style;
 
 typedef struct s_prev_rect
 {
@@ -116,23 +131,24 @@ typedef struct s_app
 void	draw_selection_info_box(t_sel_box b);
 void	stamp_pattern(t_app *app, int ox, int oy);
 void	draw_place_preview_cells(t_app *app, int gx, int gy, float cs);
-void	draw_place_preview_rect(t_app *app, t_prev_rect r);
-void	draw_place_preview(t_app *app);
 void	draw_preview_chunk(t_app *app, const t_chunk *c, int gx, int gy,
 			float cs);
 void	stamp_chunk(t_app *app, const t_chunk *c, int ox, int oy);
 
 // app_draw-2.c
-void	draw_select_overlay(t_app *app, int xa, int ya, int xb, int yb,
-			const char *title, Color fill, Color border);
-void	minmax_clear(t_app *app, int *xa, int *ya, int *xb, int *yb);
+void	draw_select_overlay(t_app *app, t_rect r, t_overlay_style style);
+void	minmax_clear(t_app *app, t_rect *out);
 void	draw_selections_clear(t_app *app);
-int		count_cells_in_rect(t_app *app, int xa, int ya, int xb, int yb);
+int		count_cells_in_rect(t_app *app, t_rect r);
 
 // app_draw-3.c
-void	minmax_copy(t_app *app, int *xa, int *ya, int *xb, int *yb);
+void	minmax_copy(t_app *app, t_rect *out);
 void	draw_selections_copy(t_app *app);
 void	draw_selections(t_app *app);
+
+// app_draw-4.c
+void	draw_place_preview_rect(t_app *app, t_prev_rect r);
+void	draw_place_preview(t_app *app);
 
 // app_init.c
 void	app_init_defaults(t_app *app);
@@ -153,17 +169,16 @@ void	handle_drawing(t_app *app, Vector2 mouse, bool on_ui);
 void	apply_random_fill(t_chunk_map *map, const t_random_state *rs);
 
 // app_input-3.c
-void	get_clear_bounds(t_app *app, int *xa, int *ya, int *xb, int *yb);
+void	get_clear_bounds(t_app *app, t_rect *out);
 void	clear_select_apply(t_app *app);
 void	handle_clear_select(t_app *app, Vector2 mouse, bool on_ui);
-void	get_copy_bounds(t_app *app, int *xa, int *ya, int *xb, int *yb);
-void	copy_select_fill(t_app *app, int xa, int ya, int xb, int yb);
+void	get_copy_bounds(t_app *app, t_rect *out);
+void	copy_select_fill(t_app *app, t_rect r);
 
 // app_input-4.c
 void	ctrl_paste(t_app *app);
+void	handle_ctrl_undo_copy(t_app *app);
 void	handle_ctrl_shortcuts(t_app *app);
-void	handle_no_ctrl_misc(t_app *app);
-void	handle_no_ctrl_keys(t_app *app);
 int		handle_escape(t_app *app, bool ctrl);
 
 // app_input-5.c
@@ -175,6 +190,7 @@ void	handle_no_ctrl(t_app *app);
 
 // app_input-6.c
 void	handle_speed(t_app *app);
+void	handle_game_zoom_pan(t_app *app, Vector2 *mouse, bool *on_ui);
 void	handle_game_input(t_app *app);
 
 // app_input-7.c
@@ -187,16 +203,23 @@ int		bresenham_sy(int y0, int y1);
 void	copy_select_apply(t_app *app);
 void	handle_copy_select(t_app *app, Vector2 mouse, bool on_ui);
 
+// app_input-9.c
+void	handle_no_ctrl_misc(t_app *app);
+void	handle_no_ctrl_keys(t_app *app);
+
 // app_map-1.c
+void	center_map_row(t_chunk_map *tmp, const t_chunk *c, int cx, int cy);
 void	center_map_iter(t_chunk_map *m, t_chunk_map *tmp, int cx, int cy);
 void	center_map(t_chunk_map *m);
-void	rotate_chunk(t_chunk_map *dst, const t_chunk *c);
-void	rotate_map_90(const t_chunk_map *src, t_chunk_map *dst);
 int		get_center(int a, int b);
 
 // app_map-2.c
 int		save_zone_rle(const char *path, const t_chunk_map *src, int x0, int y0,
 			int x1, int y1);
+
+// app_map-3.c
+void	rotate_chunk(t_chunk_map *dst, const t_chunk *c);
+void	rotate_map_90(const t_chunk_map *src, t_chunk_map *dst);
 
 // app_screens-1.c
 void	toolbar_act_clear(t_app *app);
@@ -209,8 +232,7 @@ void	handle_toolbar_toggle(t_app *app, t_ui_action act);
 void	fill_pop_buf(t_app *app, int *pbuf, int *pn);
 void	draw_screen_game_hud(t_app *app);
 void	draw_screen_game(t_app *app);
-void	get_rand_bounds(t_app *app, int *xmin, int *xmax, int *ymin,
-			int *ymax);
+void	get_rand_bounds(t_app *app, t_rect *out);
 void	draw_screen_random_sel(t_app *app);
 
 // app_screens-3.c
@@ -219,16 +241,25 @@ void	handle_toolbar_act2(t_app *app, t_ui_action act);
 void	handle_toolbar_action(t_app *app, t_ui_action act);
 
 // app_screens-4.c
+void	handle_random_result(t_app *app);
 void	draw_screen_random(t_app *app);
 void	draw_screen_save_zone_rect(t_app *app);
 void	draw_screen_save_zone(t_app *app);
-void	draw_screen_place_rotate(t_app *app);
-void	draw_screen_place(t_app *app);
+void	handle_save_zone_ready(t_app *app, const char *out_path);
 
 // app_screens-5.c
+void	handle_load_chosen(t_app *app, const char *out_path);
 void	draw_screen_load(t_app *app);
 void	draw_frame_menu(t_app *app);
 void	draw_frame_screens(t_app *app);
+
+// app_screens-6.c
+void	draw_screen_place_rotate(t_app *app);
+void	draw_place_info(t_app *app, int gx, int gy);
+void	handle_place_drop(t_app *app, Vector2 mpos, int gx, int gy);
+void	draw_screen_place(t_app *app);
+
+// app_screens-7.c
 void	draw_frame(t_app *app);
 void	update(t_app *app, float dt);
 

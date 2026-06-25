@@ -12,25 +12,24 @@
 
 #include "save.h"
 
-void	bbox_update(const t_chunk *c, int lx, int ly, int *x0, int *y0,
-			int *x1, int *y1)
+void	bbox_update(const t_chunk *c, int lx, int ly, t_bbox *box)
 {
 	int	gx;
 	int	gy;
 
 	gx = c->cx * CHUNK_SIZE + lx;
 	gy = c->cy * CHUNK_SIZE + ly;
-	if (gx < *x0)
-		*x0 = gx;
-	if (gx > *x1)
-		*x1 = gx;
-	if (gy < *y0)
-		*y0 = gy;
-	if (gy > *y1)
-		*y1 = gy;
+	if (gx < box->x0)
+		box->x0 = gx;
+	if (gx > box->x1)
+		box->x1 = gx;
+	if (gy < box->y0)
+		box->y0 = gy;
+	if (gy > box->y1)
+		box->y1 = gy;
 }
 
-void	bbox_scan_chunk(const t_chunk *c, int *x0, int *y0, int *x1, int *y1)
+void	bbox_scan_chunk(const t_chunk *c, t_bbox *box)
 {
 	int	lx;
 	int	ly;
@@ -44,7 +43,7 @@ void	bbox_scan_chunk(const t_chunk *c, int *x0, int *y0, int *x1, int *y1)
 			while (lx < CHUNK_SIZE)
 			{
 				if (chunk_get(c, lx, ly))
-					bbox_update(c, lx, ly, x0, y0, x1, y1);
+					bbox_update(c, lx, ly, box);
 				lx++;
 			}
 		}
@@ -52,33 +51,26 @@ void	bbox_scan_chunk(const t_chunk *c, int *x0, int *y0, int *x1, int *y1)
 	}
 }
 
-void	map_bounding_box(const t_chunk_map *m, int *x0, int *y0, int *x1,
-			int *y1)
+void	map_bounding_box(const t_chunk_map *m, t_bbox *box)
 {
-	t_chunk			*node;
-	int				bucket;
+	t_chunk	*node;
+	int		bucket;
 
-	*x0 = 0x7FFFFFFF;
-	*y0 = 0x7FFFFFFF;
-	*x1 = -0x7FFFFFFF;
-	*y1 = -0x7FFFFFFF;
+	box->x0 = 0x7FFFFFFF;
+	box->y0 = 0x7FFFFFFF;
+	box->x1 = -0x7FFFFFFF;
+	box->y1 = -0x7FFFFFFF;
 	node = map_first((t_chunk_map *)m, &bucket);
 	while (node)
 	{
-		bbox_scan_chunk(node, x0, y0, x1, y1);
+		bbox_scan_chunk(node, box);
 		node = map_next((t_chunk_map *)m, &bucket, node);
 	}
-	if (*x0 == 0x7FFFFFFF)
-	{
-		*x0 = 0;
-		*y0 = 0;
-		*x1 = 0;
-		*y1 = 0;
-	}
+	if (box->x0 == 0x7FFFFFFF)
+		*box = (t_bbox){0, 0, 0, 0};
 }
 
-void	rle_write_token(FILE *f, char *line_buf, int *line_len, int run,
-			char cur)
+void	rle_write_token(FILE *f, t_rle_line *lb, int run, char cur)
 {
 	char	token[32];
 	int		tlen;
@@ -87,18 +79,18 @@ void	rle_write_token(FILE *f, char *line_buf, int *line_len, int run,
 		tlen = snprintf(token, sizeof(token), "%c", cur);
 	else
 		tlen = snprintf(token, sizeof(token), "%d%c", run, cur);
-	if (*line_len + tlen > 70)
+	if (lb->len + tlen > 70)
 	{
-		line_buf[(*line_len)++] = '\n';
-		fwrite(line_buf, 1, *line_len, f);
-		*line_len = 0;
+		lb->buf[(lb->len)++] = '\n';
+		fwrite(lb->buf, 1, lb->len, f);
+		lb->len = 0;
 	}
-	memcpy(line_buf + *line_len, token, tlen);
-	*line_len += tlen;
+	memcpy(lb->buf + lb->len, token, tlen);
+	lb->len += tlen;
 }
 
-void	rle_write_row(FILE *f, const t_chunk_map *map, char *line_buf,
-			int *line_len, int gy, int x0, int x1, int last)
+void	rle_write_row(FILE *f, const t_chunk_map *map, t_rle_line *lb,
+			t_rle_row r)
 {
 	int		gx;
 	int		run;
@@ -106,17 +98,17 @@ void	rle_write_row(FILE *f, const t_chunk_map *map, char *line_buf,
 	char	nxt;
 	char	eol;
 
-	gx = x0;
-	while (gx <= last)
+	gx = r.x0;
+	while (gx <= r.last)
 	{
-		if (get_cell_global(map, gx, gy))
+		if (get_cell_global(map, gx, r.gy))
 			cur = 'o';
 		else
 			cur = 'b';
 		run = 1;
-		while (gx + run <= last)
+		while (gx + run <= r.last)
 		{
-			if (get_cell_global(map, gx + run, gy))
+			if (get_cell_global(map, gx + run, r.gy))
 				nxt = 'o';
 			else
 				nxt = 'b';
@@ -124,18 +116,18 @@ void	rle_write_row(FILE *f, const t_chunk_map *map, char *line_buf,
 				break ;
 			run++;
 		}
-		rle_write_token(f, line_buf, line_len, run, cur);
+		rle_write_token(f, lb, run, cur);
 		gx += run;
 	}
-	if (gy < x1)
+	if (r.gy < r.x1)
 		eol = '$';
 	else
 		eol = '!';
-	if (*line_len + 1 > 70)
+	if (lb->len + 1 > 70)
 	{
-		line_buf[(*line_len)++] = '\n';
-		fwrite(line_buf, 1, *line_len, f);
-		*line_len = 0;
+		lb->buf[(lb->len)++] = '\n';
+		fwrite(lb->buf, 1, lb->len, f);
+		lb->len = 0;
 	}
-	line_buf[(*line_len)++] = eol;
+	lb->buf[(lb->len)++] = eol;
 }

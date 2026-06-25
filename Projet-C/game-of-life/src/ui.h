@@ -6,7 +6,7 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/21 23:01:58 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 23:05:41 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/25 08:35:42 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,22 +167,100 @@ typedef void (*t_icon_draw)(
 	Color c
 );
 
+typedef struct s_search_state
+{
+	char	*search;
+	bool	*search_edit;
+	int		*scroll;
+}	t_search_state;
+
+typedef struct s_list_ctx
+{
+	char		(*names)[128];
+	int			*filtered;
+	int			fcount;
+	Rectangle	p;
+	int			list_top;
+	int			list_bot;
+	int			*scroll;
+	int			*hovered_idx;
+	char		*out_path;
+	int			path_len;
+}	t_list_ctx;
+
+typedef struct s_toolbar_geom
+{
+	int	pad;
+	int	bsz;
+}	t_toolbar_geom;
+
+typedef struct s_list_geom
+{
+	int		rh;
+	int		vis;
+	int		lx;
+	int		sb_x;
+	int		list_w;
+	float	track_h;
+	bool	sb_dragging;
+	float	sb_drag_y;
+	int		sb_drag_scroll;
+}	t_list_geom;
+
+typedef struct s_browser_view
+{
+	Rectangle	p;
+	int			pw;
+	int			ph;
+	int			list_top;
+	int			list_bot;
+}	t_browser_view;
+
+typedef struct s_kb_view
+{
+	int	list_x;
+	int	list_w;
+	int	list_top;
+	int	list_bot;
+}	t_kb_view;
+
+typedef struct s_kb_row
+{
+	int	cy;
+	int	i;
+	int	wait_idx;
+}	t_kb_row;
+
 // ui_browser-1.c
 void			browser_load_files(char names[MAX_RLE][128], int *count);
 void			draw_rle_preview_cells(t_chunk_map *map, Rectangle dest,
-					int x0, int y0, int x1, int y1);
+					t_bbox box);
 void			draw_rle_preview(const char *path, Rectangle dest);
-void			browser_draw_search(Rectangle p, int pw, char *search,
-					bool *search_edit, int *scroll);
 int				browser_filter(char names[MAX_RLE][128], int count,
 					int *filtered, const char *search);
+bool			load_preview_cache(const char *path, char *cached_path,
+					t_chunk_map *cached_map);
 
 // ui_browser-2.c
-bool			browser_draw_list(char names[MAX_RLE][128], int *filtered,
-					int fcount, Rectangle p, int list_top, int list_bot,
-					int *scroll, int *hovered_idx, char *out_path,
-					int path_len);
+void			draw_list_scrollbar_thumb(t_list_geom g, t_list_ctx ctx,
+					Rectangle thumb);
+void			draw_list_row_label(t_list_ctx ctx, int ri, Rectangle row,
+					bool hov);
+bool			browser_draw_list(t_list_ctx ctx);
+bool			draw_list_rows(t_list_ctx ctx, t_list_geom g);
+Rectangle		handle_scrollbar_drag(t_list_geom *g, t_list_ctx ctx);
+
+// ui_browser-3.c
+void			browser_draw_search(Rectangle p, int pw, t_search_state st);
+
+// ui_browser-4.c
+void			draw_no_results(t_browser_view v, int fcount, int count);
+void			browser_draw_preview(t_browser_view v,
+					char names[MAX_RLE][128], int hovered_idx);
+void			reset_browser_state(int *count, int *scroll, char *search,
+					bool *search_edit);
 bool			ui_draw_load_browser(char *out_path, int path_len);
+t_browser_view	browser_layout(void);
 
 // ui_hud.c
 void			hud_graph_loop(const int *pop, int start, int n, int gx2,
@@ -236,25 +314,22 @@ const char		*kname(int k);
 extern const	t_kb_entry    g_kb_table[];
 
 // ui_keybinds-2.c
-void			kb_draw_sep(int list_x, int list_w, int cy,
-					const t_kb_entry *e, int rh_sep);
-void			kb_draw_key_badge(int list_x, int list_w, int cy, int i,
-					int wait_idx, t_key_config *cfg, int rh_key);
-void			kb_draw_row(int list_x, int list_w, int cy, int i,
-					int wait_idx, t_key_config *cfg);
+void			kb_draw_sep(t_kb_view v, int cy, const t_kb_entry *e,
+					int rh_sep);
+void			kb_draw_key_badge(t_kb_view v, t_kb_row r,
+					t_key_config *cfg, int rh_key);
+void			kb_draw_row(t_kb_view v, t_kb_row r, t_key_config *cfg);
 int				kb_scroll(Rectangle panel, int scroll_px, int total_h,
 					int list_h);
 int				kb_capture(t_key_config *cfg, int wait_idx);
 
 // ui_keybinds-3.c
-void			kb_draw_list(int list_x, int list_w, int list_top,
-					int list_bot, int scroll_px, int wait_idx,
+void			kb_draw_list(t_kb_view v, int scroll_px, int wait_idx,
 					t_key_config *cfg);
-void			kb_draw_scrollbar(int list_x, int list_w, int list_top,
-					int list_h, int total_h, int scroll_px);
+void			kb_draw_scrollbar(t_kb_view v, int list_h, int total_h,
+					int scroll_px);
 bool			ui_draw_keybinds(t_key_config *cfg);
-int				kb_row_click(int list_x, int list_w, int cy, int i,
-					int wait_idx, t_key_config *cfg);
+int				kb_row_click(t_kb_view v, t_kb_row r, t_key_config *cfg);
 int				kb_total_h(void);
 
 // ui_menu-1.c
@@ -269,12 +344,14 @@ t_menu_action	ui_draw_menu(void);
 // ui_menu-2.c
 bool			ui_draw_credits(void);
 
-// ui_random.c
+// ui_random-1.c
 void			rand_swap_coords(t_random_state *rs);
 void			rand_phase0(t_random_state *rs, t_camera2d_gol cam);
 void			rand_slider_input(t_random_state *rs, Rectangle hit, int slx,
 					int slw);
 void			rand_draw_slider(t_random_state *rs, Rectangle p, int pw);
+
+// ui_random-2.c
 void			rand_phase1_buttons(t_random_state *rs, Rectangle p, int pw,
 					int ph);
 void			rand_phase1(t_random_state *rs, int sw, int sh);
@@ -285,8 +362,6 @@ void			sz_phase0_input(t_save_zone_state *sz, t_camera2d_gol cam);
 void			sz_draw_empty(void);
 void			sz_draw_dragging(t_save_zone_state *sz, t_camera2d_gol cam);
 void			sz_phase0_draw(t_save_zone_state *sz, t_camera2d_gol cam);
-void			sz_name_edit(t_save_zone_state *sz);
-int				is_valid_name_char(int k);
 
 // ui_savezone-2.c
 void			sz_draw_info(t_save_zone_state *sz, Rectangle p, int pw);
@@ -297,6 +372,10 @@ bool			sz_phase1(t_save_zone_state *sz, int sw, int sh,
 bool			ui_draw_save_zone(t_save_zone_state *sz, t_camera2d_gol cam,
 					char *out_path, int path_len);
 
+// ui_savezone-3.c
+int				is_valid_name_char(int k);
+void			sz_name_edit(t_save_zone_state *sz);
+
 // ui_toolbar-1.c
 t_ui_action		toolbar_sim(int *x, int pad, int bsz, bool running);
 t_ui_action		toolbar_files(int *x, int pad, int bsz);
@@ -305,7 +384,7 @@ t_ui_action		toolbar_center_btn(int *x, int pad, int bsz);
 
 // ui_toolbar-2.c
 void			toolbar_speed(int *x, int pad, int bsz, float *speed);
-t_ui_action		toolbar_view_theme(int *x, int pad, int bsz, int theme_idx,
+t_ui_action		toolbar_view_theme(int *x, t_toolbar_geom g, int theme_idx,
 					t_ui_action act);
 t_ui_action		toolbar_view(int *x, int pad, int bsz, int theme_idx);
 t_ui_action		ui_draw_toolbar(bool running, float *speed, int theme_idx);

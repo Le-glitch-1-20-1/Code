@@ -12,47 +12,46 @@
 
 #include "ui.h"
 
-void	kb_draw_sep(int list_x, int list_w, int cy, const t_kb_entry *e,
-			int rh_sep)
+void	kb_draw_sep(t_kb_view v, int cy, const t_kb_entry *e, int rh_sep)
 {
 	int	sy;
 
 	sy = cy + 4;
-	DrawRectangle(list_x, sy, list_w, rh_sep - 6, (Color){35, 35, 55, 255});
-	DrawRectangleLinesEx((Rectangle){(float)list_x, (float)sy,
-		(float)list_w, (float)(rh_sep - 6)}, 1.0f, C_BORDER);
-	DrawRectangle(list_x, sy, 3, rh_sep - 6, C_HI);
-	DrawText(e->label_cat, list_x + 10,
+	DrawRectangle(v.list_x, sy, v.list_w, rh_sep - 6,
+		(Color){35, 35, 55, 255});
+	DrawRectangleLinesEx((Rectangle){(float)v.list_x, (float)sy,
+		(float)v.list_w, (float)(rh_sep - 6)}, 1.0f, C_BORDER);
+	DrawRectangle(v.list_x, sy, 3, rh_sep - 6, C_HI);
+	DrawText(e->label_cat, v.list_x + 10,
 		sy + (rh_sep - 6 - FS) / 2, FS, C_HI);
 }
 
-void	kb_draw_key_badge(int list_x, int list_w, int cy, int i, int wait_idx,
-			t_key_config *cfg, int rh_key)
+void	kb_draw_key_badge(t_kb_view v, t_kb_row r, t_key_config *cfg,
+			int rh_key)
 {
 	const char	*kn;
 	int			kw;
 	Rectangle	kb;
 
-	if (wait_idx == i)
+	if (r.wait_idx == r.i)
 		kn = "[ ... ]";
 	else
-		kn = kname(*kb_field(cfg, g_kb_table[i].offset));
+		kn = kname(*kb_field(cfg, g_kb_table[r.i].offset));
 	kw = MeasureText(kn, FS) + 16;
-	kb = (Rectangle){(float)(list_x + list_w - kw - 6), (float)(cy + 4),
-		(float)kw, (float)(rh_key - 10)};
-	if (wait_idx == i)
+	kb = (Rectangle){(float)(v.list_x + v.list_w - kw - 6),
+		(float)(r.cy + 4), (float)kw, (float)(rh_key - 10)};
+	if (r.wait_idx == r.i)
 		DrawRectangleRec(kb, C_HI);
 	else
 		DrawRectangleRec(kb, C_HOVER);
 	DrawRectangleLinesEx(kb, 1.0f, C_HI);
-	if (wait_idx == i)
+	if (r.wait_idx == r.i)
 		text_c(kn, FS, kb.x + kb.width / 2, kb.y + kb.height / 2, C_BG);
 	else
 		text_c(kn, FS, kb.x + kb.width / 2, kb.y + kb.height / 2, C_HI);
 }
 
-void	kb_draw_row(int list_x, int list_w, int cy, int i, int wait_idx,
-			t_key_config *cfg)
+void	kb_draw_row(t_kb_view v, t_kb_row r, t_key_config *cfg)
 {
 	const t_kb_entry	*e;
 	bool				iw;
@@ -60,10 +59,10 @@ void	kb_draw_row(int list_x, int list_w, int cy, int i, int wait_idx,
 	int					rh_key;
 
 	rh_key = 30;
-	e = &g_kb_table[i];
-	iw = (wait_idx == i);
-	row = (Rectangle){(float)list_x, (float)cy,
-		(float)list_w, (float)(rh_key - 2)};
+	e = &g_kb_table[r.i];
+	iw = (r.wait_idx == r.i);
+	row = (Rectangle){(float)v.list_x, (float)r.cy,
+		(float)v.list_w, (float)(rh_key - 2)};
 	if (iw)
 		DrawRectangleRec(row, C_ACTIVE);
 	else
@@ -73,10 +72,12 @@ void	kb_draw_row(int list_x, int list_w, int cy, int i, int wait_idx,
 	else
 		DrawRectangleLinesEx(row, 1.0f, (Color){40, 40, 60, 255});
 	if (iw)
-		DrawText(e->label, list_x + 12, cy + (rh_key - 2 - FS) / 2, FS, C_HI);
+		DrawText(e->label, v.list_x + 12,
+			r.cy + (rh_key - 2 - FS) / 2, FS, C_HI);
 	else
-		DrawText(e->label, list_x + 12, cy + (rh_key - 2 - FS) / 2, FS, C_TEXT);
-	kb_draw_key_badge(list_x, list_w, cy, i, wait_idx, cfg, rh_key);
+		DrawText(e->label, v.list_x + 12,
+			r.cy + (rh_key - 2 - FS) / 2, FS, C_TEXT);
+	kb_draw_key_badge(v, r, cfg, rh_key);
 }
 
 int	kb_scroll(Rectangle panel, int scroll_px, int total_h, int list_h)

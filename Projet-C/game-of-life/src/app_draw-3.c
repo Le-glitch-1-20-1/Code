@@ -12,32 +12,29 @@
 
 #include "app.h"
 
-void	minmax_copy(t_app *app, int *xa, int *ya, int *xb, int *yb)
+void	minmax_copy(t_app *app, t_rect *out)
 {
 	if (app->copy_x0 < app->copy_x1)
-		*xa = app->copy_x0;
+		out->xa = app->copy_x0;
 	else
-		*xa = app->copy_x1;
+		out->xa = app->copy_x1;
 	if (app->copy_y0 < app->copy_y1)
-		*ya = app->copy_y0;
+		out->ya = app->copy_y0;
 	else
-		*ya = app->copy_y1;
+		out->ya = app->copy_y1;
 	if (app->copy_x0 > app->copy_x1)
-		*xb = app->copy_x0;
+		out->xb = app->copy_x0;
 	else
-		*xb = app->copy_x1;
+		out->xb = app->copy_x1;
 	if (app->copy_y0 > app->copy_y1)
-		*yb = app->copy_y0;
+		out->yb = app->copy_y0;
 	else
-		*yb = app->copy_y1;
+		out->yb = app->copy_y1;
 }
 
 void	draw_selections_copy(t_app *app)
 {
-	int	xa;
-	int	ya;
-	int	xb;
-	int	yb;
+	t_rect	r;
 
 	if (!app->copy_select_mode)
 		return ;
@@ -46,9 +43,9 @@ void	draw_selections_copy(t_app *app)
 		draw_selection_info_box((t_sel_box){"Copier", 0, 0, -1, -1, 0});
 		return ;
 	}
-	minmax_copy(app, &xa, &ya, &xb, &yb);
-	draw_select_overlay(app, xa, ya, xb, yb, "Copier",
-		(Color){50, 120, 220, 45}, (Color){80, 160, 255, 230});
+	minmax_copy(app, &r);
+	draw_select_overlay(app, r, (t_overlay_style){"Copier",
+		(Color){50, 120, 220, 45}, (Color){80, 160, 255, 230}});
 }
 
 void	draw_selections(t_app *app)

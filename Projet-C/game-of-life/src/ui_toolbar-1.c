@@ -105,15 +105,33 @@ t_ui_action	toolbar_tools(int *x, int pad, int bsz)
 	return (act);
 }
 
+static void	toolbar_center_crosshair(Rectangle rb, bool hov2)
+{
+	float	r2;
+	float	cx2;
+	float	cy2;
+	Color	col;
+
+	r2 = rb.width * 0.35f * 0.8f;
+	cx2 = rb.x + rb.width / 2;
+	cy2 = rb.y + rb.height / 2;
+	if (hov2)
+		col = C_HI;
+	else
+		col = C_TEXT;
+	DrawLineEx((Vector2){cx2 - r2, cy2}, (Vector2){cx2 + r2, cy2}, 1.5f, col);
+	DrawLineEx((Vector2){cx2, cy2 - r2}, (Vector2){cx2, cy2 + r2}, 1.5f, col);
+	DrawCircleLines((int)cx2, (int)cy2, (int)(r2 * 0.6f), col);
+	if (hov2)
+		draw_tooltip(rb, "Recentrer");
+}
+
 t_ui_action	toolbar_center_btn(int *x, int pad, int bsz)
 {
 	Rectangle	rb;
 	Vector2		m2;
 	bool		hov2;
 	bool		click2;
-	float		r2;
-	float		cx2;
-	float		cy2;
 
 	rb = (Rectangle){(float)*x, (float)pad, (float)bsz, (float)bsz};
 	m2 = GetMousePosition();
@@ -129,27 +147,7 @@ t_ui_action	toolbar_center_btn(int *x, int pad, int bsz)
 		DrawRectangleLinesEx(rb, 1.0f, C_HI);
 	else
 		DrawRectangleLinesEx(rb, 1.0f, C_BORDER);
-	r2 = rb.width * 0.35f * 0.8f;
-	cx2 = rb.x + rb.width / 2;
-	cy2 = rb.y + rb.height / 2;
-	if (hov2)
-		DrawLineEx((Vector2){cx2 - r2, cy2},
-			(Vector2){cx2 + r2, cy2}, 1.5f, C_HI);
-	else
-		DrawLineEx((Vector2){cx2 - r2, cy2},
-			(Vector2){cx2 + r2, cy2}, 1.5f, C_TEXT);
-	if (hov2)
-		DrawLineEx((Vector2){cx2, cy2 - r2},
-			(Vector2){cx2, cy2 + r2}, 1.5f, C_HI);
-	else
-		DrawLineEx((Vector2){cx2, cy2 - r2},
-			(Vector2){cx2, cy2 + r2}, 1.5f, C_TEXT);
-	if (hov2)
-		DrawCircleLines((int)cx2, (int)cy2, (int)(r2 * 0.6f), C_HI);
-	else
-		DrawCircleLines((int)cx2, (int)cy2, (int)(r2 * 0.6f), C_TEXT);
-	if (hov2)
-		draw_tooltip(rb, "Recentrer");
+	toolbar_center_crosshair(rb, hov2);
 	*x += bsz + pad;
 	if (click2)
 		return (UI_ACTION_CENTER);

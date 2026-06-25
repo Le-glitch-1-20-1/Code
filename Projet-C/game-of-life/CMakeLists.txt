@@ -20,70 +20,75 @@ endif()
 
 # ── Sources ───────────────────────────────────────────────────────────────────
 set(SOURCES
-	src/main.c
-	src/app_init.c
-	src/app_undo.c
-	src/app_map-1.c
-	src/app_map-2.c
-	src/app_map-3.c
-	src/app_input-01.c
-	src/app_input-02.c
-	src/app_input-03.c
-	src/app_input-04.c
-	src/app_input-05.c
-	src/app_input-06.c
-	src/app_input-07.c
-	src/app_input-08.c
-	src/app_input-09.c
 	src/app_draw-1.c
 	src/app_draw-2.c
 	src/app_draw-3.c
 	src/app_draw-4.c
-	src/app_screens-01.c
-	src/app_screens-02.c
-	src/app_screens-03.c
-	src/app_screens-04.c
-	src/app_screens-05.c
-	src/app_screens-06.c
-	src/app_screens-07.c
+	src/app_init.c
+	src/app_input-1.c
+	src/app_input-2.c
+	src/app_input-3.c
+	src/app_input-4.c
+	src/app_input-5.c
+	src/app_input-6.c
+	src/app_input-7.c
+	src/app_input-8.c
+	src/app_input-9.c
+	src/app_map-1.c
+	src/app_map-2.c
+	src/app_map-3.c
+	src/app_screens-1.c
+	src/app_screens-2.c
+	src/app_screens-3.c
+	src/app_screens-4.c
+	src/app_screens-5.c
+	src/app_screens-6.c
+	src/app_screens-7.c
+	src/app_undo.c
 	src/chunk_map-1.c
 	src/chunk_map-2.c
 	src/chunk_map-3.c
 	src/chunk_map-4.c
 	src/chunk.c
-	src/config.c
-	src/config_parse.c
 	src/config_io.c
+	src/config_parse.c
+	src/config.c
+	src/main.c
+	src/renderer_chunk.c
+	src/renderer_coords.c
+	src/renderer_draw.c
+	src/renderer_grid.c
 	src/renderer_theme-1.c
 	src/renderer_theme-2.c
-	src/renderer_coords.c
-	src/renderer_grid.c
-	src/renderer_chunk.c
-	src/renderer_draw.c
-	src/simulation.c
-	src/simulation_collect.c
 	src/save-1.c
 	src/save-2.c
 	src/save-3.c
-	src/ui.c
+	src/save-4.c
+	src/simulation-1.c
+	src/simulation-2.c
+	src/ui_browser-1.c
+	src/ui_browser-2.c
+	src/ui_browser-3.c
+	src/ui_browser-4.c
+	src/ui_hud.c
 	src/ui_icons-1.c
 	src/ui_icons-2.c
 	src/ui_icons-3.c
 	src/ui_icons-4.c
 	src/ui_icons-5.c
-	src/ui_toolbar-1.c
-	src/ui_toolbar-2.c
-	src/ui_hud.c
-	src/ui_menu-1.c
-	src/ui_menu-2.c
 	src/ui_keybinds-1.c
 	src/ui_keybinds-2.c
 	src/ui_keybinds-3.c
+	src/ui_menu-1.c
+	src/ui_menu-2.c
+	src/ui_random-1.c
+	src/ui_random-2.c
 	src/ui_savezone-1.c
 	src/ui_savezone-2.c
-	src/ui_browser-1.c
-	src/ui_browser-2.c
-	src/ui_random.c
+	src/ui_savezone-3.c
+	src/ui_toolbar-1.c
+	src/ui_toolbar-2.c
+	src/ui.c
 )
 
 add_executable(game-of-life ${SOURCES})

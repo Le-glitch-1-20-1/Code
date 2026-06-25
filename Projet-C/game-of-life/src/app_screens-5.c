@@ -6,11 +6,29 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:05:42 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/24 11:23:02 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/25 08:19:19 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "app.h"
+
+void	handle_load_chosen(t_app *app, const char *out_path)
+{
+	map_init(&app->place_map);
+	if (load_rle(out_path, &app->place_map, 0, 0) == 0)
+	{
+		center_map(&app->place_map);
+		app->place_state = (t_place_state){0};
+		app->place_loaded = true;
+		app->screen = SCREEN_PLACE;
+	}
+	else
+	{
+		map_free(&app->place_map);
+		app->running = false;
+		app->screen = SCREEN_GAME;
+	}
+}
 
 void	draw_screen_load(t_app *app)
 {
@@ -20,22 +38,7 @@ void	draw_screen_load(t_app *app)
 	out_path[0] = 0;
 	chosen = ui_draw_load_browser(out_path, sizeof(out_path));
 	if (chosen)
-	{
-		map_init(&app->place_map);
-		if (load_rle(out_path, &app->place_map, 0, 0) == 0)
-		{
-			center_map(&app->place_map);
-			app->place_state = (t_place_state){0};
-			app->place_loaded = true;
-			app->screen = SCREEN_PLACE;
-		}
-		else
-		{
-			map_free(&app->place_map);
-			app->running = false;
-			app->screen = SCREEN_GAME;
-		}
-	}
+		handle_load_chosen(app, out_path);
 	else if (IsKeyPressed(KEY_ESCAPE))
 	{
 		app->running = false;
@@ -94,46 +97,3 @@ void	draw_frame_screens(t_app *app)
 		app->screen = SCREEN_SAVE_ZONE;
 }
 
-void	draw_frame(t_app *app)
-{
-	t_color_theme	th;
-	t_renderer		opts;
-
-	th = get_theme(app->theme_idx);
-	BeginDrawing();
-	ClearBackground(th.bg);
-	opts.show_grid = app->show_grid;
-	opts.show_chunk_debug = app->show_chunk_debug;
-	opts.theme_idx = app->theme_idx;
-	renderer_draw(&app->map, app->cam, &opts);
-	draw_selections(app);
-	draw_frame_screens(app);
-	EndDrawing();
-}
-
-void	update(t_app *app, float dt)
-{
-	int		alive;
-	int		idx;
-	float	td;
-
-	if (app->screen != SCREEN_GAME)
-		return ;
-	handle_game_input(app);
-	if (!app->running)
-		return ;
-	app->tick_acc += dt;
-	td = 1.0f / app->speed;
-	while (app->tick_acc >= td)
-	{
-		simulation_step(&app->map);
-		app->generation++;
-		app->tick_acc -= td;
-		alive = map_alive_count(&app->map);
-		idx = app->pop_count % POP_HISTORY_LEN;
-		app->pop_history[idx] = alive;
-		app->pop_count++;
-		if (alive > app->pop_max)
-			app->pop_max = alive;
-	}
-}

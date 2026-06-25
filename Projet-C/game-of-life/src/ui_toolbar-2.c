@@ -12,7 +12,7 @@
 
 #include "ui.h"
 
-t_ui_action	toolbar_view_theme(int *x, int pad, int bsz, int theme_idx,
+t_ui_action	toolbar_view_theme(int *x, t_toolbar_geom g, int theme_idx,
 				t_ui_action act)
 {
 	t_color_theme	ti;
@@ -26,7 +26,7 @@ t_ui_action	toolbar_view_theme(int *x, int pad, int bsz, int theme_idx,
 		ti = get_theme(theme_idx);
 	else
 		ti = get_theme(0);
-	tr = (Rectangle){(float)*x, (float)pad, (float)bsz, (float)bsz};
+	tr = (Rectangle){(float)*x, (float)g.pad, (float)g.bsz, (float)g.bsz};
 	tm2 = GetMousePosition();
 	thov = CheckCollisionPointRec(tm2, tr);
 	tclk = thov && IsMouseButtonReleased(MOUSE_BUTTON_LEFT);
@@ -51,7 +51,7 @@ t_ui_action	toolbar_view_theme(int *x, int pad, int bsz, int theme_idx,
 		snprintf(tt, sizeof(tt), "Theme: %s", ti.name);
 		draw_tooltip(tr, tt);
 	}
-	*x += bsz + pad;
+	*x += g.bsz + g.pad;
 	if (act == UI_ACTION_NONE && tclk)
 		return (UI_ACTION_NEXT_THEME);
 	return (act);
@@ -80,7 +80,7 @@ t_ui_action	toolbar_view(int *x, int pad, int bsz, int theme_idx)
 		icon_chunk_debug, "Debug chunks", false) == BTN_CLICKED)
 		act = UI_ACTION_TOGGLE_CHUNK_DEBUG;
 	*x += bsz + pad;
-	act = toolbar_view_theme(x, pad, bsz, theme_idx, act);
+	act = toolbar_view_theme(x, (t_toolbar_geom){pad, bsz}, theme_idx, act);
 	return (act);
 }
 

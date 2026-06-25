@@ -12,42 +12,39 @@
 
 #include "app.h"
 
-void	get_clear_bounds(t_app *app, int *xa, int *ya, int *xb, int *yb)
+void	get_clear_bounds(t_app *app, t_rect *out)
 {
 	if (app->clear_x0 < app->clear_x1)
-		*xa = app->clear_x0;
+		out->xa = app->clear_x0;
 	else
-		*xa = app->clear_x1;
+		out->xa = app->clear_x1;
 	if (app->clear_y0 < app->clear_y1)
-		*ya = app->clear_y0;
+		out->ya = app->clear_y0;
 	else
-		*ya = app->clear_y1;
+		out->ya = app->clear_y1;
 	if (app->clear_x0 > app->clear_x1)
-		*xb = app->clear_x0;
+		out->xb = app->clear_x0;
 	else
-		*xb = app->clear_x1;
+		out->xb = app->clear_x1;
 	if (app->clear_y0 > app->clear_y1)
-		*yb = app->clear_y0;
+		out->yb = app->clear_y0;
 	else
-		*yb = app->clear_y1;
+		out->yb = app->clear_y1;
 }
 
 void	clear_select_apply(t_app *app)
 {
-	int	xa;
-	int	ya;
-	int	xb;
-	int	yb;
-	int	x;
-	int	y;
+	t_rect	r;
+	int		x;
+	int		y;
 
-	get_clear_bounds(app, &xa, &ya, &xb, &yb);
+	get_clear_bounds(app, &r);
 	push_undo(app);
-	y = ya;
-	while (y <= yb)
+	y = r.ya;
+	while (y <= r.yb)
 	{
-		x = xa;
-		while (x <= xb)
+		x = r.xa;
+		while (x <= r.xb)
 		{
 			set_cell_global(&app->map, x, y, 0);
 			x++;
@@ -85,41 +82,41 @@ void	handle_clear_select(t_app *app, Vector2 mouse, bool on_ui)
 		clear_select_apply(app);
 }
 
-void	get_copy_bounds(t_app *app, int *xa, int *ya, int *xb, int *yb)
+void	get_copy_bounds(t_app *app, t_rect *out)
 {
 	if (app->copy_x0 < app->copy_x1)
-		*xa = app->copy_x0;
+		out->xa = app->copy_x0;
 	else
-		*xa = app->copy_x1;
+		out->xa = app->copy_x1;
 	if (app->copy_y0 < app->copy_y1)
-		*ya = app->copy_y0;
+		out->ya = app->copy_y0;
 	else
-		*ya = app->copy_y1;
+		out->ya = app->copy_y1;
 	if (app->copy_x0 > app->copy_x1)
-		*xb = app->copy_x0;
+		out->xb = app->copy_x0;
 	else
-		*xb = app->copy_x1;
+		out->xb = app->copy_x1;
 	if (app->copy_y0 > app->copy_y1)
-		*yb = app->copy_y0;
+		out->yb = app->copy_y0;
 	else
-		*yb = app->copy_y1;
+		out->yb = app->copy_y1;
 }
 
-void	copy_select_fill(t_app *app, int xa, int ya, int xb, int yb)
+void	copy_select_fill(t_app *app, t_rect r)
 {
 	int	x;
 	int	y;
 
 	map_free(&app->clipboard);
 	map_init(&app->clipboard);
-	y = ya;
-	while (y <= yb)
+	y = r.ya;
+	while (y <= r.yb)
 	{
-		x = xa;
-		while (x <= xb)
+		x = r.xa;
+		while (x <= r.xb)
 		{
 			if (get_cell_global(&app->map, x, y))
-				set_cell_global(&app->clipboard, x - xa, y - ya, 1);
+				set_cell_global(&app->clipboard, x - r.xa, y - r.ya, 1);
 			x++;
 		}
 		y++;
