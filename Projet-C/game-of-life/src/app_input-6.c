@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   app_input-07.c                                     :+:      :+:    :+:   */
+/*   app_input-6.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/21 23:08:03 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/24 23:02:01 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 15:34:13 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,27 +31,21 @@ void	handle_speed(t_app *app)
 	}
 }
 
-static void	handle_game_zoom_pan(t_app *app, Vector2 *mouse, bool *on_ui)
-{
-	float	wheel;
-
-	wheel = GetMouseWheelMove();
-	if (wheel != 0.0f)
-		apply_zoom(app, wheel);
-	handle_pan(app);
-	*mouse = GetMousePosition();
-	*on_ui = (mouse->y <= 42) || (mouse->y > GetScreenHeight() - 28);
-}
-
 void	handle_game_input(t_app *app)
 {
 	t_key_config	*k;
 	Vector2			mouse;
 	bool			ctrl;
 	bool			on_ui;
+	float			wheel;
 
 	k = &app->keys;
-	handle_game_zoom_pan(app, &mouse, &on_ui);
+	wheel = GetMouseWheelMove();
+	if (wheel != 0.0f)
+		apply_zoom(app, wheel);
+	handle_pan(app);
+	mouse = GetMousePosition();
+	on_ui = (mouse.y <= 42) || (mouse.y > GetScreenHeight() - 28);
 	handle_drawing(app, mouse, on_ui);
 	if (!IsMouseButtonDown(MOUSE_BUTTON_LEFT)
 		&& !IsMouseButtonDown(MOUSE_BUTTON_RIGHT))

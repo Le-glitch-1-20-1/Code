@@ -25,22 +25,27 @@ set(SOURCES
 	src/app_undo.c
 	src/app_map-1.c
 	src/app_map-2.c
-	src/app_input-1.c
-	src/app_input-7.c
-	src/app_input-2.c
-	src/app_input-3.c
-	src/app_input-8.c
-	src/app_input-4.c
-	src/app_input-5.c
-	src/app_input-6.c
+	src/app_map-3.c
+	src/app_input-01.c
+	src/app_input-02.c
+	src/app_input-03.c
+	src/app_input-04.c
+	src/app_input-05.c
+	src/app_input-06.c
+	src/app_input-07.c
+	src/app_input-08.c
+	src/app_input-09.c
 	src/app_draw-1.c
 	src/app_draw-2.c
 	src/app_draw-3.c
-	src/app_screens-1.c
-	src/app_screens-2.c
-	src/app_screens-3.c
-	src/app_screens-4.c
-	src/app_screens-5.c
+	src/app_draw-4.c
+	src/app_screens-01.c
+	src/app_screens-02.c
+	src/app_screens-03.c
+	src/app_screens-04.c
+	src/app_screens-05.c
+	src/app_screens-06.c
+	src/app_screens-07.c
 	src/chunk_map-1.c
 	src/chunk_map-2.c
 	src/chunk_map-3.c
@@ -64,8 +69,8 @@ set(SOURCES
 	src/ui_icons-1.c
 	src/ui_icons-2.c
 	src/ui_icons-3.c
-	src/ui_icons-5.c
 	src/ui_icons-4.c
+	src/ui_icons-5.c
 	src/ui_toolbar-1.c
 	src/ui_toolbar-2.c
 	src/ui_hud.c

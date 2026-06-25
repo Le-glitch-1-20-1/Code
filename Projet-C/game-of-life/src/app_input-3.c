@@ -1,50 +1,53 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   app_input-03.c                                     :+:      :+:    :+:   */
+/*   app_input-3.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:19:44 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/24 22:59:11 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/23 15:17:42 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "app.h"
 
-void	get_clear_bounds(t_app *app, t_rect *out)
+void	get_clear_bounds(t_app *app, int *xa, int *ya, int *xb, int *yb)
 {
 	if (app->clear_x0 < app->clear_x1)
-		out->xa = app->clear_x0;
+		*xa = app->clear_x0;
 	else
-		out->xa = app->clear_x1;
+		*xa = app->clear_x1;
 	if (app->clear_y0 < app->clear_y1)
-		out->ya = app->clear_y0;
+		*ya = app->clear_y0;
 	else
-		out->ya = app->clear_y1;
+		*ya = app->clear_y1;
 	if (app->clear_x0 > app->clear_x1)
-		out->xb = app->clear_x0;
+		*xb = app->clear_x0;
 	else
-		out->xb = app->clear_x1;
+		*xb = app->clear_x1;
 	if (app->clear_y0 > app->clear_y1)
-		out->yb = app->clear_y0;
+		*yb = app->clear_y0;
 	else
-		out->yb = app->clear_y1;
+		*yb = app->clear_y1;
 }
 
 void	clear_select_apply(t_app *app)
 {
-	t_rect	r;
-	int		x;
-	int		y;
+	int	xa;
+	int	ya;
+	int	xb;
+	int	yb;
+	int	x;
+	int	y;
 
-	get_clear_bounds(app, &r);
+	get_clear_bounds(app, &xa, &ya, &xb, &yb);
 	push_undo(app);
-	y = r.ya;
-	while (y <= r.yb)
+	y = ya;
+	while (y <= yb)
 	{
-		x = r.xa;
-		while (x <= r.xb)
+		x = xa;
+		while (x <= xb)
 		{
 			set_cell_global(&app->map, x, y, 0);
 			x++;
@@ -82,41 +85,41 @@ void	handle_clear_select(t_app *app, Vector2 mouse, bool on_ui)
 		clear_select_apply(app);
 }
 
-void	get_copy_bounds(t_app *app, t_rect *out)
+void	get_copy_bounds(t_app *app, int *xa, int *ya, int *xb, int *yb)
 {
 	if (app->copy_x0 < app->copy_x1)
-		out->xa = app->copy_x0;
+		*xa = app->copy_x0;
 	else
-		out->xa = app->copy_x1;
+		*xa = app->copy_x1;
 	if (app->copy_y0 < app->copy_y1)
-		out->ya = app->copy_y0;
+		*ya = app->copy_y0;
 	else
-		out->ya = app->copy_y1;
+		*ya = app->copy_y1;
 	if (app->copy_x0 > app->copy_x1)
-		out->xb = app->copy_x0;
+		*xb = app->copy_x0;
 	else
-		out->xb = app->copy_x1;
+		*xb = app->copy_x1;
 	if (app->copy_y0 > app->copy_y1)
-		out->yb = app->copy_y0;
+		*yb = app->copy_y0;
 	else
-		out->yb = app->copy_y1;
+		*yb = app->copy_y1;
 }
 
-void	copy_select_fill(t_app *app, t_rect r)
+void	copy_select_fill(t_app *app, int xa, int ya, int xb, int yb)
 {
 	int	x;
 	int	y;
 
 	map_free(&app->clipboard);
 	map_init(&app->clipboard);
-	y = r.ya;
-	while (y <= r.yb)
+	y = ya;
+	while (y <= yb)
 	{
-		x = r.xa;
-		while (x <= r.xb)
+		x = xa;
+		while (x <= xb)
 		{
 			if (get_cell_global(&app->map, x, y))
-				set_cell_global(&app->clipboard, x - r.xa, y - r.ya, 1);
+				set_cell_global(&app->clipboard, x - xa, y - ya, 1);
 			x++;
 		}
 		y++;

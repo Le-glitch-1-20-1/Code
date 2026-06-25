@@ -6,7 +6,7 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:17:07 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/24 22:47:19 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/24 11:28:58 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,46 +61,48 @@ void	draw_screen_game(t_app *app)
 	draw_screen_game_hud(app);
 }
 
-void	get_rand_bounds(t_app *app, t_rect *out)
+void	get_rand_bounds(t_app *app, int *xmin, int *xmax, int *ymin, int *ymax)
 {
 	if (app->rand_state.x0 < app->rand_state.x1)
-		out->xa = app->rand_state.x0;
+		*xmin = app->rand_state.x0;
 	else
-		out->xa = app->rand_state.x1;
+		*xmin = app->rand_state.x1;
 	if (app->rand_state.x0 > app->rand_state.x1)
-		out->xb = app->rand_state.x0;
+		*xmax = app->rand_state.x0;
 	else
-		out->xb = app->rand_state.x1;
+		*xmax = app->rand_state.x1;
 	if (app->rand_state.y0 < app->rand_state.y1)
-		out->ya = app->rand_state.y0;
+		*ymin = app->rand_state.y0;
 	else
-		out->ya = app->rand_state.y1;
+		*ymin = app->rand_state.y1;
 	if (app->rand_state.y0 > app->rand_state.y1)
-		out->yb = app->rand_state.y0;
+		*ymax = app->rand_state.y0;
 	else
-		out->yb = app->rand_state.y1;
+		*ymax = app->rand_state.y1;
 }
 
 void	draw_screen_random_sel(t_app *app)
 {
-	t_rect	r;
+	int		x_min;
+	int		x_max;
+	int		y_min;
+	int		y_max;
 	float	sx;
 	float	sy;
 	float	rw;
 	float	rh;
 	int		alive;
 
-	get_rand_bounds(app, &r);
-	sx = r.xa * app->cam.zoom + app->cam.offset.x;
-	sy = r.ya * app->cam.zoom + app->cam.offset.y;
-	rw = (r.xb - r.xa + 1) * app->cam.zoom;
-	rh = (r.yb - r.ya + 1) * app->cam.zoom;
+	get_rand_bounds(app, &x_min, &x_max, &y_min, &y_max);
+	sx = x_min * app->cam.zoom + app->cam.offset.x;
+	sy = y_min * app->cam.zoom + app->cam.offset.y;
+	rw = (x_max - x_min + 1) * app->cam.zoom;
+	rh = (y_max - y_min + 1) * app->cam.zoom;
 	DrawRectangle((int)sx, (int)sy, (int)rw, (int)rh,
 		(Color){221, 185, 60, 40});
 	DrawRectangleLinesEx((Rectangle){sx, sy, rw, rh}, 2.0f,
 		(Color){221, 185, 60, 200});
-	alive = (int)((r.xb - r.xa + 1) * (r.yb - r.ya + 1)
+	alive = (int)((x_max - x_min + 1) * (y_max - y_min + 1)
 			* app->rand_state.density);
-	draw_selection_info_box((t_sel_box){"Hasard", r.xa, r.ya,
-		r.xb, r.yb, alive});
+	draw_selection_info_box((t_sel_box){"Hasard", x_min, y_min, x_max, y_max, alive});
 }

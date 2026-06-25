@@ -6,7 +6,7 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/21 23:01:17 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/24 22:49:44 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/24 11:27:49 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,21 +37,6 @@ typedef struct s_sel_box
 	int			y1;
 	int			alive;
 }	t_sel_box;
-
-typedef struct s_rect
-{
-	int	xa;
-	int	ya;
-	int	xb;
-	int	yb;
-}	t_rect;
-
-typedef struct s_overlay_style
-{
-	const char	*title;
-	Color		fill;
-	Color		border;
-}	t_overlay_style;
 
 typedef struct s_prev_rect
 {
@@ -138,13 +123,14 @@ void	draw_preview_chunk(t_app *app, const t_chunk *c, int gx, int gy,
 void	stamp_chunk(t_app *app, const t_chunk *c, int ox, int oy);
 
 // app_draw-2.c
-void	draw_select_overlay(t_app *app, t_rect r, t_overlay_style style);
-void	minmax_clear(t_app *app, t_rect *out);
+void	draw_select_overlay(t_app *app, int xa, int ya, int xb, int yb,
+			const char *title, Color fill, Color border);
+void	minmax_clear(t_app *app, int *xa, int *ya, int *xb, int *yb);
 void	draw_selections_clear(t_app *app);
-int		count_cells_in_rect(t_app *app, t_rect r);
+int		count_cells_in_rect(t_app *app, int xa, int ya, int xb, int yb);
 
 // app_draw-3.c
-void	minmax_copy(t_app *app, t_rect *out);
+void	minmax_copy(t_app *app, int *xa, int *ya, int *xb, int *yb);
 void	draw_selections_copy(t_app *app);
 void	draw_selections(t_app *app);
 
@@ -167,21 +153,18 @@ void	handle_drawing(t_app *app, Vector2 mouse, bool on_ui);
 void	apply_random_fill(t_chunk_map *map, const t_random_state *rs);
 
 // app_input-3.c
-void	get_clear_bounds(t_app *app, t_rect *out);
+void	get_clear_bounds(t_app *app, int *xa, int *ya, int *xb, int *yb);
 void	clear_select_apply(t_app *app);
 void	handle_clear_select(t_app *app, Vector2 mouse, bool on_ui);
-void	get_copy_bounds(t_app *app, t_rect *out);
-void	copy_select_fill(t_app *app, t_rect r);
+void	get_copy_bounds(t_app *app, int *xa, int *ya, int *xb, int *yb);
+void	copy_select_fill(t_app *app, int xa, int ya, int xb, int yb);
 
 // app_input-4.c
 void	ctrl_paste(t_app *app);
-void	handle_ctrl_undo_copy(t_app *app);
 void	handle_ctrl_shortcuts(t_app *app);
-int		handle_escape(t_app *app, bool ctrl);
-
-// app_input-4b.c
 void	handle_no_ctrl_misc(t_app *app);
 void	handle_no_ctrl_keys(t_app *app);
+int		handle_escape(t_app *app, bool ctrl);
 
 // app_input-5.c
 void	handle_key_random(t_app *app);
@@ -207,11 +190,9 @@ void	handle_copy_select(t_app *app, Vector2 mouse, bool on_ui);
 // app_map-1.c
 void	center_map_iter(t_chunk_map *m, t_chunk_map *tmp, int cx, int cy);
 void	center_map(t_chunk_map *m);
-int		get_center(int a, int b);
-
-// app_map-1b.c
 void	rotate_chunk(t_chunk_map *dst, const t_chunk *c);
 void	rotate_map_90(const t_chunk_map *src, t_chunk_map *dst);
+int		get_center(int a, int b);
 
 // app_map-2.c
 int		save_zone_rle(const char *path, const t_chunk_map *src, int x0, int y0,
@@ -228,7 +209,8 @@ void	handle_toolbar_toggle(t_app *app, t_ui_action act);
 void	fill_pop_buf(t_app *app, int *pbuf, int *pn);
 void	draw_screen_game_hud(t_app *app);
 void	draw_screen_game(t_app *app);
-void	get_rand_bounds(t_app *app, t_rect *out);
+void	get_rand_bounds(t_app *app, int *xmin, int *xmax, int *ymin,
+			int *ymax);
 void	draw_screen_random_sel(t_app *app);
 
 // app_screens-3.c
@@ -240,8 +222,6 @@ void	handle_toolbar_action(t_app *app, t_ui_action act);
 void	draw_screen_random(t_app *app);
 void	draw_screen_save_zone_rect(t_app *app);
 void	draw_screen_save_zone(t_app *app);
-
-// app_screens-4b.c
 void	draw_screen_place_rotate(t_app *app);
 void	draw_screen_place(t_app *app);
 
@@ -249,8 +229,6 @@ void	draw_screen_place(t_app *app);
 void	draw_screen_load(t_app *app);
 void	draw_frame_menu(t_app *app);
 void	draw_frame_screens(t_app *app);
-
-// app_screens-5b.c
 void	draw_frame(t_app *app);
 void	update(t_app *app, float dt);
 
