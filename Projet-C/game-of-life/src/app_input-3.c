@@ -14,22 +14,7 @@
 
 void	get_clear_bounds(t_app *app, t_rect *out)
 {
-	if (app->clear_x0 < app->clear_x1)
-		out->xa = app->clear_x0;
-	else
-		out->xa = app->clear_x1;
-	if (app->clear_y0 < app->clear_y1)
-		out->ya = app->clear_y0;
-	else
-		out->ya = app->clear_y1;
-	if (app->clear_x0 > app->clear_x1)
-		out->xb = app->clear_x0;
-	else
-		out->xb = app->clear_x1;
-	if (app->clear_y0 > app->clear_y1)
-		out->yb = app->clear_y0;
-	else
-		out->yb = app->clear_y1;
+	minmax_clear(app, out);
 }
 
 void	clear_select_apply(t_app *app)
@@ -84,22 +69,7 @@ void	handle_clear_select(t_app *app, Vector2 mouse, bool on_ui)
 
 void	get_copy_bounds(t_app *app, t_rect *out)
 {
-	if (app->copy_x0 < app->copy_x1)
-		out->xa = app->copy_x0;
-	else
-		out->xa = app->copy_x1;
-	if (app->copy_y0 < app->copy_y1)
-		out->ya = app->copy_y0;
-	else
-		out->ya = app->copy_y1;
-	if (app->copy_x0 > app->copy_x1)
-		out->xb = app->copy_x0;
-	else
-		out->xb = app->copy_x1;
-	if (app->copy_y0 > app->copy_y1)
-		out->yb = app->copy_y0;
-	else
-		out->yb = app->copy_y1;
+	minmax_copy(app, out);
 }
 
 void	copy_select_fill(t_app *app, t_rect r)

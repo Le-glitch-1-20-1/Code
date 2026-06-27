@@ -63,13 +63,27 @@ void	sz_draw_empty(void)
 	DrawText("Cellules : 0", 18, 78, 15, (Color){200, 200, 255, 240});
 }
 
+static t_bbox	sz_normalize_box(t_save_zone_state *sz)
+{
+	t_bbox	box;
+
+	box = (t_bbox){sz->x0, sz->y0, sz->x1, sz->y1};
+	if (box.x0 > box.x1)
+	{
+		box.x0 = sz->x1;
+		box.x1 = sz->x0;
+	}
+	if (box.y0 > box.y1)
+	{
+		box.y0 = sz->y1;
+		box.y1 = sz->y0;
+	}
+	return (box);
+}
+
 void	sz_draw_dragging(t_save_zone_state *sz, t_camera2d_gol cam)
 {
-	int		xa;
-	int		ya;
-	int		xb;
-	int		yb;
-	int		t;
+	t_bbox	box;
 	float	sx;
 	float	sy;
 	float	rw;
@@ -77,34 +91,19 @@ void	sz_draw_dragging(t_save_zone_state *sz, t_camera2d_gol cam)
 	char	info1[80];
 	char	info2[80];
 
-	xa = sz->x0;
-	ya = sz->y0;
-	xb = sz->x1;
-	yb = sz->y1;
-	if (xa > xb)
-	{
-		t = xa;
-		xa = xb;
-		xb = t;
-	}
-	if (ya > yb)
-	{
-		t = ya;
-		ya = yb;
-		yb = t;
-	}
-	sx = xa * cam.zoom + cam.offset.x;
-	sy = ya * cam.zoom + cam.offset.y;
-	rw = (xb - xa + 1) * cam.zoom;
-	rh2 = (yb - ya + 1) * cam.zoom;
+	box = sz_normalize_box(sz);
+	sx = box.x0 * cam.zoom + cam.offset.x;
+	sy = box.y0 * cam.zoom + cam.offset.y;
+	rw = (box.x1 - box.x0 + 1) * cam.zoom;
+	rh2 = (box.y1 - box.y0 + 1) * cam.zoom;
 	DrawRectangle((int)sx, (int)sy, (int)rw, (int)rh2,
 		(Color){221, 185, 60, 30});
 	DrawRectangleLinesEx((Rectangle){sx, sy, rw, rh2}, 2.0f,
 		(Color){221, 185, 60, 220});
 	snprintf(info1, sizeof(info1), "Export RLE : %d x %d",
-		abs(xb - xa) + 1, abs(yb - ya) + 1);
+		box.x1 - box.x0 + 1, box.y1 - box.y0 + 1);
 	snprintf(info2, sizeof(info2), "Cellules : %d",
-		(abs(xb - xa) + 1) * (abs(yb - ya) + 1));
+		(box.x1 - box.x0 + 1) * (box.y1 - box.y0 + 1));
 	DrawRectangle(10, 50, 240, 50, (Color){14, 14, 22, 210});
 	DrawRectangleLinesEx((Rectangle){10, 50, 240, 50}, 1.5f,
 		(Color){127, 119, 221, 180});

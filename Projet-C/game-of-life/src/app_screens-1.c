@@ -26,31 +26,12 @@ void	toolbar_act_clear(t_app *app)
 
 void	toolbar_act_save(t_app *app)
 {
-	app->was_running = app->running;
-	app->running = false;
-	app->save_zone = (t_save_zone_state){0};
-	snprintf(app->save_zone.name_buf,
-		sizeof(app->save_zone.name_buf), "mon_pattern");
-	app->screen = SCREEN_SAVE_ZONE;
+	handle_key_save(app);
 }
 
 void	toolbar_act_paste(t_app *app)
 {
-	if (!app->clipboard_valid)
-		return ;
-	if (app->place_loaded)
-		map_free(&app->place_map);
-	map_init(&app->place_map);
-	map_copy(&app->place_map, &app->clipboard);
-	center_map(&app->place_map);
-	app->place_state = (t_place_state){0};
-	app->place_loaded = true;
-	app->copy_select_mode = false;
-	app->clear_select_mode = false;
-	app->paste_mode = false;
-	app->was_running = app->running;
-	app->running = false;
-	app->screen = SCREEN_PLACE;
+	ctrl_paste(app);
 }
 
 void	handle_toolbar_act1(t_app *app, t_ui_action act)
