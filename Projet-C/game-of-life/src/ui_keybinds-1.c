@@ -91,30 +91,15 @@ const char	*kname_arrow(int k)
 
 const char	*kname_fn(int k, char *buf)
 {
-	if (k == KEY_F1)
-		return ("F1");
-	if (k == KEY_F2)
-		return ("F2");
-	if (k == KEY_F3)
-		return ("F3");
-	if (k == KEY_F4)
-		return ("F4");
-	if (k == KEY_F5)
-		return ("F5");
-	if (k == KEY_F6)
-		return ("F6");
-	if (k == KEY_F7)
-		return ("F7");
-	if (k == KEY_F8)
-		return ("F8");
-	if (k == KEY_F9)
-		return ("F9");
-	if (k == KEY_F10)
-		return ("F10");
-	if (k == KEY_F11)
-		return ("F11");
-	if (k == KEY_F12)
-		return ("F12");
+	static const char	*names[] = {"F1", "F2", "F3", "F4", "F5", "F6",
+		"F7", "F8", "F9", "F10", "F11", "F12"};
+	int					i;
+
+	if (k >= KEY_F1 && k <= KEY_F12)
+	{
+		i = k - KEY_F1;
+		return (names[i]);
+	}
 	snprintf(buf, 16, "#%d", k);
 	return (buf);
 }

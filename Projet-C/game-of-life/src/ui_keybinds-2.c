@@ -46,9 +46,9 @@ void	kb_draw_key_badge(t_kb_view v, t_kb_row r, t_key_config *cfg,
 		DrawRectangleRec(kb, C_HOVER);
 	DrawRectangleLinesEx(kb, 1.0f, C_HI);
 	if (r.wait_idx == r.i)
-		text_c(kn, FS, kb.x + kb.width / 2, kb.y + kb.height / 2, C_BG);
+		text_c(kn, FS, (Vector2){kb.x + kb.width / 2, kb.y + kb.height / 2}, C_BG);
 	else
-		text_c(kn, FS, kb.x + kb.width / 2, kb.y + kb.height / 2, C_HI);
+		text_c(kn, FS, (Vector2){kb.x + kb.width / 2, kb.y + kb.height / 2}, C_HI);
 }
 
 void	kb_draw_row(t_kb_view v, t_kb_row r, t_key_config *cfg)

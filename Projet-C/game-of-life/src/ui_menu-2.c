@@ -28,7 +28,7 @@ bool	ui_draw_credits(void)
 	ph = 300;
 	p = (Rectangle){(sw - pw) / 2.0f, (sh - ph) / 2.0f, pw, ph};
 	panel_draw(p, C_PANEL, C_HI);
-	text_c("CREDITS", FXL, p.x + pw / 2, p.y + 34, C_HI);
+	text_c("CREDITS", FXL, (Vector2){p.x + pw / 2, p.y + 34}, C_HI);
 	DrawLine((int)p.x + 20, (int)p.y + 58,
 		(int)p.x + pw - 20, (int)p.y + 58, C_BORDER);
 	credits_init(lines);

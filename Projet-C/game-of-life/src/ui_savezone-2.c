@@ -17,7 +17,7 @@ void	sz_draw_info(t_save_zone_state *sz, Rectangle p, int pw)
 	char	info[64];
 	char	info2[64];
 
-	text_c("SAUVEGARDER LA ZONE", FL, p.x + pw / 2, p.y + 28, C_HI);
+	text_c("SAUVEGARDER LA ZONE", FL, (Vector2){p.x + pw / 2, p.y + 28}, C_HI);
 	DrawLine((int)p.x + 16, (int)p.y + 50,
 		(int)p.x + pw - 16, (int)p.y + 50, C_BORDER);
 	snprintf(info, sizeof(info), "Zone : %d x %d  (%d cellules)",

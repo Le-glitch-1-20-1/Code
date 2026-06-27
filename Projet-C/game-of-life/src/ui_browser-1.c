@@ -6,19 +6,37 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/21 23:04:57 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/25 08:29:46 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/27 08:31:50 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ui.h"
 
-void	browser_load_files(char names[MAX_RLE][128], int *count)
+void	browser_scan_dir(const char *dirpath, char names[MAX_RLE][128],
+				int *count)
 {
-	const char		*dirs[2];
 	DIR				*dir;
 	struct dirent	*e;
-	int				d;
 	int				l;
+
+	dir = opendir(dirpath);
+	if (!dir)
+		return ;
+	e = readdir(dir);
+	while (e && *count < MAX_RLE)
+	{
+		l = (int)strlen(e->d_name);
+		if (l > 4 && strcmp(e->d_name + l - 4, ".rle") == 0)
+			snprintf(names[(*count)++], 128, "%s/%s", dirpath, e->d_name);
+		e = readdir(dir);
+	}
+	closedir(dir);
+}
+
+void	browser_load_files(char names[MAX_RLE][128], int *count)
+{
+	const char	*dirs[2];
+	int			d;
 
 	dirs[0] = "assets/patterns";
 	dirs[1] = "saves";
@@ -26,20 +44,7 @@ void	browser_load_files(char names[MAX_RLE][128], int *count)
 	d = 0;
 	while (d < 2)
 	{
-		dir = opendir(dirs[d]);
-		if (dir)
-		{
-			e = readdir(dir);
-			while (e && *count < MAX_RLE)
-			{
-				l = (int)strlen(e->d_name);
-				if (l > 4 && strcmp(e->d_name + l - 4, ".rle") == 0)
-					snprintf(names[(*count)++], 128, "%s/%s",
-						dirs[d], e->d_name);
-				e = readdir(dir);
-			}
-			closedir(dir);
-		}
+		browser_scan_dir(dirs[d], names, count);
 		d++;
 	}
 }
@@ -100,111 +105,4 @@ int	browser_filter(char names[MAX_RLE][128], int count, int *filtered,
 		i++;
 	}
 	return (fcount);
-}
-
-void	draw_rle_preview_cells(t_chunk_map *map, Rectangle dest, t_bbox box)
-{
-	t_chunk	*node;
-	int		bi;
-	int		ly;
-	int		lx;
-	float	scx;
-	float	scy;
-	float	scale;
-	float	ox;
-	float	oy;
-	float	cw;
-
-	scx = (dest.width - 8.0f) / (float)(box.x1 - box.x0 + 1);
-	scy = (dest.height - 8.0f) / (float)(box.y1 - box.y0 + 1);
-	if (scx < scy)
-		scale = scx;
-	else
-		scale = scy;
-	if (scale < 0.1f)
-		scale = 0.1f;
-	ox = dest.x + 4 + ((dest.width - 8)
-		- (box.x1 - box.x0 + 1) * scale) * 0.5f;
-	oy = dest.y + 4 + ((dest.height - 8)
-		- (box.y1 - box.y0 + 1) * scale) * 0.5f;
-	if (scale < 1.0f)
-		cw = 1.0f;
-	else
-		cw = scale;
-	BeginScissorMode((int)dest.x, (int)dest.y,
-		(int)dest.width, (int)dest.height);
-	bi = 0;
-	node = map_first(map, &bi);
-	while (node)
-	{
-		ly = 0;
-		while (ly < CHUNK_SIZE)
-		{
-			if (node->cells[ly])
-			{
-				lx = 0;
-				while (lx < CHUNK_SIZE)
-				{
-					if (chunk_get(node, lx, ly))
-						DrawRectangleRec((Rectangle){
-							ox + (node->cx * CHUNK_SIZE + lx - box.x0)
-								* scale,
-							oy + (node->cy * CHUNK_SIZE + ly - box.y0)
-								* scale,
-							cw, cw}, C_HI);
-					lx++;
-				}
-			}
-			ly++;
-		}
-		node = map_next(map, &bi, node);
-	}
-	EndScissorMode();
-}
-
-bool	load_preview_cache(const char *path, char *cached_path,
-			t_chunk_map *cached_map)
-{
-	if (load_rle(path, cached_map, 0, 0) != 0)
-	{
-		map_free(cached_map);
-		return (false);
-	}
-	if (cached_map->chunk_count == 0)
-	{
-		map_free(cached_map);
-		return (false);
-	}
-	(void)cached_path;
-	return (true);
-}
-
-void	draw_rle_preview(const char *path, Rectangle dest)
-{
-	static char			cached_path[256] = "";
-	static t_chunk_map	cached_map;
-	static bool			cache_valid = false;
-	t_bbox				box;
-
-	if (strncmp(path, cached_path, sizeof(cached_path) - 1) != 0)
-	{
-		if (cache_valid)
-			map_free(&cached_map);
-		strncpy(cached_path, path, sizeof(cached_path) - 1);
-		cached_path[sizeof(cached_path) - 1] = '\0';
-		map_init(&cached_map);
-		cache_valid = load_preview_cache(path, cached_path, &cached_map);
-	}
-	if (!cache_valid)
-	{
-		text_c("vide", FS - 2, dest.x + dest.width / 2,
-			dest.y + dest.height / 2, C_DIM);
-		return ;
-	}
-	map_bounding_box(&cached_map, &box);
-	if (box.x1 - box.x0 + 1 <= 0 || box.y1 - box.y0 + 1 <= 0)
-		return ;
-	DrawRectangleRec(dest, (Color){10, 10, 15, 255});
-	DrawRectangleLinesEx(dest, 1.0f, C_BORDER);
-	draw_rle_preview_cells(&cached_map, dest, box);
 }

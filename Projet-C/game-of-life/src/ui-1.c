@@ -39,10 +39,10 @@ void	panel_draw(Rectangle r, Color bg, Color border)
 	DrawRectangleLinesEx(r, 1.0f, border);
 }
 
-void	text_c(const char *t, int fs, float cx, float cy, Color c)
+void	text_c(const char *t, int fs, Vector2 pos, Color c)
 {
-	DrawText(t, (int)(cx - MeasureText(t, fs) / 2),
-		(int)(cy - fs / 2), fs, c);
+	DrawText(t, (int)(pos.x - MeasureText(t, fs) / 2),
+		(int)(pos.y - fs / 2), fs, c);
 }
 
 void	overlay(void)
@@ -63,38 +63,4 @@ void	draw_tooltip(Rectangle rect, const char *tooltip)
 	DrawRectangleLinesEx((Rectangle){tx - 2, ty - 2, tw + 4, FS + 4},
 		1, C_BORDER);
 	DrawText(tooltip, tx + 3, ty + 1, FS - 2, C_DIM);
-}
-
-t_btn_state	ui_button(Rectangle r, const char *label, bool active)
-{
-	Vector2	m;
-	bool	hov;
-	bool	click;
-	Color	bg;
-
-	m = GetMousePosition();
-	hov = CheckCollisionPointRec(m, r);
-	click = hov && IsMouseButtonReleased(MOUSE_BUTTON_LEFT);
-	if (active)
-		bg = C_ACTIVE;
-	else if (hov && IsMouseButtonDown(0))
-		bg = C_ACTIVE;
-	else if (hov)
-		bg = C_HOVER;
-	else
-		bg = C_PANEL;
-	DrawRectangleRec(r, bg);
-	if (hov || active)
-		DrawRectangleLinesEx(r, 1.0f, C_HI);
-	else
-		DrawRectangleLinesEx(r, 1.0f, C_BORDER);
-	if (hov || active)
-		text_c(label, FS, r.x + r.width / 2, r.y + r.height / 2, C_HI);
-	else
-		text_c(label, FS, r.x + r.width / 2, r.y + r.height / 2, C_TEXT);
-	if (click)
-		return (BTN_CLICKED);
-	if (hov)
-		return (BTN_HOVERED);
-	return (BTN_IDLE);
 }

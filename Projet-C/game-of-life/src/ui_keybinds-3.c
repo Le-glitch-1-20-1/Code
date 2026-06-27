@@ -123,7 +123,8 @@ bool	ui_draw_keybinds(t_key_config *cfg)
 	p = (Rectangle){(GetScreenWidth() - pw) / 2.0f,
 		(GetScreenHeight() - ph) / 2.0f, (float)pw, (float)ph};
 	panel_draw(p, C_PANEL, C_HI);
-	text_c("CONFIGURATION DES TOUCHES", FM, p.x + pw / 2.0f, p.y + 22, C_HI);
+	text_c("CONFIGURATION DES TOUCHES", FM, (Vector2){p.x + pw / 2.0f,
+		p.y + 22}, C_HI);
 	DrawLine((int)p.x + 10, (int)p.y + 42,
 		(int)p.x + pw - 10, (int)p.y + 42, C_BORDER);
 	v.list_x = (int)p.x + 14;

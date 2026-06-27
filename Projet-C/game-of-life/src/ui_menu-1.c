@@ -33,7 +33,7 @@ t_menu_action	menu_draw_panel(t_menu_item *items, Rectangle p, int pw,
 	float			gap;
 	int				i;
 
-	text_c("MENU", FXL, p.x + pw / 2, p.y + 36, C_HI);
+	text_c("MENU", FXL, (Vector2){p.x + pw / 2, p.y + 36}, C_HI);
 	DrawLine((int)p.x + 10, (int)p.y + 62,
 		(int)p.x + pw - 10, (int)p.y + 62, C_BORDER);
 	act = MENU_NONE;

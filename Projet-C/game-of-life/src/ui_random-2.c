@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ui_random-2.c                                        :+:      :+:    :+:   */
+/*   ui_random-2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -34,7 +34,8 @@ void	rand_phase1(t_random_state *rs, int sw, int sh)
 	overlay();
 	p = (Rectangle){(sw - pw) / 2.0f, (sh - ph) / 2.0f, pw, ph};
 	panel_draw(p, C_PANEL, C_HI);
-	text_c("REMPLISSAGE ALEATOIRE", FM, p.x + pw / 2, p.y + 26, C_HI);
+	text_c("REMPLISSAGE ALEATOIRE", FM, (Vector2){p.x + pw / 2,
+		p.y + 26}, C_HI);
 	DrawLine((int)p.x + 10, (int)p.y + 44,
 		(int)p.x + pw - 10, (int)p.y + 44, C_BORDER);
 	snprintf(info, sizeof(info), "Region : %d x %d cellules",

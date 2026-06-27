@@ -6,7 +6,7 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/21 23:01:58 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/25 08:35:42 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/27 08:39:07 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -231,36 +231,65 @@ typedef struct s_kb_row
 	int	wait_idx;
 }	t_kb_row;
 
+typedef struct s_prev_scale
+{
+	float	scale;
+	float	ox;
+	float	oy;
+	float	cw;
+}	t_prev_scale;
+
 // ui_browser-1.c
 void			browser_load_files(char names[MAX_RLE][128], int *count);
-void			draw_rle_preview_cells(t_chunk_map *map, Rectangle dest,
-					t_bbox box);
-void			draw_rle_preview(const char *path, Rectangle dest);
+void			browser_scan_dir(const char *dirpath, char names[MAX_RLE][128],
+				int *count);
 int				browser_filter(char names[MAX_RLE][128], int count,
 					int *filtered, const char *search);
-bool			load_preview_cache(const char *path, char *cached_path,
-					t_chunk_map *cached_map);
 
 // ui_browser-2.c
 void			draw_list_scrollbar_thumb(t_list_geom g, t_list_ctx ctx,
 					Rectangle thumb);
-void			draw_list_row_label(t_list_ctx ctx, int ri, Rectangle row,
-					bool hov);
-bool			browser_draw_list(t_list_ctx ctx);
-bool			draw_list_rows(t_list_ctx ctx, t_list_geom g);
+void			scrollbar_clamp(t_list_geom *g, t_list_ctx ctx);
 Rectangle		handle_scrollbar_drag(t_list_geom *g, t_list_ctx ctx);
+Rectangle		scrollbar_thumb_rect(t_list_geom *g, t_list_ctx ctx);
 
 // ui_browser-3.c
+void			search_box_input(t_search_state st, Rectangle sbox);
+void			search_box_text(t_search_state st, int lx3, int py);
 void			browser_draw_search(Rectangle p, int pw, t_search_state st);
 
 // ui_browser-4.c
 void			draw_no_results(t_browser_view v, int fcount, int count);
-void			browser_draw_preview(t_browser_view v,
-					char names[MAX_RLE][128], int hovered_idx);
 void			reset_browser_state(int *count, int *scroll, char *search,
 					bool *search_edit);
-bool			ui_draw_load_browser(char *out_path, int path_len);
+void			draw_browser_header(t_browser_view v);
 t_browser_view	browser_layout(void);
+
+// ui_browser-5.c
+void			draw_rle_preview_cells(t_chunk_map *map, Rectangle dest,
+					t_bbox box);
+void			draw_rle_preview(const char *path, Rectangle dest);
+void			draw_preview_node(const t_chunk *node, t_bbox box,
+					t_prev_scale s);
+bool			load_preview_cache(const char *path, t_chunk_map *cached_map);
+t_prev_scale	compute_preview_scale(t_bbox box, Rectangle dest);
+
+// ui_browser-6.c
+void			draw_list_row_label(t_list_ctx ctx, int ri, Rectangle row,
+					bool hov);
+void			draw_list_row_folder(t_list_ctx ctx, int ri, Rectangle row,
+					const char *slash);
+bool			draw_list_rows(t_list_ctx ctx, t_list_geom g);
+bool			browser_draw_list(t_list_ctx ctx);
+bool			draw_list_row(t_list_ctx ctx, t_list_geom g, int i);
+
+// ui_browser-7.c
+void			browser_draw_preview(t_browser_view v,
+					char names[MAX_RLE][128], int hovered_idx);
+void			preview_no_hover_msg(Rectangle pr, int lh);
+bool			ui_draw_load_browser(char *out_path, int path_len);
+bool			browser_finish(t_browser_view v, int *count, int *scroll,
+					char *search, bool *search_edit);
 
 // ui_hud.c
 void			hud_graph_loop(const int *pop, int start, int n, int gx2,
@@ -389,11 +418,14 @@ t_ui_action		toolbar_view_theme(int *x, t_toolbar_geom g, int theme_idx,
 t_ui_action		toolbar_view(int *x, int pad, int bsz, int theme_idx);
 t_ui_action		ui_draw_toolbar(bool running, float *speed, int theme_idx);
 
-// ui.c
+// ui-1.c
 void			panel_draw(Rectangle r, Color bg, Color border);
-void			text_c(const char *t, int fs, float cx, float cy, Color c);
+void			text_c(const char *t, int fs, Vector2 pos, Color c);
 void			overlay(void);
 void			draw_tooltip(Rectangle rect, const char *tooltip);
+
+// ui-2.c
+Color			button_bg(bool hov, bool active);
 t_btn_state		ui_button(Rectangle r, const char *label, bool active);
 
 #endif
