@@ -6,7 +6,7 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/21 23:02:19 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/25 08:26:36 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/25 09:05:36 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ int			load_json(const char *path, t_chunk_map *map, int offset_x,
 // save-4.c
 void		rle_parse_chars(t_rle_ctx *ctx, char *p, int *done);
 int			rle_parse_tag(t_rle_ctx *ctx, char tag, int count);
+int			rle_read_file(FILE *f, t_rle_ctx *ctx);
 int			load_rle(const char *path, t_chunk_map *map, int offset_x,
 				int offset_y);
 
