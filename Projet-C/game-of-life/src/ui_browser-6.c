@@ -13,7 +13,7 @@
 #include "ui.h"
 
 void	draw_list_row_folder(t_list_ctx ctx, int ri, Rectangle row,
-				const char *slash)
+			const char *slash)
 {
 	char	folder[32];
 	int		fl;
@@ -54,6 +54,18 @@ void	draw_list_row_label(t_list_ctx ctx, int ri, Rectangle row, bool hov)
 	draw_list_row_folder(ctx, ri, row, slash);
 }
 
+static void	draw_list_row_bg(Rectangle row, bool hov)
+{
+	if (hov)
+		DrawRectangleRec(row, C_HOVER);
+	else
+		DrawRectangleRec(row, C_PANEL2);
+	if (hov)
+		DrawRectangleLinesEx(row, 1.0f, C_HI);
+	else
+		DrawRectangleLinesEx(row, 1.0f, C_BORDER);
+}
+
 bool	draw_list_row(t_list_ctx ctx, t_list_geom g, int i)
 {
 	Rectangle	row;
@@ -67,14 +79,7 @@ bool	draw_list_row(t_list_ctx ctx, t_list_geom g, int i)
 	hov = CheckCollisionPointRec(GetMousePosition(), row);
 	if (hov)
 		*ctx.hovered_idx = ri;
-	if (hov)
-		DrawRectangleRec(row, C_HOVER);
-	else
-		DrawRectangleRec(row, C_PANEL2);
-	if (hov)
-		DrawRectangleLinesEx(row, 1.0f, C_HI);
-	else
-		DrawRectangleLinesEx(row, 1.0f, C_BORDER);
+	draw_list_row_bg(row, hov);
 	draw_list_row_label(ctx, ri, row, hov);
 	if (hov && IsMouseButtonReleased(0))
 	{
@@ -105,10 +110,8 @@ bool	browser_draw_list(t_list_ctx ctx)
 {
 	t_list_geom	g;
 	Rectangle	thumb;
-	Vector2		mm;
 	bool		chosen;
 
-	mm = GetMousePosition();
 	g.list_w = (int)ctx.p.width - 520 - 8;
 	g.rh = 32;
 	g.vis = (ctx.list_bot - ctx.list_top) / g.rh;
@@ -117,8 +120,9 @@ bool	browser_draw_list(t_list_ctx ctx)
 	g.track_h = (float)(ctx.list_bot - ctx.list_top);
 	g.sb_dragging = false;
 	thumb = handle_scrollbar_drag(&g, ctx);
-	if (CheckCollisionPointRec(mm, (Rectangle){ctx.p.x, ctx.p.y + 82,
-			(float)(g.list_w + 20), (float)((int)ctx.p.height - 132)}))
+	if (CheckCollisionPointRec(GetMousePosition(), (Rectangle){ctx.p.x,
+		ctx.p.y + 82, (float)(g.list_w + 20),
+		(float)((int)ctx.p.height - 132)}))
 		*ctx.scroll -= (int)GetMouseWheelMove();
 	chosen = draw_list_rows(ctx, g);
 	draw_list_scrollbar_thumb(g, ctx, thumb);

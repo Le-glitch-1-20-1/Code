@@ -6,7 +6,7 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/21 23:01:17 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/25 08:21:19 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/27 12:00:00 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,13 @@ typedef struct s_prev_ctx
 	float	cs;
 }	t_prev_ctx;
 
+typedef struct s_chunk_draw
+{
+	int		gx;
+	int		gy;
+	float	cs;
+}	t_chunk_draw;
+
 typedef struct s_app
 {
 	t_chunk_map			map;
@@ -131,8 +138,7 @@ typedef struct s_app
 void	draw_selection_info_box(t_sel_box b);
 void	stamp_pattern(t_app *app, int ox, int oy);
 void	draw_place_preview_cells(t_app *app, int gx, int gy, float cs);
-void	draw_preview_chunk(t_app *app, const t_chunk *c, int gx, int gy,
-			float cs);
+void	draw_preview_chunk(t_app *app, const t_chunk *c, t_chunk_draw d);
 void	stamp_chunk(t_app *app, const t_chunk *c, int ox, int oy);
 
 // app_draw-2.c
@@ -194,8 +200,7 @@ void	handle_game_zoom_pan(t_app *app, Vector2 *mouse, bool *on_ui);
 void	handle_game_input(t_app *app);
 
 // app_input-7.c
-void	draw_line_cells(t_chunk_map *map, int x0, int y0, int x1, int y1,
-			int val);
+void	draw_line_cells(t_chunk_map *map, t_rect r, int val);
 int		bresenham_sx(int x0, int x1);
 int		bresenham_sy(int y0, int y1);
 
@@ -214,8 +219,7 @@ void	center_map(t_chunk_map *m);
 int		get_center(int a, int b);
 
 // app_map-2.c
-int		save_zone_rle(const char *path, const t_chunk_map *src, int x0, int y0,
-			int x1, int y1);
+int		save_zone_rle(const char *path, const t_chunk_map *src, t_rect r);
 
 // app_map-3.c
 void	rotate_chunk(t_chunk_map *dst, const t_chunk *c);

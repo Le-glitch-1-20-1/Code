@@ -17,7 +17,8 @@ void	sz_draw_info(t_save_zone_state *sz, Rectangle p, int pw)
 	char	info[64];
 	char	info2[64];
 
-	text_c("SAUVEGARDER LA ZONE", FL, (Vector2){p.x + pw / 2, p.y + 28}, C_HI);
+	text_c("SAUVEGARDER LA ZONE", FL, (Vector2){p.x + pw / 2, p.y + 28},
+		C_HI);
 	DrawLine((int)p.x + 16, (int)p.y + 50,
 		(int)p.x + pw - 16, (int)p.y + 50, C_BORDER);
 	snprintf(info, sizeof(info), "Zone : %d x %d  (%d cellules)",
@@ -36,7 +37,6 @@ void	sz_draw_namefield(t_save_zone_state *sz, Rectangle p, int pw,
 			bool *editing)
 {
 	Rectangle	box;
-	Vector2		mm;
 	char		display[80];
 
 	box = (Rectangle){p.x + 24, p.y + 134, pw - 48, 32};
@@ -45,10 +45,11 @@ void	sz_draw_namefield(t_save_zone_state *sz, Rectangle p, int pw,
 		DrawRectangleLinesEx(box, 1.0f, C_HI);
 	else
 		DrawRectangleLinesEx(box, 1.0f, C_BORDER);
-	mm = GetMousePosition();
-	if (IsMouseButtonReleased(0) && CheckCollisionPointRec(mm, box))
+	if (IsMouseButtonReleased(0) && CheckCollisionPointRec(GetMousePosition(),
+		box))
 		*editing = true;
-	if (IsMouseButtonReleased(0) && !CheckCollisionPointRec(mm, box))
+	if (IsMouseButtonReleased(0) && !CheckCollisionPointRec(GetMousePosition(),
+		box))
 		*editing = false;
 	if (*editing)
 		sz_name_edit(sz);
@@ -56,17 +57,31 @@ void	sz_draw_namefield(t_save_zone_state *sz, Rectangle p, int pw,
 		snprintf(display, sizeof(display), "%s.rle", sz->name_buf);
 	else
 		snprintf(display, sizeof(display), "mon_pattern.rle");
-	DrawText(display, (int)box.x + 8, (int)box.y + (32 - FS) / 2, FS, C_TEXT);
+	DrawText(display, (int)box.x + 8, (int)box.y + (32 - FS) / 2, FS,
+		C_TEXT);
 	if (*editing && (GetTime() * 2 - (int)(GetTime() * 2) < 0.5))
 		DrawText("|", (int)box.x + 8 + MeasureText(display, FS),
 			(int)box.y + (32 - FS) / 2, FS, C_HI);
+}
+
+static bool	sz_phase1_save(t_save_zone_state *sz, char *out_path,
+				int path_len, bool *editing)
+{
+	const char	*nm;
+
+	if (sz->name_buf[0])
+		nm = sz->name_buf;
+	else
+		nm = "mon_pattern";
+	snprintf(out_path, path_len, "assets/patterns/%s.rle", nm);
+	*editing = false;
+	return (true);
 }
 
 bool	sz_phase1(t_save_zone_state *sz, int sw, int sh, char *out_path,
 			int path_len)
 {
 	static bool	editing = false;
-	const char	*nm;
 	Rectangle	p;
 	int			pw;
 	int			ph;
@@ -81,15 +96,7 @@ bool	sz_phase1(t_save_zone_state *sz, int sw, int sh, char *out_path,
 	if (ui_button((Rectangle){p.x + 24, p.y + ph - 46, 160, 34},
 		"Sauvegarder", false) == BTN_CLICKED
 		|| (editing && IsKeyPressed(KEY_ENTER)))
-	{
-		if (sz->name_buf[0])
-			nm = sz->name_buf;
-		else
-			nm = "mon_pattern";
-		snprintf(out_path, path_len, "assets/patterns/%s.rle", nm);
-		editing = false;
-		return (true);
-	}
+		return (sz_phase1_save(sz, out_path, path_len, &editing));
 	if (ui_button((Rectangle){p.x + pw - 184, p.y + ph - 46, 160, 34},
 		"Annuler", false) == BTN_CLICKED || IsKeyPressed(KEY_ESCAPE))
 	{
@@ -100,7 +107,7 @@ bool	sz_phase1(t_save_zone_state *sz, int sw, int sh, char *out_path,
 }
 
 bool	ui_draw_save_zone(t_save_zone_state *sz, t_camera2d_gol cam,
-	char *out_path, int path_len)
+		char *out_path, int path_len)
 {
 	int	sw;
 	int	sh;

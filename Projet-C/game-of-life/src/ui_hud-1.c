@@ -12,55 +12,57 @@
 
 #include "ui.h"
 
-void	hud_graph_loop(const int *pop, int start, int n, int gx2, int gy2,
-			int gh, float bar_w, int pm)
+typedef struct s_graph_geom
+{
+	int		gx;
+	int		gy;
+	int		gh;
+	float	bar_w;
+	int		pm;
+}	t_graph_geom;
+
+void	hud_graph_loop(const int *pop, int start, int n, t_graph_geom g)
 {
 	int				i;
 	int				v;
 	int				bar_h;
 	unsigned char	intensity;
-	float			bw;
 
 	i = 0;
 	while (i < n)
 	{
 		v = pop[start + i];
-		bar_h = (int)((float)v / pm * (gh - 2));
+		bar_h = (int)((float)v / g.pm * (g.gh - 2));
 		if (bar_h < 1 && v > 0)
 			bar_h = 1;
-		intensity = (unsigned char)(100 + 120 * v / pm);
-		if (bar_w > 1)
-			bw = bar_w - 0.5f;
-		else
-			bw = bar_w;
+		intensity = (unsigned char)(100 + 120 * v / g.pm);
 		DrawRectangleRec(
-			(Rectangle){gx2 + i * bar_w, gy2 + gh - 1 - bar_h,
-			bw, (float)bar_h},
+			(Rectangle){g.gx + i * g.bar_w, g.gy + g.gh - 1 - bar_h,
+			(g.bar_w > 1) ? g.bar_w - 0.5f : g.bar_w, (float)bar_h},
 			(Color){intensity / 2, intensity / 3, intensity, 200});
 		i++;
 	}
 }
 
-void	hud_draw_graph(int x, int by, int bh, const int *pop_history,
-			int pop_count, int pop_max)
+void	hud_draw_graph(int x, int by, int bh, t_hud_info h)
 {
-	int		gw;
-	int		gh;
-	int		start;
-	int		n;
-	float	bar_w;
+	int				gw;
+	int				gh;
+	int				start;
+	int				n;
+	t_graph_geom	g;
 
 	gw = 140;
 	gh = bh - 6;
 	DrawRectangle(x, by + 3, gw, gh, (Color){18, 18, 28, 200});
 	DrawRectangleLinesEx((Rectangle){x, by + 3, gw, gh}, 1.0f, C_BORDER);
-	if (pop_count > gw)
-		start = pop_count - gw;
+	if (h.pop_count > gw)
+		start = h.pop_count - gw;
 	else
 		start = 0;
-	n = pop_count - start;
-	bar_w = (float)gw / n;
-	hud_graph_loop(pop_history, start, n, x, by + 3, gh, bar_w, pop_max);
+	n = h.pop_count - start;
+	g = (t_graph_geom){x, by + 3, gh, (float)gw / n, h.pop_max};
+	hud_graph_loop(h.pop_history, start, n, g);
 	DrawText("pop", x + 2, by + 4, 10, C_DIM);
 }
 
@@ -100,14 +102,12 @@ void	hud_draw_text(int generation, float speed, int alive_count, int gx,
 	DrawText(buf, x, y, FS, C_DIM);
 }
 
-void	ui_draw_hud(int generation, bool running, float speed, int alive_count,
-	int gx, int gy, const int *pop_history, int pop_count, int pop_max)
+void	ui_draw_hud(t_hud_info h)
 {
 	int	sw;
 	int	sh;
 	int	bh;
 	int	by;
-	int	x;
 
 	sw = GetScreenWidth();
 	sh = GetScreenHeight();
@@ -115,12 +115,10 @@ void	ui_draw_hud(int generation, bool running, float speed, int alive_count,
 	by = sh - bh;
 	DrawRectangle(0, by, sw, bh, C_PANEL);
 	DrawLine(0, by, sw, by, C_BORDER);
-	x = 10;
-	hud_draw_status(running, x, by + (bh - FS) / 2);
-	hud_draw_text(generation, speed, alive_count, gx, gy, by);
-	x = 10 + 70 + 130 + 150 + 90 + 90 + 120;
-	if (pop_count > 1 && pop_max > 0)
-		hud_draw_graph(x, by, bh, pop_history, pop_count, pop_max);
+	hud_draw_status(h.running, 10, by + (bh - FS) / 2);
+	hud_draw_text(h.generation, h.speed, h.alive_count, h.gx, h.gy, by);
+	if (h.pop_count > 1 && h.pop_max > 0)
+		hud_draw_graph(10 + 70 + 130 + 150 + 90 + 90 + 120, by, bh, h);
 }
 
 void	ui_draw_message(const char *msg, float timer)

@@ -6,7 +6,7 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:27:53 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 15:17:13 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/27 12:00:00 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ void	handle_drawing_move(t_app *app, int gx, int gy)
 	rb = IsMouseButtonDown(MOUSE_BUTTON_RIGHT);
 	if (!app->drawing || !(lb || rb))
 		return ;
-	draw_line_cells(&app->map, app->last_gx, app->last_gy,
-		gx, gy, app->draw_val);
+	draw_line_cells(&app->map,
+		(t_rect){app->last_gx, app->last_gy, gx, gy}, app->draw_val);
 	app->last_gx = gx;
 	app->last_gy = gy;
 }

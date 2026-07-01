@@ -13,7 +13,7 @@
 #include "ui.h"
 
 void	browser_scan_dir(const char *dirpath, char names[MAX_RLE][128],
-				int *count)
+			int *count)
 {
 	DIR				*dir;
 	struct dirent	*e;
@@ -49,59 +49,47 @@ void	browser_load_files(char names[MAX_RLE][128], int *count)
 	}
 }
 
+static void	str_tolower(const char *src, char *dst, int maxlen)
+{
+	int	i;
+
+	i = 0;
+	while (src[i] && i < maxlen - 1)
+	{
+		dst[i] = tolower((unsigned char)src[i]);
+		i++;
+	}
+	dst[i] = 0;
+}
+
+static int	filter_match(const char *name, const char *search)
+{
+	char	dlow[128];
+	char	slow[64];
+	char	*slash;
+
+	if (!search[0])
+		return (1);
+	slash = strrchr(name, '/');
+	if (slash)
+		name = slash + 1;
+	str_tolower(name, dlow, 128);
+	str_tolower(search, slow, 64);
+	return (strstr(dlow, slow) != NULL);
+}
+
 int	browser_filter(char names[MAX_RLE][128], int count, int *filtered,
 		const char *search)
 {
-	int			fcount;
-	int			i;
-	int			j;
-	int			dl;
-	int			sl;
-	char		dlow[128];
-	char		slow[64];
-	const char	*slash;
-	const char	*dname;
+	int	fcount;
+	int	i;
 
 	fcount = 0;
 	i = 0;
 	while (i < count)
 	{
-		if (!search[0])
-		{
+		if (filter_match(names[i], search))
 			filtered[fcount++] = i;
-		}
-		else
-		{
-			slash = strrchr(names[i], '/');
-			if (slash)
-				dname = slash + 1;
-			else
-				dname = names[i];
-			dl = (int)strlen(dname);
-			sl = (int)strlen(search);
-			j = 0;
-			while (j < dl && j < 127)
-			{
-				dlow[j] = tolower((unsigned char)dname[j]);
-				j++;
-			}
-			if (dl < 127)
-				dlow[dl] = 0;
-			else
-				dlow[127] = 0;
-			j = 0;
-			while (j < sl && j < 63)
-			{
-				slow[j] = tolower((unsigned char)search[j]);
-				j++;
-			}
-			if (sl < 63)
-				slow[sl] = 0;
-			else
-				slow[63] = 0;
-			if (strstr(dlow, slow))
-				filtered[fcount++] = i;
-		}
 		i++;
 	}
 	return (fcount);

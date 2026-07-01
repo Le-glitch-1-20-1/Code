@@ -94,4 +94,3 @@ void	handle_ctrl_shortcuts(t_app *app)
 		app->paste_mode = false;
 	}
 }
-

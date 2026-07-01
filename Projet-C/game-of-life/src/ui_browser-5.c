@@ -26,10 +26,10 @@ t_prev_scale	compute_preview_scale(t_bbox box, Rectangle dest)
 		s.scale = scy;
 	if (s.scale < 0.1f)
 		s.scale = 0.1f;
-	s.ox = dest.x + 4 + ((dest.width - 8)
-		- (box.x1 - box.x0 + 1) * s.scale) * 0.5f;
-	s.oy = dest.y + 4 + ((dest.height - 8)
-		- (box.y1 - box.y0 + 1) * s.scale) * 0.5f;
+	s.ox = dest.x + 4
+		+ ((dest.width - 8) - (box.x1 - box.x0 + 1) * s.scale) * 0.5f;
+	s.oy = dest.y + 4
+		+ ((dest.height - 8) - (box.y1 - box.y0 + 1) * s.scale) * 0.5f;
 	if (s.scale < 1.0f)
 		s.cw = 1.0f;
 	else
@@ -37,11 +37,12 @@ t_prev_scale	compute_preview_scale(t_bbox box, Rectangle dest)
 	return (s);
 }
 
-void	draw_preview_node(const t_chunk *node, t_bbox box,
-				t_prev_scale s)
+void	draw_preview_node(const t_chunk *node, t_bbox box, t_prev_scale s)
 {
 	int	ly;
 	int	lx;
+	int	gx;
+	int	gy;
 
 	ly = 0;
 	while (ly < CHUNK_SIZE)
@@ -52,12 +53,12 @@ void	draw_preview_node(const t_chunk *node, t_bbox box,
 			while (lx < CHUNK_SIZE)
 			{
 				if (chunk_get(node, lx, ly))
-					DrawRectangleRec((Rectangle){
-						s.ox + (node->cx * CHUNK_SIZE + lx - box.x0)
-							* s.scale,
-						s.oy + (node->cy * CHUNK_SIZE + ly - box.y0)
-							* s.scale,
-						s.cw, s.cw}, C_HI);
+				{
+					gx = node->cx * CHUNK_SIZE + lx - box.x0;
+					gy = node->cy * CHUNK_SIZE + ly - box.y0;
+					DrawRectangleRec((Rectangle){s.ox + gx * s.scale,
+						s.oy + gy * s.scale, s.cw, s.cw}, C_HI);
+				}
 				lx++;
 			}
 		}
@@ -99,12 +100,25 @@ bool	load_preview_cache(const char *path, t_chunk_map *cached_map)
 	return (true);
 }
 
+static void	draw_rle_preview_valid(const char *path, Rectangle dest)
+{
+	static t_chunk_map	cached_map;
+	t_bbox				box;
+
+	map_bounding_box(&cached_map, &box);
+	if (box.x1 - box.x0 + 1 <= 0 || box.y1 - box.y0 + 1 <= 0)
+		return ;
+	DrawRectangleRec(dest, (Color){10, 10, 15, 255});
+	DrawRectangleLinesEx(dest, 1.0f, C_BORDER);
+	draw_rle_preview_cells(&cached_map, dest, box);
+	(void)path;
+}
+
 void	draw_rle_preview(const char *path, Rectangle dest)
 {
 	static char			cached_path[256] = "";
 	static t_chunk_map	cached_map;
 	static bool			cache_valid = false;
-	t_bbox				box;
 
 	if (strncmp(path, cached_path, sizeof(cached_path) - 1) != 0)
 	{
@@ -121,10 +135,5 @@ void	draw_rle_preview(const char *path, Rectangle dest)
 			dest.y + dest.height / 2}, C_DIM);
 		return ;
 	}
-	map_bounding_box(&cached_map, &box);
-	if (box.x1 - box.x0 + 1 <= 0 || box.y1 - box.y0 + 1 <= 0)
-		return ;
-	DrawRectangleRec(dest, (Color){10, 10, 15, 255});
-	DrawRectangleLinesEx(dest, 1.0f, C_BORDER);
-	draw_rle_preview_cells(&cached_map, dest, box);
+	draw_rle_preview_valid(path, dest);
 }

@@ -6,7 +6,7 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/21 23:08:21 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/25 08:18:50 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/27 12:00:00 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,11 +71,14 @@ void	draw_screen_save_zone_rect(t_app *app)
 
 void	handle_save_zone_ready(t_app *app, const char *out_path)
 {
+	t_rect	r;
+
 	if (system("mkdir -p assets/patterns") != 0)
 	{
 	}
-	save_zone_rle(out_path, &app->map, app->save_zone.x0,
-		app->save_zone.y0, app->save_zone.x1, app->save_zone.y1);
+	r = (t_rect){app->save_zone.x0, app->save_zone.y0,
+		app->save_zone.x1, app->save_zone.y1};
+	save_zone_rle(out_path, &app->map, r);
 	app->running = false;
 	app->screen = SCREEN_GAME;
 }

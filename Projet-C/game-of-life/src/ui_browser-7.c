@@ -47,14 +47,37 @@ void	browser_draw_preview(t_browser_view v, char names[MAX_RLE][128],
 		preview_no_hover_msg(pr, lh);
 }
 
-bool	browser_finish(t_browser_view v, int *count, int *scroll,
-			char *search, bool *search_edit)
+static bool	browser_finish(t_browser_view v, int *count,
+				t_search_state st)
 {
 	if (ui_button((Rectangle){v.p.x + v.pw / 2 - 65, v.p.y + v.ph - 42,
 			130, 32}, "Annuler", false) == BTN_CLICKED
 		|| IsKeyPressed(KEY_ESCAPE))
 	{
-		reset_browser_state(count, scroll, search, search_edit);
+		reset_browser_state(count, st.scroll, st.search, st.search_edit);
+		return (true);
+	}
+	return (false);
+}
+
+static bool	browser_draw_content(t_browser_view v, char names[MAX_RLE][128],
+				int *count, t_search_state st, char *out_path, int path_len)
+{
+	int		filtered[MAX_RLE];
+	int		fcount;
+	int		hovered_idx;
+	bool	chosen;
+
+	hovered_idx = -1;
+	browser_draw_search(v.p, v.pw, st);
+	fcount = browser_filter(names, *count, filtered, st.search);
+	chosen = browser_draw_list((t_list_ctx){names, filtered, fcount, v.p,
+		v.list_top, v.list_bot, st.scroll, &hovered_idx, out_path, path_len});
+	draw_no_results(v, fcount, *count);
+	browser_draw_preview(v, names, hovered_idx);
+	if (chosen)
+	{
+		reset_browser_state(count, st.scroll, st.search, st.search_edit);
 		return (true);
 	}
 	return (false);
@@ -62,16 +85,12 @@ bool	browser_finish(t_browser_view v, int *count, int *scroll,
 
 bool	ui_draw_load_browser(char *out_path, int path_len)
 {
-	static char	names[MAX_RLE][128];
-	static int	count = -1;
-	static int	scroll = 0;
-	static char	search[64] = "";
-	static bool	search_edit = false;
-	static int	hovered_idx = -1;
+	static char		names[MAX_RLE][128];
+	static int		count = -1;
+	static int		scroll = 0;
+	static char		search[64] = "";
+	static bool		search_edit = false;
 	t_browser_view	v;
-	int				filtered[MAX_RLE];
-	int				fcount;
-	bool			chosen;
 
 	overlay();
 	v = browser_layout();
@@ -81,19 +100,11 @@ bool	ui_draw_load_browser(char *out_path, int path_len)
 		browser_load_files(names, &count);
 		scroll = 0;
 	}
-	browser_draw_search(v.p, v.pw, (t_search_state){search,
-		&search_edit, &scroll});
-	fcount = browser_filter(names, count, filtered, search);
-	chosen = browser_draw_list((t_list_ctx){names, filtered, fcount, v.p,
-		v.list_top, v.list_bot, &scroll, &hovered_idx, out_path, path_len});
-	draw_no_results(v, fcount, count);
-	if (chosen)
-	{
-		reset_browser_state(&count, &scroll, search, &search_edit);
+	if (browser_draw_content(v, names, &count,
+		(t_search_state){search, &search_edit, &scroll}, out_path, path_len))
 		return (true);
-	}
-	browser_draw_preview(v, names, hovered_idx);
-	if (browser_finish(v, &count, &scroll, search, &search_edit))
+	if (browser_finish(v, &count, (t_search_state){search, &search_edit,
+		&scroll}))
 		return (false);
 	return (false);
 }

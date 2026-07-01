@@ -33,18 +33,11 @@ float	icon_get_radius(Rectangle rect)
 	return (rect.height * 0.35f);
 }
 
-t_btn_state	icon_button(Rectangle rect, t_icon_draw draw_fn,
-				const char *tooltip, bool active)
+static void	icon_btn_draw(Rectangle rect, t_icon_draw draw_fn,
+				bool hov, bool active)
 {
-	Vector2	m;
-	bool	hov;
-	bool	click;
 	Color	bg;
-	float	r2;
 
-	m = GetMousePosition();
-	hov = CheckCollisionPointRec(m, rect);
-	click = hov && IsMouseButtonReleased(MOUSE_BUTTON_LEFT);
 	if (active)
 		bg = C_ACTIVE;
 	else if (hov && IsMouseButtonDown(0))
@@ -55,9 +48,19 @@ t_btn_state	icon_button(Rectangle rect, t_icon_draw draw_fn,
 		bg = C_PANEL;
 	DrawRectangleRec(rect, bg);
 	DrawRectangleLinesEx(rect, 1.0f, icon_get_border(hov, active));
-	r2 = icon_get_radius(rect);
-	draw_fn(rect.x + rect.width / 2, rect.y + rect.height / 2, r2,
-		icon_get_color(hov, active));
+	draw_fn(rect.x + rect.width / 2, rect.y + rect.height / 2,
+		icon_get_radius(rect), icon_get_color(hov, active));
+}
+
+t_btn_state	icon_button(Rectangle rect, t_icon_draw draw_fn,
+				const char *tooltip, bool active)
+{
+	bool	hov;
+	bool	click;
+
+	hov = CheckCollisionPointRec(GetMousePosition(), rect);
+	click = hov && IsMouseButtonReleased(MOUSE_BUTTON_LEFT);
+	icon_btn_draw(rect, draw_fn, hov, active);
 	if (hov && tooltip)
 		draw_tooltip(rect, tooltip);
 	if (click)

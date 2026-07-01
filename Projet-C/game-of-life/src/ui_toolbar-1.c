@@ -12,41 +12,41 @@
 
 #include "ui.h"
 
+static void	toolbar_sim_icon(bool running, t_icon_draw *ic, const char **tip)
+{
+	if (running)
+	{
+		*ic = icon_pause;
+		*tip = "Pause";
+	}
+	else
+	{
+		*ic = icon_play;
+		*tip = "Play";
+	}
+}
+
 t_ui_action	toolbar_sim(int *x, int pad, int bsz, bool running)
 {
 	t_ui_action		act;
 	t_icon_draw		ic;
 	const char		*tip;
-	int				rx;
 
 	act = UI_ACTION_NONE;
-	if (running)
-	{
-		ic = icon_pause;
-		tip = "Pause";
-	}
-	else
-	{
-		ic = icon_play;
-		tip = "Play";
-	}
-	rx = *x;
-	if (icon_button((Rectangle){rx, pad, bsz, bsz}, ic, tip,
+	toolbar_sim_icon(running, &ic, &tip);
+	if (icon_button((Rectangle){*x, pad, bsz, bsz}, ic, tip,
 		false) == BTN_CLICKED)
 		act = UI_ACTION_PLAY;
 	*x += bsz + pad;
-	rx = *x;
-	if (act == UI_ACTION_NONE && icon_button((Rectangle){rx, pad, bsz, bsz},
+	if (act == UI_ACTION_NONE && icon_button((Rectangle){*x, pad, bsz, bsz},
 		icon_step, "Pas suivant", false) == BTN_CLICKED)
 		act = UI_ACTION_STEP;
 	*x += bsz + pad;
-	rx = *x;
-	if (act == UI_ACTION_NONE && icon_button((Rectangle){rx, pad, bsz, bsz},
+	if (act == UI_ACTION_NONE && icon_button((Rectangle){*x, pad, bsz, bsz},
 		icon_clear, "Effacer grille", false) == BTN_CLICKED)
 		act = UI_ACTION_CLEAR;
 	*x += bsz + pad;
-	rx = *x;
-	if (act == UI_ACTION_NONE && icon_button((Rectangle){rx, pad, bsz, bsz},
+	if (act == UI_ACTION_NONE && icon_button((Rectangle){*x, pad, bsz, bsz},
 		icon_undo, "Annuler", false) == BTN_CLICKED)
 		act = UI_ACTION_UNDO;
 	*x += bsz + pad;
@@ -56,20 +56,37 @@ t_ui_action	toolbar_sim(int *x, int pad, int bsz, bool running)
 t_ui_action	toolbar_files(int *x, int pad, int bsz)
 {
 	t_ui_action	act;
-	int			rx;
 
 	act = UI_ACTION_NONE;
 	DrawLine(*x + 3, pad + 2, *x + 3, pad + bsz - 2, C_BORDER);
 	*x += 12;
-	rx = *x;
-	if (icon_button((Rectangle){rx, pad, bsz, bsz},
+	if (icon_button((Rectangle){*x, pad, bsz, bsz},
 		icon_save, "Sauvegarder", false) == BTN_CLICKED)
 		act = UI_ACTION_OPEN_SAVE;
 	*x += bsz + pad;
-	rx = *x;
-	if (act == UI_ACTION_NONE && icon_button((Rectangle){rx, pad, bsz, bsz},
+	if (act == UI_ACTION_NONE && icon_button((Rectangle){*x, pad, bsz, bsz},
 		icon_load, "Charger RLE", false) == BTN_CLICKED)
 		act = UI_ACTION_OPEN_LOAD;
+	*x += bsz + pad;
+	return (act);
+}
+
+static t_ui_action	toolbar_tools_btns(int *x, int pad, int bsz)
+{
+	t_ui_action	act;
+
+	act = UI_ACTION_NONE;
+	if (icon_button((Rectangle){*x, pad, bsz, bsz},
+		icon_copy, "Copier zone", false) == BTN_CLICKED)
+		act = UI_ACTION_COPY_ZONE;
+	*x += bsz + pad;
+	if (act == UI_ACTION_NONE && icon_button((Rectangle){*x, pad, bsz, bsz},
+		icon_paste, "Coller", false) == BTN_CLICKED)
+		act = UI_ACTION_PASTE;
+	*x += bsz + pad;
+	if (act == UI_ACTION_NONE && icon_button((Rectangle){*x, pad, bsz, bsz},
+		icon_clear_zone, "Effacer zone", false) == BTN_CLICKED)
+		act = UI_ACTION_CLEAR_ZONE;
 	*x += bsz + pad;
 	return (act);
 }
@@ -77,31 +94,16 @@ t_ui_action	toolbar_files(int *x, int pad, int bsz)
 t_ui_action	toolbar_tools(int *x, int pad, int bsz)
 {
 	t_ui_action	act;
-	int			rx;
 
 	act = UI_ACTION_NONE;
 	DrawLine(*x + 3, pad + 2, *x + 3, pad + bsz - 2, C_BORDER);
 	*x += 12;
-	rx = *x;
-	if (icon_button((Rectangle){rx, pad, bsz, bsz},
+	if (icon_button((Rectangle){*x, pad, bsz, bsz},
 		icon_random, "Aleatoire", false) == BTN_CLICKED)
 		act = UI_ACTION_RANDOM;
 	*x += bsz + pad;
-	rx = *x;
-	if (act == UI_ACTION_NONE && icon_button((Rectangle){rx, pad, bsz, bsz},
-		icon_copy, "Copier zone", false) == BTN_CLICKED)
-		act = UI_ACTION_COPY_ZONE;
-	*x += bsz + pad;
-	rx = *x;
-	if (act == UI_ACTION_NONE && icon_button((Rectangle){rx, pad, bsz, bsz},
-		icon_paste, "Coller", false) == BTN_CLICKED)
-		act = UI_ACTION_PASTE;
-	*x += bsz + pad;
-	rx = *x;
-	if (act == UI_ACTION_NONE && icon_button((Rectangle){rx, pad, bsz, bsz},
-		icon_clear_zone, "Effacer zone", false) == BTN_CLICKED)
-		act = UI_ACTION_CLEAR_ZONE;
-	*x += bsz + pad;
+	if (act == UI_ACTION_NONE)
+		act = toolbar_tools_btns(x, pad, bsz);
 	return (act);
 }
 

@@ -1,38 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   app_map-2.c                                        :+:      :+:    :+:   */
+/*   ui_hud-2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/17 07:23:22 by le-glitch         #+#    #+#             */
+/*   Created: 2026/06/27 12:00:00 by le-glitch         #+#    #+#             */
 /*   Updated: 2026/06/27 12:00:00 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "app.h"
+#include "ui.h"
 
-int	save_zone_rle(const char *path, const t_chunk_map *src, t_rect r)
+void	ui_draw_message(const char *msg, float timer)
 {
-	t_chunk_map	tmp;
-	int			res;
-	int			x;
-	int			y;
+	int		mw;
+	int		top;
+	float	a;
 
-	map_init(&tmp);
-	y = r.ya;
-	while (y <= r.yb)
-	{
-		x = r.xa;
-		while (x <= r.xb)
-		{
-			if (get_cell_global(src, x, y))
-				set_cell_global(&tmp, x - r.xa, y - r.ya, 1);
-			x++;
-		}
-		y++;
-	}
-	res = save_rle(path, &tmp);
-	map_free(&tmp);
-	return (res);
+	if (timer <= 0.0f || !msg[0])
+		return ;
+	if (timer > 0.5f)
+		a = 1.0f;
+	else
+		a = timer / 0.5f;
+	mw = MeasureText(msg, FS) + 20;
+	top = 44;
+	DrawRectangle(10, top, mw, 26,
+		(Color){0, 0, 0, (unsigned char)(a * 160)});
+	DrawRectangleLinesEx((Rectangle){10, top, mw, 26}, 1.0f,
+		(Color){127, 119, 221, (unsigned char)(a * 180)});
+	DrawText(msg, 20, top + (26 - FS) / 2, FS,
+		(Color){220, 220, 230, (unsigned char)(a * 240)});
 }

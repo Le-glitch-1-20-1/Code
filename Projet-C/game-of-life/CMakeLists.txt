@@ -73,7 +73,8 @@ set(SOURCES
 	src/ui_browser-5.c
 	src/ui_browser-6.c
 	src/ui_browser-7.c
-	src/ui_hud.c
+	src/ui_hud-1.c
+	src/ui_hud-2.c
 	src/ui_icons-1.c
 	src/ui_icons-2.c
 	src/ui_icons-3.c

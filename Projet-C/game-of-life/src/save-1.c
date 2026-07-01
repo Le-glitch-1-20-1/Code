@@ -89,13 +89,32 @@ void	rle_write_token(FILE *f, t_rle_line *lb, int run, char cur)
 	lb->len += tlen;
 }
 
+static int	rle_run_len(const t_chunk_map *map, int gx, int gy,
+				int last, char cur)
+{
+	int		run;
+	char	nxt;
+
+	run = 1;
+	while (gx + run <= last)
+	{
+		if (get_cell_global(map, gx + run, gy))
+			nxt = 'o';
+		else
+			nxt = 'b';
+		if (nxt != cur)
+			break ;
+		run++;
+	}
+	return (run);
+}
+
 void	rle_write_row(FILE *f, const t_chunk_map *map, t_rle_line *lb,
 			t_rle_row r)
 {
 	int		gx;
 	int		run;
 	char	cur;
-	char	nxt;
 	char	eol;
 
 	gx = r.x0;
@@ -105,17 +124,7 @@ void	rle_write_row(FILE *f, const t_chunk_map *map, t_rle_line *lb,
 			cur = 'o';
 		else
 			cur = 'b';
-		run = 1;
-		while (gx + run <= r.last)
-		{
-			if (get_cell_global(map, gx + run, r.gy))
-				nxt = 'o';
-			else
-				nxt = 'b';
-			if (nxt != cur)
-				break ;
-			run++;
-		}
+		run = rle_run_len(map, gx, r.gy, r.last, cur);
 		rle_write_token(f, lb, run, cur);
 		gx += run;
 	}

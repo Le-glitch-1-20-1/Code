@@ -81,24 +81,30 @@ void	get_rand_bounds(t_app *app, t_rect *out)
 		out->yb = app->rand_state.y1;
 }
 
-void	draw_screen_random_sel(t_app *app)
+static void	draw_rand_rect(t_rect r, t_camera2d_gol cam)
 {
-	t_rect	r;
 	float	sx;
 	float	sy;
 	float	rw;
 	float	rh;
-	int		alive;
 
-	get_rand_bounds(app, &r);
-	sx = r.xa * app->cam.zoom + app->cam.offset.x;
-	sy = r.ya * app->cam.zoom + app->cam.offset.y;
-	rw = (r.xb - r.xa + 1) * app->cam.zoom;
-	rh = (r.yb - r.ya + 1) * app->cam.zoom;
+	sx = r.xa * cam.zoom + cam.offset.x;
+	sy = r.ya * cam.zoom + cam.offset.y;
+	rw = (r.xb - r.xa + 1) * cam.zoom;
+	rh = (r.yb - r.ya + 1) * cam.zoom;
 	DrawRectangle((int)sx, (int)sy, (int)rw, (int)rh,
 		(Color){221, 185, 60, 40});
 	DrawRectangleLinesEx((Rectangle){sx, sy, rw, rh}, 2.0f,
 		(Color){221, 185, 60, 200});
+}
+
+void	draw_screen_random_sel(t_app *app)
+{
+	t_rect	r;
+	int		alive;
+
+	get_rand_bounds(app, &r);
+	draw_rand_rect(r, app->cam);
 	alive = (int)((r.xb - r.xa + 1) * (r.yb - r.ya + 1)
 			* app->rand_state.density);
 	draw_selection_info_box((t_sel_box){"Hasard", r.xa, r.ya,

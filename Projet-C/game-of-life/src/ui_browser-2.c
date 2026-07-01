@@ -6,30 +6,11 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/21 23:05:17 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/27 08:33:32 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/27 12:00:00 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ui.h"
-
-void	draw_list_scrollbar_thumb(t_list_geom g, t_list_ctx ctx,
-			Rectangle thumb)
-{
-	Vector2	mm;
-
-	mm = GetMousePosition();
-	if (ctx.fcount > g.vis && g.vis > 0)
-	{
-		DrawRectangle(g.sb_x, ctx.list_top, 8, ctx.list_bot - ctx.list_top,
-			(Color){30, 30, 48, 200});
-		if (g.sb_dragging)
-			DrawRectangleRec(thumb, C_HI);
-		else if (CheckCollisionPointRec(mm, thumb))
-			DrawRectangleRec(thumb, C_BORDER);
-		else
-			DrawRectangleRec(thumb, (Color){80, 80, 110, 255});
-	}
-}
 
 Rectangle	scrollbar_thumb_rect(t_list_geom *g, t_list_ctx ctx)
 {
@@ -60,6 +41,32 @@ void	scrollbar_clamp(t_list_geom *g, t_list_ctx ctx)
 		*ctx.scroll = ms;
 }
 
+void	draw_list_scrollbar_thumb(t_list_geom g, t_list_ctx ctx,
+			Rectangle thumb)
+{
+	Vector2	mm;
+
+	mm = GetMousePosition();
+	if (ctx.fcount > g.vis && g.vis > 0)
+	{
+		DrawRectangle(g.sb_x, ctx.list_top, 8, ctx.list_bot - ctx.list_top,
+			(Color){30, 30, 48, 200});
+		if (g.sb_dragging)
+			DrawRectangleRec(thumb, C_HI);
+		else if (CheckCollisionPointRec(mm, thumb))
+			DrawRectangleRec(thumb, C_BORDER);
+		else
+			DrawRectangleRec(thumb, (Color){80, 80, 110, 255});
+	}
+}
+
+static float	sb_denominator(t_list_geom *g, Rectangle thumb)
+{
+	if (thumb.height > 0)
+		return (g->track_h - thumb.height);
+	return (1);
+}
+
 Rectangle	handle_scrollbar_drag(t_list_geom *g, t_list_ctx ctx)
 {
 	Vector2		mm;
@@ -81,7 +88,7 @@ Rectangle	handle_scrollbar_drag(t_list_geom *g, t_list_ctx ctx)
 		if (g->sb_dragging)
 			*ctx.scroll = g->sb_drag_scroll
 				+ (int)((mm.y - g->sb_drag_y) * ms
-					/ (thumb.height > 0 ? (g->track_h - thumb.height) : 1));
+					/ sb_denominator(g, thumb));
 		if (IsMouseButtonReleased(0))
 			g->sb_dragging = false;
 	}

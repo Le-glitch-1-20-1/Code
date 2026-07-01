@@ -16,17 +16,14 @@ bool	ui_draw_credits(void)
 {
 	t_credit_line	lines[6];
 	Rectangle		p;
-	int				sw;
-	int				sh;
 	int				pw;
 	int				ph;
 
 	overlay();
-	sw = GetScreenWidth();
-	sh = GetScreenHeight();
 	pw = 420;
 	ph = 300;
-	p = (Rectangle){(sw - pw) / 2.0f, (sh - ph) / 2.0f, pw, ph};
+	p = (Rectangle){(GetScreenWidth() - pw) / 2.0f,
+		(GetScreenHeight() - ph) / 2.0f, pw, ph};
 	panel_draw(p, C_PANEL, C_HI);
 	text_c("CREDITS", FXL, (Vector2){p.x + pw / 2, p.y + 34}, C_HI);
 	DrawLine((int)p.x + 20, (int)p.y + 58,

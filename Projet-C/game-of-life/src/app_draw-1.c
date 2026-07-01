@@ -6,7 +6,7 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:33:57 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/24 11:27:42 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/06/27 12:00:00 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,7 @@ void	stamp_pattern(t_app *app, int ox, int oy)
 	}
 }
 
-void	draw_preview_chunk(t_app *app, const t_chunk *c, int gx, int gy,
-			float cs)
+void	draw_preview_chunk(t_app *app, const t_chunk *c, t_chunk_draw d)
 {
 	int	lx;
 	int	ly;
@@ -90,11 +89,11 @@ void	draw_preview_chunk(t_app *app, const t_chunk *c, int gx, int gy,
 			{
 				if (chunk_get(c, lx, ly))
 					DrawRectangleRec((Rectangle){
-						(c->cx * CHUNK_SIZE + lx + gx)
+						(c->cx * CHUNK_SIZE + lx + d.gx)
 						* app->cam.zoom + app->cam.offset.x,
-						(c->cy * CHUNK_SIZE + ly + gy)
+						(c->cy * CHUNK_SIZE + ly + d.gy)
 						* app->cam.zoom + app->cam.offset.y,
-						cs, cs}, (Color){221, 185, 60, 160});
+						d.cs, d.cs}, (Color){221, 185, 60, 160});
 				lx++;
 			}
 		}
@@ -111,7 +110,7 @@ void	draw_place_preview_cells(t_app *app, int gx, int gy, float cs)
 	n = map_first(&app->place_map, &bi);
 	while (n)
 	{
-		draw_preview_chunk(app, n, gx, gy, cs);
+		draw_preview_chunk(app, n, (t_chunk_draw){gx, gy, cs});
 		n = map_next(&app->place_map, &bi, n);
 	}
 }

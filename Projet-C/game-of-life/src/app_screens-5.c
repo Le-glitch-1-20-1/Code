@@ -96,4 +96,3 @@ void	draw_frame_screens(t_app *app)
 	else if (app->screen == SCREEN_SAVE)
 		app->screen = SCREEN_SAVE_ZONE;
 }
-
