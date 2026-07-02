@@ -52,9 +52,9 @@ void	draw_list_scrollbar_thumb(t_list_geom g, t_list_ctx ctx,
 		DrawRectangle(g.sb_x, ctx.list_top, 8, ctx.list_bot - ctx.list_top,
 			(Color){30, 30, 48, 200});
 		if (g.sb_dragging)
-			DrawRectangleRec(thumb, C_HI);
+			DrawRectangleRec(thumb, ui_c_hi());
 		else if (CheckCollisionPointRec(mm, thumb))
-			DrawRectangleRec(thumb, C_BORDER);
+			DrawRectangleRec(thumb, ui_c_border());
 		else
 			DrawRectangleRec(thumb, (Color){80, 80, 110, 255});
 	}

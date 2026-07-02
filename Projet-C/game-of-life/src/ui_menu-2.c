@@ -24,10 +24,10 @@ bool	ui_draw_credits(void)
 	ph = 300;
 	p = (Rectangle){(GetScreenWidth() - pw) / 2.0f,
 		(GetScreenHeight() - ph) / 2.0f, pw, ph};
-	panel_draw(p, C_PANEL, C_HI);
-	text_c("CREDITS", FXL, (Vector2){p.x + pw / 2, p.y + 34}, C_HI);
+	panel_draw(p, ui_c_panel(), ui_c_hi());
+	text_c("CREDITS", FXL, (Vector2){p.x + pw / 2, p.y + 34}, ui_c_hi());
 	DrawLine((int)p.x + 20, (int)p.y + 58,
-		(int)p.x + pw - 20, (int)p.y + 58, C_BORDER);
+		(int)p.x + pw - 20, (int)p.y + 58, ui_c_border());
 	credits_init(lines);
 	credits_draw_lines(lines, 6, p, pw);
 	if (ui_button((Rectangle){p.x + pw / 2 - 65, p.y + ph - 42, 130, 32},

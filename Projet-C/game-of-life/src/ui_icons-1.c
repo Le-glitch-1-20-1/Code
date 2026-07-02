@@ -15,15 +15,15 @@
 Color	icon_get_color(bool hov, bool active)
 {
 	if (hov || active)
-		return (C_HI);
-	return (C_TEXT);
+		return (ui_c_hi());
+	return (ui_c_text());
 }
 
 Color	icon_get_border(bool hov, bool active)
 {
 	if (hov || active)
-		return (C_HI);
-	return (C_BORDER);
+		return (ui_c_hi());
+	return (ui_c_border());
 }
 
 float	icon_get_radius(Rectangle rect)
@@ -39,13 +39,13 @@ static void	icon_btn_draw(Rectangle rect, t_icon_draw draw_fn,
 	Color	bg;
 
 	if (active)
-		bg = C_ACTIVE;
+		bg = ui_c_active();
 	else if (hov && IsMouseButtonDown(0))
-		bg = C_ACTIVE;
+		bg = ui_c_active();
 	else if (hov)
-		bg = C_HOVER;
+		bg = ui_c_hover();
 	else
-		bg = C_PANEL;
+		bg = ui_c_panel();
 	DrawRectangleRec(rect, bg);
 	DrawRectangleLinesEx(rect, 1.0f, icon_get_border(hov, active));
 	draw_fn(rect.x + rect.width / 2, rect.y + rect.height / 2,

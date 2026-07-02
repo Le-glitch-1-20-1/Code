@@ -37,14 +37,14 @@ void	draw_no_results(t_browser_view v, int fcount, int count)
 	if (fcount == 0 && count == 0)
 	{
 		text_c("Aucun fichier .rle trouve.", FS, (Vector2){
-			v.p.x + (v.pw - 530) / 2 + 16, v.p.y + v.ph / 2}, C_DIM);
+			v.p.x + (v.pw - 530) / 2 + 16, v.p.y + v.ph / 2}, ui_c_dim());
 		text_c("Placez vos .rle dans assets/patterns/", FS - 2,
 			(Vector2){v.p.x + (v.pw - 530) / 2 + 16,
-			v.p.y + v.ph / 2 + 22}, C_DIM);
+			v.p.y + v.ph / 2 + 22}, ui_c_dim());
 	}
 	else if (fcount == 0)
 		text_c("Aucun resultat.", FS, (Vector2){
-			v.p.x + (v.pw - 530) / 2 + 16, v.p.y + v.ph / 2}, C_DIM);
+			v.p.x + (v.pw - 530) / 2 + 16, v.p.y + v.ph / 2}, ui_c_dim());
 }
 
 void	reset_browser_state(int *count, int *scroll, char *search,
@@ -58,9 +58,9 @@ void	reset_browser_state(int *count, int *scroll, char *search,
 
 void	draw_browser_header(t_browser_view v)
 {
-	panel_draw(v.p, C_PANEL, C_HI);
+	panel_draw(v.p, ui_c_panel(), ui_c_hi());
 	text_c("CHARGER UN PATTERN", FL, (Vector2){v.p.x + v.pw / 2,
-		v.p.y + 26}, C_HI);
+		v.p.y + 26}, ui_c_hi());
 	DrawLine((int)v.p.x + 10, (int)v.p.y + 48,
-		(int)v.p.x + v.pw - 10, (int)v.p.y + 48, C_BORDER);
+		(int)v.p.x + v.pw - 10, (int)v.p.y + 48, ui_c_border());
 }

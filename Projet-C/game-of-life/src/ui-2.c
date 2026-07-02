@@ -15,12 +15,12 @@
 Color	button_bg(bool hov, bool active)
 {
 	if (active)
-		return (C_ACTIVE);
+		return (ui_c_active());
 	if (hov && IsMouseButtonDown(0))
-		return (C_ACTIVE);
+		return (ui_c_active());
 	if (hov)
-		return (C_HOVER);
-	return (C_PANEL);
+		return (ui_c_hover());
+	return (ui_c_panel());
 }
 
 t_btn_state	ui_button(Rectangle r, const char *label, bool active)
@@ -34,15 +34,15 @@ t_btn_state	ui_button(Rectangle r, const char *label, bool active)
 	click = hov && IsMouseButtonReleased(MOUSE_BUTTON_LEFT);
 	DrawRectangleRec(r, button_bg(hov, active));
 	if (hov || active)
-		DrawRectangleLinesEx(r, 1.0f, C_HI);
+		DrawRectangleLinesEx(r, 1.0f, ui_c_hi());
 	else
-		DrawRectangleLinesEx(r, 1.0f, C_BORDER);
+		DrawRectangleLinesEx(r, 1.0f, ui_c_border());
 	if (hov || active)
 		text_c(label, FS, (Vector2){r.x + r.width / 2,
-			r.y + r.height / 2}, C_HI);
+			r.y + r.height / 2}, ui_c_hi());
 	else
 		text_c(label, FS, (Vector2){r.x + r.width / 2,
-			r.y + r.height / 2}, C_TEXT);
+			r.y + r.height / 2}, ui_c_text());
 	if (click)
 		return (BTN_CLICKED);
 	if (hov)

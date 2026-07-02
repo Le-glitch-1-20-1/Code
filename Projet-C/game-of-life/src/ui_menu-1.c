@@ -33,9 +33,9 @@ t_menu_action	menu_draw_panel(t_menu_item *items, Rectangle p, int pw,
 	float			gap;
 	int				i;
 
-	text_c("MENU", FXL, (Vector2){p.x + pw / 2, p.y + 36}, C_HI);
+	text_c("MENU", FXL, (Vector2){p.x + pw / 2, p.y + 36}, ui_c_hi());
 	DrawLine((int)p.x + 10, (int)p.y + 62,
-		(int)p.x + pw - 10, (int)p.y + 62, C_BORDER);
+		(int)p.x + pw - 10, (int)p.y + 62, ui_c_border());
 	act = MENU_NONE;
 	bw = pw - 50;
 	bh2 = 42;
@@ -65,7 +65,7 @@ t_menu_action	ui_draw_menu(void)
 	ph = 290;
 	p = (Rectangle){(GetScreenWidth() - pw) / 2.0f,
 		(GetScreenHeight() - ph) / 2.0f, pw, ph};
-	panel_draw(p, C_PANEL, C_HI);
+	panel_draw(p, ui_c_panel(), ui_c_hi());
 	menu_init_items(items);
 	act = menu_draw_panel(items, p, pw, ph);
 	if (IsKeyPressed(KEY_ESCAPE))
@@ -77,22 +77,22 @@ void	credits_init(t_credit_line *lines)
 {
 	lines[0].l = "Jeu";
 	lines[0].v = "Jeu de la Vie - Conway";
-	lines[0].c = C_TEXT;
+	lines[0].c = ui_c_text();
 	lines[1].l = "Auteur";
 	lines[1].v = "Toi !";
-	lines[1].c = C_ACCENT2;
+	lines[1].c = ui_c_accent2();
 	lines[2].l = "Moteur";
 	lines[2].v = "raylib 5.0";
-	lines[2].c = C_HI;
+	lines[2].c = ui_c_hi();
 	lines[3].l = "Langue";
 	lines[3].v = "C11";
-	lines[3].c = C_TEXT;
+	lines[3].c = ui_c_text();
 	lines[4].l = "Grille";
 	lines[4].v = "Infinie (chunks 16x16)";
-	lines[4].c = C_TEXT;
+	lines[4].c = ui_c_text();
 	lines[5].l = "Saves";
 	lines[5].v = "Format RLE compatible Golly";
-	lines[5].c = C_TEXT;
+	lines[5].c = ui_c_text();
 }
 
 void	credits_draw_lines(t_credit_line *lines, int n, Rectangle p, int pw)
@@ -105,7 +105,7 @@ void	credits_draw_lines(t_credit_line *lines, int n, Rectangle p, int pw)
 	while (i < n)
 	{
 		y = (int)p.y + 70 + i * 26;
-		DrawText(lines[i].l, (int)p.x + 26, y, FS, C_DIM);
+		DrawText(lines[i].l, (int)p.x + 26, y, FS, ui_c_dim());
 		vw = MeasureText(lines[i].v, FS);
 		DrawText(lines[i].v, (int)p.x + pw - 26 - vw, y, FS, lines[i].c);
 		i++;

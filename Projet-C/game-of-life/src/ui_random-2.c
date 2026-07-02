@@ -33,15 +33,15 @@ void	rand_phase1(t_random_state *rs, int sw, int sh)
 	ph = 220;
 	overlay();
 	p = (Rectangle){(sw - pw) / 2.0f, (sh - ph) / 2.0f, pw, ph};
-	panel_draw(p, C_PANEL, C_HI);
+	panel_draw(p, ui_c_panel(), ui_c_hi());
 	text_c("REMPLISSAGE ALEATOIRE", FM, (Vector2){p.x + pw / 2,
-		p.y + 26}, C_HI);
+		p.y + 26}, ui_c_hi());
 	DrawLine((int)p.x + 10, (int)p.y + 44,
-		(int)p.x + pw - 10, (int)p.y + 44, C_BORDER);
+		(int)p.x + pw - 10, (int)p.y + 44, ui_c_border());
 	snprintf(info, sizeof(info), "Region : %d x %d cellules",
 		rs->x1 - rs->x0 + 1, rs->y1 - rs->y0 + 1);
-	DrawText(info, (int)p.x + 20, (int)p.y + 54, FS, C_TEXT);
-	DrawText("Densite :", (int)p.x + 20, (int)p.y + 82, FS, C_DIM);
+	DrawText(info, (int)p.x + 20, (int)p.y + 54, FS, ui_c_text());
+	DrawText("Densite :", (int)p.x + 20, (int)p.y + 82, FS, ui_c_dim());
 	rand_draw_slider(rs, p, pw);
 	rand_phase1_buttons(rs, p, pw, ph);
 }
