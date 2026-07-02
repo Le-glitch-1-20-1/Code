@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ui.c                                               :+:      :+:    :+:   */
+/*   ui-1.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -26,7 +26,7 @@ void	text_c(const char *t, int fs, Vector2 pos, Color c)
 
 void	overlay(void)
 {
-	DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(), C_OVERLAY);
+	DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(), ui_c_overlay());
 }
 
 void	draw_tooltip(Rectangle rect, const char *tooltip)
@@ -38,8 +38,8 @@ void	draw_tooltip(Rectangle rect, const char *tooltip)
 	tw = MeasureText(tooltip, FS - 2) + 10;
 	tx = (int)rect.x + (int)rect.width / 2 - tw / 2;
 	ty = (int)rect.y + (int)rect.height + 4;
-	DrawRectangle(tx - 2, ty - 2, tw + 4, FS + 4, C_PANEL);
+	DrawRectangle(tx - 2, ty - 2, tw + 4, FS + 4, ui_c_panel());
 	DrawRectangleLinesEx((Rectangle){tx - 2, ty - 2, tw + 4, FS + 4},
-		1, C_BORDER);
-	DrawText(tooltip, tx + 3, ty + 1, FS - 2, C_DIM);
+		1, ui_c_border());
+	DrawText(tooltip, tx + 3, ty + 1, FS - 2, ui_c_dim());
 }

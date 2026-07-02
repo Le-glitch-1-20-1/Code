@@ -26,43 +26,41 @@ int	bresenham_sy(int y0, int y1)
 	return (-1);
 }
 
-static void	bresenham_step(int *x0, int *y0, int dx, int dy,
-				int sx, int sy, int *err)
+static void	bresenham_step(int *x0, int *y0, t_bresenham *b)
 {
 	int	e2;
 
-	e2 = 2 * (*err);
-	if (e2 >= dy)
+	e2 = 2 * b->err;
+	if (e2 >= b->dy)
 	{
-		*err += dy;
-		*x0 += sx;
+		b->err += b->dy;
+		*x0 += b->sx;
 	}
-	if (e2 <= dx)
+	if (e2 <= b->dx)
 	{
-		*err += dx;
-		*y0 += sy;
+		b->err += b->dx;
+		*y0 += b->sy;
 	}
 }
 
-void	draw_line_cells(t_chunk_map *map, int x0, int y0, int x1, int y1,
-			int val)
+void	draw_line_cells(t_chunk_map *map, t_rect r, int val)
 {
-	int	dx;
-	int	dy;
-	int	sx;
-	int	sy;
-	int	err;
+	t_bresenham	b;
+	int			x0;
+	int			y0;
 
-	dx = abs(x1 - x0);
-	sx = bresenham_sx(x0, x1);
-	dy = -abs(y1 - y0);
-	sy = bresenham_sy(y0, y1);
-	err = dx + dy;
+	x0 = r.xa;
+	y0 = r.ya;
+	b.dx = abs(r.xb - x0);
+	b.sx = bresenham_sx(x0, r.xb);
+	b.dy = -abs(r.yb - y0);
+	b.sy = bresenham_sy(y0, r.yb);
+	b.err = b.dx + b.dy;
 	while (1)
 	{
 		set_cell_global(map, x0, y0, val);
-		if (x0 == x1 && y0 == y1)
+		if (x0 == r.xb && y0 == r.yb)
 			break ;
-		bresenham_step(&x0, &y0, dx, dy, sx, sy, &err);
+		bresenham_step(&x0, &y0, &b);
 	}
 }

@@ -46,8 +46,8 @@ void	draw_screen_game_hud(t_app *app)
 	gx = (int)floorf((mpos.x - app->cam.offset.x) / app->cam.zoom);
 	gy = (int)floorf((mpos.y - app->cam.offset.y) / app->cam.zoom);
 	fill_pop_buf(app, pbuf, &pn);
-	ui_draw_hud(app->generation, app->running, app->speed,
-		map_alive_count(&app->map), gx, gy, pbuf, pn, app->pop_max);
+	ui_draw_hud((t_hud_info){app->generation, app->running, app->speed,
+		map_alive_count(&app->map), gx, gy, pbuf, pn, app->pop_max});
 }
 
 void	draw_screen_game(t_app *app)
@@ -59,54 +59,4 @@ void	draw_screen_game(t_app *app)
 	if (!app->show_hud)
 		return ;
 	draw_screen_game_hud(app);
-}
-
-void	get_rand_bounds(t_app *app, t_rect *out)
-{
-	if (app->rand_state.x0 < app->rand_state.x1)
-		out->xa = app->rand_state.x0;
-	else
-		out->xa = app->rand_state.x1;
-	if (app->rand_state.x0 > app->rand_state.x1)
-		out->xb = app->rand_state.x0;
-	else
-		out->xb = app->rand_state.x1;
-	if (app->rand_state.y0 < app->rand_state.y1)
-		out->ya = app->rand_state.y0;
-	else
-		out->ya = app->rand_state.y1;
-	if (app->rand_state.y0 > app->rand_state.y1)
-		out->yb = app->rand_state.y0;
-	else
-		out->yb = app->rand_state.y1;
-}
-
-static void	draw_rand_rect(t_rect r, t_camera2d_gol cam)
-{
-	float	sx;
-	float	sy;
-	float	rw;
-	float	rh;
-
-	sx = r.xa * cam.zoom + cam.offset.x;
-	sy = r.ya * cam.zoom + cam.offset.y;
-	rw = (r.xb - r.xa + 1) * cam.zoom;
-	rh = (r.yb - r.ya + 1) * cam.zoom;
-	DrawRectangle((int)sx, (int)sy, (int)rw, (int)rh,
-		(Color){221, 185, 60, 40});
-	DrawRectangleLinesEx((Rectangle){sx, sy, rw, rh}, 2.0f,
-		(Color){221, 185, 60, 200});
-}
-
-void	draw_screen_random_sel(t_app *app)
-{
-	t_rect	r;
-	int		alive;
-
-	get_rand_bounds(app, &r);
-	draw_rand_rect(r, app->cam);
-	alive = (int)((r.xb - r.xa + 1) * (r.yb - r.ya + 1)
-			* app->rand_state.density);
-	draw_selection_info_box((t_sel_box){"Hasard", r.xa, r.ya,
-		r.xb, r.yb, alive});
 }

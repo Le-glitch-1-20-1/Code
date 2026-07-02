@@ -26,132 +26,53 @@ static void	toolbar_sim_icon(bool running, t_icon_draw *ic, const char **tip)
 	}
 }
 
+bool	toolbar_btn(int *x, t_toolbar_geom g, t_icon_draw ic,
+			const char *tip)
+{
+	bool	clicked;
+	int		px;
+
+	px = *x;
+	clicked = (icon_button((Rectangle){px, g.pad, g.bsz, g.bsz}, ic, tip,
+				false) == BTN_CLICKED);
+	*x += g.bsz + g.pad;
+	return (clicked);
+}
+
 t_ui_action	toolbar_sim(int *x, int pad, int bsz, bool running)
 {
 	t_ui_action		act;
 	t_icon_draw		ic;
 	const char		*tip;
+	t_toolbar_geom	g;
 
+	g = (t_toolbar_geom){pad, bsz};
 	act = UI_ACTION_NONE;
 	toolbar_sim_icon(running, &ic, &tip);
-	if (icon_button((Rectangle){*x, pad, bsz, bsz}, ic, tip,
-		false) == BTN_CLICKED)
+	if (toolbar_btn(x, g, ic, tip))
 		act = UI_ACTION_PLAY;
-	*x += bsz + pad;
-	if (act == UI_ACTION_NONE && icon_button((Rectangle){*x, pad, bsz, bsz},
-		icon_step, "Pas suivant", false) == BTN_CLICKED)
+	if (act == UI_ACTION_NONE && toolbar_btn(x, g, icon_step, "Pas suivant"))
 		act = UI_ACTION_STEP;
-	*x += bsz + pad;
-	if (act == UI_ACTION_NONE && icon_button((Rectangle){*x, pad, bsz, bsz},
-		icon_clear, "Effacer grille", false) == BTN_CLICKED)
+	if (act == UI_ACTION_NONE && toolbar_btn(x, g, icon_clear,
+			"Effacer grille"))
 		act = UI_ACTION_CLEAR;
-	*x += bsz + pad;
-	if (act == UI_ACTION_NONE && icon_button((Rectangle){*x, pad, bsz, bsz},
-		icon_undo, "Annuler", false) == BTN_CLICKED)
+	if (act == UI_ACTION_NONE && toolbar_btn(x, g, icon_undo, "Annuler"))
 		act = UI_ACTION_UNDO;
-	*x += bsz + pad;
 	return (act);
 }
 
 t_ui_action	toolbar_files(int *x, int pad, int bsz)
 {
-	t_ui_action	act;
+	t_ui_action		act;
+	t_toolbar_geom	g;
 
+	g = (t_toolbar_geom){pad, bsz};
 	act = UI_ACTION_NONE;
-	DrawLine(*x + 3, pad + 2, *x + 3, pad + bsz - 2, C_BORDER);
+	DrawLine(*x + 3, pad + 2, *x + 3, pad + bsz - 2, ui_c_border());
 	*x += 12;
-	if (icon_button((Rectangle){*x, pad, bsz, bsz},
-		icon_save, "Sauvegarder", false) == BTN_CLICKED)
+	if (toolbar_btn(x, g, icon_save, "Sauvegarder"))
 		act = UI_ACTION_OPEN_SAVE;
-	*x += bsz + pad;
-	if (act == UI_ACTION_NONE && icon_button((Rectangle){*x, pad, bsz, bsz},
-		icon_load, "Charger RLE", false) == BTN_CLICKED)
+	if (act == UI_ACTION_NONE && toolbar_btn(x, g, icon_load, "Charger RLE"))
 		act = UI_ACTION_OPEN_LOAD;
-	*x += bsz + pad;
 	return (act);
-}
-
-static t_ui_action	toolbar_tools_btns(int *x, int pad, int bsz)
-{
-	t_ui_action	act;
-
-	act = UI_ACTION_NONE;
-	if (icon_button((Rectangle){*x, pad, bsz, bsz},
-		icon_copy, "Copier zone", false) == BTN_CLICKED)
-		act = UI_ACTION_COPY_ZONE;
-	*x += bsz + pad;
-	if (act == UI_ACTION_NONE && icon_button((Rectangle){*x, pad, bsz, bsz},
-		icon_paste, "Coller", false) == BTN_CLICKED)
-		act = UI_ACTION_PASTE;
-	*x += bsz + pad;
-	if (act == UI_ACTION_NONE && icon_button((Rectangle){*x, pad, bsz, bsz},
-		icon_clear_zone, "Effacer zone", false) == BTN_CLICKED)
-		act = UI_ACTION_CLEAR_ZONE;
-	*x += bsz + pad;
-	return (act);
-}
-
-t_ui_action	toolbar_tools(int *x, int pad, int bsz)
-{
-	t_ui_action	act;
-
-	act = UI_ACTION_NONE;
-	DrawLine(*x + 3, pad + 2, *x + 3, pad + bsz - 2, C_BORDER);
-	*x += 12;
-	if (icon_button((Rectangle){*x, pad, bsz, bsz},
-		icon_random, "Aleatoire", false) == BTN_CLICKED)
-		act = UI_ACTION_RANDOM;
-	*x += bsz + pad;
-	if (act == UI_ACTION_NONE)
-		act = toolbar_tools_btns(x, pad, bsz);
-	return (act);
-}
-
-static void	toolbar_center_crosshair(Rectangle rb, bool hov2)
-{
-	float	r2;
-	float	cx2;
-	float	cy2;
-	Color	col;
-
-	r2 = rb.width * 0.35f * 0.8f;
-	cx2 = rb.x + rb.width / 2;
-	cy2 = rb.y + rb.height / 2;
-	if (hov2)
-		col = C_HI;
-	else
-		col = C_TEXT;
-	DrawLineEx((Vector2){cx2 - r2, cy2}, (Vector2){cx2 + r2, cy2}, 1.5f, col);
-	DrawLineEx((Vector2){cx2, cy2 - r2}, (Vector2){cx2, cy2 + r2}, 1.5f, col);
-	DrawCircleLines((int)cx2, (int)cy2, (int)(r2 * 0.6f), col);
-	if (hov2)
-		draw_tooltip(rb, "Recentrer");
-}
-
-t_ui_action	toolbar_center_btn(int *x, int pad, int bsz)
-{
-	Rectangle	rb;
-	Vector2		m2;
-	bool		hov2;
-	bool		click2;
-
-	rb = (Rectangle){(float)*x, (float)pad, (float)bsz, (float)bsz};
-	m2 = GetMousePosition();
-	hov2 = CheckCollisionPointRec(m2, rb);
-	click2 = hov2 && IsMouseButtonReleased(MOUSE_BUTTON_LEFT);
-	if (hov2 && IsMouseButtonDown(0))
-		DrawRectangleRec(rb, C_ACTIVE);
-	else if (hov2)
-		DrawRectangleRec(rb, C_HOVER);
-	else
-		DrawRectangleRec(rb, C_PANEL);
-	if (hov2)
-		DrawRectangleLinesEx(rb, 1.0f, C_HI);
-	else
-		DrawRectangleLinesEx(rb, 1.0f, C_BORDER);
-	toolbar_center_crosshair(rb, hov2);
-	*x += bsz + pad;
-	if (click2)
-		return (UI_ACTION_CENTER);
-	return (UI_ACTION_NONE);
 }

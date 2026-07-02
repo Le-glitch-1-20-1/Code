@@ -33,7 +33,7 @@ void	draw_list_row_folder(t_list_ctx ctx, int ri, Rectangle row,
 	{
 		tw = MeasureText(folder, FS - 3);
 		DrawText(folder, (int)row.x + row.width - tw - 8,
-			(int)row.y + 9, FS - 3, C_DIM);
+			(int)row.y + 9, FS - 3, ui_c_dim());
 	}
 }
 
@@ -48,22 +48,22 @@ void	draw_list_row_label(t_list_ctx ctx, int ri, Rectangle row, bool hov)
 	else
 		dname = ctx.names[ri];
 	if (hov)
-		DrawText(dname, (int)row.x + 14, (int)row.y + 7, FS, C_HI);
+		DrawText(dname, (int)row.x + 14, (int)row.y + 7, FS, ui_c_hi());
 	else
-		DrawText(dname, (int)row.x + 14, (int)row.y + 7, FS, C_TEXT);
+		DrawText(dname, (int)row.x + 14, (int)row.y + 7, FS, ui_c_text());
 	draw_list_row_folder(ctx, ri, row, slash);
 }
 
 static void	draw_list_row_bg(Rectangle row, bool hov)
 {
 	if (hov)
-		DrawRectangleRec(row, C_HOVER);
+		DrawRectangleRec(row, ui_c_hover());
 	else
-		DrawRectangleRec(row, C_PANEL2);
+		DrawRectangleRec(row, ui_c_panel2());
 	if (hov)
-		DrawRectangleLinesEx(row, 1.0f, C_HI);
+		DrawRectangleLinesEx(row, 1.0f, ui_c_hi());
 	else
-		DrawRectangleLinesEx(row, 1.0f, C_BORDER);
+		DrawRectangleLinesEx(row, 1.0f, ui_c_border());
 }
 
 bool	draw_list_row(t_list_ctx ctx, t_list_geom g, int i)
@@ -87,44 +87,4 @@ bool	draw_list_row(t_list_ctx ctx, t_list_geom g, int i)
 		return (true);
 	}
 	return (false);
-}
-
-bool	draw_list_rows(t_list_ctx ctx, t_list_geom g)
-{
-	bool	chosen;
-	int		i;
-
-	chosen = false;
-	*ctx.hovered_idx = -1;
-	i = *ctx.scroll;
-	while (i < *ctx.scroll + g.vis && i < ctx.fcount)
-	{
-		if (draw_list_row(ctx, g, i))
-			chosen = true;
-		i++;
-	}
-	return (chosen);
-}
-
-bool	browser_draw_list(t_list_ctx ctx)
-{
-	t_list_geom	g;
-	Rectangle	thumb;
-	bool		chosen;
-
-	g.list_w = (int)ctx.p.width - 520 - 8;
-	g.rh = 32;
-	g.vis = (ctx.list_bot - ctx.list_top) / g.rh;
-	g.lx = (int)ctx.p.x + 16;
-	g.sb_x = g.lx + g.list_w - 5;
-	g.track_h = (float)(ctx.list_bot - ctx.list_top);
-	g.sb_dragging = false;
-	thumb = handle_scrollbar_drag(&g, ctx);
-	if (CheckCollisionPointRec(GetMousePosition(), (Rectangle){ctx.p.x,
-		ctx.p.y + 82, (float)(g.list_w + 20),
-		(float)((int)ctx.p.height - 132)}))
-		*ctx.scroll -= (int)GetMouseWheelMove();
-	chosen = draw_list_rows(ctx, g);
-	draw_list_scrollbar_thumb(g, ctx, thumb);
-	return (chosen);
 }

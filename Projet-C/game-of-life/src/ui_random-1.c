@@ -76,35 +76,33 @@ void	rand_slider_input(t_random_state *rs, Rectangle hit, int slx, int slw)
 	rs->density = nt;
 }
 
-static void	rand_draw_slider_bar(t_random_state *rs, int slx, int sly,
-				int slw, Rectangle p)
+static void	rand_draw_slider_bar(t_random_state *rs, t_slider_geom sg,
+				Rectangle p)
 {
 	int		pos;
 	char	dpct[16];
 	char	preview[48];
 
-	DrawRectangle(slx, sly, slw, 4, C_BORDER);
-	pos = (int)(rs->density * slw);
-	DrawRectangle(slx, sly, pos, 4, C_HI);
-	DrawCircle(slx + pos, sly + 2, 6, C_HI);
+	DrawRectangle(sg.slx, sg.sly, sg.slw, 4, ui_c_border());
+	pos = (int)(rs->density * sg.slw);
+	DrawRectangle(sg.slx, sg.sly, pos, 4, ui_c_hi());
+	DrawCircle(sg.slx + pos, sg.sly + 2, 6, ui_c_hi());
 	snprintf(dpct, sizeof(dpct), "%.0f%%", rs->density * 100);
-	DrawText(dpct, slx + slw + 8, sly - 3, FS, C_HI);
+	DrawText(dpct, sg.slx + sg.slw + 8, sg.sly - 3, FS, ui_c_hi());
 	snprintf(preview, sizeof(preview), "~%d cellules vivantes",
 		(int)((rs->x1 - rs->x0 + 1) * (rs->y1 - rs->y0 + 1) * rs->density));
-	DrawText(preview, (int)p.x + 20, (int)p.y + 108, FS - 1, C_DIM);
+	DrawText(preview, (int)p.x + 20, (int)p.y + 108, FS - 1, ui_c_dim());
 }
 
 void	rand_draw_slider(t_random_state *rs, Rectangle p, int pw)
 {
-	int			slx;
-	int			sly;
-	int			slw;
-	Rectangle	hit;
+	t_slider_geom	sg;
+	Rectangle		hit;
 
-	slx = (int)p.x + 90;
-	sly = (int)p.y + 88;
-	slw = pw - 140;
-	rand_draw_slider_bar(rs, slx, sly, slw, p);
-	hit = (Rectangle){(float)slx, (float)(p.y + 74), (float)slw, 24};
-	rand_slider_input(rs, hit, slx, slw);
+	sg.slx = (int)p.x + 90;
+	sg.sly = (int)p.y + 88;
+	sg.slw = pw - 140;
+	rand_draw_slider_bar(rs, sg, p);
+	hit = (Rectangle){(float)sg.slx, (float)(p.y + 74), (float)sg.slw, 24};
+	rand_slider_input(rs, hit, sg.slx, sg.slw);
 }

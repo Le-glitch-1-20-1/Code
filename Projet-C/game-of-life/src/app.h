@@ -46,6 +46,15 @@ typedef struct s_rect
 	int	yb;
 }	t_rect;
 
+typedef struct s_bresenham
+{
+	int	dx;
+	int	dy;
+	int	sx;
+	int	sy;
+	int	err;
+}	t_bresenham;
+
 typedef struct s_overlay_style
 {
 	const char	*title;
@@ -236,6 +245,8 @@ void	handle_toolbar_toggle(t_app *app, t_ui_action act);
 void	fill_pop_buf(t_app *app, int *pbuf, int *pn);
 void	draw_screen_game_hud(t_app *app);
 void	draw_screen_game(t_app *app);
+
+// app_screens-8.c
 void	get_rand_bounds(t_app *app, t_rect *out);
 void	draw_screen_random_sel(t_app *app);
 

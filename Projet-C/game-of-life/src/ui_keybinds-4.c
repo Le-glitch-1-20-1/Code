@@ -40,11 +40,24 @@ static t_kb_view	kb_view_from_panel(Rectangle p)
 
 static void	kb_draw_header(Rectangle p)
 {
-	panel_draw(p, C_PANEL, C_HI);
+	panel_draw(p, ui_c_panel(), ui_c_hi());
 	text_c("CONFIGURATION DES TOUCHES", FM, (Vector2){p.x + p.width / 2.0f,
-		p.y + 22}, C_HI);
+		p.y + 22}, ui_c_hi());
 	DrawLine((int)p.x + 10, (int)p.y + 42,
-		(int)p.x + p.width - 10, (int)p.y + 42, C_BORDER);
+		(int)p.x + p.width - 10, (int)p.y + 42, ui_c_border());
+}
+
+static bool	kb_close_btn(Rectangle p, int *wait_idx, int *scroll_px)
+{
+	if (ui_button((Rectangle){p.x + p.width / 2.0f - 65, p.y + p.height - 40,
+			130, 32}, "Retour", false) == BTN_CLICKED
+		|| IsKeyPressed(KEY_ESCAPE))
+	{
+		*wait_idx = -1;
+		*scroll_px = 0;
+		return (true);
+	}
+	return (false);
 }
 
 bool	ui_draw_keybinds(t_key_config *cfg)
@@ -67,13 +80,5 @@ bool	ui_draw_keybinds(t_key_config *cfg)
 	kb_draw_list(v, scroll_px, wait_idx, cfg);
 	EndScissorMode();
 	kb_draw_scrollbar(v, lh, kb_total_h(), scroll_px);
-	if (ui_button((Rectangle){p.x + p.width / 2.0f - 65, p.y + p.height - 40,
-			130, 32}, "Retour", false) == BTN_CLICKED
-		|| IsKeyPressed(KEY_ESCAPE))
-	{
-		wait_idx = -1;
-		scroll_px = 0;
-		return (true);
-	}
-	return (false);
+	return (kb_close_btn(p, &wait_idx, &scroll_px));
 }

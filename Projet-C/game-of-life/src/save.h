@@ -52,6 +52,8 @@ void		bbox_update(const t_chunk *c, int lx, int ly, t_bbox *box);
 void		bbox_scan_chunk(const t_chunk *c, t_bbox *box);
 void		map_bounding_box(const t_chunk_map *m, t_bbox *box);
 void		rle_write_token(FILE *f, t_rle_line *lb, int run, char cur);
+
+// save-5.c
 void		rle_write_row(FILE *f, const t_chunk_map *map, t_rle_line *lb,
 				t_rle_row r);
 

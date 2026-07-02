@@ -15,11 +15,11 @@
 void	preview_no_hover_msg(Rectangle pr, int lh)
 {
 	text_c("Survolez un", FS - 2, (Vector2){pr.x + pr.width / 2,
-		pr.y + lh / 2 - 10}, C_DIM);
+		pr.y + lh / 2 - 10}, ui_c_dim());
 	text_c("fichier pour", FS - 2, (Vector2){pr.x + pr.width / 2,
-		pr.y + lh / 2 + 8}, C_DIM);
+		pr.y + lh / 2 + 8}, ui_c_dim());
 	text_c("l'apercu", FS - 2, (Vector2){pr.x + pr.width / 2,
-		pr.y + lh / 2 + 26}, C_DIM);
+		pr.y + lh / 2 + 26}, ui_c_dim());
 }
 
 void	browser_draw_preview(t_browser_view v, char names[MAX_RLE][128],
@@ -34,9 +34,9 @@ void	browser_draw_preview(t_browser_view v, char names[MAX_RLE][128],
 	lh = v.list_bot - v.list_top;
 	pr = (Rectangle){(float)prx, (float)v.list_top, (float)(500 - 8),
 		(float)lh};
-	panel_draw(pr, (Color){10, 10, 15, 255}, C_BORDER);
+	panel_draw(pr, (Color){10, 10, 15, 255}, ui_c_border());
 	text_c("Apercu", FS - 1, (Vector2){pr.x + pr.width / 2, pr.y + 12},
-		C_DIM);
+		ui_c_dim());
 	if (hovered_idx >= 0)
 	{
 		pdest = (Rectangle){pr.x + 6, pr.y + 24, pr.width - 12,
@@ -61,7 +61,7 @@ static bool	browser_finish(t_browser_view v, int *count,
 }
 
 static bool	browser_draw_content(t_browser_view v, char names[MAX_RLE][128],
-				int *count, t_search_state st, char *out_path, int path_len)
+				t_search_state st, t_browser_ctx bc)
 {
 	int		filtered[MAX_RLE];
 	int		fcount;
@@ -70,14 +70,15 @@ static bool	browser_draw_content(t_browser_view v, char names[MAX_RLE][128],
 
 	hovered_idx = -1;
 	browser_draw_search(v.p, v.pw, st);
-	fcount = browser_filter(names, *count, filtered, st.search);
+	fcount = browser_filter(names, *bc.count, filtered, st.search);
 	chosen = browser_draw_list((t_list_ctx){names, filtered, fcount, v.p,
-		v.list_top, v.list_bot, st.scroll, &hovered_idx, out_path, path_len});
-	draw_no_results(v, fcount, *count);
+			v.list_top, v.list_bot, st.scroll, &hovered_idx, bc.out_path,
+			bc.path_len});
+	draw_no_results(v, fcount, *bc.count);
 	browser_draw_preview(v, names, hovered_idx);
 	if (chosen)
 	{
-		reset_browser_state(count, st.scroll, st.search, st.search_edit);
+		reset_browser_state(bc.count, st.scroll, st.search, st.search_edit);
 		return (true);
 	}
 	return (false);
@@ -85,12 +86,10 @@ static bool	browser_draw_content(t_browser_view v, char names[MAX_RLE][128],
 
 bool	ui_draw_load_browser(char *out_path, int path_len)
 {
-	static char		names[MAX_RLE][128];
-	static int		count = -1;
-	static int		scroll = 0;
-	static char		search[64] = "";
-	static bool		search_edit = false;
-	t_browser_view	v;
+	static char				names[MAX_RLE][128];
+	static int				count = -1;
+	static t_browser_state	bs;
+	t_browser_view			v;
 
 	overlay();
 	v = browser_layout();
@@ -98,13 +97,14 @@ bool	ui_draw_load_browser(char *out_path, int path_len)
 	if (count < 0)
 	{
 		browser_load_files(names, &count);
-		scroll = 0;
+		bs.scroll = 0;
 	}
-	if (browser_draw_content(v, names, &count,
-		(t_search_state){search, &search_edit, &scroll}, out_path, path_len))
+	if (browser_draw_content(v, names,
+			(t_search_state){bs.search, &bs.search_edit, &bs.scroll},
+		(t_browser_ctx){&count, out_path, path_len}))
 		return (true);
-	if (browser_finish(v, &count, (t_search_state){search, &search_edit,
-		&scroll}))
+	if (browser_finish(v, &count,
+			(t_search_state){bs.search, &bs.search_edit, &bs.scroll}))
 		return (false);
 	return (false);
 }

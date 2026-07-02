@@ -12,19 +12,11 @@
 
 #include "ui.h"
 
-void	search_box_input(t_search_state st, Rectangle sbox)
+static void	search_box_append_chars(t_search_state st)
 {
-	Vector2	mm;
-	int		k;
-	int		l;
+	int	k;
+	int	l;
 
-	mm = GetMousePosition();
-	if (IsMouseButtonReleased(0) && CheckCollisionPointRec(mm, sbox))
-		*st.search_edit = true;
-	if (IsMouseButtonReleased(0) && !CheckCollisionPointRec(mm, sbox))
-		*st.search_edit = false;
-	if (!*st.search_edit)
-		return ;
 	k = GetCharPressed();
 	while (k > 0)
 	{
@@ -36,6 +28,21 @@ void	search_box_input(t_search_state st, Rectangle sbox)
 		}
 		k = GetCharPressed();
 	}
+}
+
+void	search_box_input(t_search_state st, Rectangle sbox)
+{
+	Vector2	mm;
+	int		l;
+
+	mm = GetMousePosition();
+	if (IsMouseButtonReleased(0) && CheckCollisionPointRec(mm, sbox))
+		*st.search_edit = true;
+	if (IsMouseButtonReleased(0) && !CheckCollisionPointRec(mm, sbox))
+		*st.search_edit = false;
+	if (!*st.search_edit)
+		return ;
+	search_box_append_chars(st);
 	if (IsKeyPressed(KEY_BACKSPACE))
 	{
 		l = (int)strlen(st.search);
@@ -52,13 +59,13 @@ void	search_box_text(t_search_state st, int lx3, int py)
 	int	tw;
 
 	if (st.search[0])
-		DrawText(st.search, lx3 + 4, py, FS, C_TEXT);
+		DrawText(st.search, lx3 + 4, py, FS, ui_c_text());
 	else
-		DrawText("...", lx3 + 4, py, FS, C_DIM);
+		DrawText("...", lx3 + 4, py, FS, ui_c_dim());
 	if (*st.search_edit && (GetTime() * 2 - (int)(GetTime() * 2) < 0.5))
 	{
 		tw = MeasureText(st.search, FS);
-		DrawText("|", lx3 + 4 + tw, py, FS, C_HI);
+		DrawText("|", lx3 + 4 + tw, py, FS, ui_c_hi());
 	}
 }
 
@@ -68,16 +75,16 @@ void	browser_draw_search(Rectangle p, int pw, t_search_state st)
 	int			lx3;
 	int			sw4;
 
-	DrawText("Recherche:", (int)p.x + 16, (int)p.y + 56, FS, C_DIM);
+	DrawText("Recherche:", (int)p.x + 16, (int)p.y + 56, FS, ui_c_dim());
 	lx3 = (int)p.x + 16 + MeasureText("Recherche:", FS) + 8;
 	sw4 = (int)p.x + 16 + (pw - 30) - lx3;
 	sbox = (Rectangle){(float)lx3, (float)((int)p.y + 54),
 		(float)sw4, (float)(FS + 8)};
-	DrawRectangleRec(sbox, C_PANEL2);
+	DrawRectangleRec(sbox, ui_c_panel2());
 	if (*st.search_edit)
-		DrawRectangleLinesEx(sbox, 1.0f, C_HI);
+		DrawRectangleLinesEx(sbox, 1.0f, ui_c_hi());
 	else
-		DrawRectangleLinesEx(sbox, 1.0f, C_BORDER);
+		DrawRectangleLinesEx(sbox, 1.0f, ui_c_border());
 	search_box_input(st, sbox);
 	search_box_text(st, lx3, (int)p.y + 56);
 }

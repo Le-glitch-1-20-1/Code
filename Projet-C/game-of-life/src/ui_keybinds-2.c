@@ -20,10 +20,10 @@ void	kb_draw_sep(t_kb_view v, int cy, const t_kb_entry *e, int rh_sep)
 	DrawRectangle(v.list_x, sy, v.list_w, rh_sep - 6,
 		(Color){35, 35, 55, 255});
 	DrawRectangleLinesEx((Rectangle){(float)v.list_x, (float)sy,
-		(float)v.list_w, (float)(rh_sep - 6)}, 1.0f, C_BORDER);
-	DrawRectangle(v.list_x, sy, 3, rh_sep - 6, C_HI);
+		(float)v.list_w, (float)(rh_sep - 6)}, 1.0f, ui_c_border());
+	DrawRectangle(v.list_x, sy, 3, rh_sep - 6, ui_c_hi());
 	DrawText(e->label_cat, v.list_x + 10,
-		sy + (rh_sep - 6 - FS) / 2, FS, C_HI);
+		sy + (rh_sep - 6 - FS) / 2, FS, ui_c_hi());
 }
 
 void	kb_draw_key_badge(t_kb_view v, t_kb_row r, t_key_config *cfg,
@@ -41,14 +41,16 @@ void	kb_draw_key_badge(t_kb_view v, t_kb_row r, t_key_config *cfg,
 	kb = (Rectangle){(float)(v.list_x + v.list_w - kw - 6),
 		(float)(r.cy + 4), (float)kw, (float)(rh_key - 10)};
 	if (r.wait_idx == r.i)
-		DrawRectangleRec(kb, C_HI);
+		DrawRectangleRec(kb, ui_c_hi());
 	else
-		DrawRectangleRec(kb, C_HOVER);
-	DrawRectangleLinesEx(kb, 1.0f, C_HI);
+		DrawRectangleRec(kb, ui_c_hover());
+	DrawRectangleLinesEx(kb, 1.0f, ui_c_hi());
 	if (r.wait_idx == r.i)
-		text_c(kn, FS, (Vector2){kb.x + kb.width / 2, kb.y + kb.height / 2}, C_BG);
+		text_c(kn, FS, (Vector2){kb.x + kb.width / 2, kb.y + kb.height / 2},
+			ui_c_bg());
 	else
-		text_c(kn, FS, (Vector2){kb.x + kb.width / 2, kb.y + kb.height / 2}, C_HI);
+		text_c(kn, FS, (Vector2){kb.x + kb.width / 2, kb.y + kb.height / 2},
+			ui_c_hi());
 }
 
 void	kb_draw_row(t_kb_view v, t_kb_row r, t_key_config *cfg)
@@ -64,19 +66,19 @@ void	kb_draw_row(t_kb_view v, t_kb_row r, t_key_config *cfg)
 	row = (Rectangle){(float)v.list_x, (float)r.cy,
 		(float)v.list_w, (float)(rh_key - 2)};
 	if (iw)
-		DrawRectangleRec(row, C_ACTIVE);
+		DrawRectangleRec(row, ui_c_active());
 	else
 		DrawRectangleRec(row, (Color){22, 22, 36, 200});
 	if (iw)
-		DrawRectangleLinesEx(row, 1.0f, C_HI);
+		DrawRectangleLinesEx(row, 1.0f, ui_c_hi());
 	else
 		DrawRectangleLinesEx(row, 1.0f, (Color){40, 40, 60, 255});
 	if (iw)
 		DrawText(e->label, v.list_x + 12,
-			r.cy + (rh_key - 2 - FS) / 2, FS, C_HI);
+			r.cy + (rh_key - 2 - FS) / 2, FS, ui_c_hi());
 	else
 		DrawText(e->label, v.list_x + 12,
-			r.cy + (rh_key - 2 - FS) / 2, FS, C_TEXT);
+			r.cy + (rh_key - 2 - FS) / 2, FS, ui_c_text());
 	kb_draw_key_badge(v, r, cfg, rh_key);
 }
 

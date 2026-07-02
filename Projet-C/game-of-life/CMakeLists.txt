@@ -44,6 +44,7 @@ set(SOURCES
 	src/app_screens-5.c
 	src/app_screens-6.c
 	src/app_screens-7.c
+	src/app_screens-8.c
 	src/app_undo.c
 	src/chunk_map-1.c
 	src/chunk_map-2.c
@@ -64,6 +65,7 @@ set(SOURCES
 	src/save-2.c
 	src/save-3.c
 	src/save-4.c
+	src/save-5.c
 	src/simulation-1.c
 	src/simulation-2.c
 	src/ui_browser-1.c
@@ -73,6 +75,8 @@ set(SOURCES
 	src/ui_browser-5.c
 	src/ui_browser-6.c
 	src/ui_browser-7.c
+	src/ui_browser-8.c
+	src/ui_browser-9.c
 	src/ui_hud-1.c
 	src/ui_hud-2.c
 	src/ui_icons-1.c
@@ -83,6 +87,7 @@ set(SOURCES
 	src/ui_keybinds-1.c
 	src/ui_keybinds-2.c
 	src/ui_keybinds-3.c
+	src/ui_keybinds-4.c
 	src/ui_menu-1.c
 	src/ui_menu-2.c
 	src/ui_random-1.c
@@ -90,10 +95,17 @@ set(SOURCES
 	src/ui_savezone-1.c
 	src/ui_savezone-2.c
 	src/ui_savezone-3.c
+	src/ui_savezone-4.c
+	src/ui_savezone-5.c
 	src/ui_toolbar-1.c
 	src/ui_toolbar-2.c
+	src/ui_toolbar-3.c
+	src/ui_toolbar-4.c
 	src/ui-1.c
 	src/ui-2.c
+	src/ui_colors-1.c
+	src/ui_colors-2.c
+	src/ui_colors-3.c
 )
 
 add_executable(game-of-life ${SOURCES})

@@ -34,35 +34,41 @@ int	kb_row_click(t_kb_view v, t_kb_row r, t_key_config *cfg)
 	return (r.wait_idx);
 }
 
-void	kb_draw_list(t_kb_view v, int scroll_px, int wait_idx,
-			t_key_config *cfg)
+static int	kb_draw_list_step(t_kb_view v, t_kb_row r, t_key_config *cfg)
 {
-	int	cy;
-	int	i;
 	int	rh_key;
 	int	rh_sep;
 
 	rh_key = 30;
 	rh_sep = 28;
+	if (!g_kb_table[r.i].label)
+	{
+		if (r.cy + rh_sep > v.list_top && r.cy < v.list_bot)
+			kb_draw_sep(v, r.cy, &g_kb_table[r.i], rh_sep);
+	}
+	else if (r.cy + rh_key > v.list_top && r.cy < v.list_bot)
+	{
+		kb_draw_row(v, r, cfg);
+		r.wait_idx = kb_row_click(v, r, cfg);
+	}
+	return (r.wait_idx);
+}
+
+void	kb_draw_list(t_kb_view v, int scroll_px, int wait_idx,
+			t_key_config *cfg)
+{
+	int	cy;
+	int	i;
+
 	cy = v.list_top - scroll_px;
 	i = 0;
 	while (i < KB_N)
 	{
+		wait_idx = kb_draw_list_step(v, (t_kb_row){cy, i, wait_idx}, cfg);
 		if (!g_kb_table[i].label)
-		{
-			if (cy + rh_sep > v.list_top && cy < v.list_bot)
-				kb_draw_sep(v, cy, &g_kb_table[i], rh_sep);
-			cy += rh_sep;
-		}
+			cy += 28;
 		else
-		{
-			if (cy + rh_key > v.list_top && cy < v.list_bot)
-			{
-				kb_draw_row(v, (t_kb_row){cy, i, wait_idx}, cfg);
-				wait_idx = kb_row_click(v, (t_kb_row){cy, i, wait_idx}, cfg);
-			}
-			cy += rh_key;
-		}
+			cy += 30;
 		i++;
 	}
 }
@@ -83,7 +89,7 @@ void	kb_draw_scrollbar(t_kb_view v, int list_h, int total_h, int scroll_px)
 	DrawRectangle(v.list_x + v.list_w + 2, v.list_top, 4, list_h,
 		(Color){30, 30, 48, 200});
 	DrawRectangle(v.list_x + v.list_w + 2, (int)bar_y, 4, (int)bar_h,
-		C_BORDER);
+		ui_c_border());
 }
 
 int	kb_total_h(void)

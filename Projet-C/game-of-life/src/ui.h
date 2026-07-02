@@ -19,37 +19,21 @@
 # include "renderer.h"
 # include "save.h"
 
-Color		ui_c_bg(void);
-Color		ui_c_panel(void);
-Color		ui_c_panel2(void);
-Color		ui_c_border(void);
-Color		ui_c_hi(void);
-Color		ui_c_text(void);
-Color		ui_c_dim(void);
-Color		ui_c_hover(void);
-Color		ui_c_active(void);
-Color		ui_c_green(void);
-Color		ui_c_yellow(void);
-Color		ui_c_red(void);
-Color		ui_c_overlay(void);
-Color		ui_c_accent2(void);
-Color		ui_c_orange(void);
-
-# define C_BG		ui_c_bg()
-# define C_PANEL	ui_c_panel()
-# define C_PANEL2	ui_c_panel2()
-# define C_BORDER	ui_c_border()
-# define C_HI		ui_c_hi()
-# define C_TEXT		ui_c_text()
-# define C_DIM		ui_c_dim()
-# define C_HOVER	ui_c_hover()
-# define C_ACTIVE	ui_c_active()
-# define C_GREEN	ui_c_green()
-# define C_YELLOW	ui_c_yellow()
-# define C_RED		ui_c_red()
-# define C_OVERLAY	ui_c_overlay()
-# define C_ACCENT2	ui_c_accent2()
-# define C_ORANGE	ui_c_orange()
+Color			ui_c_bg(void);
+Color			ui_c_panel(void);
+Color			ui_c_panel2(void);
+Color			ui_c_border(void);
+Color			ui_c_hi(void);
+Color			ui_c_text(void);
+Color			ui_c_dim(void);
+Color			ui_c_hover(void);
+Color			ui_c_active(void);
+Color			ui_c_green(void);
+Color			ui_c_yellow(void);
+Color			ui_c_red(void);
+Color			ui_c_overlay(void);
+Color			ui_c_accent2(void);
+Color			ui_c_orange(void);
 
 # define FS			15
 # define FM			18
@@ -111,6 +95,15 @@ typedef struct s_hud_info
 	int			pop_count;
 	int			pop_max;
 }	t_hud_info;
+
+typedef struct s_graph_geom
+{
+	int		gx;
+	int		gy;
+	int		gh;
+	float	bar_w;
+	int		pm;
+}	t_graph_geom;
 
 typedef enum e_menu_action
 {
@@ -176,7 +169,7 @@ typedef struct s_kb_entry
 	int				offset;
 }	t_kb_entry;
 
-typedef void (*t_icon_draw)(
+typedef void	(*t_icon_draw)(
 	float cx,
 	float cy,
 	float r,
@@ -189,6 +182,20 @@ typedef struct s_search_state
 	bool	*search_edit;
 	int		*scroll;
 }	t_search_state;
+
+typedef struct s_browser_ctx
+{
+	int		*count;
+	char	*out_path;
+	int		path_len;
+}	t_browser_ctx;
+
+typedef struct s_browser_state
+{
+	char	search[64];
+	bool	search_edit;
+	int		scroll;
+}	t_browser_state;
 
 typedef struct s_list_ctx
 {
@@ -209,6 +216,13 @@ typedef struct s_toolbar_geom
 	int	pad;
 	int	bsz;
 }	t_toolbar_geom;
+
+typedef struct s_slider_geom
+{
+	int	slx;
+	int	sly;
+	int	slw;
+}	t_slider_geom;
 
 typedef struct s_list_geom
 {
@@ -247,6 +261,14 @@ typedef struct s_kb_row
 	int	wait_idx;
 }	t_kb_row;
 
+typedef struct s_prev_scale
+{
+	float	scale;
+	float	ox;
+	float	oy;
+	float	cw;
+}	t_prev_scale;
+
 // ui_browser-1.c
 void			browser_scan_dir(const char *dirpath,
 					char names[MAX_RLE][128], int *count);
@@ -280,6 +302,8 @@ void			draw_preview_node(const t_chunk *c, t_bbox box,
 void			draw_rle_preview_cells(t_chunk_map *map, Rectangle dest,
 					t_bbox box);
 bool			load_preview_cache(const char *path, t_chunk_map *cached_map);
+
+// ui_browser-9.c
 void			draw_rle_preview(const char *path, Rectangle dest);
 
 // ui_browser-6.c
@@ -288,6 +312,8 @@ void			draw_list_row_folder(t_list_ctx ctx, int ri, Rectangle row,
 void			draw_list_row_label(t_list_ctx ctx, int ri, Rectangle row,
 					bool hov);
 bool			draw_list_row(t_list_ctx ctx, t_list_geom g, int i);
+
+// ui_browser-8.c
 bool			draw_list_rows(t_list_ctx ctx, t_list_geom g);
 bool			browser_draw_list(t_list_ctx ctx);
 
@@ -295,15 +321,12 @@ bool			browser_draw_list(t_list_ctx ctx);
 void			preview_no_hover_msg(Rectangle pr, int lh);
 void			browser_draw_preview(t_browser_view v,
 					char names[MAX_RLE][128], int hovered_idx);
-bool			browser_finish(t_browser_view v, t_search_state st,
-					int *count);
 bool			ui_draw_load_browser(char *out_path, int path_len);
 
 // ui_hud.c
 void			hud_graph_loop(const int *pop, int start, int n,
-					int gx2, int gy2, int gh, float bar_w, int pm);
-void			hud_draw_graph(int x, int by, int bh,
-					const int *pop_history, int pop_count, int pop_max);
+					t_graph_geom g);
+void			hud_draw_graph(int x, int by, int bh, t_hud_info h);
 void			hud_draw_status(bool running, int x, int y);
 void			hud_draw_text(t_hud_info h, int by);
 void			ui_draw_hud(t_hud_info h);
@@ -340,12 +363,12 @@ void			icon_clear(float cx, float cy, float r, Color c);
 void			icon_paste(float cx, float cy, float r, Color c);
 
 // ui_keybinds-1.c
+extern const t_kb_entry	g_kb_table[];
 int				*kb_field(t_key_config *cfg, int offset);
 const char		*kname_mod(int k);
 const char		*kname_arrow(int k);
 const char		*kname_fn(int k, char *buf);
 const char		*kname(int k);
-extern const	t_kb_entry	g_kb_table[];
 
 // ui_keybinds-2.c
 void			kb_draw_sep(t_kb_view v, int cy, const t_kb_entry *e,
@@ -397,6 +420,8 @@ void			ui_draw_random_overlay(t_random_state *rs,
 // ui_savezone-1.c
 void			sz_phase0_input(t_save_zone_state *sz, t_camera2d_gol cam);
 void			sz_draw_empty(void);
+
+// ui_savezone-5.c
 void			sz_draw_dragging(t_save_zone_state *sz, t_camera2d_gol cam);
 void			sz_phase0_draw(t_save_zone_state *sz, t_camera2d_gol cam);
 
@@ -404,8 +429,10 @@ void			sz_phase0_draw(t_save_zone_state *sz, t_camera2d_gol cam);
 void			sz_draw_info(t_save_zone_state *sz, Rectangle p, int pw);
 void			sz_draw_namefield(t_save_zone_state *sz, Rectangle p,
 					int pw, bool *editing);
-bool			sz_phase1(t_save_zone_state *sz, int sw, int sh,
-					char *out_path, int path_len);
+
+// ui_savezone-4.c
+bool			sz_phase1(t_save_zone_state *sz, char *out_path,
+					int path_len);
 bool			ui_draw_save_zone(t_save_zone_state *sz, t_camera2d_gol cam,
 					char *out_path, int path_len);
 
@@ -414,40 +441,29 @@ int				is_valid_name_char(int k);
 void			sz_name_edit(t_save_zone_state *sz);
 
 // ui_toolbar-1.c
+bool			toolbar_btn(int *x, t_toolbar_geom g, t_icon_draw ic,
+					const char *tip);
 t_ui_action		toolbar_sim(int *x, int pad, int bsz, bool running);
 t_ui_action		toolbar_files(int *x, int pad, int bsz);
-t_ui_action		toolbar_tools(int *x, int pad, int bsz);
-t_ui_action		toolbar_center_btn(int *x, int pad, int bsz);
 
 // ui_toolbar-2.c
-void			toolbar_speed(int *x, int pad, int bsz, float *speed);
 t_ui_action		toolbar_view_theme(int *x, t_toolbar_geom g,
 					int theme_idx, t_ui_action act);
 t_ui_action		toolbar_view(int *x, int pad, int bsz, int theme_idx);
+
+// ui_toolbar-3.c
+t_ui_action		toolbar_tools(int *x, int pad, int bsz);
+t_ui_action		toolbar_center_btn(int *x, int pad, int bsz);
+
+// ui_toolbar-4.c
+void			toolbar_speed(int *x, int pad, int bsz, float *speed);
 t_ui_action		ui_draw_toolbar(bool running, float *speed, int theme_idx);
 
-// ui.c
+// ui-1.c
 void			panel_draw(Rectangle r, Color bg, Color border);
 void			text_c(const char *t, int fs, Vector2 pos, Color c);
 void			overlay(void);
 void			draw_tooltip(Rectangle rect, const char *tooltip);
-
-// ui-1.c
-Color			ui_c_bg(void);
-Color			ui_c_panel(void);
-Color			ui_c_panel2(void);
-Color			ui_c_border(void);
-Color			ui_c_hi(void);
-Color			ui_c_text(void);
-Color			ui_c_dim(void);
-Color			ui_c_hover(void);
-Color			ui_c_active(void);
-Color			ui_c_green(void);
-Color			ui_c_yellow(void);
-Color			ui_c_red(void);
-Color			ui_c_overlay(void);
-Color			ui_c_accent2(void);
-Color			ui_c_orange(void);
 
 // ui-2.c
 Color			button_bg(bool hov, bool active);

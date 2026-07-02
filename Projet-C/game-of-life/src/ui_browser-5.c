@@ -57,7 +57,7 @@ void	draw_preview_node(const t_chunk *node, t_bbox box, t_prev_scale s)
 					gx = node->cx * CHUNK_SIZE + lx - box.x0;
 					gy = node->cy * CHUNK_SIZE + ly - box.y0;
 					DrawRectangleRec((Rectangle){s.ox + gx * s.scale,
-						s.oy + gy * s.scale, s.cw, s.cw}, C_HI);
+						s.oy + gy * s.scale, s.cw, s.cw}, ui_c_hi());
 				}
 				lx++;
 			}
@@ -98,42 +98,4 @@ bool	load_preview_cache(const char *path, t_chunk_map *cached_map)
 		return (false);
 	}
 	return (true);
-}
-
-static void	draw_rle_preview_valid(const char *path, Rectangle dest)
-{
-	static t_chunk_map	cached_map;
-	t_bbox				box;
-
-	map_bounding_box(&cached_map, &box);
-	if (box.x1 - box.x0 + 1 <= 0 || box.y1 - box.y0 + 1 <= 0)
-		return ;
-	DrawRectangleRec(dest, (Color){10, 10, 15, 255});
-	DrawRectangleLinesEx(dest, 1.0f, C_BORDER);
-	draw_rle_preview_cells(&cached_map, dest, box);
-	(void)path;
-}
-
-void	draw_rle_preview(const char *path, Rectangle dest)
-{
-	static char			cached_path[256] = "";
-	static t_chunk_map	cached_map;
-	static bool			cache_valid = false;
-
-	if (strncmp(path, cached_path, sizeof(cached_path) - 1) != 0)
-	{
-		if (cache_valid)
-			map_free(&cached_map);
-		strncpy(cached_path, path, sizeof(cached_path) - 1);
-		cached_path[sizeof(cached_path) - 1] = '\0';
-		map_init(&cached_map);
-		cache_valid = load_preview_cache(path, &cached_map);
-	}
-	if (!cache_valid)
-	{
-		text_c("vide", FS - 2, (Vector2){dest.x + dest.width / 2,
-			dest.y + dest.height / 2}, C_DIM);
-		return ;
-	}
-	draw_rle_preview_valid(path, dest);
 }
