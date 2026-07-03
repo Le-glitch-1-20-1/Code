@@ -68,6 +68,7 @@ set(SOURCES
 	src/save-5.c
 	src/simulation-1.c
 	src/simulation-2.c
+	src/simulation-3.c
 	src/ui_browser-1.c
 	src/ui_browser-2.c
 	src/ui_browser-3.c

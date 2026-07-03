@@ -29,8 +29,20 @@ typedef struct s_todo_ctx
 	int	cap;
 }	t_todo_ctx;
 
+typedef struct s_chunk_nbrs
+{
+	const t_chunk	*c[3][3];
+}	t_chunk_nbrs;
+
+typedef struct s_cell_pos
+{
+	int	cx;
+	int	cy;
+	int	lx;
+	int	ly;
+}	t_cell_pos;
+
 // simulation.c
-void		sim_step_cell(t_chunk_map *map, t_chunk_map *next, int gx, int gy);
 void		sim_step_chunk(t_chunk_map *map, t_chunk_map *next, int *todo,
 				int i);
 void		sim_compute_next(t_chunk_map *map, t_chunk_map *next, int *todo,
@@ -40,10 +52,12 @@ void		simulation_step(t_chunk_map *map);
 // simulation_collect.c
 void		sim_visit_neighbors(t_chunk *node, t_dedup_ctx *dedup,
 				t_todo_ctx *todo);
-int			count_neighbors(const t_chunk_map *m, int gx, int gy);
 int			sim_collect_dedup(unsigned int *seen, unsigned int set_mask,
 				int ncx, int ncy);
 int			sim_collect_todo(t_chunk_map *map, int *todo, int cap);
 t_dedup_ctx	sim_init_dedup(int cap);
+
+// simulation-3.c
+int			sim_cell_will_live(t_chunk_nbrs *nb, int lx, int ly);
 
 #endif

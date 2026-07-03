@@ -6,47 +6,61 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:32:57 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 22:17:04 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/07/02 22:30:00 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "simulation.h"
 
-void	sim_step_cell(t_chunk_map *map, t_chunk_map *next, int gx, int gy)
+static void	sim_fetch_nbrs(const t_chunk_map *map, int cx, int cy,
+				t_chunk_nbrs *nb)
 {
-	int	alive;
-	int	nb;
-	int	ns;
+	int	dx;
+	int	dy;
 
-	alive = get_cell_global(map, gx, gy);
-	nb = count_neighbors(map, gx, gy);
-	if (alive)
-		ns = (nb == 2 || nb == 3);
-	else
-		ns = (nb == 3);
-	if (ns)
-		set_cell_global(next, gx, gy, 1);
+	dy = -1;
+	while (dy <= 1)
+	{
+		dx = -1;
+		while (dx <= 1)
+		{
+			nb->c[dy + 1][dx + 1] = map_get(map, cx + dx, cy + dy);
+			dx++;
+		}
+		dy++;
+	}
+}
+
+static t_chunk	*sim_write_cell(t_chunk_map *next, t_chunk *out, t_cell_pos p)
+{
+	if (!out)
+		out = map_get_or_create(next, p.cx, p.cy);
+	if (out)
+		chunk_set(out, p.lx, p.ly, 1);
+	return (out);
 }
 
 void	sim_step_chunk(t_chunk_map *map, t_chunk_map *next, int *todo, int i)
 {
-	int	lx;
-	int	ly;
-	int	gx;
-	int	gy;
+	t_chunk_nbrs	nb;
+	t_chunk			*out;
+	t_cell_pos		p;
 
-	ly = 0;
-	while (ly < CHUNK_SIZE)
+	sim_fetch_nbrs(map, todo[i * 2], todo[i * 2 + 1], &nb);
+	out = NULL;
+	p.cx = todo[i * 2];
+	p.cy = todo[i * 2 + 1];
+	p.ly = 0;
+	while (p.ly < CHUNK_SIZE)
 	{
-		lx = 0;
-		while (lx < CHUNK_SIZE)
+		p.lx = 0;
+		while (p.lx < CHUNK_SIZE)
 		{
-			gx = todo[i * 2] * CHUNK_SIZE + lx;
-			gy = todo[i * 2 + 1] * CHUNK_SIZE + ly;
-			sim_step_cell(map, next, gx, gy);
-			lx++;
+			if (sim_cell_will_live(&nb, p.lx, p.ly))
+				out = sim_write_cell(next, out, p);
+			p.lx++;
 		}
-		ly++;
+		p.ly++;
 	}
 }
 

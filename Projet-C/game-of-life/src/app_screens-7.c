@@ -34,6 +34,7 @@ void	update(t_app *app, float dt)
 	int		alive;
 	int		idx;
 	float	td;
+	int		steps;
 
 	if (app->screen != SCREEN_GAME)
 		return ;
@@ -42,11 +43,18 @@ void	update(t_app *app, float dt)
 		return ;
 	app->tick_acc += dt;
 	td = 1.0f / app->speed;
-	while (app->tick_acc >= td)
+	steps = 0;
+	while (app->tick_acc >= td && steps < MAX_STEPS_FRAME)
 	{
 		simulation_step(&app->map);
 		app->generation++;
 		app->tick_acc -= td;
+		steps++;
+	}
+	if (app->tick_acc > td)
+		app->tick_acc = td;
+	if (steps > 0)
+	{
 		alive = map_alive_count(&app->map);
 		idx = app->pop_count % POP_HISTORY_LEN;
 		app->pop_history[idx] = alive;

@@ -50,8 +50,10 @@ static void	renderer_prepare(t_camera2d_gol cam, t_renderer *r)
 	r->th = get_theme(idx);
 	if (cam.zoom >= 4.0f)
 		r->cell_px = cam.zoom - 1.0f;
-	else
+	else if (cam.zoom >= 1.0f)
 		r->cell_px = cam.zoom;
+	else
+		r->cell_px = 1.0f;
 }
 
 void	renderer_draw(const t_chunk_map *map, t_camera2d_gol cam,

@@ -23,10 +23,11 @@
 
 # define CONFIG_FILE		"keys.cfg"
 # define PAN_SPEED			6.0f
-# define ZOOM_MIN			2.0f
+# define ZOOM_MIN			0.4f
 # define ZOOM_MAX			128.0f
 # define POP_HISTORY_LEN	240
 # define UNDO_LEN			20
+# define MAX_STEPS_FRAME	5
 
 typedef struct s_sel_box
 {

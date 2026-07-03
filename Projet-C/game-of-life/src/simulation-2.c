@@ -12,22 +12,6 @@
 
 #include "simulation.h"
 
-int	count_neighbors(const t_chunk_map *m, int gx, int gy)
-{
-	int	n;
-
-	n = 0;
-	n += get_cell_global(m, gx - 1, gy - 1);
-	n += get_cell_global(m, gx, gy - 1);
-	n += get_cell_global(m, gx + 1, gy - 1);
-	n += get_cell_global(m, gx - 1, gy);
-	n += get_cell_global(m, gx + 1, gy);
-	n += get_cell_global(m, gx - 1, gy + 1);
-	n += get_cell_global(m, gx, gy + 1);
-	n += get_cell_global(m, gx + 1, gy + 1);
-	return (n);
-}
-
 int	sim_collect_dedup(unsigned int *seen, unsigned int set_mask, int ncx,
 		int ncy)
 {
