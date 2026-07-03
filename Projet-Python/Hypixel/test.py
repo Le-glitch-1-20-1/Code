@@ -239,7 +239,7 @@ def main():
 	auto_stats = None
 	use_api = ask("\nVeux-tu récupérer tes stats automatiquement via l'API ? (o/n) : ", ["o", "n"])
 	if use_api == "o":
-		api_key  = input("Clé API Hypixel : ").strip() or "d3ff2777-05e1-4c0c-9e27-fbd69c323765"
+		api_key  = input("Clé API Hypixel : ").strip() or ""
 		username = input("Pseudo Minecraft : ").strip()
 		print("\n⏳ Récupération en cours...")
 		try:

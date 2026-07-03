@@ -29,11 +29,11 @@ detect_pkg_manager() {
 	fi
 }
 
-HAS_SNAP=false;		command -v snap	&>/dev/null && HAS_SNAP=true
+HAS_SNAP=false;		command -v snap &>/dev/null && HAS_SNAP=true
 HAS_FLATPAK=false;	command -v flatpak &>/dev/null && HAS_FLATPAK=true
-HAS_PIP=false;		command -v pip3	&>/dev/null && HAS_PIP=true
-HAS_NPM=false;		command -v npm	 &>/dev/null && HAS_NPM=true
-HAS_CARGO=false;	command -v cargo   &>/dev/null && HAS_CARGO=true
+HAS_PIP=false;		command -v pip3 &>/dev/null && HAS_PIP=true
+HAS_NPM=false;		command -v npm &>/dev/null && HAS_NPM=true
+HAS_CARGO=false;	command -v cargo &>/dev/null && HAS_CARGO=true
 
 find_appimages() {
 	local dirs=("$HOME" "$HOME/Applications" "$HOME/AppImages" "/opt" "/usr/local/bin")
@@ -47,7 +47,7 @@ HAS_APPIMAGE=false
 banner() {
 	echo -e "${BLUE}${BOLD}"
 	echo "  ╔════════════════════════════════════════════╗"
-	echo "  ║	   Gestionnaire d'Applications Linux	 ║"
+	echo "  ║       Gestionnaire d'Applications Linux    ║"
 	echo "  ╚════════════════════════════════════════════╝"
 	echo -e "${RESET}"
 }
@@ -82,13 +82,13 @@ compter_total() {
 	local npm_count=0;		$HAS_NPM		&& npm_count=$(npm list -g --depth=0 2>/dev/null | tail -n +2 | wc -l)
 	local cargo_count=0;	$HAS_CARGO		&& cargo_count=$(cargo install --list 2>/dev/null | grep -c "^[a-z]")
 
-	echo -e "  ${GREEN}Paquets système   : ${BOLD}$total${RESET}"
-	$HAS_SNAP		&& echo -e "  ${GREEN}Snaps				: ${BOLD}$snap_count${RESET}"
-	$HAS_FLATPAK	&& echo -e "  ${GREEN}Flatpaks			: ${BOLD}$flat_count${RESET}"
-	$HAS_APPIMAGE	&& echo -e "  ${GREEN}AppImages			: ${BOLD}$ai_count${RESET}"
-	$HAS_PIP		&& echo -e "  ${GREEN}Paquets pip		: ${BOLD}$pip_count${RESET}"
-	$HAS_NPM		&& echo -e "  ${GREEN}Paquets npm -g	: ${BOLD}$npm_count${RESET}"
-	$HAS_CARGO		&& echo -e "  ${GREEN}Binaires cargo	: ${BOLD}$cargo_count${RESET}"
+	printf "  %b%-18s: %b%s%b\n" "$GREEN" "Paquets système" "$BOLD" "$total" "$RESET"
+	$HAS_SNAP		&& printf "  %b%-18s: %b%s%b\n" "$GREEN" "Snaps" "$BOLD" "$snap_count" "$RESET"
+	$HAS_FLATPAK	&& printf "  %b%-18s: %b%s%b\n" "$GREEN" "Flatpaks" "$BOLD" "$flat_count" "$RESET"
+	$HAS_APPIMAGE	&& printf "  %b%-18s: %b%s%b\n" "$GREEN" "AppImages" "$BOLD" "$ai_count" "$RESET"
+	$HAS_PIP		&& printf "  %b%-18s: %b%s%b\n" "$GREEN" "Paquets pip" "$BOLD" "$pip_count" "$RESET"
+	$HAS_NPM		&& printf "  %b%-18s: %b%s%b\n" "$GREEN" "Paquets npm -g" "$BOLD" "$npm_count" "$RESET"
+	$HAS_CARGO		&& printf "  %b%-18s: %b%s%b\n" "$GREEN" "Binaires cargo" "$BOLD" "$cargo_count" "$RESET"
 }
 
 pause() { echo; read -rp "  Appuyez sur [Entrée] pour continuer..."; }
@@ -261,6 +261,10 @@ mettre_a_jour_selectif() {
 	echo -e "  ${CYAN}0)${RESET} Retour"; echo
 	read -rp "  Votre choix : " sel
 	[[ "$sel" == "0" ]] && return
+	if [[ ! "$sel" =~ ^[0-9]+$ ]]; then
+		echo -e "  ${RED}Choix invalide.${RESET}"
+		return
+	fi
 	local idx=$(( sel - 1 ))
 	local cible="${opts[$idx]:-}"
 	case "$cible" in
@@ -297,6 +301,10 @@ choisir_gestionnaire() {
 	$HAS_NPM	   && { echo -e "  ${CYAN}$i)${RESET} npm (global)";  opts+=("npm");	 ((i++)); }
 	$HAS_CARGO	 && { echo -e "  ${CYAN}$i)${RESET} cargo";		 opts+=("cargo");   ((i++)); }
 	echo; read -rp "  Choix : " sel; echo
+	if [[ ! "$sel" =~ ^[0-9]+$ ]]; then
+		CHOSEN=""
+		return
+	fi
 	local idx=$(( sel - 1 ))
 	CHOSEN="${opts[$idx]:-}"
 }
@@ -317,6 +325,8 @@ chercher_app() {
 		flatpak) flatpak search "$pkg" 2>/dev/null | less -R ;;
 		pip)	 pip3 index versions "$pkg" 2>/dev/null | less -R ;;
 		npm)	 npm search "$pkg" 2>/dev/null | less -R ;;
+		cargo)   echo -e "  ${DIM}(cargo search dépend de l'API crates.io, peut être limité)${RESET}"
+				 cargo search "$pkg" 2>/dev/null | less -R ;;
 		*)	   echo -e "  ${RED}Choix invalide.${RESET}" ;;
 	esac
 }
@@ -369,7 +379,8 @@ supprimer_app() {
 # ── Export ───────────────────────────────────────────────────
 
 exporter_liste() {
-	local fichier="apps_$(hostname)_$(date +%Y%m%d_%H%M%S).txt"
+	local fichier
+	fichier="apps_$(hostname)_$(date +%Y%m%d_%H%M%S).txt"
 	echo -e "${YELLOW}💾 Export vers ${BOLD}$fichier${RESET}...\n"
 	{
 		echo "=========================================="
