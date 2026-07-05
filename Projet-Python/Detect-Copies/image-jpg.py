@@ -158,7 +158,7 @@ def main():
 		if not (1 <= quality <= 95):
 			logger.error("[ERROR] Quality must be between 1 and 95.")
 			sys.exit(1)
-		delete_original	= True if args.delete else False if args.no_delete else True
+		delete_original	= True if args.delete else False if args.no_delete else False
 		dry_run			= True if args.dry_run else False if args.no_dry_run else False
 		recursive		= True if args.recursive else False if args.no_recursive else True
 		run(root=root, quality=quality, delete_original=delete_original, dry_run=dry_run, recursive=recursive)

@@ -192,7 +192,7 @@ def do_move(speed: float) -> None:
 def run_generate(p: dict) -> None:
 	do_generate(p)
 	do_solve()
-	success_panel("[dim]Maze solved. Image saved to [cyan]labyrinthe/maze_solved.png[/][/]")
+	success_panel("[dim]Maze solved. Image saved to [cyan]maze_output/maze_solved.png[/][/]")
 
 def run_site(p: dict) -> None:
 	do_capture(p["url"], p["image_path"])

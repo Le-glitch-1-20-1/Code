@@ -17,6 +17,7 @@ def format_taille_octets(octets):
 		if octets < 1024:
 			return f"{octets:.2f}", unite
 		octets /= 1024
+	return f"{octets:.2f}", "Eo"
 
 def aplatir_arborescence(arborescence, chemin=""):
 	lignes = []

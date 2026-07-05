@@ -50,7 +50,7 @@ def get_direction(p1: tuple, p2: tuple):
 	if   dy == -1 and dx == 0: return Key.up
 	return None
 
-def execute_moves(path_file: str = "labyrinthe/maze_path.txt", speed: float = 0.1) -> None:
+def execute_moves(path_file: str = "maze_output/maze_path.txt", speed: float = 0.1) -> None:
 	_check_pynput()
 	if speed < 0:
 		raise ValueError(f"Speed must be >= 0 (got {speed})")

@@ -19,8 +19,8 @@ SIZES = {
 
 MAZE_URLS = {name: f"https://maze.toys/mazes/{name}/" for name in SIZES}
 DAILY_URLS = {name: f"https://maze.toys/mazes/{name}/daily/" for name in SIZES}
-DEFAULT_INFO_FILE  = "labyrinthe/maze_info.txt"
-DEFAULT_OUTPUT_IMG = "labyrinthe/mini.png"
+DEFAULT_INFO_FILE  = "maze_output/maze_info.txt"
+DEFAULT_OUTPUT_IMG = "maze_output/mini.png"
 COLOR_WALL  = (0,   0,   0)
 COLOR_START = (0,   0,   200)
 COLOR_END   = (0,   0,   200)

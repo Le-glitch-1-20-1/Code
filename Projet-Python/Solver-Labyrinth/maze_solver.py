@@ -22,9 +22,9 @@ except ImportError:
 DEFAULT_CONFIG = {
 	"URL":					"https://maze.toys/mazes/mini/",
 	"WAIT_TIME":			2,
-	"OUTPUT_PATH":			"labyrinthe/maze.png",
-	"OUTPUT_IMAGE":			"labyrinthe/mini.png",
-	"INFO_PATH":			"labyrinthe/maze_info.txt",
+	"OUTPUT_PATH":			"maze_output/maze.png",
+	"OUTPUT_IMAGE":			"maze_output/mini.png",
+	"INFO_PATH":			"maze_output/maze_info.txt",
 	"WHITE_THRESHOLD":		240,
 	"BLACK_THRESHOLD":		50,
 	"GRID_COLOR":			(180, 180, 180),

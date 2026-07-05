@@ -11,7 +11,6 @@ from pathlib		import Path
 from typing			import Optional
 from tqdm			import tqdm
 from PIL			import Image, UnidentifiedImageError
-from tqdm			import tqdm
 
 SUPPORTED_EXTENSIONS = {".jpg", ".jpeg", ".png", ".bmp", ".gif", ".tiff", ".webp"}
 logging.basicConfig(level=logging.INFO, format="%(message)s")

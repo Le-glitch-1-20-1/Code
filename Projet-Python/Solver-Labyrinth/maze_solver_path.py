@@ -3,10 +3,10 @@ import numpy as np
 from collections import deque
 
 DEFAULT_CONFIG = {
-	"INPUT_IMAGE":			"labyrinthe/mini.png",
-	"OUTPUT_IMAGE":			"labyrinthe/maze_solved.png",
-	"INFO_FILE":			"labyrinthe/maze_info.txt",
-	"PATH_FILE":			"labyrinthe/maze_path.txt",
+	"INPUT_IMAGE":			"maze_output/mini.png",
+	"OUTPUT_IMAGE":			"maze_output/maze_solved.png",
+	"INFO_FILE":			"maze_output/maze_info.txt",
+	"PATH_FILE":			"maze_output/maze_path.txt",
 	"INTERSECTION_COLOR":	(0, 0, 0),
 	"TOL":					30,
 }
