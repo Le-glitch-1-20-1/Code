@@ -1,21 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   display_utils.c                                    :+:      :+:    :+:   */
+/*   display_utils-1.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 16:17:09 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/05/03 16:17:10 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/07/10 19:05:11 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <dirent.h>
 #include "display_utils.h"
-#define FONT_FOLDER "text"
 
 void	afficher_ligne(FILE *fp, FILE *out)
 {
@@ -29,10 +24,7 @@ void	afficher_ligne(FILE *fp, FILE *out)
 	}
 }
 
-void	afficher_police(
-			const char *font,
-			const char *texte,
-			FILE *out,
+void	afficher_police(const char *font, const char *texte, FILE *out,
 			int entete)
 {
 	FILE	*fp;
@@ -58,7 +50,7 @@ void	afficher_police(
 	pclose(fp);
 }
 
-static void	nettoyer_chaine(char *token)
+void	nettoyer_chaine(char *token)
 {
 	char	*end;
 
@@ -72,11 +64,8 @@ static void	nettoyer_chaine(char *token)
 	}
 }
 
-void	afficher_texte_avec_sauts(
-			const char *font,
-			const char *texte,
-			FILE *out,
-			int entete)
+void	afficher_texte_avec_sauts(const char *font, const char *texte,
+			FILE *out, int entete)
 {
 	char	temp[1024];
 	char	*token;

@@ -6,7 +6,7 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/21 23:01:58 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/27 21:05:20 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/07/10 18:20:20 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -363,7 +363,7 @@ void			icon_clear(float cx, float cy, float r, Color c);
 void			icon_paste(float cx, float cy, float r, Color c);
 
 // ui_keybinds-1.c
-extern const t_kb_entry	g_kb_table[];
+extern const t_kb_entry		g_kb_table[];
 int				*kb_field(t_key_config *cfg, int offset);
 const char		*kname_mod(int k);
 const char		*kname_arrow(int k);

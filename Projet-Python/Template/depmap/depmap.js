@@ -80,6 +80,46 @@ for (const g of Object.keys(groups)) {
 	});
 }
 
+// ---- Légende <-> groupes (lien dynamique) ----
+// Groupes actifs (visibles). Tous actifs par défaut.
+const activeGroups = new Set(Object.keys(groups));
+// Groupe survolé dans la légende (mise en avant temporaire)
+let hoverGroup = null;
+
+function toggleGroup(g) {
+	if (activeGroups.has(g)) activeGroups.delete(g);
+	else activeGroups.add(g);
+	// Si le nœud sélectionné appartient à un groupe qu'on vient de masquer, on désélectionne
+	if (selectedNode && NODES_DATA[selectedNode]?.group === g && !activeGroups.has(g)) {
+		selectedNode = null; highlightNodes.clear(); closeSidePanel();
+	}
+	// Idem pour la multi-sélection
+	if (!activeGroups.has(g) && multiSel.length) {
+		multiSel = multiSel.filter(f => NODES_DATA[f]?.group !== g);
+		updateAlignBar();
+	}
+	updateLegendUI();
+	draw();
+}
+
+function setGroupHover(g) {
+	if (hoverGroup === g) return;
+	hoverGroup = g;
+	draw();
+}
+
+function clearGroupHover() {
+	if (hoverGroup === null) return;
+	hoverGroup = null;
+	draw();
+}
+
+function updateLegendUI() {
+	document.querySelectorAll('#legend .leg[data-group]').forEach(row => {
+		row.classList.toggle('inactive', !activeGroups.has(row.dataset.group));
+	});
+}
+
 // Positions des nodes (modifiables par drag) — positions d'origine (INIT_POS)
 const positions = {};
 for (const [f, p] of Object.entries(INIT_POS)) positions[f] = {x:p.x, y:p.y};
@@ -280,9 +320,15 @@ function buildLegend() {
 	const order = Object.keys(COLORS).filter(g => g !== 'other' && groupsPresent.has(g));
 	for (const g of order) {
 		const c = COLORS[g];
+		const n = (groups[g] || []).length;
 		const row = document.createElement('div');
-		row.className = 'leg';
+		row.className = 'leg' + (activeGroups.has(g) ? '' : ' inactive');
+		row.dataset.group = g;
+		row.title = `${n} fichier${n>1?'s':''} · clic pour afficher/masquer le module`;
 		row.innerHTML = `<div class="leg-dot" style="background:${c.bg};border:1px solid ${c.border}"></div><span>${g}</span>`;
+		row.addEventListener('click', () => toggleGroup(g));
+		row.addEventListener('mouseenter', () => setGroupHover(g));
+		row.addEventListener('mouseleave', () => clearGroupHover());
 		el.appendChild(row);
 	}
 }
@@ -511,30 +557,34 @@ function draw() {
 	for (const [gname, fnames] of Object.entries(groups)) {
 		const b = getGroupBounds(gname);
 		const c = getGroupColors(gname);
+		const gActive = activeGroups.has(gname);
+		const gHover	= hoverGroup === gname;
+		// Coefficient global lié à la légende : estompé si masqué, renforcé si survolé
+		const mul = gActive ? (gHover ? 1.6 : 1) : 0.18;
 		ctx.save();
 		// Fond très transparent
-		ctx.globalAlpha=0.06;
+		ctx.globalAlpha=0.06*mul;
 		ctx.fillStyle=c.bg;
 		roundRect(b.x1,b.y1,b.x2-b.x1,b.y2-b.y1,14);
 		ctx.fill();
-		// Bordure dashed
-		ctx.globalAlpha=0.4;
+		// Bordure dashed (pleine si survolée)
+		ctx.globalAlpha=Math.min(1,0.4*mul);
 		ctx.strokeStyle=c.border;
-		ctx.lineWidth=1.5;
-		ctx.setLineDash([5,4]);
+		ctx.lineWidth=gHover?2.2:1.5;
+		if (!gHover) ctx.setLineDash([5,4]);
 		roundRect(b.x1,b.y1,b.x2-b.x1,b.y2-b.y1,14);
 		ctx.stroke();
 		ctx.setLineDash([]);
 		// Label groupe
-		ctx.globalAlpha=0.75;
+		ctx.globalAlpha=Math.min(1,0.75*mul);
 		ctx.fillStyle=c.border;
 		ctx.font='bold 12px Segoe UI,sans-serif';
 		ctx.textAlign='left';
-		ctx.fillText('Module '+gname, b.x1+12, b.y1+16);
+		ctx.fillText('Module '+gname+(gActive?'':' (masqué)'), b.x1+12, b.y1+16);
 		ctx.restore();
 
 		// Icône drag (petit ✥ en haut à droite)
-		if (scale>0.3) {
+		if (scale>0.3 && gActive) {
 			ctx.save();
 			ctx.globalAlpha=0.4;
 			ctx.fillStyle=c.border;
@@ -562,6 +612,8 @@ function draw() {
 		const srcGroup = NODES_DATA[e.src]?.group;
 		const tgtGroup = NODES_DATA[e.tgt]?.group;
 		const isIntraGroup = (srcGroup && tgtGroup && srcGroup === tgtGroup);
+		// Un des deux groupes masqué depuis la légende → on ignore complètement l'arête
+		if (!activeGroups.has(srcGroup) || !activeGroups.has(tgtGroup)) continue;
 		let alpha, dash, overrideWidth;
 		if (selectedNode) {
 			// Sélection simple : focus sur le nœud sélectionné
@@ -575,6 +627,8 @@ function draw() {
 			alpha = isIntraGroup ? 0.18 : 0.3;
 			dash = true;
 		}
+		// Groupe survolé dans la légende → estompe les liens qui n'y touchent pas
+		if (hoverGroup && srcGroup !== hoverGroup && tgtGroup !== hoverGroup) alpha *= 0.15;
 		// 8..20, varie par arête
 		const bowSeed = 8 + (Math.abs(hashStr(e.src+'>'+e.tgt+'b'+e.type))%13);
 		drawArrow(pts.x1, pts.y1, pts.x2, pts.y2, st.color, overrideWidth || st.w, dash, st.label, alpha, bowSeed);
@@ -597,8 +651,11 @@ function draw() {
 		const isSrch	= searchQuery && fname.toLowerCase().includes(searchQuery.toLowerCase());
 		const multiIdx= multiSel.indexOf(fname);
 		const isMulti = multiIdx !== -1;
+		const groupHidden	 = !activeGroups.has(n.group);
+		const groupUnfocused = hoverGroup && n.group !== hoverGroup;
 		const dimmed	= (selectedNode && !isHi && !isMulti) ||
-										(multiSel.length>0 && !isMulti);
+										(multiSel.length>0 && !isMulti) ||
+										groupHidden || groupUnfocused;
 		const isH		 = fname.endsWith('.h');
 
 		const isHidden = hiddenEdgeNodes.has(fname);
@@ -686,6 +743,7 @@ function getNodeAt(sx,sy) {
 		return ah===bh?0:(ah?1:-1);
 	}).reverse();
 	for (const f of sorted) {
+		if (!activeGroups.has(NODES_DATA[f]?.group)) continue;
 		const p=nodePos(f);
 		if (wx>=p.x&&wx<=p.x+NODE_W&&wy>=p.y&&wy<=p.y+NODE_H) return f;
 	}
