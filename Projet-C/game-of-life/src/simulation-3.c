@@ -6,11 +6,26 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/02 22:30:00 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/07/02 22:30:00 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/07/10 18:01:29 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "simulation.h"
+
+static void	sim_wrap_axis(int *lc, int *bc)
+{
+	*bc = 1;
+	if (*lc < 0)
+	{
+		*lc += CHUNK_SIZE;
+		*bc = 0;
+	}
+	else if (*lc >= CHUNK_SIZE)
+	{
+		*lc -= CHUNK_SIZE;
+		*bc = 2;
+	}
+}
 
 static int	sim_local_get(t_chunk_nbrs *nb, int lx, int ly)
 {
@@ -18,28 +33,8 @@ static int	sim_local_get(t_chunk_nbrs *nb, int lx, int ly)
 	int				bx;
 	int				by;
 
-	bx = 1;
-	by = 1;
-	if (lx < 0)
-	{
-		lx += CHUNK_SIZE;
-		bx = 0;
-	}
-	else if (lx >= CHUNK_SIZE)
-	{
-		lx -= CHUNK_SIZE;
-		bx = 2;
-	}
-	if (ly < 0)
-	{
-		ly += CHUNK_SIZE;
-		by = 0;
-	}
-	else if (ly >= CHUNK_SIZE)
-	{
-		ly -= CHUNK_SIZE;
-		by = 2;
-	}
+	sim_wrap_axis(&lx, &bx);
+	sim_wrap_axis(&ly, &by);
 	c = nb->c[by][bx];
 	if (!c)
 		return (0);

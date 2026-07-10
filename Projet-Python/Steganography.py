@@ -1,17 +1,17 @@
 #!/usr/bin/env python3
-from __future__ import annotations
+from __future__		import annotations
 import argparse
 import math
 import os
 import random
 import sys
-from abc import ABC, abstractmethod
-from typing import Optional
 import questionary
-from PIL import Image
-from rich.console import Console
-from rich.panel import Panel
-from rich.progress import BarColumn, MofNCompleteColumn, Progress, TextColumn, TimeElapsedColumn
+from abc			import ABC, abstractmethod
+from typing			import Optional
+from PIL			import Image
+from rich.console	import Console
+from rich.panel		import Panel
+from rich.progress	import BarColumn, MofNCompleteColumn, Progress, TextColumn, TimeElapsedColumn
 
 console: Console = Console()
 VERSION: str = "1.0.0"

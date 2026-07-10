@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from __future__ import annotations
+from __future__						import annotations
 import argparse
 import hashlib
 import logging
@@ -7,20 +7,20 @@ import os
 import shutil
 import sys
 import warnings
-from abc import ABC, abstractmethod
-from collections import defaultdict
-from pathlib import Path
-from types import SimpleNamespace
-from typing import Optional
 import pillow_heif
 import questionary
-from moviepy.video.io.VideoFileClip import VideoFileClip
-from PIL import Image, UnidentifiedImageError
-from rich.console import Console
-from rich.panel import Panel
-from rich.progress import BarColumn, MofNCompleteColumn, Progress, SpinnerColumn, TextColumn, TimeElapsedColumn
-from rich.table import Table
-from rich.tree import Tree
+from abc							import ABC, abstractmethod
+from collections					import defaultdict
+from pathlib						import Path
+from types							import SimpleNamespace
+from typing							import Optional
+from moviepy.video.io.VideoFileClip	import VideoFileClip
+from PIL							import Image, UnidentifiedImageError
+from rich.console					import Console
+from rich.panel						import Panel
+from rich.progress					import BarColumn, MofNCompleteColumn, Progress, SpinnerColumn, TextColumn, TimeElapsedColumn
+from rich.table						import Table
+from rich.tree						import Tree
 
 console: Console = Console()
 VERSION: str = "1.0.0"

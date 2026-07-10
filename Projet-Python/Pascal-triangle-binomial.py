@@ -2,14 +2,14 @@
 from __future__ import annotations
 import argparse
 import sys
-from abc import ABC, abstractmethod
-from math import comb
-from typing import Any
 import questionary
-from rich.console import Console
-from rich.panel import Panel
-from rich.table import Table
-from sympy import SympifyError, expand, latex, sympify
+from abc			import ABC, abstractmethod
+from math			import comb
+from typing			import Any
+from rich.console	import Console
+from rich.panel		import Panel
+from rich.table		import Table
+from sympy			import SympifyError, expand, latex, sympify
 
 console: Console = Console()
 VERSION: str = "1.0.0"

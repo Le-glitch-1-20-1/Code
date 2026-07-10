@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from __future__ import annotations
+from __future__		import annotations
 import argparse
 import base64
 import os
@@ -7,13 +7,13 @@ import random
 import sys
 import threading
 import time
-from abc import ABC, abstractmethod
-from collections import deque
-from io import BytesIO
-from typing import Any, Callable, Optional
-
 import cv2
-import numpy as np
+import numpy		as np
+from abc			import ABC, abstractmethod
+from collections	import deque
+from io				import BytesIO
+from typing			import Any, Callable, Optional
+
 
 try:
 	from PIL import Image

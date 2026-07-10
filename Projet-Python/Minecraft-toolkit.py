@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Minecraft world analysis toolkit: map area calculator and dragon egg finder."""
-from __future__ import annotations
+from __future__		import annotations
 import argparse
 import gzip
 import io
@@ -8,14 +8,14 @@ import os
 import struct
 import sys
 import zlib
-from abc import ABC, abstractmethod
-from dataclasses import dataclass
-from typing import Optional
 import questionary
-from rich.console import Console
-from rich.panel import Panel
-from rich.rule import Rule
-from rich.table import Table
+from abc			import ABC, abstractmethod
+from dataclasses	import dataclass
+from typing			import Optional
+from rich.console	import Console
+from rich.panel		import Panel
+from rich.rule		import Rule
+from rich.table		import Table
 
 console: Console = Console()
 TARGET_EGG: str = "minecraft:dragon_egg"

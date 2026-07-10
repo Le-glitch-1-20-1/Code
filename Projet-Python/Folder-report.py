@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Scan disk partitions and generate an HTML file report using Template/."""
-from __future__ import annotations
+from __future__		import annotations
 import argparse
 import gzip
 import io
@@ -8,16 +8,16 @@ import json
 import os
 import shutil
 import sys
-from abc import ABC, abstractmethod
-from datetime import datetime
-from typing import Any
 import psutil
 import questionary
-from rich.console import Console
-from rich.panel import Panel
-from rich.progress import BarColumn, Progress, SpinnerColumn, TaskID, TextColumn, TimeElapsedColumn
-from rich.rule import Rule
-from rich.table import Table
+from abc			import ABC, abstractmethod
+from datetime		import datetime
+from typing			import Any
+from rich.console	import Console
+from rich.panel		import Panel
+from rich.progress	import BarColumn, Progress, SpinnerColumn, TaskID, TextColumn, TimeElapsedColumn
+from rich.rule		import Rule
+from rich.table		import Table
 
 if sys.stdout.encoding.lower() != "utf-8":
 	sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")

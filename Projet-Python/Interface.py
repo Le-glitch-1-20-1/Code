@@ -22,7 +22,7 @@ from rich.text		import Text
 from rich.tree		import Tree
 
 if sys.stdout.encoding.lower() != "utf-8":
-    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
+	sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
 
 console: Console = Console()
 

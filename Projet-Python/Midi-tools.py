@@ -1,17 +1,17 @@
 #!/usr/bin/env python3
 """Outils MIDI (monitor + test couleurs APC) structurés autour d'une interface commune."""
-from __future__ import annotations
+from __future__		import annotations
 import argparse
 import threading
 import time
-from abc import ABC, abstractmethod
-from datetime import datetime
 import mido
 import questionary
 import rtmidi
-from rich.console import Console
-from rich.panel import Panel
-from rich.progress import BarColumn, Progress, TaskID, TextColumn, TimeElapsedColumn
+from abc			import ABC, abstractmethod
+from datetime		import datetime
+from rich.console	import Console
+from rich.panel		import Panel
+from rich.progress	import BarColumn, Progress, TaskID, TextColumn, TimeElapsedColumn
 
 console: Console = Console()
 VERSION: str = "1.0.0"

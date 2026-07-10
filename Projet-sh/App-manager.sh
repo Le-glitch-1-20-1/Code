@@ -2,8 +2,17 @@
 # Exit code of a pipeline is the last command that failed, not just the last command
 set -o pipefail
 
+# Force UTF-8 aware string length handling. Without this, ${#var} counts raw bytes instead of visual characters in a non-UTF-8 locale (e.g. "—" is 3 bytes but 1 column), silently breaking the width of every box, rule and table below.
+if [[ "$(locale charmap 2>/dev/null)" != "UTF-8" ]]; then
+	for _candidate in C.UTF-8 C.utf8 en_US.UTF-8 en_US.utf8; do
+		locale -a 2>/dev/null | grep -qix "$_candidate" && { export LC_ALL="$_candidate"; break; }
+	done
+	unset _candidate
+fi
+
 # Program version, mirrors the VERSION constant of the Python interface
 VERSION="2.0.0"
+readonly VERSION
 
 # Color codes used for terminal output
 RED='\033[0;31m'
@@ -16,6 +25,7 @@ DIM='\033[2m'
 RESET='\033[0m'
 HIDE_CURSOR='\033[?25l'
 SHOW_CURSOR='\033[?25h'
+readonly RED GREEN YELLOW CYAN MAGENTA BOLD DIM RESET HIDE_CURSOR SHOW_CURSOR
 
 # Detect which optional package managers are available on this system
 HAS_SNAP=false;		command -v snap &>/dev/null && HAS_SNAP=true
@@ -24,6 +34,7 @@ HAS_PIP=false;		command -v pip3 &>/dev/null && HAS_PIP=true
 HAS_NPM=false;		command -v npm &>/dev/null && HAS_NPM=true
 HAS_CARGO=false;	command -v cargo &>/dev/null && HAS_CARGO=true
 HAS_APPIMAGE=true
+readonly HAS_SNAP HAS_FLATPAK HAS_PIP HAS_NPM HAS_CARGO HAS_APPIMAGE
 # CLI flags and option variables, populated by argument parsing
 AUTO_YES=false
 NONINTERACTIVE=false
@@ -40,8 +51,17 @@ SHOW_HELP=false
 BAD_ARGS=false
 
 # Print a short message and exit cleanly on Ctrl+C
-trap 'printf "${SHOW_CURSOR}"; echo -e "${RESET}\n  ${YELLOW}Interrupted.${RESET}"; exit 130' INT
-trap 'printf "${SHOW_CURSOR}"' EXIT
+trap 'spin_stop 2>/dev/null; printf "${SHOW_CURSOR}"; echo -e "${RESET}\n  ${YELLOW}Interrupted.${RESET}"; exit 130' INT
+trap 'spin_stop 2>/dev/null; printf "${SHOW_CURSOR}"' EXIT
+
+# Pick the most relevant pip binary: an active virtualenv's pip if present, else pip3
+pip_binary() {
+	if [[ -n "${VIRTUAL_ENV:-}" && -x "${VIRTUAL_ENV}/bin/pip" ]]; then
+		echo "${VIRTUAL_ENV}/bin/pip"
+	else
+		echo "pip3"
+	fi
+}
 
 # Detect the system package manager and store it in PM
 detect_pkg_manager() {
@@ -57,7 +77,7 @@ detect_pkg_manager() {
 
 # Look for AppImage files in common locations
 find_appimages() {
-	local dirs=("$HOME" "$HOME/Applications" "$HOME/AppImages" "/opt" "/usr/local/bin")
+	local -a dirs=("$HOME" "$HOME/Applications" "$HOME/AppImages" "/opt" "/usr/local/bin")
 	find "${dirs[@]}" -maxdepth 3 -name "*.AppImage" 2>/dev/null
 }
 
@@ -69,10 +89,10 @@ term_width() {
 # Full-width titled separator, mirroring rich.rule.Rule
 hr() {
 	local label="${1:-}"
-	local width; width=$(term_width)
+	local -i width; width=$(term_width)
 	if [[ -n "$label" ]]; then
 		local head="── ${label} "
-		local pad=$(( width - ${#head} ))
+		local -i pad=$(( width - ${#head} ))
 		(( pad < 0 )) && pad=0
 		echo -e "  ${MAGENTA}${BOLD}${head}$(printf '─%.0s' $(seq 1 "$pad") 2>/dev/null)${RESET}"
 	else
@@ -86,19 +106,19 @@ hr() {
 print_table() {
 	local header="$1"; local -n _rows="$2"
 	local -a headers; IFS=$'\t' read -ra headers <<< "$header"
-	local ncol=${#headers[@]}
+	local -i ncol=${#headers[@]}
 	if (( ${#_rows[@]} == 0 )); then
 		echo -e "  ${DIM}(no entries found)${RESET}\n"
 		return
 	fi
-	local -a widths
-	local i
+	local -ai widths
+	local -i i len
 	for ((i = 0; i < ncol; i++)); do widths[i]=${#headers[i]}; done
 	local row
 	for row in "${_rows[@]}"; do
 		local -a cols; IFS=$'\t' read -ra cols <<< "$row"
 		for ((i = 0; i < ncol; i++)); do
-			local len=${#cols[i]}
+			len=${#cols[i]}
 			(( len > widths[i] )) && widths[i]=$len
 		done
 	done
@@ -160,8 +180,9 @@ spin_stop() {
 select_menu() {
 	local prompt="$1"; shift
 	local -a options=("$@")
-	local count=${#options[@]}
-	local idx=0 i key
+	local -i count=${#options[@]}
+	local -i idx=0 i
+	local key
 
 	draw_options() {
 		for ((i = 0; i < count; i++)); do
@@ -204,10 +225,10 @@ select_menu() {
 # Center plain text (no ANSI codes) inside a field of the given width
 pad_center() {
 	local text="$1"
-	local width="$2"
-	local len=${#text}
-	local left=$(( (width - len) / 2 ))
-	local right=$(( width - len - left ))
+	local -i width="$2"
+	local -i len=${#text}
+	local -i left=$(( (width - len) / 2 ))
+	local -i right=$(( width - len - left ))
 	[ "$left" -lt 0 ] && left=0
 	[ "$right" -lt 0 ] && right=0
 	printf "%*s%s%*s" "$left" "" "$text" "$right" ""
@@ -217,9 +238,11 @@ pad_center() {
 banner() {
 	local title="MyApp Console v${VERSION} — Linux Application Manager"
 	local subtitle="Bash interface for system, snap, flatpak, pip, npm & cargo"
-	local width; width=$(term_width)
-	local box=$(( width > 70 ? 60 : width - 10 ))
-	(( box < 44 )) && box=44
+	local -i width; width=$(term_width)
+	local -i min_box=$(( ${#title} > ${#subtitle} ? ${#title} : ${#subtitle} ))
+	(( min_box < 44 )) && min_box=44
+	local -i box=$(( width > 70 ? 60 : width - 10 ))
+	(( box < min_box )) && box=$min_box
 	local border; border=$(printf -- '─%.0s' $(seq 1 "$box"))
 	echo
 	echo -e "  ${CYAN}╭${border}╮${RESET}"
@@ -247,7 +270,7 @@ show_managers() {
 # Count and print the number of installed packages per manager
 count_totals() {
 	spin_start "Counting installed packages..."
-	local total=0
+	local -i total=0
 	if [[ -n "$PM" ]]; then
 		case "$PM" in
 			apt)		total=$(dpkg-query -W -f='${Status}\n' 2>/dev/null | grep -c "install ok installed") ;;
@@ -257,12 +280,12 @@ count_totals() {
 			apk)		total=$(apk info 2>/dev/null | wc -l) ;;
 		esac
 	fi
-	local snap_count=0;		$HAS_SNAP		&& snap_count=$(snap list 2>/dev/null | tail -n +2 | wc -l)
-	local flat_count=0;		$HAS_FLATPAK	&& flat_count=$(flatpak list 2>/dev/null | wc -l)
-	local ai_count=0;		$HAS_APPIMAGE	&& ai_count=$(find_appimages | wc -l)
-	local pip_count=0;		$HAS_PIP		&& pip_count=$(pip3 list 2>/dev/null | tail -n +3 | wc -l)
-	local npm_count=0;		$HAS_NPM		&& npm_count=$(npm list -g --depth=0 2>/dev/null | tail -n +2 | wc -l)
-	local cargo_count=0;	$HAS_CARGO		&& cargo_count=$(cargo install --list 2>/dev/null | grep -c "^[a-z]")
+	local -i snap_count=0;		$HAS_SNAP		&& snap_count=$(snap list 2>/dev/null | tail -n +2 | wc -l)
+	local -i flat_count=0;		$HAS_FLATPAK	&& flat_count=$(flatpak list 2>/dev/null | wc -l)
+	local -i ai_count=0;		$HAS_APPIMAGE	&& ai_count=$(find_appimages | wc -l)
+	local -i pip_count=0;		$HAS_PIP		&& pip_count=$(pip3 list 2>/dev/null | tail -n +3 | wc -l)
+	local -i npm_count=0;		$HAS_NPM		&& npm_count=$(npm list -g --depth=0 2>/dev/null | tail -n +2 | wc -l)
+	local -i cargo_count=0;	$HAS_CARGO		&& cargo_count=$(cargo install --list 2>/dev/null | grep -c "^[a-z]")
 	spin_stop
 	local -a rows=()
 	rows+=("System packages"$'\t'"$total")
@@ -424,21 +447,14 @@ check_updates() {
 		flatpak remote-ls --updates 2>/dev/null || echo -e "  ${GREEN}Already up to date.${RESET}"
 	fi
 	if $HAS_PIP; then
-		section "pip (Python - venv)"
+		local pip_bin; pip_bin=$(pip_binary)
+		section "pip ($pip_bin)"
 		local outdated
-
-		# Chemin direct vers le pip de ton venv
-		local PY_ENV_PIP="/home/le-glitch/code/py/bin/pip"
-
-		if [[ -x "$PY_ENV_PIP" ]]; then
-			outdated=$("$PY_ENV_PIP" list --outdated 2>/dev/null | tail -n +3)
-			if [[ -n "$outdated" ]]; then
-				echo "$outdated" | awk '{printf "  %-30s current: %-10s available: %s\n", $1, $2, $3}'
-			else
-				echo -e "  ${GREEN}Already up to date.${RESET}"
-			fi
+		outdated=$("$pip_bin" list --outdated 2>/dev/null | tail -n +3)
+		if [[ -n "$outdated" ]]; then
+			echo "$outdated" | awk '{printf "  %-30s current: %-10s available: %s\n", $1, $2, $3}'
 		else
-			echo -e "  ${RED}Environnement virtuel non trouvé dans /home/le-glitch/code/py${RESET}"
+			echo -e "  ${GREEN}Already up to date.${RESET}"
 		fi
 	fi
 	if $HAS_NPM; then
@@ -480,12 +496,12 @@ update_all() {
 	fi
 	$HAS_SNAP	&& { section "Snap";	sudo snap refresh; }
 	$HAS_FLATPAK && { section "Flatpak"; flatpak update -y; }
-	local PY_ENV_PIP="/home/le-glitch/code/py/bin/pip"
-	$HAS_PIP && [[ -x "$PY_ENV_PIP" ]] && { 
-		section "pip (venv)"
-		"$PY_ENV_PIP" list --outdated 2>/dev/null | tail -n +3 | awk '{print $1}' | xargs -r "$PY_ENV_PIP" install --upgrade 2>/dev/null
+	if $HAS_PIP; then
+		local pip_bin; pip_bin=$(pip_binary)
+		section "pip ($pip_bin)"
+		"$pip_bin" list --outdated 2>/dev/null | tail -n +3 | awk '{print $1}' | xargs -r "$pip_bin" install --upgrade 2>/dev/null
 		echo -e "  ${GREEN}pip packages up to date.${RESET}"
-	}
+	fi
 	$HAS_NPM	 && { section "npm"; npm update -g 2>/dev/null
 		echo -e "  ${GREEN}npm up to date.${RESET}"; }
 	echo -e "\n  ${GREEN}${BOLD}All updates are complete.${RESET}"
@@ -805,11 +821,12 @@ main() {
 				if [[ -n "${2:-}" && "$2" != -* ]]; then LIST_MANAGER="$2"; shift; fi
 				;;
 			-c|--check-updates)		DO_CHECK=true ;;
-			-u|--update-all)		DO_UPDATE_ALL=true ;;
-			-um|--update-manager)	UPDATE_MANAGER="${2:-}"; shift ;;
+			-U|-u|--update-all)		DO_UPDATE_ALL=true ;;
+			-m|-um|--update-manager) UPDATE_MANAGER="${2:-}"; shift ;;
 			-s|--search)			SEARCH_PKG="${2:-}"; shift ;;
 			-i|--install)			INSTALL_PKG="${2:-}"; shift ;;
 			-r|--remove)			REMOVE_PKG="${2:-}"; shift ;;
+			--manager)				ACTION_MANAGER="${2:-}"; shift ;;
 			-e|--export)			DO_EXPORT=true ;;
 			-y|--yes)				AUTO_YES=true ;;
 			-v|--version)			echo "App Manager v${VERSION}"; exit 0 ;;
