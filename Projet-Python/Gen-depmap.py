@@ -46,6 +46,20 @@ ROW_GAP: int = 2
 FUNC_START_RE = re.compile(r'^(?:(?:static|inline|virtual|explicit|constexpr|void|int|bool|float|double|char|short|long|const|unsigned|signed|size_t|auto|[A-Za-z_]\w*(?:::\w+)?)\s+\*?)+(\w+)\s*\(')
 CALL_RE = re.compile(r'\b(\w+)\s*\(')
 
+def resolve_scan_roots(root: str) -> list[str]:
+	# Beaucoup de projets C/C++ séparent leurs sources (src/) de leurs headers
+	# (include/). Si le dossier passé en --src contient l'un et/ou l'autre,
+	# on scanne ces sous-dossiers (chacun récursivement) plutôt que le dossier
+	# racine lui-même. Sinon (pas de src/ ni include/), on scanne le dossier
+	# donné directement — comportement historique inchangé pour les projets
+	# qui n'ont pas cette convention.
+	candidates: list[str] = []
+	for name in ("src", "include"):
+		d: str = os.path.join(root, name)
+		if os.path.isdir(d):
+			candidates.append(d)
+	return candidates if candidates else [root]
+
 class DependencyMapGeneratorInterface(ABC):
 	# Interface abstraite définissant le contrat que tout générateur de carte de dépendances doit suivre.
 	@abstractmethod
@@ -78,17 +92,20 @@ class DependencyMapGenerator(DependencyMapGeneratorInterface):
 		# Retourne la liste des fichiers trouvés, avec (basename -> chemin absolu).
 		# Le nœud est identifié par son basename (comme les #include "..." locaux),
 		# avec avertissement si deux fichiers du projet partagent le même nom.
+		# Scanne src/ et/ou include/ sous src_dir s'ils existent (cf. resolve_scan_roots),
+		# sinon src_dir directement.
 		found: dict[str, str] = {}
-		walker: Any = os.walk(src_dir) if recursive else [(src_dir, [], os.listdir(src_dir))]
 		dupes: list[str] = []
-		for root, _dirs, filenames in walker:
-			for fn in filenames:
-				if os.path.splitext(fn)[1] not in extensions:
-					continue
-				full: str = os.path.join(root, fn)
-				if fn in found and found[fn] != full:
-					dupes.append(fn)
-				found[fn] = full
+		for root_dir in resolve_scan_roots(src_dir):
+			walker: Any = os.walk(root_dir) if recursive else [(root_dir, [], os.listdir(root_dir))]
+			for root, _dirs, filenames in walker:
+				for fn in filenames:
+					if os.path.splitext(fn)[1] not in extensions:
+						continue
+					full: str = os.path.join(root, fn)
+					if fn in found and found[fn] != full:
+						dupes.append(fn)
+					found[fn] = full
 		if dupes:
 			console.print(f"[yellow]{len(set(dupes))} nom(s) de fichier en doublon dans l'arborescence "
 				f"(seul le dernier trouvé est gardé, les #include locaux peuvent devenir ambigus) :[/]")
@@ -307,6 +324,11 @@ class DependencyMapGenerator(DependencyMapGeneratorInterface):
 		console.print(Rule("[bold yellow]Génération de la carte de dépendances"))
 		console.print()
 
+		scan_roots: list[str] = resolve_scan_roots(src)
+		if scan_roots != [src]:
+			console.print(f"[dim]→ src/ et/ou include/ détectés, scan de : {', '.join(scan_roots)}[/]")
+		console.print()
+
 		ok: bool = False
 		with Progress(SpinnerColumn(), TextColumn("[bold]{task.description}"), BarColumn(bar_width=30), TimeElapsedColumn(), console=console) as progress:
 			task: TaskID = progress.add_task("Scan des fichiers sources...", total=5)
@@ -477,7 +499,7 @@ def build_parser() -> argparse.ArgumentParser:
 	p.add_argument("-v", "--version", action="version", version=f"%(prog)s {VERSION}", help="Affiche la version du programme et quitte.")
 	p.add_argument("src_pos", nargs="?", help="Dossier source (positionnel, compat. ancienne syntaxe)")
 	p.add_argument("output_pos", nargs="?", help="Fichier HTML de sortie (positionnel, compat. ancienne syntaxe)")
-	p.add_argument("-s", "--src", help="Dossier source (défaut: demandé interactivement)")
+	p.add_argument("-s", "--src", help="Dossier source, ou racine du projet si elle contient src/ et/ou include/ (défaut: demandé interactivement)")
 	p.add_argument("-o", "--output", help="Fichier HTML de sortie (défaut: <dossier_du_script>/Dependency_map.html)")
 	p.add_argument("-t", "--title", help="Nom du projet affiché dans l'en-tête (défaut: nom du dossier source)")
 	p.add_argument("-e", "--ext", help="Extensions à scanner, séparées par des virgules (défaut: %s)" % ",".join(sorted(DEFAULT_EXTENSIONS)))
@@ -506,7 +528,7 @@ def interactive_form(defaults: argparse.Namespace) -> argparse.Namespace:
 	console.print(Rule("[bold yellow]Configuration de la carte de dépendances"))
 	console.print()
 
-	src: str | None = questionary.path("Dossier contenant les fichiers .c et .h :", only_directories=True, default=defaults.src or "", validate=validate_src_dir, style=MENU_STYLE).ask()
+	src: str | None = questionary.path("Dossier contenant les fichiers .c et .h (racine du projet si src/ et/ou include/ existent) :", only_directories=True, default=defaults.src or "", validate=validate_src_dir, style=MENU_STYLE).ask()
 	if not src:
 		console.print("[yellow]Annulé.[/]")
 		sys.exit(0)

@@ -798,14 +798,15 @@ function nodeAtCell(g, col, row, excludeFile) {
 // Retourne {col, row} ou null si aucune case libre dans un rayon raisonnable.
 function nearestFreeCell(fname) {
 	const g   = NODES_DATA[fname]?.group;
-	const off = groupOffsets[g] || {dx:0, dy:0};
 	const p   = positions[fname];
-	// Position monde du centre du nœud (incluant l'offset groupe)
-	const cx  = p.x + off.dx + NODE_W/2;
-	const cy  = p.y + off.dy + NODE_H/2;
-	// Case "idéale" sous le curseur
-	const idealCol = Math.round((cx - NODE_W/2) / GRID_X);
-	const idealRow = Math.round((cy - NODE_H/2) / GRID_Y);
+	// Case "idéale" en coordonnées RELATIVES au groupe (comme nodeCell/nodeAtCell,
+	// et comme snapToNearestFree/drawGridHint qui rajoutent l'offset séparément
+	// ensuite). p.x/p.y sont déjà "sans offset" pendant le drag (voir mousemove :
+	// positions[...].x = wx - NODE_W/2 - off.dx). Ne PAS rajouter off.dx/off.dy
+	// ici, sinon l'offset du groupe est compté deux fois et le nœud est snappé
+	// loin de sa position réelle dès que le module a été déplacé hors grille.
+	const idealCol = Math.round(p.x / GRID_X);
+	const idealRow = Math.round(p.y / GRID_Y);
 
 	// Chercher en spirale la case libre la plus proche
 	const MAX_R = 8;
