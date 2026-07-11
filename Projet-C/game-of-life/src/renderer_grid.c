@@ -6,13 +6,13 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:24:24 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/07/10 21:37:25 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/07/11 09:48:39 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "renderer.h"
 
-void	rdraw_grid_cols(t_camera2d_gol cam, const t_renderer *r, 
+void	rdraw_grid_cols(t_camera2d_gol cam, const t_renderer *r,
 			const t_view_bounds *b)
 {
 	int		cx;

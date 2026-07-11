@@ -6,7 +6,7 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:05:42 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/24 11:23:02 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/07/11 09:50:00 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,21 @@ void	draw_frame(t_app *app)
 	EndDrawing();
 }
 
+void	track_population(t_app *app)
+{
+	int	alive;
+	int	idx;
+
+	alive = map_alive_count(&app->map);
+	idx = app->pop_count % POP_HISTORY_LEN;
+	app->pop_history[idx] = alive;
+	app->pop_count++;
+	if (alive > app->pop_max)
+		app->pop_max = alive;
+}
+
 void	update(t_app *app, float dt)
 {
-	int		alive;
-	int		idx;
 	float	td;
 	int		steps;
 
@@ -43,6 +54,17 @@ void	update(t_app *app, float dt)
 		return ;
 	app->tick_acc += dt;
 	td = 1.0f / app->speed;
+	steps = run_simulation_steps(app, td);
+	if (app->tick_acc > td)
+		app->tick_acc = td;
+	if (steps > 0)
+		track_population(app);
+}
+
+int	run_simulation_steps(t_app *app, float td)
+{
+	int	steps;
+
 	steps = 0;
 	while (app->tick_acc >= td && steps < MAX_STEPS_FRAME)
 	{
@@ -51,15 +73,5 @@ void	update(t_app *app, float dt)
 		app->tick_acc -= td;
 		steps++;
 	}
-	if (app->tick_acc > td)
-		app->tick_acc = td;
-	if (steps > 0)
-	{
-		alive = map_alive_count(&app->map);
-		idx = app->pop_count % POP_HISTORY_LEN;
-		app->pop_history[idx] = alive;
-		app->pop_count++;
-		if (alive > app->pop_max)
-			app->pop_max = alive;
-	}
+	return (steps);
 }

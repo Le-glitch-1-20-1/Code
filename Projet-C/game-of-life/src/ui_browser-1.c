@@ -6,7 +6,7 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/21 23:04:57 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/07/11 09:36:06 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/07/11 09:48:24 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	browser_scan_dir(const char *dirpath, char names[MAX_RLE][256],
 	DIR				*dir;
 	struct dirent	*e;
 	int				l;
+	size_t			needed;
 
 	dir = opendir(dirpath);
 	if (!dir)
@@ -26,7 +27,8 @@ void	browser_scan_dir(const char *dirpath, char names[MAX_RLE][256],
 	while (e && *count < MAX_RLE)
 	{
 		l = (int)strlen(e->d_name);
-		if (l > 4 && strcmp(e->d_name + l - 4, ".rle") == 0)
+		needed = strlen(dirpath) + strlen(e->d_name) + 2;
+		if (l > 4 && strcmp(e->d_name + l - 4, ".rle") == 0 && needed <= 256)
 			snprintf(names[(*count)++], 256, "%s/%s", dirpath, e->d_name);
 		e = readdir(dir);
 	}

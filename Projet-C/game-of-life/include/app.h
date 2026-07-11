@@ -6,7 +6,7 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/21 23:01:17 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/07/10 21:24:13 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/07/11 09:50:55 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -274,7 +274,9 @@ void	draw_screen_place(t_app *app);
 
 // app_screens-7.c
 void	draw_frame(t_app *app);
+void	track_population(t_app *app);
 void	update(t_app *app, float dt);
+int		run_simulation_steps(t_app *app, float td);
 
 // app_screens-8.c
 void	get_rand_bounds(t_app *app, t_rect *out);
