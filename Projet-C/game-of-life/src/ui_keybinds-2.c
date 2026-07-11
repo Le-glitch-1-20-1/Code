@@ -6,13 +6,11 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/21 23:05:50 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/07/11 09:34:32 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/07/11 10:59:19 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ui.h"
-
-extern const t_kb_entry	g_kb_table[];
 
 void	kb_draw_sep(t_kb_view v, int cy, const t_kb_entry *e, int rh_sep)
 {
@@ -38,7 +36,7 @@ void	kb_draw_key_badge(t_kb_view v, t_kb_row r, t_key_config *cfg,
 	if (r.wait_idx == r.i)
 		kn = "[ ... ]";
 	else
-		kn = kname(*kb_field(cfg, g_kb_table[r.i].offset));
+		kn = kname(*kb_field(cfg, kb_entry(r.i).offset));
 	kw = MeasureText(kn, FS) + 16;
 	kb = (Rectangle){(float)(v.list_x + v.list_w - kw - 6),
 		(float)(r.cy + 4), (float)kw, (float)(rh_key - 10)};
@@ -57,13 +55,13 @@ void	kb_draw_key_badge(t_kb_view v, t_kb_row r, t_key_config *cfg,
 
 void	kb_draw_row(t_kb_view v, t_kb_row r, t_key_config *cfg)
 {
-	const t_kb_entry	*e;
-	bool				iw;
-	Rectangle			row;
-	int					rh_key;
+	t_kb_entry	e;
+	bool		iw;
+	Rectangle	row;
+	int			rh_key;
 
 	rh_key = 30;
-	e = &g_kb_table[r.i];
+	e = kb_entry(r.i);
 	iw = (r.wait_idx == r.i);
 	row = (Rectangle){(float)v.list_x, (float)r.cy,
 		(float)v.list_w, (float)(rh_key - 2)};
@@ -76,10 +74,10 @@ void	kb_draw_row(t_kb_view v, t_kb_row r, t_key_config *cfg)
 	else
 		DrawRectangleLinesEx(row, 1.0f, (Color){40, 40, 60, 255});
 	if (iw)
-		DrawText(e->label, v.list_x + 12,
+		DrawText(e.label, v.list_x + 12,
 			r.cy + (rh_key - 2 - FS) / 2, FS, ui_c_hi());
 	else
-		DrawText(e->label, v.list_x + 12,
+		DrawText(e.label, v.list_x + 12,
 			r.cy + (rh_key - 2 - FS) / 2, FS, ui_c_text());
 	kb_draw_key_badge(v, r, cfg, rh_key);
 }
@@ -107,7 +105,7 @@ int	kb_capture(t_key_config *cfg, int wait_idx)
 	pr = GetKeyPressed();
 	if (pr > 0 && pr != KEY_ESCAPE)
 	{
-		*kb_field(cfg, g_kb_table[wait_idx].offset) = pr;
+		*kb_field(cfg, kb_entry(wait_idx).offset) = pr;
 		save_key_config("keys.cfg", cfg);
 		return (-1);
 	}

@@ -6,13 +6,11 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/21 23:04:34 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/07/11 09:35:57 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/07/11 10:59:37 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ui.h"
-
-extern const t_kb_entry	g_kb_table[];
 
 void	kb_draw_list(t_kb_view v, int scroll_px, int wait_idx,
 			t_key_config *cfg)
@@ -25,7 +23,7 @@ void	kb_draw_list(t_kb_view v, int scroll_px, int wait_idx,
 	while (i < KB_N)
 	{
 		wait_idx = kb_draw_list_step(v, (t_kb_row){cy, i, wait_idx}, cfg);
-		if (!g_kb_table[i].label)
+		if (!kb_entry(i).label)
 			cy += 28;
 		else
 			cy += 30;
@@ -60,7 +58,7 @@ int	kb_row_click(t_kb_view v, t_kb_row r, t_key_config *cfg)
 
 	if (r.wait_idx == r.i)
 		return (r.wait_idx);
-	kn = kname(*kb_field(cfg, g_kb_table[r.i].offset));
+	kn = kname(*kb_field(cfg, kb_entry(r.i).offset));
 	kw = MeasureText(kn, FS) + 16;
 	hit = (Rectangle){
 		(float)(v.list_x + v.list_w - kw - 6),
@@ -76,15 +74,17 @@ int	kb_row_click(t_kb_view v, t_kb_row r, t_key_config *cfg)
 
 int	kb_draw_list_step(t_kb_view v, t_kb_row r, t_key_config *cfg)
 {
-	int	rh_key;
-	int	rh_sep;
+	int			rh_key;
+	int			rh_sep;
+	t_kb_entry	e;
 
 	rh_key = 30;
 	rh_sep = 28;
-	if (!g_kb_table[r.i].label)
+	e = kb_entry(r.i);
+	if (!e.label)
 	{
 		if (r.cy + rh_sep > v.list_top && r.cy < v.list_bot)
-			kb_draw_sep(v, r.cy, &g_kb_table[r.i], rh_sep);
+			kb_draw_sep(v, r.cy, &e, rh_sep);
 	}
 	else if (r.cy + rh_key > v.list_top && r.cy < v.list_bot)
 	{
@@ -103,7 +103,7 @@ int	kb_total_h(void)
 	k = 0;
 	while (k < KB_N)
 	{
-		if (g_kb_table[k].label)
+		if (kb_entry(k).label)
 			total_h += 30;
 		else
 			total_h += 28;

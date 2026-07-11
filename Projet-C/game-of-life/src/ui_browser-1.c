@@ -6,7 +6,7 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/21 23:04:57 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/07/11 09:48:24 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/07/11 10:27:04 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,25 @@ void	browser_scan_dir(const char *dirpath, char names[MAX_RLE][256],
 {
 	DIR				*dir;
 	struct dirent	*e;
-	int				l;
-	size_t			needed;
+	size_t			dlen;
+	size_t			flen;
 
 	dir = opendir(dirpath);
 	if (!dir)
 		return ;
+	dlen = strlen(dirpath);
 	e = readdir(dir);
 	while (e && *count < MAX_RLE)
 	{
-		l = (int)strlen(e->d_name);
-		needed = strlen(dirpath) + strlen(e->d_name) + 2;
-		if (l > 4 && strcmp(e->d_name + l - 4, ".rle") == 0 && needed <= 256)
-			snprintf(names[(*count)++], 256, "%s/%s", dirpath, e->d_name);
+		flen = strlen(e->d_name);
+		if (flen > 4 && strcmp(e->d_name + flen - 4, ".rle") == 0
+			&& dlen + flen + 2 <= 256)
+		{
+			memcpy(names[*count], dirpath, dlen);
+			names[*count][dlen] = '/';
+			memcpy(names[*count] + dlen + 1, e->d_name, flen + 1);
+			(*count)++;
+		}
 		e = readdir(dir);
 	}
 	closedir(dir);

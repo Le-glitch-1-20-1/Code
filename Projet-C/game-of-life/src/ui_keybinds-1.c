@@ -6,43 +6,11 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:20:27 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 23:05:35 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/07/11 10:58:55 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ui.h"
-
-const t_kb_entry	g_kb_table[] = {
-{NULL, "Navigation", -1},
-{"Deplacer vue - Haut", NULL, (int)offsetof(t_key_config, pan_up)},
-{"Deplacer vue - Bas", NULL, (int)offsetof(t_key_config, pan_down)},
-{"Deplacer vue - Gauche", NULL, (int)offsetof(t_key_config, pan_left)},
-{"Deplacer vue - Droite", NULL, (int)offsetof(t_key_config, pan_right)},
-{NULL, "Simulation", -1},
-{"Play / Pause", NULL, (int)offsetof(t_key_config, toggle_play)},
-{"Pas suivant", NULL, (int)offsetof(t_key_config, step_once)},
-{"Effacer la grille", NULL, (int)offsetof(t_key_config, clear)},
-{"Vitesse +", NULL, (int)offsetof(t_key_config, speed_up)},
-{"Vitesse -", NULL, (int)offsetof(t_key_config, speed_down)},
-{NULL, "Outils", -1},
-{"Remplissage aleatoire", NULL, (int)offsetof(t_key_config, random)},
-{"Rotation pattern", NULL, (int)offsetof(t_key_config, rotate)},
-{"Annuler (Undo)", NULL, (int)offsetof(t_key_config, undo)},
-{"Copier zone", NULL, (int)offsetof(t_key_config, copy)},
-{"Effacer zone", NULL, (int)offsetof(t_key_config, clear_zone)},
-{"Coller", NULL, (int)offsetof(t_key_config, paste)},
-{NULL, "Vue", -1},
-{"Centrer la vue", NULL, (int)offsetof(t_key_config, center_view)},
-{"Grille on/off", NULL, (int)offsetof(t_key_config, toggle_grid)},
-{"HUD on/off", NULL, (int)offsetof(t_key_config, toggle_hud)},
-{"Debug chunks on/off", NULL,
-	(int)offsetof(t_key_config, toggle_chunk_debug)},
-{"Theme suivant", NULL, (int)offsetof(t_key_config, next_theme)},
-{NULL, "Fichiers", -1},
-{"Modificateur", NULL, (int)offsetof(t_key_config, mod_save)},
-{"Sauvegarder zone", NULL, (int)offsetof(t_key_config, save)},
-{"Charger RLE", NULL, (int)offsetof(t_key_config, load)},
-};
 
 int	*kb_field(t_key_config *cfg, int offset)
 {
