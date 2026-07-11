@@ -1,0 +1,31 @@
+# Dépendances pour les scripts de Projet-Python/
+# Installation complète : pip install -r requirements.txt
+# (voir Projet-Python/README.md pour savoir quel script utilise quoi)
+
+# Aco-tsp.py
+numpy
+matplotlib
+
+# Folder-report.py, Gen-depmap.py, Interface.py, Minecraft-toolkit.py
+questionary
+rich
+psutil
+
+# Maze-bot.py
+opencv-python
+pillow
+selenium
+
+# Media-toolkit.py
+pillow-heif
+moviepy
+
+# Midi-tools.py
+mido
+python-rtmidi
+
+# Pascal-triangle-binomial.py
+sympy
+
+# Steganography.py
+# (pillow, questionary, rich déjà listés ci-dessus)
