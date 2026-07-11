@@ -6,26 +6,11 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:24:24 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/24 11:09:27 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/07/10 21:42:15 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "renderer.h"
-
-static t_view_bounds	compute_view_bounds(t_camera2d_gol cam)
-{
-	t_view_bounds	b;
-	int				sw;
-	int				sh;
-
-	sw = GetScreenWidth();
-	sh = GetScreenHeight();
-	b.cx_min = (int)floorf((-cam.offset.x) / (CHUNK_SIZE * cam.zoom)) - 1;
-	b.cx_max = (int)ceilf((sw - cam.offset.x) / (CHUNK_SIZE * cam.zoom)) + 1;
-	b.cy_min = (int)floorf((-cam.offset.y) / (CHUNK_SIZE * cam.zoom)) - 1;
-	b.cy_max = (int)ceilf((sh - cam.offset.y) / (CHUNK_SIZE * cam.zoom)) + 1;
-	return (b);
-}
 
 void	draw_crosshair(t_camera2d_gol cam)
 {
@@ -40,7 +25,7 @@ void	draw_crosshair(t_camera2d_gol cam)
 		(Vector2){cam.offset.x, cam.offset.y + 6}, c);
 }
 
-static void	renderer_prepare(t_camera2d_gol cam, t_renderer *r)
+void	renderer_prepare(t_camera2d_gol cam, t_renderer *r)
 {
 	int	idx;
 
@@ -67,4 +52,19 @@ void	renderer_draw(const t_chunk_map *map, t_camera2d_gol cam,
 		renderer_draw_grid(cam, r, &b);
 	rdraw_chunks(map, cam, r, &b);
 	draw_crosshair(cam);
+}
+
+t_view_bounds	compute_view_bounds(t_camera2d_gol cam)
+{
+	t_view_bounds	b;
+	int				sw;
+	int				sh;
+
+	sw = GetScreenWidth();
+	sh = GetScreenHeight();
+	b.cx_min = (int)floorf((-cam.offset.x) / (CHUNK_SIZE * cam.zoom)) - 1;
+	b.cx_max = (int)ceilf((sw - cam.offset.x) / (CHUNK_SIZE * cam.zoom)) + 1;
+	b.cy_min = (int)floorf((-cam.offset.y) / (CHUNK_SIZE * cam.zoom)) - 1;
+	b.cy_max = (int)ceilf((sh - cam.offset.y) / (CHUNK_SIZE * cam.zoom)) + 1;
+	return (b);
 }

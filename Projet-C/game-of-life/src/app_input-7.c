@@ -6,27 +6,13 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:30:44 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 22:01:12 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/07/10 20:45:06 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "app.h"
 
-int	bresenham_sx(int x0, int x1)
-{
-	if (x0 < x1)
-		return (1);
-	return (-1);
-}
-
-int	bresenham_sy(int y0, int y1)
-{
-	if (y0 < y1)
-		return (1);
-	return (-1);
-}
-
-static void	bresenham_step(int *x0, int *y0, t_bresenham *b)
+void	bresenham_step(int *x0, int *y0, t_bresenham *b)
 {
 	int	e2;
 
@@ -63,4 +49,18 @@ void	draw_line_cells(t_chunk_map *map, t_rect r, int val)
 			break ;
 		bresenham_step(&x0, &y0, &b);
 	}
+}
+
+int	bresenham_sx(int x0, int x1)
+{
+	if (x0 < x1)
+		return (1);
+	return (-1);
+}
+
+int	bresenham_sy(int y0, int y1)
+{
+	if (y0 < y1)
+		return (1);
+	return (-1);
 }

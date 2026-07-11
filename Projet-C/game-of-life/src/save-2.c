@@ -6,25 +6,11 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:09:04 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/25 08:23:57 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/07/10 21:51:15 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "save.h"
-
-int	rle_find_last(const t_chunk_map *map, int gy, int x0, int x1)
-{
-	int	gx;
-
-	gx = x1;
-	while (gx >= x0)
-	{
-		if (get_cell_global(map, gx, gy))
-			return (gx);
-		gx--;
-	}
-	return (x0 - 1);
-}
 
 void	save_rle_body(FILE *f, const t_chunk_map *map, t_bbox box)
 {
@@ -42,6 +28,20 @@ void	save_rle_body(FILE *f, const t_chunk_map *map, t_bbox box)
 	}
 	lb.buf[lb.len++] = '\n';
 	fwrite(lb.buf, 1, lb.len, f);
+}
+
+int	rle_find_last(const t_chunk_map *map, int gy, int x0, int x1)
+{
+	int	gx;
+
+	gx = x1;
+	while (gx >= x0)
+	{
+		if (get_cell_global(map, gx, gy))
+			return (gx);
+		gx--;
+	}
+	return (x0 - 1);
 }
 
 int	save_rle(const char *path, const t_chunk_map *map)

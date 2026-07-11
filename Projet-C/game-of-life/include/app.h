@@ -6,7 +6,7 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/21 23:01:17 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/27 12:00:00 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/07/10 21:24:13 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,10 +146,10 @@ typedef struct s_app
 
 // app_draw-1.c
 void	draw_selection_info_box(t_sel_box b);
-void	stamp_pattern(t_app *app, int ox, int oy);
-void	draw_place_preview_cells(t_app *app, int gx, int gy, float cs);
-void	draw_preview_chunk(t_app *app, const t_chunk *c, t_chunk_draw d);
 void	stamp_chunk(t_app *app, const t_chunk *c, int ox, int oy);
+void	stamp_pattern(t_app *app, int ox, int oy);
+void	draw_preview_chunk(t_app *app, const t_chunk *c, t_chunk_draw d);
+void	draw_place_preview_cells(t_app *app, int gx, int gy, float cs);
 
 // app_draw-2.c
 void	draw_select_overlay(t_app *app, t_rect r, t_overlay_style style);
@@ -210,6 +210,7 @@ void	handle_game_zoom_pan(t_app *app, Vector2 *mouse, bool *on_ui);
 void	handle_game_input(t_app *app);
 
 // app_input-7.c
+void	bresenham_step(int *x0, int *y0, t_bresenham *b);
 void	draw_line_cells(t_chunk_map *map, t_rect r, int val);
 int		bresenham_sx(int x0, int x1);
 int		bresenham_sy(int y0, int y1);
@@ -247,10 +248,6 @@ void	fill_pop_buf(t_app *app, int *pbuf, int *pn);
 void	draw_screen_game_hud(t_app *app);
 void	draw_screen_game(t_app *app);
 
-// app_screens-8.c
-void	get_rand_bounds(t_app *app, t_rect *out);
-void	draw_screen_random_sel(t_app *app);
-
 // app_screens-3.c
 void	handle_toolbar_select(t_app *app, t_ui_action act);
 void	handle_toolbar_act2(t_app *app, t_ui_action act);
@@ -260,8 +257,8 @@ void	handle_toolbar_action(t_app *app, t_ui_action act);
 void	handle_random_result(t_app *app);
 void	draw_screen_random(t_app *app);
 void	draw_screen_save_zone_rect(t_app *app);
-void	draw_screen_save_zone(t_app *app);
 void	handle_save_zone_ready(t_app *app, const char *out_path);
+void	draw_screen_save_zone(t_app *app);
 
 // app_screens-5.c
 void	handle_load_chosen(t_app *app, const char *out_path);
@@ -278,6 +275,11 @@ void	draw_screen_place(t_app *app);
 // app_screens-7.c
 void	draw_frame(t_app *app);
 void	update(t_app *app, float dt);
+
+// app_screens-8.c
+void	get_rand_bounds(t_app *app, t_rect *out);
+void	draw_rand_rect(t_rect r, t_camera2d_gol cam);
+void	draw_screen_random_sel(t_app *app);
 
 // app_undo.c
 void	push_undo(t_app *app);

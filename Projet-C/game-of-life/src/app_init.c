@@ -6,7 +6,7 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:29:40 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 15:15:13 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/07/10 20:30:20 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,22 +41,6 @@ void	app_init_undo(t_app *app)
 	}
 }
 
-t_app	*app_init(void)
-{
-	t_app	*app;
-
-	app = (t_app *)calloc(1, sizeof(t_app));
-	if (!app)
-		return (NULL);
-	app_init_defaults(app);
-	app->keys = load_key_config(CONFIG_FILE);
-	save_key_config(CONFIG_FILE, &app->keys);
-	map_init(&app->map);
-	map_init(&app->clipboard);
-	app_init_undo(app);
-	return (app);
-}
-
 void	app_cleanup(t_app *app)
 {
 	int	i;
@@ -73,4 +57,20 @@ void	app_cleanup(t_app *app)
 		i++;
 	}
 	free(app);
+}
+
+t_app	*app_init(void)
+{
+	t_app	*app;
+
+	app = (t_app *)calloc(1, sizeof(t_app));
+	if (!app)
+		return (NULL);
+	app_init_defaults(app);
+	app->keys = load_key_config(CONFIG_FILE);
+	save_key_config(CONFIG_FILE, &app->keys);
+	map_init(&app->map);
+	map_init(&app->clipboard);
+	app_init_undo(app);
+	return (app);
 }

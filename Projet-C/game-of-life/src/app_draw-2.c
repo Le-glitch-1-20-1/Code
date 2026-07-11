@@ -6,33 +6,11 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:31:09 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/24 11:28:35 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/07/10 20:27:29 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "app.h"
-
-int	count_cells_in_rect(t_app *app, t_rect r)
-{
-	int	count;
-	int	x;
-	int	y;
-
-	count = 0;
-	y = r.ya;
-	while (y <= r.yb)
-	{
-		x = r.xa;
-		while (x <= r.xb)
-		{
-			if (get_cell_global(&app->map, x, y))
-				count++;
-			x++;
-		}
-		y++;
-	}
-	return (count);
-}
 
 void	draw_select_overlay(t_app *app, t_rect r, t_overlay_style style)
 {
@@ -87,4 +65,26 @@ void	draw_selections_clear(t_app *app)
 	minmax_clear(app, &r);
 	draw_select_overlay(app, r, (t_overlay_style){"Effacer",
 		(Color){220, 50, 50, 55}, (Color){255, 80, 80, 230}});
+}
+
+int	count_cells_in_rect(t_app *app, t_rect r)
+{
+	int	count;
+	int	x;
+	int	y;
+
+	count = 0;
+	y = r.ya;
+	while (y <= r.yb)
+	{
+		x = r.xa;
+		while (x <= r.xb)
+		{
+			if (get_cell_global(&app->map, x, y))
+				count++;
+			x++;
+		}
+		y++;
+	}
+	return (count);
 }

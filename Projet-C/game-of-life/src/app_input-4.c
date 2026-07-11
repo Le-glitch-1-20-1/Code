@@ -6,37 +6,11 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:36:37 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 15:32:01 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/07/10 20:36:57 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "app.h"
-
-int	handle_escape(t_app *app, bool ctrl)
-{
-	if (!IsKeyPressed(KEY_ESCAPE))
-		return (0);
-	if (app->clear_select_mode)
-	{
-		app->clear_select_mode = false;
-		app->clear_select_drag = false;
-		return (1);
-	}
-	if (app->copy_select_mode)
-	{
-		app->copy_select_mode = false;
-		app->copy_select_drag = false;
-		return (1);
-	}
-	if (!ctrl)
-	{
-		app->was_running = app->running;
-		app->running = false;
-		app->screen = SCREEN_MENU;
-		app->menu_just_opened = true;
-	}
-	return (1);
-}
 
 void	ctrl_paste(t_app *app)
 {
@@ -93,4 +67,30 @@ void	handle_ctrl_shortcuts(t_app *app)
 		app->copy_select_mode = false;
 		app->paste_mode = false;
 	}
+}
+
+int	handle_escape(t_app *app, bool ctrl)
+{
+	if (!IsKeyPressed(KEY_ESCAPE))
+		return (0);
+	if (app->clear_select_mode)
+	{
+		app->clear_select_mode = false;
+		app->clear_select_drag = false;
+		return (1);
+	}
+	if (app->copy_select_mode)
+	{
+		app->copy_select_mode = false;
+		app->copy_select_drag = false;
+		return (1);
+	}
+	if (!ctrl)
+	{
+		app->was_running = app->running;
+		app->running = false;
+		app->screen = SCREEN_MENU;
+		app->menu_just_opened = true;
+	}
+	return (1);
 }

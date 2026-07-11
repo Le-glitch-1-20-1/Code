@@ -6,7 +6,7 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:25:39 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/25 08:15:53 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/07/10 20:51:09 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,6 @@ void	center_map_iter(t_chunk_map *m, t_chunk_map *tmp, int cx, int cy)
 	}
 }
 
-int	get_center(int a, int b)
-{
-	return ((a + b) / 2);
-}
-
 void	center_map(t_chunk_map *m)
 {
 	t_chunk_map	tmp;
@@ -73,4 +68,9 @@ void	center_map(t_chunk_map *m)
 	center_map_iter(m, &tmp, cx, cy);
 	map_free(m);
 	*m = tmp;
+}
+
+int	get_center(int a, int b)
+{
+	return ((a + b) / 2);
 }

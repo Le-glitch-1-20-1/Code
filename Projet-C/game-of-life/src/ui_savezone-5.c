@@ -6,31 +6,13 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 21:05:20 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/27 21:05:20 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/07/10 22:11:11 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ui.h"
 
-static t_bbox	sz_normalize_box(t_save_zone_state *sz)
-{
-	t_bbox	box;
-
-	box = (t_bbox){sz->x0, sz->y0, sz->x1, sz->y1};
-	if (box.x0 > box.x1)
-	{
-		box.x0 = sz->x1;
-		box.x1 = sz->x0;
-	}
-	if (box.y0 > box.y1)
-	{
-		box.y0 = sz->y1;
-		box.y1 = sz->y0;
-	}
-	return (box);
-}
-
-static void	sz_draw_info_box(t_bbox box)
+void	sz_draw_info_box(t_bbox box)
 {
 	char	info1[80];
 	char	info2[80];
@@ -70,4 +52,22 @@ void	sz_phase0_draw(t_save_zone_state *sz, t_camera2d_gol cam)
 		return ;
 	}
 	sz_draw_dragging(sz, cam);
+}
+
+t_bbox	sz_normalize_box(t_save_zone_state *sz)
+{
+	t_bbox	box;
+
+	box = (t_bbox){sz->x0, sz->y0, sz->x1, sz->y1};
+	if (box.x0 > box.x1)
+	{
+		box.x0 = sz->x1;
+		box.x1 = sz->x0;
+	}
+	if (box.y0 > box.y1)
+	{
+		box.y0 = sz->y1;
+		box.y1 = sz->y0;
+	}
+	return (box);
 }

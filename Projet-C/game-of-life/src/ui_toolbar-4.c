@@ -6,13 +6,13 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 21:05:20 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/27 21:05:20 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/07/10 22:11:54 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ui.h"
 
-static void	toolbar_speed_slider(int *x, int pad, int bsz, float *speed)
+void	toolbar_speed_slider(int *x, int pad, int bsz, float *speed)
 {
 	int			sw2;
 	int			ty;
@@ -52,7 +52,7 @@ void	toolbar_speed(int *x, int pad, int bsz, float *speed)
 	DrawText(buf, *x - 22, pad + (bsz - FS) / 2, FS, ui_c_hi());
 }
 
-static t_ui_action	toolbar_draw_actions(int *x, int pad, int bsz,
+t_ui_action	toolbar_draw_actions(int *x, int pad, int bsz,
 						bool running)
 {
 	t_ui_action	act;

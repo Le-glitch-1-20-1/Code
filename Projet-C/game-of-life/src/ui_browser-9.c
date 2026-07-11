@@ -6,13 +6,13 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 21:05:20 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/07/02 22:00:13 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/07/10 22:07:23 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ui.h"
 
-static void	draw_rle_preview_valid(t_chunk_map *map, Rectangle dest)
+void	draw_rle_preview_valid(t_chunk_map *map, Rectangle dest)
 {
 	t_bbox	box;
 

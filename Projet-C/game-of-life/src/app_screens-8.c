@@ -6,7 +6,7 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 21:05:20 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/27 21:05:20 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/07/10 20:23:36 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	get_rand_bounds(t_app *app, t_rect *out)
 		out->yb = app->rand_state.y1;
 }
 
-static void	draw_rand_rect(t_rect r, t_camera2d_gol cam)
+void	draw_rand_rect(t_rect r, t_camera2d_gol cam)
 {
 	float	sx;
 	float	sy;

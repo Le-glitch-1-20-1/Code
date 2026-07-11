@@ -6,7 +6,7 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/21 23:05:17 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/27 08:36:40 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/07/10 22:06:59 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	draw_list_row_label(t_list_ctx ctx, int ri, Rectangle row, bool hov)
 	draw_list_row_folder(ctx, ri, row, slash);
 }
 
-static void	draw_list_row_bg(Rectangle row, bool hov)
+void	draw_list_row_bg(Rectangle row, bool hov)
 {
 	if (hov)
 		DrawRectangleRec(row, ui_c_hover());

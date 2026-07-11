@@ -6,36 +6,11 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/21 23:04:57 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/27 08:35:43 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/07/10 22:06:52 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ui.h"
-
-t_prev_scale	compute_preview_scale(t_bbox box, Rectangle dest)
-{
-	t_prev_scale	s;
-	float			scx;
-	float			scy;
-
-	scx = (dest.width - 8.0f) / (float)(box.x1 - box.x0 + 1);
-	scy = (dest.height - 8.0f) / (float)(box.y1 - box.y0 + 1);
-	if (scx < scy)
-		s.scale = scx;
-	else
-		s.scale = scy;
-	if (s.scale < 0.1f)
-		s.scale = 0.1f;
-	s.ox = dest.x + 4
-		+ ((dest.width - 8) - (box.x1 - box.x0 + 1) * s.scale) * 0.5f;
-	s.oy = dest.y + 4
-		+ ((dest.height - 8) - (box.y1 - box.y0 + 1) * s.scale) * 0.5f;
-	if (s.scale < 1.0f)
-		s.cw = 1.0f;
-	else
-		s.cw = s.scale;
-	return (s);
-}
 
 void	draw_preview_node(const t_chunk *node, t_bbox box, t_prev_scale s)
 {
@@ -98,4 +73,29 @@ bool	load_preview_cache(const char *path, t_chunk_map *cached_map)
 		return (false);
 	}
 	return (true);
+}
+
+t_prev_scale	compute_preview_scale(t_bbox box, Rectangle dest)
+{
+	t_prev_scale	s;
+	float			scx;
+	float			scy;
+
+	scx = (dest.width - 8.0f) / (float)(box.x1 - box.x0 + 1);
+	scy = (dest.height - 8.0f) / (float)(box.y1 - box.y0 + 1);
+	if (scx < scy)
+		s.scale = scx;
+	else
+		s.scale = scy;
+	if (s.scale < 0.1f)
+		s.scale = 0.1f;
+	s.ox = dest.x + 4
+		+ ((dest.width - 8) - (box.x1 - box.x0 + 1) * s.scale) * 0.5f;
+	s.oy = dest.y + 4
+		+ ((dest.height - 8) - (box.y1 - box.y0 + 1) * s.scale) * 0.5f;
+	if (s.scale < 1.0f)
+		s.cw = 1.0f;
+	else
+		s.cw = s.scale;
+	return (s);
 }

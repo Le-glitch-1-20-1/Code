@@ -6,21 +6,11 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:21:10 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/24 11:00:48 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/07/10 21:27:29 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "chunk.h"
-
-int	floor_div(int a, int b)
-{
-	return (a / b - (a % b != 0 && (a ^ b) < 0));
-}
-
-int	floor_mod(int a, int b)
-{
-	return (a - floor_div(a, b) * b);
-}
 
 void	map_remove(t_chunk_map *m, int cx, int cy)
 {
@@ -69,6 +59,16 @@ void	map_remove_dead(t_chunk_map *m)
 		}
 		i++;
 	}
+}
+
+int	floor_div(int a, int b)
+{
+	return (a / b - (a % b != 0 && (a ^ b) < 0));
+}
+
+int	floor_mod(int a, int b)
+{
+	return (a - floor_div(a, b) * b);
 }
 
 int	map_alive_count(const t_chunk_map *m)

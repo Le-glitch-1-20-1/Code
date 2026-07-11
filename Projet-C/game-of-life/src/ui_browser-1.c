@@ -6,13 +6,13 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/21 23:04:57 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/27 08:31:50 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/07/10 22:06:07 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ui.h"
 
-void	browser_scan_dir(const char *dirpath, char names[MAX_RLE][128],
+void	browser_scan_dir(const char *dirpath, char names[MAX_RLE][256],
 			int *count)
 {
 	DIR				*dir;
@@ -27,13 +27,23 @@ void	browser_scan_dir(const char *dirpath, char names[MAX_RLE][128],
 	{
 		l = (int)strlen(e->d_name);
 		if (l > 4 && strcmp(e->d_name + l - 4, ".rle") == 0)
-			snprintf(names[(*count)++], 128, "%s/%s", dirpath, e->d_name);
+			snprintf(names[(*count)++], 256, "%s/%s", dirpath, e->d_name);
 		e = readdir(dir);
 	}
 	closedir(dir);
 }
 
-void	browser_load_files(char names[MAX_RLE][128], int *count)
+void	add_rle_entry(const char *dirpath, const char *fname,
+			char names[MAX_RLE][256], int *count)
+{
+	int	written;
+
+	written = snprintf(names[*count], 256, "%s/%s", dirpath, fname);
+	if (written > 0 && written < 256)
+		(*count)++;
+}
+
+void	browser_load_files(char names[MAX_RLE][256], int *count)
 {
 	const char	*dirs[2];
 	int			d;
@@ -49,7 +59,7 @@ void	browser_load_files(char names[MAX_RLE][128], int *count)
 	}
 }
 
-static void	str_tolower(const char *src, char *dst, int maxlen)
+void	str_tolower(const char *src, char *dst, int maxlen)
 {
 	int	i;
 
@@ -62,7 +72,7 @@ static void	str_tolower(const char *src, char *dst, int maxlen)
 	dst[i] = 0;
 }
 
-static int	filter_match(const char *name, const char *search)
+int	filter_match(const char *name, const char *search)
 {
 	char	dlow[128];
 	char	slow[64];
@@ -78,7 +88,7 @@ static int	filter_match(const char *name, const char *search)
 	return (strstr(dlow, slow) != NULL);
 }
 
-int	browser_filter(char names[MAX_RLE][128], int count, int *filtered,
+int	browser_filter(char names[MAX_RLE][256], int count, int *filtered,
 		const char *search)
 {
 	int	fcount;

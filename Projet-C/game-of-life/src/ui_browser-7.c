@@ -6,7 +6,7 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/21 23:05:17 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/27 08:37:52 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/07/10 22:26:25 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	preview_no_hover_msg(Rectangle pr, int lh)
 		pr.y + lh / 2 + 26}, ui_c_dim());
 }
 
-void	browser_draw_preview(t_browser_view v, char names[MAX_RLE][128],
+void	browser_draw_preview(t_browser_view v, char names[MAX_RLE][256],
 			int hovered_idx)
 {
 	Rectangle	pr;
@@ -47,8 +47,7 @@ void	browser_draw_preview(t_browser_view v, char names[MAX_RLE][128],
 		preview_no_hover_msg(pr, lh);
 }
 
-static bool	browser_finish(t_browser_view v, int *count,
-				t_search_state st)
+bool	browser_finish(t_browser_view v, int *count, t_search_state st)
 {
 	if (ui_button((Rectangle){v.p.x + v.pw / 2 - 65, v.p.y + v.ph - 42,
 			130, 32}, "Annuler", false) == BTN_CLICKED
@@ -60,7 +59,7 @@ static bool	browser_finish(t_browser_view v, int *count,
 	return (false);
 }
 
-static bool	browser_draw_content(t_browser_view v, char names[MAX_RLE][128],
+bool	browser_draw_content(t_browser_view v, char names[MAX_RLE][256],
 				t_search_state st, t_browser_ctx bc)
 {
 	int		filtered[MAX_RLE];
@@ -86,7 +85,7 @@ static bool	browser_draw_content(t_browser_view v, char names[MAX_RLE][128],
 
 bool	ui_draw_load_browser(char *out_path, int path_len)
 {
-	static char				names[MAX_RLE][128];
+	static char				names[MAX_RLE][256];
 	static int				count = -1;
 	static t_browser_state	bs;
 	t_browser_view			v;

@@ -6,27 +6,11 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/21 23:05:17 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/27 12:00:00 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/07/10 22:16:34 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ui.h"
-
-Rectangle	scrollbar_thumb_rect(t_list_geom *g, t_list_ctx ctx)
-{
-	float	sbh;
-	float	sby;
-	int		ms;
-
-	ms = ctx.fcount - g->vis;
-	if (ms < 0)
-		ms = 0;
-	sbh = g->track_h * g->vis / ctx.fcount;
-	if (sbh < 20)
-		sbh = 20;
-	sby = ctx.list_top + (g->track_h - sbh) * (*ctx.scroll) / ms;
-	return ((Rectangle){(float)g->sb_x, sby, 8, sbh});
-}
 
 void	scrollbar_clamp(t_list_geom *g, t_list_ctx ctx)
 {
@@ -60,7 +44,7 @@ void	draw_list_scrollbar_thumb(t_list_geom g, t_list_ctx ctx,
 	}
 }
 
-static float	sb_denominator(t_list_geom *g, Rectangle thumb)
+float	sb_denominator(t_list_geom *g, Rectangle thumb)
 {
 	if (thumb.height > 0)
 		return (g->track_h - thumb.height);
@@ -94,4 +78,20 @@ Rectangle	handle_scrollbar_drag(t_list_geom *g, t_list_ctx ctx)
 	}
 	scrollbar_clamp(g, ctx);
 	return (thumb);
+}
+
+Rectangle	scrollbar_thumb_rect(t_list_geom *g, t_list_ctx ctx)
+{
+	float	sbh;
+	float	sby;
+	int		ms;
+
+	ms = ctx.fcount - g->vis;
+	if (ms < 0)
+		ms = 0;
+	sbh = g->track_h * g->vis / ctx.fcount;
+	if (sbh < 20)
+		sbh = 20;
+	sby = ctx.list_top + (g->track_h - sbh) * (*ctx.scroll) / ms;
+	return ((Rectangle){(float)g->sb_x, sby, 8, sbh});
 }

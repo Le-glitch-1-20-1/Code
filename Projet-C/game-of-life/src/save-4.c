@@ -6,38 +6,11 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:09:04 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/25 09:05:22 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/07/10 21:56:11 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "save.h"
-
-int	rle_parse_tag(t_rle_ctx *ctx, char tag, int count)
-{
-	int	i;
-
-	if (tag == 'o')
-	{
-		i = 0;
-		while (i < count)
-		{
-			set_cell_global(ctx->map, ctx->ox + *ctx->cur_x + i,
-				ctx->oy + *ctx->cur_y, 1);
-			i++;
-		}
-		*ctx->cur_x += count;
-	}
-	else if (tag == 'b')
-		*ctx->cur_x += count;
-	else if (tag == '$')
-	{
-		*ctx->cur_y += count;
-		*ctx->cur_x = 0;
-	}
-	else if (tag == '!')
-		return (1);
-	return (0);
-}
 
 void	rle_parse_chars(t_rle_ctx *ctx, char *p, int *done)
 {
@@ -103,4 +76,31 @@ int	load_rle(const char *path, t_chunk_map *map, int offset_x, int offset_y)
 	}
 	fclose(f);
 	return (-1);
+}
+
+int	rle_parse_tag(t_rle_ctx *ctx, char tag, int count)
+{
+	int	i;
+
+	if (tag == 'o')
+	{
+		i = 0;
+		while (i < count)
+		{
+			set_cell_global(ctx->map, ctx->ox + *ctx->cur_x + i,
+				ctx->oy + *ctx->cur_y, 1);
+			i++;
+		}
+		*ctx->cur_x += count;
+	}
+	else if (tag == 'b')
+		*ctx->cur_x += count;
+	else if (tag == '$')
+	{
+		*ctx->cur_y += count;
+		*ctx->cur_x = 0;
+	}
+	else if (tag == '!')
+		return (1);
+	return (0);
 }

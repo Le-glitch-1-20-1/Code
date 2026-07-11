@@ -6,13 +6,13 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/02 22:30:00 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/07/10 18:01:29 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/07/10 22:04:32 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "simulation.h"
 
-static void	sim_wrap_axis(int *lc, int *bc)
+void	sim_wrap_axis(int *lc, int *bc)
 {
 	*bc = 1;
 	if (*lc < 0)
@@ -27,7 +27,7 @@ static void	sim_wrap_axis(int *lc, int *bc)
 	}
 }
 
-static int	sim_local_get(t_chunk_nbrs *nb, int lx, int ly)
+int	sim_local_get(t_chunk_nbrs *nb, int lx, int ly)
 {
 	const t_chunk	*c;
 	int				bx;
@@ -41,7 +41,7 @@ static int	sim_local_get(t_chunk_nbrs *nb, int lx, int ly)
 	return (chunk_get(c, lx, ly));
 }
 
-static int	sim_local_neighbors(t_chunk_nbrs *nb, int lx, int ly)
+int	sim_local_neighbors(t_chunk_nbrs *nb, int lx, int ly)
 {
 	int	n;
 

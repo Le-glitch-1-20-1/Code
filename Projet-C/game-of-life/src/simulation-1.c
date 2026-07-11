@@ -1,19 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   simulation.c                                       :+:      :+:    :+:   */
+/*   simulation-1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:32:57 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/07/02 22:30:00 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/07/10 22:00:29 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "simulation.h"
 
-static void	sim_fetch_nbrs(const t_chunk_map *map, int cx, int cy,
-				t_chunk_nbrs *nb)
+void	sim_fetch_nbrs(const t_chunk_map *map, int cx, int cy, t_chunk_nbrs *nb)
 {
 	int	dx;
 	int	dy;
@@ -29,15 +28,6 @@ static void	sim_fetch_nbrs(const t_chunk_map *map, int cx, int cy,
 		}
 		dy++;
 	}
-}
-
-static t_chunk	*sim_write_cell(t_chunk_map *next, t_chunk *out, t_cell_pos p)
-{
-	if (!out)
-		out = map_get_or_create(next, p.cx, p.cy);
-	if (out)
-		chunk_set(out, p.lx, p.ly, 1);
-	return (out);
 }
 
 void	sim_step_chunk(t_chunk_map *map, t_chunk_map *next, int *todo, int i)
@@ -104,4 +94,13 @@ void	simulation_step(t_chunk_map *map)
 	map_free(map);
 	*map = next;
 	map_remove_dead(map);
+}
+
+t_chunk	*sim_write_cell(t_chunk_map *next, t_chunk *out, t_cell_pos p)
+{
+	if (!out)
+		out = map_get_or_create(next, p.cx, p.cy);
+	if (out)
+		chunk_set(out, p.lx, p.ly, 1);
+	return (out);
 }

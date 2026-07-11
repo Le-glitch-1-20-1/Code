@@ -6,31 +6,11 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/21 23:05:17 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/25 08:33:22 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/07/10 22:06:41 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ui.h"
-
-t_browser_view	browser_layout(void)
-{
-	t_browser_view	v;
-	int				sw;
-	int				sh;
-
-	sw = GetScreenWidth();
-	sh = GetScreenHeight();
-	v.pw = 970;
-	if (sh - 80 < 580)
-		v.ph = sh - 80;
-	else
-		v.ph = 580;
-	v.p = (Rectangle){(sw - v.pw) / 2.0f, (sh - v.ph) / 2.0f,
-		(float)v.pw, (float)v.ph};
-	v.list_top = (int)v.p.y + 82;
-	v.list_bot = (int)v.p.y + v.ph - 50;
-	return (v);
-}
 
 void	draw_no_results(t_browser_view v, int fcount, int count)
 {
@@ -63,4 +43,24 @@ void	draw_browser_header(t_browser_view v)
 		v.p.y + 26}, ui_c_hi());
 	DrawLine((int)v.p.x + 10, (int)v.p.y + 48,
 		(int)v.p.x + v.pw - 10, (int)v.p.y + 48, ui_c_border());
+}
+
+t_browser_view	browser_layout(void)
+{
+	t_browser_view	v;
+	int				sw;
+	int				sh;
+
+	sw = GetScreenWidth();
+	sh = GetScreenHeight();
+	v.pw = 970;
+	if (sh - 80 < 580)
+		v.ph = sh - 80;
+	else
+		v.ph = 580;
+	v.p = (Rectangle){(sw - v.pw) / 2.0f, (sh - v.ph) / 2.0f,
+		(float)v.pw, (float)v.ph};
+	v.list_top = (int)v.p.y + 82;
+	v.list_bot = (int)v.p.y + v.ph - 50;
+	return (v);
 }

@@ -1,44 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ui_keybinds-3b.c                                   :+:      :+:    :+:   */
+/*   ui_keybinds-4.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/21 23:04:34 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 23:05:57 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/07/10 22:09:37 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ui.h"
 
-static Rectangle	kb_panel_rect(void)
-{
-	int	ph;
-	int	pw;
-
-	ph = GetScreenHeight() - 80;
-	if (ph > 680)
-		ph = 680;
-	if (ph < 300)
-		ph = 300;
-	pw = 560;
-	return ((Rectangle){(GetScreenWidth() - pw) / 2.0f,
-		(GetScreenHeight() - ph) / 2.0f, (float)pw, (float)ph});
-}
-
-static t_kb_view	kb_view_from_panel(Rectangle p)
-{
-	t_kb_view	v;
-
-	v.list_x = (int)p.x + 14;
-	v.list_top = (int)p.y + 50;
-	v.list_bot = (int)p.y + (int)p.height - 48;
-	v.list_w = (int)p.width - 28;
-	return (v);
-}
-
-static void	kb_draw_header(Rectangle p)
+void	kb_draw_header(Rectangle p)
 {
 	panel_draw(p, ui_c_panel(), ui_c_hi());
 	text_c("CONFIGURATION DES TOUCHES", FM, (Vector2){p.x + p.width / 2.0f,
@@ -47,7 +21,7 @@ static void	kb_draw_header(Rectangle p)
 		(int)p.x + p.width - 10, (int)p.y + 42, ui_c_border());
 }
 
-static bool	kb_close_btn(Rectangle p, int *wait_idx, int *scroll_px)
+bool	kb_close_btn(Rectangle p, int *wait_idx, int *scroll_px)
 {
 	if (ui_button((Rectangle){p.x + p.width / 2.0f - 65, p.y + p.height - 40,
 			130, 32}, "Retour", false) == BTN_CLICKED
@@ -81,4 +55,30 @@ bool	ui_draw_keybinds(t_key_config *cfg)
 	EndScissorMode();
 	kb_draw_scrollbar(v, lh, kb_total_h(), scroll_px);
 	return (kb_close_btn(p, &wait_idx, &scroll_px));
+}
+
+Rectangle	kb_panel_rect(void)
+{
+	int	ph;
+	int	pw;
+
+	ph = GetScreenHeight() - 80;
+	if (ph > 680)
+		ph = 680;
+	if (ph < 300)
+		ph = 300;
+	pw = 560;
+	return ((Rectangle){(GetScreenWidth() - pw) / 2.0f,
+		(GetScreenHeight() - ph) / 2.0f, (float)pw, (float)ph});
+}
+
+t_kb_view	kb_view_from_panel(Rectangle p)
+{
+	t_kb_view	v;
+
+	v.list_x = (int)p.x + 14;
+	v.list_top = (int)p.y + 50;
+	v.list_bot = (int)p.y + (int)p.height - 48;
+	v.list_w = (int)p.width - 28;
+	return (v);
 }

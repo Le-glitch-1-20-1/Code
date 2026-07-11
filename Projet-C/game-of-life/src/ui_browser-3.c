@@ -6,13 +6,13 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/21 23:04:57 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/27 08:34:05 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/07/10 22:06:32 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ui.h"
 
-static void	search_box_append_chars(t_search_state st)
+void	search_box_append_chars(t_search_state st)
 {
 	int	k;
 	int	l;

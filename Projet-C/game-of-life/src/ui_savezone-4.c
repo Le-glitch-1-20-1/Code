@@ -6,14 +6,14 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 21:05:20 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/27 21:05:20 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/07/10 22:10:55 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ui.h"
 
-static bool	sz_phase1_save(t_save_zone_state *sz, char *out_path,
-				int path_len, bool *editing)
+bool	sz_phase1_save(t_save_zone_state *sz, char *out_path, int path_len,
+			bool *editing)
 {
 	const char	*nm;
 

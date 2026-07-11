@@ -6,19 +6,11 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:10:42 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/24 11:00:38 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/07/10 21:25:45 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "chunk.h"
-
-unsigned int	hash_coord(int cx, int cy)
-{
-	unsigned int	h;
-
-	h = (unsigned int)(cx * 1000003) ^ (unsigned int)(cy * 999983);
-	return (h & MAP_MASK);
-}
 
 void	map_init(t_chunk_map *m)
 {
@@ -46,6 +38,14 @@ void	map_free(t_chunk_map *m)
 		i++;
 	}
 	m->chunk_count = 0;
+}
+
+unsigned int	hash_coord(int cx, int cy)
+{
+	unsigned int	h;
+
+	h = (unsigned int)(cx * 1000003) ^ (unsigned int)(cy * 999983);
+	return (h & MAP_MASK);
 }
 
 t_chunk	*map_get(const t_chunk_map *m, int cx, int cy)

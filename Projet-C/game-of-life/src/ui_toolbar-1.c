@@ -6,13 +6,13 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/21 23:06:59 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 09:18:55 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/07/10 22:11:16 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ui.h"
 
-static void	toolbar_sim_icon(bool running, t_icon_draw *ic, const char **tip)
+void	toolbar_sim_icon(bool running, t_icon_draw *ic, const char **tip)
 {
 	if (running)
 	{

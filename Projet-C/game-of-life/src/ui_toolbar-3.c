@@ -6,13 +6,34 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 21:05:20 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/27 21:05:20 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/07/10 22:11:43 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ui.h"
 
-static t_ui_action	toolbar_tools_btns(int *x, int pad, int bsz)
+void	toolbar_center_crosshair(Rectangle rb, bool hov2)
+{
+	float	r2;
+	float	cx2;
+	float	cy2;
+	Color	col;
+
+	r2 = rb.width * 0.35f * 0.8f;
+	cx2 = rb.x + rb.width / 2;
+	cy2 = rb.y + rb.height / 2;
+	if (hov2)
+		col = ui_c_hi();
+	else
+		col = ui_c_text();
+	DrawLineEx((Vector2){cx2 - r2, cy2}, (Vector2){cx2 + r2, cy2}, 1.5f, col);
+	DrawLineEx((Vector2){cx2, cy2 - r2}, (Vector2){cx2, cy2 + r2}, 1.5f, col);
+	DrawCircleLines((int)cx2, (int)cy2, (int)(r2 * 0.6f), col);
+	if (hov2)
+		draw_tooltip(rb, "Recentrer");
+}
+
+t_ui_action	toolbar_tools_btns(int *x, int pad, int bsz)
 {
 	t_ui_action		act;
 	t_toolbar_geom	g;
@@ -43,27 +64,6 @@ t_ui_action	toolbar_tools(int *x, int pad, int bsz)
 	if (act == UI_ACTION_NONE)
 		act = toolbar_tools_btns(x, pad, bsz);
 	return (act);
-}
-
-static void	toolbar_center_crosshair(Rectangle rb, bool hov2)
-{
-	float	r2;
-	float	cx2;
-	float	cy2;
-	Color	col;
-
-	r2 = rb.width * 0.35f * 0.8f;
-	cx2 = rb.x + rb.width / 2;
-	cy2 = rb.y + rb.height / 2;
-	if (hov2)
-		col = ui_c_hi();
-	else
-		col = ui_c_text();
-	DrawLineEx((Vector2){cx2 - r2, cy2}, (Vector2){cx2 + r2, cy2}, 1.5f, col);
-	DrawLineEx((Vector2){cx2, cy2 - r2}, (Vector2){cx2, cy2 + r2}, 1.5f, col);
-	DrawCircleLines((int)cx2, (int)cy2, (int)(r2 * 0.6f), col);
-	if (hov2)
-		draw_tooltip(rb, "Recentrer");
 }
 
 t_ui_action	toolbar_center_btn(int *x, int pad, int bsz)

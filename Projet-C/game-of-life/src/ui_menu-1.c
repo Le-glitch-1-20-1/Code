@@ -6,7 +6,7 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/21 23:17:24 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 22:44:07 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/07/10 22:09:52 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,45 @@ void	menu_init_items(t_menu_item *items)
 	items[2].a = MENU_CREDITS;
 	items[3].l = "Quitter";
 	items[3].a = MENU_QUIT;
+}
+
+void	credits_init(t_credit_line *lines)
+{
+	lines[0].l = "Jeu";
+	lines[0].v = "Jeu de la Vie - Conway";
+	lines[0].c = ui_c_text();
+	lines[1].l = "Auteur";
+	lines[1].v = "Toi !";
+	lines[1].c = ui_c_accent2();
+	lines[2].l = "Moteur";
+	lines[2].v = "raylib 5.0";
+	lines[2].c = ui_c_hi();
+	lines[3].l = "Langue";
+	lines[3].v = "C11";
+	lines[3].c = ui_c_text();
+	lines[4].l = "Grille";
+	lines[4].v = "Infinie (chunks 16x16)";
+	lines[4].c = ui_c_text();
+	lines[5].l = "Saves";
+	lines[5].v = "Format RLE compatible Golly";
+	lines[5].c = ui_c_text();
+}
+
+void	credits_draw_lines(t_credit_line *lines, int n, Rectangle p, int pw)
+{
+	int	i;
+	int	y;
+	int	vw;
+
+	i = 0;
+	while (i < n)
+	{
+		y = (int)p.y + 70 + i * 26;
+		DrawText(lines[i].l, (int)p.x + 26, y, FS, ui_c_dim());
+		vw = MeasureText(lines[i].v, FS);
+		DrawText(lines[i].v, (int)p.x + pw - 26 - vw, y, FS, lines[i].c);
+		i++;
+	}
 }
 
 t_menu_action	menu_draw_panel(t_menu_item *items, Rectangle p, int pw,
@@ -71,43 +110,4 @@ t_menu_action	ui_draw_menu(void)
 	if (IsKeyPressed(KEY_ESCAPE))
 		act = MENU_RESUME;
 	return (act);
-}
-
-void	credits_init(t_credit_line *lines)
-{
-	lines[0].l = "Jeu";
-	lines[0].v = "Jeu de la Vie - Conway";
-	lines[0].c = ui_c_text();
-	lines[1].l = "Auteur";
-	lines[1].v = "Toi !";
-	lines[1].c = ui_c_accent2();
-	lines[2].l = "Moteur";
-	lines[2].v = "raylib 5.0";
-	lines[2].c = ui_c_hi();
-	lines[3].l = "Langue";
-	lines[3].v = "C11";
-	lines[3].c = ui_c_text();
-	lines[4].l = "Grille";
-	lines[4].v = "Infinie (chunks 16x16)";
-	lines[4].c = ui_c_text();
-	lines[5].l = "Saves";
-	lines[5].v = "Format RLE compatible Golly";
-	lines[5].c = ui_c_text();
-}
-
-void	credits_draw_lines(t_credit_line *lines, int n, Rectangle p, int pw)
-{
-	int	i;
-	int	y;
-	int	vw;
-
-	i = 0;
-	while (i < n)
-	{
-		y = (int)p.y + 70 + i * 26;
-		DrawText(lines[i].l, (int)p.x + 26, y, FS, ui_c_dim());
-		vw = MeasureText(lines[i].v, FS);
-		DrawText(lines[i].v, (int)p.x + pw - 26 - vw, y, FS, lines[i].c);
-		i++;
-	}
 }

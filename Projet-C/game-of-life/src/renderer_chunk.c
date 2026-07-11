@@ -6,16 +6,11 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:24:24 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/24 11:15:03 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/07/10 21:39:23 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "renderer.h"
-
-Color	get_chunk_dbg_color(void)
-{
-	return ((Color){60, 60, 80, 80});
-}
 
 void	draw_chunk_cells(const t_chunk *c, t_camera2d_gol cam,
 			const t_renderer *r, Vector2 base)
@@ -57,8 +52,8 @@ void	renderer_draw_chunk(const t_chunk *c, t_camera2d_gol cam,
 			1.0f, get_chunk_dbg_color());
 }
 
-static void	rdraw_chunks_row(const t_rdraw_iter *it, int cy,
-				const t_view_bounds *b)
+void	rdraw_chunks_row(const t_rdraw_iter *it, int cy,
+			const t_view_bounds *b)
 {
 	const t_chunk	*c;
 	int				cx;
@@ -86,4 +81,9 @@ void	rdraw_chunks(const t_chunk_map *map, t_camera2d_gol cam,
 		rdraw_chunks_row(&it, cy, b);
 		cy++;
 	}
+}
+
+Color	get_chunk_dbg_color(void)
+{
+	return ((Color){60, 60, 80, 80});
 }

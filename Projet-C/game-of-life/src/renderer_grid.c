@@ -6,14 +6,14 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:24:24 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/24 11:09:48 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/07/10 21:37:25 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "renderer.h"
 
-static void	rdraw_grid_cols(t_camera2d_gol cam, const t_renderer *r,
-				const t_view_bounds *b)
+void	rdraw_grid_cols(t_camera2d_gol cam, const t_renderer *r, 
+			const t_view_bounds *b)
 {
 	int		cx;
 	int		lx;
@@ -34,8 +34,8 @@ static void	rdraw_grid_cols(t_camera2d_gol cam, const t_renderer *r,
 	}
 }
 
-static void	rdraw_grid_rows(t_camera2d_gol cam, const t_renderer *r,
-				const t_view_bounds *b)
+void	rdraw_grid_rows(t_camera2d_gol cam, const t_renderer *r,
+			const t_view_bounds *b)
 {
 	int		cy;
 	int		ly;

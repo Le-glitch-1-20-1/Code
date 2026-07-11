@@ -6,14 +6,13 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:04:52 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 22:55:23 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/07/10 22:11:25 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ui.h"
 
-static void	theme_btn_draw(Rectangle tr, t_color_theme ti, bool thov,
-				char tt[48])
+void	theme_btn_draw(Rectangle tr, t_color_theme ti, bool thov, char tt[48])
 {
 	if (thov)
 		DrawRectangleRec(tr, ui_c_hover());

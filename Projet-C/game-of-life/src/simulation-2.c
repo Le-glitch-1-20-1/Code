@@ -1,38 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   simulation_collect.c                               :+:      :+:    :+:   */
+/*   simulation-2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:08:33 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/24 11:21:27 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/07/10 22:03:15 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "simulation.h"
-
-int	sim_collect_dedup(unsigned int *seen, unsigned int set_mask, int ncx,
-		int ncy)
-{
-	unsigned int		key;
-	unsigned int		stored;
-	unsigned int		slot;
-
-	key = (unsigned int)((ncx + 0x8000) << 16
-			| (unsigned int)((ncy + 0x8000) & 0xFFFF));
-	stored = key + 1;
-	slot = ((unsigned int)(ncx * 1000003u)
-			^ (unsigned int)((unsigned int)ncy * 999983u)) & set_mask;
-	while (seen[slot] != 0 && seen[slot] != stored)
-		slot = (slot + 1) & set_mask;
-	if (seen[slot] == 0)
-	{
-		seen[slot] = stored;
-		return (1);
-	}
-	return (0);
-}
 
 void	sim_visit_neighbors(t_chunk *node, t_dedup_ctx *dedup,
 			t_todo_ctx *todo)
@@ -63,18 +41,26 @@ void	sim_visit_neighbors(t_chunk *node, t_dedup_ctx *dedup,
 	}
 }
 
-t_dedup_ctx	sim_init_dedup(int cap)
+int	sim_collect_dedup(unsigned int *seen, unsigned int set_mask, int ncx,
+		int ncy)
 {
-	t_dedup_ctx	dedup;
-	int			set_size;
+	unsigned int		key;
+	unsigned int		stored;
+	unsigned int		slot;
 
-	set_size = 1;
-	while (set_size < cap * 2)
-		set_size <<= 1;
-	dedup.seen = (unsigned int *)calloc((size_t)set_size,
-			sizeof(unsigned int));
-	dedup.smask = (unsigned int)(set_size - 1);
-	return (dedup);
+	key = (unsigned int)((ncx + 0x8000) << 16
+			| (unsigned int)((ncy + 0x8000) & 0xFFFF));
+	stored = key + 1;
+	slot = ((unsigned int)(ncx * 1000003u)
+			^ (unsigned int)((unsigned int)ncy * 999983u)) & set_mask;
+	while (seen[slot] != 0 && seen[slot] != stored)
+		slot = (slot + 1) & set_mask;
+	if (seen[slot] == 0)
+	{
+		seen[slot] = stored;
+		return (1);
+	}
+	return (0);
 }
 
 int	sim_collect_todo(t_chunk_map *map, int *todo, int cap)
@@ -100,4 +86,18 @@ int	sim_collect_todo(t_chunk_map *map, int *todo, int cap)
 	}
 	free(dedup.seen);
 	return (todo_count);
+}
+
+t_dedup_ctx	sim_init_dedup(int cap)
+{
+	t_dedup_ctx	dedup;
+	int			set_size;
+
+	set_size = 1;
+	while (set_size < cap * 2)
+		set_size <<= 1;
+	dedup.seen = (unsigned int *)calloc((size_t)set_size,
+			sizeof(unsigned int));
+	dedup.smask = (unsigned int)(set_size - 1);
+	return (dedup);
 }

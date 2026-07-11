@@ -6,16 +6,11 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:13:14 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/24 11:01:05 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/07/10 21:31:38 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "chunk.h"
-
-int	chunk_get(const t_chunk *c, int x, int y)
-{
-	return ((c->cells[y] >> x) & 1);
-}
 
 void	chunk_set(t_chunk *c, int x, int y, int v)
 {
@@ -53,4 +48,9 @@ void	chunk_clear(t_chunk *c)
 int	chunk_is_dead(const t_chunk *c)
 {
 	return (c->alive_count == 0);
+}
+
+int	chunk_get(const t_chunk *c, int x, int y)
+{
+	return ((c->cells[y] >> x) & 1);
 }

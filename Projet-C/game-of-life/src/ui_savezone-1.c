@@ -6,13 +6,13 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/21 23:06:43 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 22:48:16 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/07/10 22:10:26 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ui.h"
 
-static void	sz_swap_coords(t_save_zone_state *sz)
+void	sz_swap_coords(t_save_zone_state *sz)
 {
 	int	t;
 

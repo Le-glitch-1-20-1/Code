@@ -6,32 +6,13 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 21:05:20 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/27 21:05:20 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/07/10 21:57:31 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "save.h"
 
-static int	rle_run_len(const t_chunk_map *map, int gx, t_rle_row r, char cur)
-{
-	int		run;
-	char	nxt;
-
-	run = 1;
-	while (gx + run <= r.last)
-	{
-		if (get_cell_global(map, gx + run, r.gy))
-			nxt = 'o';
-		else
-			nxt = 'b';
-		if (nxt != cur)
-			break ;
-		run++;
-	}
-	return (run);
-}
-
-static void	rle_write_eol(FILE *f, t_rle_line *lb, t_rle_row r)
+void	rle_write_eol(FILE *f, t_rle_line *lb, t_rle_row r)
 {
 	char	eol;
 
@@ -67,4 +48,23 @@ void	rle_write_row(FILE *f, const t_chunk_map *map, t_rle_line *lb,
 		gx += run;
 	}
 	rle_write_eol(f, lb, r);
+}
+
+int	rle_run_len(const t_chunk_map *map, int gx, t_rle_row r, char cur)
+{
+	int		run;
+	char	nxt;
+
+	run = 1;
+	while (gx + run <= r.last)
+	{
+		if (get_cell_global(map, gx + run, r.gy))
+			nxt = 'o';
+		else
+			nxt = 'b';
+		if (nxt != cur)
+			break ;
+		run++;
+	}
+	return (run);
 }

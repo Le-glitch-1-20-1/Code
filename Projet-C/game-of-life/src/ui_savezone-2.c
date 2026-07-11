@@ -6,7 +6,7 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:14:30 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 22:49:56 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/07/10 22:10:34 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,7 @@ void	sz_draw_info(t_save_zone_state *sz, Rectangle p, int pw)
 		FS - 2, ui_c_dim());
 }
 
-static void	sz_draw_name_text(Rectangle box, t_save_zone_state *sz,
-				bool editing)
+void	sz_draw_name_text(Rectangle box, t_save_zone_state *sz, bool editing)
 {
 	char	display[80];
 

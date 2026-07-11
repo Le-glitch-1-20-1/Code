@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ui_random.c                                        :+:      :+:    :+:   */
+/*   ui_random-1.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/21 23:06:23 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 22:47:01 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/07/10 22:10:10 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,7 @@ void	rand_slider_input(t_random_state *rs, Rectangle hit, int slx, int slw)
 	rs->density = nt;
 }
 
-static void	rand_draw_slider_bar(t_random_state *rs, t_slider_geom sg,
-				Rectangle p)
+void	rand_draw_slider_bar(t_random_state *rs, t_slider_geom sg, Rectangle p)
 {
 	int		pos;
 	char	dpct[16];
