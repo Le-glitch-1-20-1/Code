@@ -6,7 +6,7 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/21 23:01:58 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/07/11 09:28:41 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/07/11 09:36:40 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,6 @@
 # define FXL		32
 # define MAX_RLE	512
 # define KB_N		28
-
-extern const t_kb_entry		g_kb_table[];
 
 typedef enum e_screen
 {
@@ -258,8 +256,6 @@ typedef struct s_prev_scale
 // ui_browser-1.c
 void			browser_scan_dir(const char *dirpath, char names[MAX_RLE][256],
 					int *count);
-void			add_rle_entry(const char *dirpath, const char *fname,
-					char names[MAX_RLE][256], int *count);
 void			browser_load_files(char names[MAX_RLE][256], int *count);
 void			str_tolower(const char *src, char *dst, int maxlen);
 int				filter_match(const char *name, const char *search);
@@ -279,6 +275,8 @@ void			search_box_append_chars(t_search_state st);
 void			search_box_input(t_search_state st, Rectangle sbox);
 void			search_box_text(t_search_state st, int lx3, int py);
 void			browser_draw_search(Rectangle p, int pw, t_search_state st);
+void			add_rle_entry(const char *dirpath, const char *fname,
+					char names[MAX_RLE][256], int *count);
 
 // ui_browser-4.c
 void			draw_no_results(t_browser_view v, int fcount, int count);

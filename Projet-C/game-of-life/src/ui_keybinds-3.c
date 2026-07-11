@@ -6,11 +6,13 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/21 23:04:34 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/07/10 22:09:12 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/07/11 09:35:57 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ui.h"
+
+extern const t_kb_entry	g_kb_table[];
 
 void	kb_draw_list(t_kb_view v, int scroll_px, int wait_idx,
 			t_key_config *cfg)

@@ -6,11 +6,13 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/21 23:05:50 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/06/23 23:05:50 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/07/11 09:34:32 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ui.h"
+
+extern const t_kb_entry	g_kb_table[];
 
 void	kb_draw_sep(t_kb_view v, int cy, const t_kb_entry *e, int rh_sep)
 {

@@ -6,7 +6,7 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/21 23:04:57 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/07/10 22:06:07 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/07/11 09:36:06 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,16 +31,6 @@ void	browser_scan_dir(const char *dirpath, char names[MAX_RLE][256],
 		e = readdir(dir);
 	}
 	closedir(dir);
-}
-
-void	add_rle_entry(const char *dirpath, const char *fname,
-			char names[MAX_RLE][256], int *count)
-{
-	int	written;
-
-	written = snprintf(names[*count], 256, "%s/%s", dirpath, fname);
-	if (written > 0 && written < 256)
-		(*count)++;
 }
 
 void	browser_load_files(char names[MAX_RLE][256], int *count)

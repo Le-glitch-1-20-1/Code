@@ -6,7 +6,7 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/21 23:04:57 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/07/10 22:06:32 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/07/11 09:36:27 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,4 +87,14 @@ void	browser_draw_search(Rectangle p, int pw, t_search_state st)
 		DrawRectangleLinesEx(sbox, 1.0f, ui_c_border());
 	search_box_input(st, sbox);
 	search_box_text(st, lx3, (int)p.y + 56);
+}
+
+void	add_rle_entry(const char *dirpath, const char *fname,
+			char names[MAX_RLE][256], int *count)
+{
+	int	written;
+
+	written = snprintf(names[*count], 256, "%s/%s", dirpath, fname);
+	if (written > 0 && written < 256)
+		(*count)++;
 }
