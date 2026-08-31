@@ -6,7 +6,7 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 07:24:24 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/07/11 09:49:29 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/08/31 21:39:51 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +72,6 @@ void			rdraw_chunks_row(const t_rdraw_iter *it, int cy,
 void			rdraw_chunks(const t_chunk_map *map, t_camera2d_gol cam,
 					const t_renderer *r, const t_view_bounds *b);
 Color			get_chunk_dbg_color(void);
-
-// renderer_coords.c
-Vector2			screen_to_cell(t_camera2d_gol cam, Vector2 screen);
-Vector2			cell_to_screen(t_camera2d_gol cam, float cx, float cy);
 
 // renderer_draw.c
 void			draw_crosshair(t_camera2d_gol cam);

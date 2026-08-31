@@ -45,6 +45,10 @@ ROW_GAP: int = 2
 
 FUNC_START_RE = re.compile(r'^(?:(?:static|inline|virtual|explicit|constexpr|void|int|bool|float|double|char|short|long|const|unsigned|signed|size_t|auto|[A-Za-z_]\w*(?:::\w+)?)\s+\*?)+(\w+)\s*\(')
 CALL_RE = re.compile(r'\b(\w+)\s*\(')
+# Référence "nue" à un identifiant : sert à repérer les pointeurs de fonction
+# passés en argument (ex: toolbar_btn(x, g, icon_hud, "HUD")), qui ne sont
+# jamais suivis d'une parenthèse et donc invisibles pour CALL_RE.
+BAREREF_RE = re.compile(r'\b(\w+)\b(?!\s*\()')
 
 def resolve_scan_roots(root: str) -> list[str]:
 	# Beaucoup de projets C/C++ séparent leurs sources (src/) de leurs headers
@@ -170,10 +174,11 @@ class DependencyMapGenerator(DependencyMapGeneratorInterface):
 					add_edge(f, inc_base, etype)
 
 		# call edges
+		known_funcs: set[str] = set(func_defined_in.keys())
 		for f, info in nodes.items():
 			if info["is_header"]:
 				continue
-			callee_callers: dict[str, set[str]] = get_calls_with_caller(path_of[f])
+			callee_callers: dict[str, set[str]] = get_calls_with_caller(path_of[f], known_funcs)
 			tgt_pairs: dict[str, list[tuple[str, str]]] = {}
 			for callee, callers in callee_callers.items():
 				for tgt in func_defined_in.get(callee, []):
@@ -465,8 +470,14 @@ def get_declared_funcs(path: str) -> list[str]:
 				funcs.append(fn)
 	return list(dict.fromkeys(funcs))
 
-def get_calls_with_caller(path: str) -> dict[str, set[str]]:
+def get_calls_with_caller(path: str, known_funcs: set[str] | None = None) -> dict[str, set[str]]:
 	# Retourne {callee: set(callers)} en suivant la profondeur des accolades.
+	# known_funcs (optionnel) : ensemble de toutes les fonctions définies dans
+	# le projet. Quand fourni, un identifiant nu qui correspond à une fonction
+	# connue mais n'est PAS suivi de "(" est aussi compté comme une référence
+	# (ex: un pointeur de fonction passé en argument : toolbar_btn(x, g,
+	# icon_hud, "HUD") — "icon_hud" n'est jamais appelé avec des parenthèses
+	# ici, donc CALL_RE seul ne le voit pas).
 	lines: list[str] = strip_comments(open(path, encoding='utf-8', errors='replace').read()).split('\n')
 	result: dict[str, set[str]] = {}
 	current_func: str | None = None
@@ -487,6 +498,13 @@ def get_calls_with_caller(path: str) -> dict[str, set[str]]:
 				callee: str = m.group(1)
 				if callee not in SKIP_KEYWORDS and not callee.startswith('_'):
 					result.setdefault(callee, set()).add(current_func)
+			if known_funcs:
+				for m in BAREREF_RE.finditer(s):
+					callee = m.group(1)
+					if callee == current_func:
+						continue
+					if callee not in SKIP_KEYWORDS and not callee.startswith('_') and callee in known_funcs:
+						result.setdefault(callee, set()).add(current_func)
 		if brace_depth <= 0:
 			brace_depth = 0
 			current_func = None
