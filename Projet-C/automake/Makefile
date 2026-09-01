@@ -1,15 +1,14 @@
 CC            := gcc
-CFLAGS        := -Wall -Wextra -Werror -Wunused -I include/
+CFLAGS        := -Wall -Wextra -Werror -Wunused
 
-SRC_DIR       := src
 OBJ_DIR       := o
-NAME          := ascii-art
+NAME          := automake
 
 # Liste des .c
-SRC           := $(wildcard $(SRC_DIR)/*.c)
+SRC           := $(wildcard *.c)
 
 # Transformation en .o dans o/
-OBJ           := $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
+OBJ           := $(patsubst %.c, $(OBJ_DIR)/%.o, $(SRC))
 
 # Regle par defaut
 all: $(NAME)
@@ -19,7 +18,7 @@ $(NAME): $(OBJ)
 	$(CC) $(CFLAGS) $(OBJ) -o $(NAME)
 
 # Compilation des .c vers .o dans o/
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
+$(OBJ_DIR)/%.o: %.c | $(OBJ_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 # Creation du dossier o/ si absent

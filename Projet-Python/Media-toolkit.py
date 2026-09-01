@@ -5,17 +5,19 @@ import hashlib
 import logging
 import os
 import shutil
+import subprocess
 import sys
 import warnings
 import pillow_heif
 import questionary
 from abc							import ABC, abstractmethod
 from collections					import defaultdict
+from datetime						import datetime
 from pathlib						import Path
 from types							import SimpleNamespace
 from typing							import Optional
 from moviepy.video.io.VideoFileClip	import VideoFileClip
-from PIL							import Image, UnidentifiedImageError
+from PIL							import ExifTags, Image, UnidentifiedImageError
 from rich.console					import Console
 from rich.panel						import Panel
 from rich.progress					import BarColumn, MofNCompleteColumn, Progress, SpinnerColumn, TextColumn, TimeElapsedColumn
@@ -38,10 +40,12 @@ VIDEO_EXTENSIONS: tuple[str, ...] = (
 	".mov", ".mkv", ".avi", ".wmv", ".flv", ".webm",
 	".m4v", ".3gp", ".mpg", ".mpeg", ".m2ts", ".mts", ".vob",
 )
+RENAME_EXTENSIONS: set[str] = IMAGE_TARGET_EXTENSIONS | {".jpg", ".jpeg", ".gif"} | set(VIDEO_EXTENSIONS) | {".mp4"}
 MENU_CHOICES: list[str] = [
 	"Convertir des images en JPEG",
 	"Convertir des videos en MP4",
 	"Detecter les doublons d'images",
+	"Renommer les fichiers par date de prise",
 	"Quitter",
 ]
 MENU_STYLE: questionary.Style = questionary.Style([
@@ -571,9 +575,156 @@ class DuplicateDetector(MediaProcessor):
 			global_scope=args.global_scope,
 		)
 
+def get_image_datetime(file_path: Path) -> Optional[datetime]:
+	# Lit la date de prise de vue dans les metadonnees EXIF d'une image
+	try:
+		with Image.open(file_path) as img:
+			exif = img.getexif()
+			date_str: Optional[str] = None
+			try:
+				exif_ifd: dict = exif.get_ifd(ExifTags.IFD.Exif)
+				date_str = exif_ifd.get(36867) or exif_ifd.get(36868)  # DateTimeOriginal, DateTimeDigitized
+			except Exception:
+				pass
+			if not date_str:
+				date_str = exif.get(306)  # DateTime (tag standard)
+			if date_str:
+				return datetime.strptime(str(date_str).strip(), "%Y:%m:%d %H:%M:%S")
+	except Exception:
+		pass
+	return None
+
+def get_video_datetime(file_path: Path) -> Optional[datetime]:
+	# Lit la date de creation d'une video via ffprobe (deja utilise par moviepy/ffmpeg)
+	try:
+		result = subprocess.run(
+			[
+				"ffprobe", "-v", "quiet",
+				"-show_entries", "format_tags=creation_time",
+				"-of", "default=noprint_wrappers=1:nokey=1",
+				str(file_path),
+			],
+			capture_output=True, text=True, timeout=15,
+		)
+		value: str = result.stdout.strip()
+		if value:
+			return datetime.fromisoformat(value.replace("Z", "+00:00")).replace(tzinfo=None)
+	except Exception:
+		pass
+	return None
+
+def get_capture_datetime(file_path: Path) -> datetime:
+	# Determine la date de prise d'un fichier : metadonnees si possible, sinon date de modification
+	ext: str = file_path.suffix.lower()
+	dt: Optional[datetime] = None
+	if ext in VIDEO_EXTENSIONS or ext == ".mp4":
+		dt = get_video_datetime(file_path)
+	else:
+		dt = get_image_datetime(file_path)
+	if dt is None:
+		try:
+			dt = datetime.fromtimestamp(file_path.stat().st_mtime)
+		except Exception:
+			dt = datetime.now()
+	return dt
+
+def format_date_key(dt: datetime) -> str:
+	# Formate une date en "JJ-MM-AAAA_HHhMM", ex: 12-12-2009_12h05
+	return dt.strftime("%d-%m-%Y_%Hh%M")
+
+class MediaRenamer(MediaProcessor):
+	# Renomme les fichiers media selon leur date de prise (photo/video), avec suffixe -N en cas d'egalite
+	def collect(self, root: Path, recursive: bool) -> list[Path]:
+		# Parcourt recursivement ou non le dossier a la recherche de fichiers a renommer
+		pattern: str = "**/*" if recursive else "*"
+		found: list[Path] = []
+		with Progress(SpinnerColumn(), TextColumn("[cyan]Analyse... {task.completed} fichier(s)"), console=console, transient=True) as progress:
+			task: int = progress.add_task("scan", total=None)
+			for p in root.glob(pattern):
+				try:
+					if p.is_file() and p.suffix.lower() in RENAME_EXTENSIONS:
+						found.append(p)
+						progress.advance(task)
+				except PermissionError:
+					warn(f"Acces refuse : '{p}'")
+				except OSError as e:
+					warn(f"Erreur systeme sur '{p}': {e}")
+		return found
+
+	def rename_all(self, folder_path: Path, recursive: bool, dry_run: bool) -> None:
+		# Renomme chaque fichier trouve selon sa date de prise, en ajoutant "-N" quand plusieurs
+		# fichiers partagent la meme date et la meme minute.
+		info("Recherche des fichiers a renommer...")
+		files: list[Path] = self.collect(folder_path, recursive)
+		if not files:
+			info("Aucun fichier a renommer dans ce dossier.")
+			return
+		prefix: str = colorize("[SIMULATION] ", "magenta") if dry_run else ""
+		info(f"\n{prefix}Traitement de {len(files)} fichier(s)")
+		groups: dict[tuple[Path, str], list[Path]] = defaultdict(list)
+		for f in files:
+			date_key: str = format_date_key(get_capture_datetime(f))
+			groups[(f.parent, date_key)].append(f)
+		for group_files in groups.values():
+			group_files.sort(key=lambda p: (p.stat().st_mtime if p.exists() else 0, p.name))
+		counts: dict[str, int] = {"success": 0, "skipped": 0, "error": 0}
+		renamed_details: list[str] = []
+		try:
+			with Progress(
+				TextColumn("[bold blue]{task.fields[name]:<30}"),
+				BarColumn(bar_width=30),
+				MofNCompleteColumn(),
+				TimeElapsedColumn(),
+				console=console,
+			) as progress:
+				task: int = progress.add_task("rename", total=len(files), name="Renommage")
+				for (parent, date_key), group_files in groups.items():
+					use_suffix: bool = len(group_files) > 1
+					for index, file_path in enumerate(group_files, start=1):
+						progress.update(task, name=file_path.name[:30])
+						suffix: str = f"-{index}" if use_suffix else ""
+						new_name: str = f"{date_key}{suffix}{file_path.suffix}"
+						dest: Path = parent / new_name
+						if dest == file_path:
+							counts["skipped"] += 1
+							progress.advance(task)
+							continue
+						if dest.exists():
+							dest = get_unique_destination(parent, new_name)
+						if dry_run:
+							counts["success"] += 1
+							renamed_details.append(f"{file_path.name} -> {dest.name}")
+						else:
+							try:
+								file_path.rename(dest)
+								counts["success"] += 1
+								renamed_details.append(f"{file_path.name} -> {dest.name}")
+							except PermissionError:
+								error(f"Permission refusee pour renommer '{file_path.name}'.")
+								counts["error"] += 1
+							except OSError as e:
+								error(f"Erreur systeme en renommant '{file_path.name}': {e}")
+								counts["error"] += 1
+						progress.advance(task)
+		except KeyboardInterrupt:
+			info("\nInterruption clavier detectee. Arret.")
+		if renamed_details:
+			action: str = "detecte(s)" if dry_run else "renomme(s)"
+			info(colorize(f"\n{prefix}{len(renamed_details)} fichier(s) {action} :", "cyan"))
+			for line in renamed_details:
+				info(f"  - {line}")
+		print_summary(prefix, counts)
+
+	def run(self, args: argparse.Namespace) -> None:
+		# Point d'entree de la sous-commande "rename"
+		folder_path: Path = resolve_path(args.path)
+		validate_folder(folder_path)
+		self.rename_all(folder_path, recursive=args.recursive, dry_run=args.dry_run)
+
 IMAGE_CONVERTER: ImageConverter = ImageConverter()
 VIDEO_CONVERTER: VideoConverter = VideoConverter()
 DUPLICATE_DETECTOR: DuplicateDetector = DuplicateDetector()
+MEDIA_RENAMER: MediaRenamer = MediaRenamer()
 
 def run_images_interactive() -> None:
 	# Recueille les options de conversion d'images via des invites graphiques
@@ -636,6 +787,14 @@ def run_duplicates_interactive() -> None:
 	dry_run: Optional[bool] = questionary.confirm("Simuler sans deplacer aucun fichier ?", default=False, style=MENU_STYLE).ask()
 	DUPLICATE_DETECTOR.run(SimpleNamespace(path=path, recursive=recursive, flat=flat, global_scope=global_scope, dry_run=dry_run))
 
+def run_rename_interactive() -> None:
+	# Recueille les options de renommage via des invites graphiques
+	path: Optional[str] = questionary.text("Chemin du dossier a traiter :", style=MENU_STYLE).ask()
+	recursive: Optional[bool] = questionary.confirm("Analyser aussi les sous-dossiers ?", default=True, style=MENU_STYLE).ask()
+	info(colorize("Format : JJ-MM-AAAA_HHhMM, ex. 12-12-2009_12h05 (un numero -N est ajoute en cas d'egalite).", "cyan"))
+	dry_run: Optional[bool] = questionary.confirm("Simuler sans renommer aucun fichier ?", default=False, style=MENU_STYLE).ask()
+	MEDIA_RENAMER.run(SimpleNamespace(path=path, recursive=recursive, dry_run=dry_run))
+
 def run_interactive_menu() -> None:
 	# Menu interactif affiche quand le script est lance sans sous-commande
 	choice: Optional[str] = questionary.select("Que voulez-vous faire ?", choices=MENU_CHOICES, style=MENU_STYLE).ask()
@@ -645,6 +804,8 @@ def run_interactive_menu() -> None:
 	console.print()
 	if "doublons" in choice:
 		run_duplicates_interactive()
+	elif "Renommer" in choice:
+		run_rename_interactive()
 	elif "images" in choice:
 		run_images_interactive()
 	elif "videos" in choice:
@@ -654,17 +815,18 @@ def build_parser() -> argparse.ArgumentParser:
 	# Construit le CLI argparse : options globales et sous-commandes images/videos/duplicates
 	parser: argparse.ArgumentParser = argparse.ArgumentParser(
 		prog="media_toolkit.py",
-		description="Convertit des images en JPEG, des videos en MP4, ou detecte/deplace les doublons d'images.",
+		description="Convertit des images en JPEG, des videos en MP4, detecte/deplace les doublons d'images, ou renomme les fichiers par date de prise.",
 		epilog=(
 			"Exemples :\n"
 			"  media_toolkit.py images /chemin/du/dossier\n"
 			"  media_toolkit.py videos /chemin/du/dossier --no-recursive\n"
 			"  media_toolkit.py duplicates /chemin/du/dossier --recursive --dry-run\n"
+			"  media_toolkit.py rename /chemin/du/dossier --recursive\n"
 		),
 		formatter_class=argparse.RawDescriptionHelpFormatter,
 	)
 	parser.add_argument("--version", action="version", version=f"%(prog)s {VERSION}", help="Affiche la version du programme et quitte.")
-	subparsers = parser.add_subparsers(dest="command", required=False, metavar="{images,videos,duplicates}")
+	subparsers = parser.add_subparsers(dest="command", required=False, metavar="{images,videos,duplicates,rename}")
 	images_parser: argparse.ArgumentParser = subparsers.add_parser(
 		"images",
 		help="Convertit les images (PNG, WEBP, BMP, TIFF, HEIC/HEIF, ...) en JPEG.",
@@ -709,6 +871,16 @@ def build_parser() -> argparse.ArgumentParser:
 	duplicates_parser.add_argument("--global-scope", action=argparse.BooleanOptionalAction, default=False, help="Detecte les doublons sur tous les dossiers a la fois.")
 	duplicates_parser.add_argument("--dry-run", action=argparse.BooleanOptionalAction, default=False, help="Simule sans deplacer aucun fichier.")
 	duplicates_parser.set_defaults(func=DUPLICATE_DETECTOR.run)
+	rename_parser: argparse.ArgumentParser = subparsers.add_parser(
+		"rename",
+		help="Renomme les photos/videos selon leur date de prise (JJ-MM-AAAA_HHhMM).",
+		description="Renomme chaque fichier media selon sa date de prise (EXIF pour les photos, metadonnees ffprobe pour les videos, sinon date de modification). Ajoute un suffixe -N quand plusieurs fichiers partagent la meme date et la meme minute.",
+		formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+	)
+	rename_parser.add_argument("path", help="Chemin du dossier a traiter.")
+	rename_parser.add_argument("--recursive", action=argparse.BooleanOptionalAction, default=True, help="Analyse aussi les sous-dossiers.")
+	rename_parser.add_argument("--dry-run", action=argparse.BooleanOptionalAction, default=False, help="Simule sans renommer aucun fichier.")
+	rename_parser.set_defaults(func=MEDIA_RENAMER.run)
 	return parser
 
 def main() -> None:
