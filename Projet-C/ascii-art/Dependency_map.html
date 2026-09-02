@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Game of Life — Dépendances</title>
+<link rel="stylesheet" href="Template/depmap/depmap.css">
+</head>
+<body>
+
+<div id="header">
+	<div>
+		<h1 id="proj-title">🔗 Carte des dépendances</h1>
+		<p id="proj-subtitle"></p>
+	</div>
+
+	<div class="legend" id="legend"></div>
+	<input id="search-box" placeholder="🔍 Fichier…" oninput="onSearch(this.value)">
+	<button class="btn" onclick="resetView()">↺ Reset</button>
+</div>
+
+<div id="controls">
+	<span><kbd>Molette</kbd> zoom</span>
+	<span><kbd>Drag</kbd> pan</span>
+	<span><kbd>Drag boîte</kbd> module</span>
+	<span><kbd>Clic</kbd> sélectionner</span>
+	<span><kbd>Clic fond</kbd> désélectionner</span>
+	<span><kbd>Shift+Clic nœud sélectionné</kbd> masquer/afficher ses liens</span>
+	<span><kbd>Shift+Clic autre nœud</kbd> multi-sélection</span>
+	<span><kbd>Clic légende</kbd> afficher/masquer un module</span>
+	<span><kbd>Survol légende</kbd> mettre en avant un module</span>
+	<div class="edge-legend" id="edge-legend">
+		<div class="el active" data-etype="include" onclick="toggleEdgeType('include')"><svg width="30" height="10"><line x1="0" y1="5" x2="24" y2="5" stroke="#6699ff" stroke-width="2"/><polygon points="24,2 30,5 24,8" fill="#6699ff"/></svg> include</div>
+		<div class="el active" data-etype="call" onclick="toggleEdgeType('call')"><svg width="30" height="10"><line x1="0" y1="5" x2="24" y2="5" stroke="#ffcc55" stroke-width="2"/><polygon points="24,2 30,5 24,8" fill="#ffcc55"/></svg> appel .c→.c</div>
+		<div class="el active" data-etype="calls_h" onclick="toggleEdgeType('calls_h')"><svg width="30" height="10"><line x1="0" y1="5" x2="24" y2="5" stroke="#ff88aa" stroke-width="2"/><polygon points="24,2 30,5 24,8" fill="#ff88aa"/></svg> .c→.h appel</div>
+		<div class="el active" data-etype="implements" onclick="toggleEdgeType('implements')"><svg width="30" height="10"><line x1="0" y1="5" x2="24" y2="5" stroke="#44ee99" stroke-width="2"/><polygon points="24,2 30,5 24,8" fill="#44ee99"/></svg> .c implémente .h</div>
+		<div class="el active" data-etype="h_includes_h" onclick="toggleEdgeType('h_includes_h')"><svg width="30" height="10"><line x1="0" y1="5" x2="24" y2="5" stroke="#bb99ff" stroke-width="2"/><polygon points="24,2 30,5 24,8" fill="#bb99ff"/></svg> .h inclut .h</div>
+	</div>
+	<span id="stats"></span>
+</div>
+
+<div id="canvas-container">
+	<canvas id="cv"></canvas>
+</div>
+<div class="tooltip" id="tooltip"></div>
+
+<div id="side-panel">
+	<div class="sp-head">
+		<div>
+			<div class="sp-title" id="sp-title"></div>
+			<div class="sp-meta" id="sp-meta"></div>
+		</div>
+		<div class="sp-close" onclick="closeSidePanel()">✕</div>
+	</div>
+	<div class="sp-body" id="sp-body"></div>
+</div>
+
+<div id="align-bar">
+	<span class="ab-count" id="ab-count">0</span>
+	<span class="ab-label">sélectionnés · placer en ligne :</span>
+	<div class="ab-sep"></div>
+	<button class="ab-btn" id="ab-right"	onclick="lineUp('right')" >➡ Droite</button>
+	<button class="ab-btn" id="ab-left"	 onclick="lineUp('left')"	>⬅ Gauche</button>
+	<button class="ab-btn" id="ab-down"	 onclick="lineUp('down')"	>⬇ Bas</button>
+	<button class="ab-btn" id="ab-up"		 onclick="lineUp('up')"		>⬆ Haut</button>
+	<div class="ab-sep"></div>
+	<button class="ab-btn clear" onclick="clearMultiSel()">✕</button>
+</div>
+
+<script>
+const PROJECT_TITLE = "Ascii art";
+const PROJECT_SUBTITLE = "/media/le-glitch/CODE/Programation/Projet-C/ascii-art · 4 fichiers (3 .c) · 8 liens (recalculé depuis le code source)";
+const NODES_DATA = {"display_utils.h": {"group": "display", "funcs": ["afficher_ligne", "nettoyer_chaine", "afficher_toutes_polices", "build_text", "validate_args", "open_output_file"], "includes": [], "is_header": true, "declared": ["afficher_ligne", "nettoyer_chaine", "afficher_toutes_polices", "build_text", "validate_args", "open_output_file"]}, "display_utils-1.c": {"group": "display", "funcs": ["afficher_ligne", "afficher_police", "nettoyer_chaine", "afficher_texte_avec_sauts", "afficher_toutes_polices"], "includes": ["display_utils.h"], "is_header": false, "declared": []}, "display_utils-2.c": {"group": "display", "funcs": ["open_output_file", "build_text", "validate_args"], "includes": ["display_utils.h"], "is_header": false, "declared": []}, "main.c": {"group": "main", "funcs": ["main"], "includes": ["display_utils.h"], "is_header": false, "declared": []}};
+const EDGES_DATA = [{"src": "display_utils-1.c", "tgt": "display_utils.h", "type": "include", "fns": [], "count": 0}, {"src": "display_utils-2.c", "tgt": "display_utils.h", "type": "include", "fns": [], "count": 0}, {"src": "main.c", "tgt": "display_utils.h", "type": "include", "fns": [], "count": 0}, {"src": "display_utils-2.c", "tgt": "display_utils-1.c", "type": "call", "fns": ["afficher_toutes_polices"], "count": 1, "pairs": [{"caller": "validate_args", "callee": "afficher_toutes_polices", "callee_defined_in": ["display_utils-1.c"], "callee_multi_def": false}]}, {"src": "main.c", "tgt": "display_utils-2.c", "type": "call", "fns": ["validate_args", "build_text", "open_output_file"], "count": 3, "pairs": [{"caller": "main", "callee": "validate_args", "callee_defined_in": ["display_utils-2.c"], "callee_multi_def": false}, {"caller": "main", "callee": "build_text", "callee_defined_in": ["display_utils-2.c"], "callee_multi_def": false}, {"caller": "main", "callee": "open_output_file", "callee_defined_in": ["display_utils-2.c"], "callee_multi_def": false}]}, {"src": "main.c", "tgt": "display_utils-1.c", "type": "call", "fns": ["afficher_texte_avec_sauts"], "count": 1, "pairs": [{"caller": "main", "callee": "afficher_texte_avec_sauts", "callee_defined_in": ["display_utils-1.c"], "callee_multi_def": false}]}, {"src": "display_utils-1.c", "tgt": "display_utils.h", "type": "implements", "fns": ["nettoyer_chaine", "afficher_toutes_polices", "afficher_ligne"], "count": 3}, {"src": "display_utils-2.c", "tgt": "display_utils.h", "type": "implements", "fns": ["validate_args", "open_output_file", "build_text"], "count": 3}];
+const COLORS = {"display": {"bg": "#f1d0d0", "border": "#b63535", "text": "#721d1d"}, "main": {"bg": "#f0f0f0", "border": "#888888", "text": "#333333"}, "other": {"bg": "#f5f5f5", "border": "#aaaaaa", "text": "#444444"}};
+const INIT_POS = {"main.c": {"x": 230, "y": 72}, "display_utils.h": {"x": 230, "y": 288}, "display_utils-1.c": {"x": 460, "y": 288}, "display_utils-2.c": {"x": 690, "y": 288}};
+</script>
+<script src="Template/depmap/depmap.js" defer></script>
+</body>
+</html>

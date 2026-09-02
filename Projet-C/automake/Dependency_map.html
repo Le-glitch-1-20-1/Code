@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Game of Life — Dépendances</title>
+<link rel="stylesheet" href="Template/depmap/depmap.css">
+</head>
+<body>
+
+<div id="header">
+	<div>
+		<h1 id="proj-title">🔗 Carte des dépendances</h1>
+		<p id="proj-subtitle"></p>
+	</div>
+
+	<div class="legend" id="legend"></div>
+	<input id="search-box" placeholder="🔍 Fichier…" oninput="onSearch(this.value)">
+	<button class="btn" onclick="resetView()">↺ Reset</button>
+</div>
+
+<div id="controls">
+	<span><kbd>Molette</kbd> zoom</span>
+	<span><kbd>Drag</kbd> pan</span>
+	<span><kbd>Drag boîte</kbd> module</span>
+	<span><kbd>Clic</kbd> sélectionner</span>
+	<span><kbd>Clic fond</kbd> désélectionner</span>
+	<span><kbd>Shift+Clic nœud sélectionné</kbd> masquer/afficher ses liens</span>
+	<span><kbd>Shift+Clic autre nœud</kbd> multi-sélection</span>
+	<span><kbd>Clic légende</kbd> afficher/masquer un module</span>
+	<span><kbd>Survol légende</kbd> mettre en avant un module</span>
+	<div class="edge-legend" id="edge-legend">
+		<div class="el active" data-etype="include" onclick="toggleEdgeType('include')"><svg width="30" height="10"><line x1="0" y1="5" x2="24" y2="5" stroke="#6699ff" stroke-width="2"/><polygon points="24,2 30,5 24,8" fill="#6699ff"/></svg> include</div>
+		<div class="el active" data-etype="call" onclick="toggleEdgeType('call')"><svg width="30" height="10"><line x1="0" y1="5" x2="24" y2="5" stroke="#ffcc55" stroke-width="2"/><polygon points="24,2 30,5 24,8" fill="#ffcc55"/></svg> appel .c→.c</div>
+		<div class="el active" data-etype="calls_h" onclick="toggleEdgeType('calls_h')"><svg width="30" height="10"><line x1="0" y1="5" x2="24" y2="5" stroke="#ff88aa" stroke-width="2"/><polygon points="24,2 30,5 24,8" fill="#ff88aa"/></svg> .c→.h appel</div>
+		<div class="el active" data-etype="implements" onclick="toggleEdgeType('implements')"><svg width="30" height="10"><line x1="0" y1="5" x2="24" y2="5" stroke="#44ee99" stroke-width="2"/><polygon points="24,2 30,5 24,8" fill="#44ee99"/></svg> .c implémente .h</div>
+		<div class="el active" data-etype="h_includes_h" onclick="toggleEdgeType('h_includes_h')"><svg width="30" height="10"><line x1="0" y1="5" x2="24" y2="5" stroke="#bb99ff" stroke-width="2"/><polygon points="24,2 30,5 24,8" fill="#bb99ff"/></svg> .h inclut .h</div>
+	</div>
+	<span id="stats"></span>
+</div>
+
+<div id="canvas-container">
+	<canvas id="cv"></canvas>
+</div>
+<div class="tooltip" id="tooltip"></div>
+
+<div id="side-panel">
+	<div class="sp-head">
+		<div>
+			<div class="sp-title" id="sp-title"></div>
+			<div class="sp-meta" id="sp-meta"></div>
+		</div>
+		<div class="sp-close" onclick="closeSidePanel()">✕</div>
+	</div>
+	<div class="sp-body" id="sp-body"></div>
+</div>
+
+<div id="align-bar">
+	<span class="ab-count" id="ab-count">0</span>
+	<span class="ab-label">sélectionnés · placer en ligne :</span>
+	<div class="ab-sep"></div>
+	<button class="ab-btn" id="ab-right"	onclick="lineUp('right')" >➡ Droite</button>
+	<button class="ab-btn" id="ab-left"	 onclick="lineUp('left')"	>⬅ Gauche</button>
+	<button class="ab-btn" id="ab-down"	 onclick="lineUp('down')"	>⬇ Bas</button>
+	<button class="ab-btn" id="ab-up"		 onclick="lineUp('up')"		>⬆ Haut</button>
+	<div class="ab-sep"></div>
+	<button class="ab-btn clear" onclick="clearMultiSel()">✕</button>
+</div>
+
+<script>
+const PROJECT_TITLE = "Automake";
+const PROJECT_SUBTITLE = "/media/le-glitch/CODE/Programation/Projet-C/automake · 12 fichiers (11 .c) · 33 liens (recalculé depuis le code source)";
+const NODES_DATA = {"makefile_generator.h": {"group": "makefile", "funcs": ["get_lib", "get_lib_count", "line_contains_include", "is_target_file", "file_contains_include", "directory_contains_include", "project_uses", "is_a_directory", "get_directory_name", "write_variable", "compute_ldflags", "write_compilation_variables", "write_file_variables", "write_all_rule", "write_compilation_rules", "write_windows_rule", "write_cleanup_rules", "read_path", "read_windows_answer"], "includes": [], "is_header": true, "declared": ["get_lib", "get_lib_count", "line_contains_include", "is_target_file", "file_contains_include", "directory_contains_include", "project_uses", "is_a_directory", "get_directory_name", "write_variable", "compute_ldflags", "write_compilation_variables", "write_file_variables", "write_all_rule", "write_compilation_rules", "write_windows_rule", "write_cleanup_rules", "read_path", "read_windows_answer"]}, "directory_name.c": {"group": "directory", "funcs": ["is_a_directory", "find_name_start", "get_directory_name"], "includes": ["makefile_generator.h"], "is_header": false, "declared": []}, "directory_scan.c": {"group": "directory", "funcs": ["process_c_file", "examine_element", "check_root_c_files", "search_in_subdirectory", "project_uses"], "includes": ["makefile_generator.h"], "is_header": false, "declared": []}, "file_scan.c": {"group": "file", "funcs": ["file_contains_include", "process_entry", "valid_entry", "directory_contains_include"], "includes": ["makefile_generator.h"], "is_header": false, "declared": []}, "input.c": {"group": "input", "funcs": ["read_path", "read_windows_answer"], "includes": ["makefile_generator.h"], "is_header": false, "declared": []}, "libs.c": {"group": "libs", "funcs": ["get_libraries", "get_lib", "get_lib_count"], "includes": ["makefile_generator.h"], "is_header": false, "declared": []}, "main.c": {"group": "main", "funcs": ["display_result", "detect_libraries", "main"], "includes": ["makefile_generator.h"], "is_header": false, "declared": []}, "makefile_generator.c": {"group": "makefile", "funcs": ["prepare_context", "generate_makefile"], "includes": ["makefile_generator.h"], "is_header": false, "declared": []}, "makefile_rules-1.c": {"group": "makefile", "funcs": ["write_compilation_variables", "write_file_variables", "write_all_rule"], "includes": ["makefile_generator.h"], "is_header": false, "declared": []}, "makefile_rules-2.c": {"group": "makefile", "funcs": ["write_compilation_rules", "write_windows_rule", "write_cleanup_rules"], "includes": ["makefile_generator.h"], "is_header": false, "declared": []}, "makefile_vars.c": {"group": "makefile", "funcs": ["write_variable", "add_flag", "compute_ldflags", "compute_windows_flags"], "includes": ["makefile_generator.h"], "is_header": false, "declared": []}, "parse_include.c": {"group": "parse", "funcs": ["line_contains_include", "is_target_file"], "includes": ["makefile_generator.h"], "is_header": false, "declared": []}};
+const EDGES_DATA = [{"src": "directory_name.c", "tgt": "makefile_generator.h", "type": "include", "fns": [], "count": 0}, {"src": "directory_scan.c", "tgt": "makefile_generator.h", "type": "include", "fns": [], "count": 0}, {"src": "file_scan.c", "tgt": "makefile_generator.h", "type": "include", "fns": [], "count": 0}, {"src": "input.c", "tgt": "makefile_generator.h", "type": "include", "fns": [], "count": 0}, {"src": "libs.c", "tgt": "makefile_generator.h", "type": "include", "fns": [], "count": 0}, {"src": "main.c", "tgt": "makefile_generator.h", "type": "include", "fns": [], "count": 0}, {"src": "makefile_generator.c", "tgt": "makefile_generator.h", "type": "include", "fns": [], "count": 0}, {"src": "makefile_rules-1.c", "tgt": "makefile_generator.h", "type": "include", "fns": [], "count": 0}, {"src": "makefile_rules-2.c", "tgt": "makefile_generator.h", "type": "include", "fns": [], "count": 0}, {"src": "makefile_vars.c", "tgt": "makefile_generator.h", "type": "include", "fns": [], "count": 0}, {"src": "parse_include.c", "tgt": "makefile_generator.h", "type": "include", "fns": [], "count": 0}, {"src": "directory_scan.c", "tgt": "file_scan.c", "type": "call", "fns": ["file_contains_include", "directory_contains_include"], "count": 2, "pairs": [{"caller": "process_c_file", "callee": "file_contains_include", "callee_defined_in": ["file_scan.c"], "callee_multi_def": false}, {"caller": "search_in_subdirectory", "callee": "directory_contains_include", "callee_defined_in": ["file_scan.c"], "callee_multi_def": false}]}, {"src": "directory_scan.c", "tgt": "directory_name.c", "type": "call", "fns": ["is_a_directory"], "count": 1, "pairs": [{"caller": "search_in_subdirectory", "callee": "is_a_directory", "callee_defined_in": ["directory_name.c"], "callee_multi_def": false}]}, {"src": "file_scan.c", "tgt": "parse_include.c", "type": "call", "fns": ["line_contains_include", "is_target_file"], "count": 2, "pairs": [{"caller": "file_contains_include", "callee": "line_contains_include", "callee_defined_in": ["parse_include.c"], "callee_multi_def": false}, {"caller": "process_entry", "callee": "is_target_file", "callee_defined_in": ["parse_include.c"], "callee_multi_def": false}]}, {"src": "main.c", "tgt": "libs.c", "type": "call", "fns": ["get_lib_count", "get_lib"], "count": 2, "pairs": [{"caller": "detect_libraries", "callee": "get_lib_count", "callee_defined_in": ["libs.c"], "callee_multi_def": false}, {"caller": "detect_libraries", "callee": "get_lib", "callee_defined_in": ["libs.c"], "callee_multi_def": false}]}, {"src": "main.c", "tgt": "directory_scan.c", "type": "call", "fns": ["project_uses"], "count": 1, "pairs": [{"caller": "detect_libraries", "callee": "project_uses", "callee_defined_in": ["directory_scan.c"], "callee_multi_def": false}]}, {"src": "main.c", "tgt": "input.c", "type": "call", "fns": ["read_path", "read_windows_answer"], "count": 2, "pairs": [{"caller": "main", "callee": "read_path", "callee_defined_in": ["input.c"], "callee_multi_def": false}, {"caller": "main", "callee": "read_windows_answer", "callee_defined_in": ["input.c"], "callee_multi_def": false}]}, {"src": "main.c", "tgt": "makefile_generator.c", "type": "call", "fns": ["generate_makefile"], "count": 1, "pairs": [{"caller": "main", "callee": "generate_makefile", "callee_defined_in": ["makefile_generator.c"], "callee_multi_def": false}]}, {"src": "makefile_generator.c", "tgt": "directory_name.c", "type": "call", "fns": ["get_directory_name", "is_a_directory"], "count": 2, "pairs": [{"caller": "prepare_context", "callee": "get_directory_name", "callee_defined_in": ["directory_name.c"], "callee_multi_def": false}, {"caller": "prepare_context", "callee": "is_a_directory", "callee_defined_in": ["directory_name.c"], "callee_multi_def": false}]}, {"src": "makefile_generator.c", "tgt": "makefile_vars.c", "type": "call", "fns": ["compute_ldflags", "compute_windows_flags"], "count": 2, "pairs": [{"caller": "prepare_context", "callee": "compute_ldflags", "callee_defined_in": ["makefile_vars.c"], "callee_multi_def": false}, {"caller": "prepare_context", "callee": "compute_windows_flags", "callee_defined_in": ["makefile_vars.c"], "callee_multi_def": false}]}, {"src": "makefile_generator.c", "tgt": "makefile_rules-1.c", "type": "call", "fns": ["write_compilation_variables", "write_file_variables", "write_all_rule"], "count": 3, "pairs": [{"caller": "generate_makefile", "callee": "write_compilation_variables", "callee_defined_in": ["makefile_rules-1.c"], "callee_multi_def": false}, {"caller": "generate_makefile", "callee": "write_file_variables", "callee_defined_in": ["makefile_rules-1.c"], "callee_multi_def": false}, {"caller": "generate_makefile", "callee": "write_all_rule", "callee_defined_in": ["makefile_rules-1.c"], "callee_multi_def": false}]}, {"src": "makefile_generator.c", "tgt": "makefile_rules-2.c", "type": "call", "fns": ["write_compilation_rules", "write_windows_rule", "write_cleanup_rules"], "count": 3, "pairs": [{"caller": "generate_makefile", "callee": "write_compilation_rules", "callee_defined_in": ["makefile_rules-2.c"], "callee_multi_def": false}, {"caller": "generate_makefile", "callee": "write_windows_rule", "callee_defined_in": ["makefile_rules-2.c"], "callee_multi_def": false}, {"caller": "generate_makefile", "callee": "write_cleanup_rules", "callee_defined_in": ["makefile_rules-2.c"], "callee_multi_def": false}]}, {"src": "makefile_rules-1.c", "tgt": "makefile_vars.c", "type": "call", "fns": ["write_variable"], "count": 2, "pairs": [{"caller": "write_compilation_variables", "callee": "write_variable", "callee_defined_in": ["makefile_vars.c"], "callee_multi_def": false}, {"caller": "write_file_variables", "callee": "write_variable", "callee_defined_in": ["makefile_vars.c"], "callee_multi_def": false}]}, {"src": "makefile_vars.c", "tgt": "libs.c", "type": "call", "fns": ["get_lib_count", "get_lib"], "count": 4, "pairs": [{"caller": "compute_ldflags", "callee": "get_lib_count", "callee_defined_in": ["libs.c"], "callee_multi_def": false}, {"caller": "compute_windows_flags", "callee": "get_lib_count", "callee_defined_in": ["libs.c"], "callee_multi_def": false}, {"caller": "compute_ldflags", "callee": "get_lib", "callee_defined_in": ["libs.c"], "callee_multi_def": false}, {"caller": "compute_windows_flags", "callee": "get_lib", "callee_defined_in": ["libs.c"], "callee_multi_def": false}]}, {"src": "directory_name.c", "tgt": "makefile_generator.h", "type": "implements", "fns": ["is_a_directory", "get_directory_name"], "count": 2}, {"src": "directory_scan.c", "tgt": "makefile_generator.h", "type": "implements", "fns": ["project_uses"], "count": 1}, {"src": "file_scan.c", "tgt": "makefile_generator.h", "type": "implements", "fns": ["file_contains_include", "directory_contains_include"], "count": 2}, {"src": "input.c", "tgt": "makefile_generator.h", "type": "implements", "fns": ["read_windows_answer", "read_path"], "count": 2}, {"src": "libs.c", "tgt": "makefile_generator.h", "type": "implements", "fns": ["get_lib", "get_lib_count"], "count": 2}, {"src": "makefile_rules-1.c", "tgt": "makefile_generator.h", "type": "implements", "fns": ["write_compilation_variables", "write_file_variables", "write_all_rule"], "count": 3}, {"src": "makefile_rules-2.c", "tgt": "makefile_generator.h", "type": "implements", "fns": ["write_windows_rule", "write_compilation_rules", "write_cleanup_rules"], "count": 3}, {"src": "makefile_vars.c", "tgt": "makefile_generator.h", "type": "implements", "fns": ["write_variable", "compute_ldflags"], "count": 2}, {"src": "parse_include.c", "tgt": "makefile_generator.h", "type": "implements", "fns": ["line_contains_include", "is_target_file"], "count": 2}];
+const COLORS = {"directory": {"bg": "#f1d0d0", "border": "#b63535", "text": "#721d1d"}, "file": {"bg": "#f1f1d0", "border": "#b6b635", "text": "#72721d"}, "input": {"bg": "#d0f1d0", "border": "#35b635", "text": "#1d721d"}, "libs": {"bg": "#d0f1f1", "border": "#35b6b6", "text": "#1d7272"}, "makefile": {"bg": "#d0d0f1", "border": "#3535b6", "text": "#1d1d72"}, "parse": {"bg": "#f1d0f1", "border": "#b635b6", "text": "#721d72"}, "main": {"bg": "#f0f0f0", "border": "#888888", "text": "#333333"}, "other": {"bg": "#f5f5f5", "border": "#aaaaaa", "text": "#444444"}};
+const INIT_POS = {"main.c": {"x": 230, "y": 72}, "directory_name.c": {"x": 230, "y": 288}, "directory_scan.c": {"x": 460, "y": 288}, "file_scan.c": {"x": 230, "y": 504}, "input.c": {"x": 230, "y": 720}, "libs.c": {"x": 230, "y": 936}, "makefile_generator.h": {"x": 230, "y": 1152}, "makefile_generator.c": {"x": 460, "y": 1152}, "makefile_rules-1.c": {"x": 690, "y": 1152}, "makefile_rules-2.c": {"x": 920, "y": 1152}, "makefile_vars.c": {"x": 1150, "y": 1152}, "parse_include.c": {"x": 230, "y": 1368}};
+</script>
+<script src="Template/depmap/depmap.js" defer></script>
+</body>
+</html>
