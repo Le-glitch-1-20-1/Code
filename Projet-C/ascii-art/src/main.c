@@ -6,7 +6,7 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 12:24:06 by cseren            #+#    #+#             */
-/*   Updated: 2026/07/10 19:06:04 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/09/02 17:41:42 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	main(int argc, char *argv[])
 	if (out != NULL)
 	{
 		fclose(out);
-		printf("✔ Sauvegarde dans font.txt terminée.\n");
+		printf("Sauvegarde dans font.txt terminée.\n");
 	}
 	return (0);
 }
