@@ -6,20 +6,20 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/02 17:58:58 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/09/02 20:25:55 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/09/02 21:34:57 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "makefile_generator.h"
 
-static int	process_c_file(const char *full_path, const char *header,
+int	process_c_file(const char *full_path, const char *header,
 		int *found_c)
 {
 	*found_c = 1;
 	return (file_contains_include(full_path, header));
 }
 
-static int	examine_element(const char *path, const char *name,
+int	examine_element(const char *path, const char *name,
 		const char *header, int *found_c)
 {
 	char		full_path[PATH_SIZE];
@@ -63,7 +63,7 @@ int	check_root_c_files(const char *path, const char *header,
 	return (found);
 }
 
-static int	search_in_subdirectory(const char *path, const char *name,
+int	search_in_subdirectory(const char *path, const char *name,
 		const char *header)
 {
 	char	subdirectory[PATH_SIZE];

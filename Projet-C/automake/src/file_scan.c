@@ -6,7 +6,7 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/02 17:58:58 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/09/02 20:37:57 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/09/02 21:35:03 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	file_contains_include(const char *path, const char *header)
 	return (found);
 }
 
-static int	process_entry(const char *full_path, struct stat *st,
+int	process_entry(const char *full_path, struct stat *st,
 		const char *header)
 {
 	if (S_ISDIR(st->st_mode))
@@ -44,7 +44,7 @@ static int	process_entry(const char *full_path, struct stat *st,
 	return (0);
 }
 
-static int	valid_entry(const char *path, struct dirent *entry,
+int	valid_entry(const char *path, struct dirent *entry,
 		char *full_path)
 {
 	if (strcmp(entry->d_name, ".") == 0

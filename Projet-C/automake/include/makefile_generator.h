@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   makefile_generator.h                              :+:      :+:    :+:   */
+/*   makefile_generator.h                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/09/02 17:58:58 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/09/02 20:01:59 by le-glitch        ###   ########.fr       */
+/*   Created: 2026/09/02 21:32:48 by le-glitch         #+#    #+#             */
+/*   Updated: 2026/09/02 21:44:36 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,21 +59,33 @@ int			is_target_file(const char *name);
 /* file_scan.c */
 int			file_contains_include(const char *path, const char *header);
 int			directory_contains_include(const char *path, const char *header);
+int			process_entry(const char *full_path, struct stat *st,
+				const char *header);
+int			valid_entry(const char *path, struct dirent *entry,
+				char *full_path);
 
 /* directory_scan.c */
 int			check_root_c_files(const char *path, const char *header,
 				int *found_c);
+int			process_c_file(const char *full_path, const char *header,
+				int *found_c);
+int			examine_element(const char *path, const char *name,
+				const char *header, int *found_c);
+int			search_in_subdirectory(const char *path, const char *name,
+				const char *header);
 int			project_uses(const char *path, const char *header);
 
 /* directory_name.c */
 int			is_a_directory(const char *path);
 void		get_directory_name(const char *path, char *dest, size_t size);
+size_t		find_name_start(const char *path, size_t len);
 
 /* makefile_vars.c */
 void		write_variable(FILE *f, const char *name, const char *value);
 void		compute_ldflags(char *ldflags, const int *results);
 void		compute_windows_flags(char *includes, char *libpath, char *ldflags,
 				const int *results);
+void		add_flag(char *dest, const char *flag);
 
 /* makefile_rules-1.c */
 void		write_compilation_variables(FILE *f, t_makefile_context *ctx);

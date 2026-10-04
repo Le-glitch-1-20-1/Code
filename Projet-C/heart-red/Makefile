@@ -1,53 +1,54 @@
 CC            := gcc
 CC_WIN        := x86_64-w64-mingw32-gcc
-CFLAGS        := -Wall -Wextra -Werror -Wunused
+CFLAGS        := -Wall -Wextra -Werror -Wunused -I include/
 LDFLAGS       := $(shell pkg-config --libs raylib 2>/dev/null || echo "-lraylib") -lm -lpthread -ldl -lrt -lX11
-WIN_INCLUDES  := -I/home/le-glitch/raylib/raylib-windows/src
-WIN_LIBPATH   := -L/home/le-glitch/raylib/raylib-windows/src
+WIN_INCLUDES  := -I/home/le-glitch/Documents/raylib/raylib-windows/src
+WIN_LIBPATH   := -L/home/le-glitch/Documents/raylib/raylib-windows/src
 WIN_LDFLAGS   := -lraylib -lopengl32 -lgdi32 -lwinmm
 
+SRC_DIR       := src
 OBJ_DIR       := o
 NAME          := heart-red
 
-# Liste des .c
-SRC           := $(wildcard *.c)
+# List of .c files
+SRC           := $(wildcard $(SRC_DIR)/*.c)
 
-# Transformation en .o dans o/
-OBJ           := $(patsubst %.c, $(OBJ_DIR)/%.o, $(SRC))
+# Transform into .o files in o/
+OBJ           := $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
 
-# Regle par defaut :
-#  - compile toujours Linux en premier
-#  - si echec -> make s'arrete, Windows n'est PAS propose
-#  - si succes -> demande si on compile aussi pour Windows
+# Default rule:
+#  - always builds Linux first
+#  - on failure -> make stops, Windows is NOT offered
+#  - on success -> asks whether to also build for Windows
 all: $(NAME)
-	@read -p ">> Compiler aussi pour Windows ? [y/N] " rep; \
+	@read -p ">> Also build for Windows? [y/N] " rep; \
 	if [ "$$rep" = "y" ] || [ "$$rep" = "Y" ]; then \
 		$(MAKE) --no-print-directory windows; \
 	else \
-		echo ">> Build Windows annule."; \
+		echo ">> Windows build cancelled."; \
 	fi
 
-# Creation de l'executable Linux
+# Creating the Linux executable
 $(NAME): $(OBJ)
 	$(CC) $(CFLAGS) $(OBJ) -o $(NAME) $(LDFLAGS)
 
-# Compilation des .c vers .o dans o/
-$(OBJ_DIR)/%.o: %.c | $(OBJ_DIR)
+# Compiling .c files into .o in o/
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-# Creation du dossier o/ si absent
+# Creating the o/ directory if missing
 $(OBJ_DIR):
 	mkdir -p $(OBJ_DIR)
 
-# Build Windows (.exe, sans console), appele uniquement si demande
+# Windows build (.exe, no console), invoked if requested
 .PHONY: windows
 windows: $(SRC)
 	$(CC_WIN) $(CFLAGS) $(SRC) -o $(NAME).exe \
 		-mwindows -Wl,--subsystem,windows \
 		$(WIN_INCLUDES) $(WIN_LIBPATH) $(WIN_LDFLAGS)
-	@echo ">> Build Windows termine -> $(NAME).exe"
+	@echo ">> Windows build finished -> $(NAME).exe"
 
-# Nettoyage
+# Cleanup
 clean:
 	rm -rf $(OBJ_DIR)
 

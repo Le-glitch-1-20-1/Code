@@ -6,7 +6,7 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/02 17:58:58 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/09/02 20:35:22 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/09/02 21:35:41 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	write_variable(FILE *f, const char *name, const char *value)
 	fprintf(f, "%-*s:= %s\n", ALIGN_WIDTH, name, value);
 }
 
-static void	add_flag(char *dest, const char *flag)
+void	add_flag(char *dest, const char *flag)
 {
 	if (flag[0] == '\0')
 		return ;

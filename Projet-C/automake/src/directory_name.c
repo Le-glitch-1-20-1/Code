@@ -6,7 +6,7 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/02 17:58:58 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/09/02 20:26:29 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/09/02 21:34:45 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	is_a_directory(const char *path)
 	return (S_ISDIR(st.st_mode));
 }
 
-static size_t	find_name_start(const char *path, size_t len)
+size_t	find_name_start(const char *path, size_t len)
 {
 	size_t	start;
 

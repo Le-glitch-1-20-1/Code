@@ -6,21 +6,21 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/02 17:58:58 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/09/02 20:39:23 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/09/05 12:18:54 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "makefile_generator.h"
 
-static const t_lib	*get_libraries(size_t *nb)
+const t_lib	*get_libraries(size_t *nb)
 {
 	static const t_lib	libraries[] = {
 	{
 		"raylib", "raylib.h",
 		"$(shell pkg-config --libs raylib 2>/dev/null || echo \"-lraylib\")"
 		" -lm -lpthread -ldl -lrt -lX11",
-		"-I/home/le-glitch/raylib/raylib-windows/src",
-		"-L/home/le-glitch/raylib/raylib-windows/src",
+		"-I/home/le-glitch/Documents/raylib/raylib-windows/src",
+		"-L/home/le-glitch/Documents/raylib/raylib-windows/src",
 		"-lraylib -lopengl32 -lgdi32 -lwinmm"
 	}
 	};

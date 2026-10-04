@@ -6,13 +6,13 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/02 17:58:58 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/09/02 20:35:14 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/09/02 21:35:24 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "makefile_generator.h"
 
-static void	display_result(const t_lib *lib, int found)
+void	display_result(const t_lib *lib, int found)
 {
 	if (found)
 		printf("%s: found\n", lib->name);
@@ -20,7 +20,7 @@ static void	display_result(const t_lib *lib, int found)
 		printf("%s: not found\n", lib->name);
 }
 
-static void	detect_libraries(const char *path, int *results)
+void	detect_libraries(const char *path, int *results)
 {
 	size_t		i;
 	const t_lib	*lib;
