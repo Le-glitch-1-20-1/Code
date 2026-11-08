@@ -1,69 +1,86 @@
 # Projet-sh
 
-Scripts Bash autonomes avec interface interactive en ligne de commande (menus, couleurs,
-détection automatique des outils disponibles) doublée d'un mode CLI complet.
-Tous les scripts partagent le même style console, décrit dans [`STYLE-GUIDE.md`](STYLE-GUIDE.md).
+Standalone Bash scripts with an interactive command-line interface (menus, colors,
+automatic detection of available tools) and a complete CLI mode.
+All scripts share the same console style, described in [`STYLE-GUIDE.md`](STYLE-GUIDE.md).
+
+They run on Linux, macOS, BSD, WSL, Git Bash and Termux (`Midi-tester.sh` needs ALSA, so Linux only).
 
 ---
 
 ## Scripts
 
-### `App-manager.sh` — Gestionnaire d'applications Linux
+### `App-manager.sh` — Application manager
 
-Interface unifiée pour lister, rechercher, installer, supprimer et mettre à jour des paquets
-à travers plusieurs gestionnaires (système/apt, snap, flatpak, appimage, pip, npm, cargo, etc.).
-Détecte automatiquement les gestionnaires disponibles sur la machine.
+One interface to list, search, install, remove and update packages across several managers
+(system/apt/dnf/pacman..., snap, flatpak, brew, nix, appimage, pip, pipx, uv, conda, npm, yarn,
+pnpm, gem, cargo, rustup, composer). It detects the managers available on the machine.
 
 ```bash
-./App-manager.sh                                   # menu interactif
-./App-manager.sh --detect                           # détecter gestionnaires et outils
-./App-manager.sh --list snap                        # lister les paquets snap
-./App-manager.sh --list snap --filter code          # lister en filtrant par texte
-./App-manager.sh --search vlc --manager flatpak      # rechercher un paquet
-./App-manager.sh --install htop --manager system -y  # installer sans confirmation
+./App-manager.sh                                     # interactive menu
+./App-manager.sh --detect                            # detect managers and tools
+./App-manager.sh --list snap                         # list snap packages
+./App-manager.sh --list snap --filter code           # list, filtered by text
+./App-manager.sh --search vlc --manager flatpak      # search for a package
+./App-manager.sh --install htop --manager system -y  # install without confirmation
 ./App-manager.sh --remove htop --manager system --yes
-./App-manager.sh --update-manager npm                # mettre à jour un seul gestionnaire
-./App-manager.sh --update-all --yes                  # tout mettre à jour
-./App-manager.sh --check-updates                     # lister les mises à jour dispo (sans rien changer)
-./App-manager.sh --export                            # exporter la liste des apps installées
+./App-manager.sh --update-manager npm                # update a single manager
+./App-manager.sh --update-all --yes                  # update everything
+./App-manager.sh --check-updates                     # list available updates (refreshes indexes, installs nothing)
+./App-manager.sh --export                            # export the list of installed apps
 ./App-manager.sh --version
 ./App-manager.sh --help
 ```
 
-### `Detect-manager.sh` — Détecteur d'outils et d'environnement
+### `Detect-manager.sh` — Tool and environment detector
 
-Affiche les gestionnaires de paquets et outils de build/téléchargement présents (avec leurs
-versions), puis la distribution, le noyau et l'environnement de bureau (version, session
-Wayland/X11, gestionnaire de fenêtres, gestionnaire de connexion).
+Shows the package managers and build/download tools present (with versions), then the
+operating system, kernel and, on Linux, the desktop environment (version, Wayland/X11 session,
+window manager, display manager).
 
 ```bash
-./Detect-manager.sh                                  # rapport complet
-NO_COLOR=1 ./Detect-manager.sh > rapport.txt         # rapport sans couleurs, dans un fichier
+./Detect-manager.sh                                  # full report
+NO_COLOR=1 ./Detect-manager.sh > report.txt          # plain-text report in a file
 ./Detect-manager.sh --version
 ./Detect-manager.sh --help
 ```
 
-### `Midi-tester.sh` — Testeur de ports MIDI
+### `Midi-tester.sh` — MIDI port tester
 
-Écoute et affiche en direct les messages reçus sur les ports MIDI détectés.
+Listens to the detected ALSA MIDI ports and prints the received messages live.
 
 ```bash
-./Midi-tester.sh                # menu interactif (tous les ports / choix des ports / lister)
-./Midi-tester.sh --list         # liste les ports/périphériques sans écouter
-./Midi-tester.sh --port 20:0    # écoute un port précis (option répétable)
+./Midi-tester.sh                                     # interactive menu (all ports / choose ports / list)
+./Midi-tester.sh --list                              # list ports/devices without listening
+./Midi-tester.sh --port 20:0                         # listen to one port (repeatable)
 ./Midi-tester.sh -p 20:0 -p 24:0
 ./Midi-tester.sh --version
 ./Midi-tester.sh --help
 ```
 
-## Style commun
+## Common style
 
-Les trois scripts embarquent le même bloc de style (couleurs, messages `✔ ✗ ⚠`, bannière,
-sections, tableaux, spinner, menus à flèches). Les couleurs se désactivent seules quand la
-sortie n'est pas un terminal ou si `NO_COLOR` est défini.
+All three scripts embed the same style block (colors, `✔ ✗ ⚠` messages, banner, sections,
+tables, spinner, arrow-key menus). It adapts to its environment: colors are disabled when the
+output is not a terminal, when `TERM=dumb` or when `NO_COLOR` is set; ASCII symbols replace the
+Unicode ones without a UTF-8 locale; menus become numbered lists on terminals that cannot
+handle arrow keys.
 
-- [`STYLE-GUIDE.md`](STYLE-GUIDE.md) : documentation complète du style et méthode pour l'appliquer à d'autres scripts.
-- [`style-template.sh`](style-template.sh) : modèle prêt à copier pour un nouveau script.
+- [`STYLE-GUIDE.md`](STYLE-GUIDE.md): full documentation of the style and how to apply it to other scripts.
+- [`style-template.sh`](style-template.sh): ready-to-copy template for a new script.
+
+## Security notes
+
+- Text coming from outside (package names and descriptions, device names, user input) has its
+  control characters removed before display, so it cannot rewrite the terminal.
+- Messages are printed with `printf '%s'`, never `echo -e`: backslashes in data stay literal.
+- Package names are validated: no leading or trailing `-`, no URLs (`git+https://...`), no
+  wildcards, and no `/` where it could mean a local file or a GitHub repository.
+- A manager name given on the command line is only compared with a fixed list, never executed.
+- `PATH` is cleaned of relative entries at startup; `less` runs with `LESSSECURE=1`.
+- `sudo` is only used when needed, its ticket is dropped after each action, and language
+  managers (npm, gem) never escalate to root without an explicit, interactive "yes".
+- Exported lists are written with mode 600 in a mode 700 directory, never overwriting a file.
 
 ## Structure
 
@@ -77,16 +94,17 @@ Projet-sh/
 └── README.md
 ```
 
-## Prérequis
+## Requirements
 
-- Bash 4.3 ou plus récent, terminal compatible UTF-8
-- Selon les fonctionnalités utilisées : `apt`/`dpkg`, `snap`, `flatpak`, `pip3`, `npm`, `cargo`
-  (`App-manager.sh` détecte automatiquement ce qui est disponible ; `sudo` pour installer,
-  supprimer ou mettre à jour ; `less` est utilisé comme pager s'il est présent)
-- `Detect-manager.sh` : aucun prérequis particulier (`pgrep` pour la détection de l'environnement de bureau)
-- `Midi-tester.sh` : ALSA (`aseqdump`/`aconnect`, paquet `alsa-utils`), `grep` avec l'option `-P`,
-  utilisateur dans le groupe `audio`
+- Bash 4.0 or newer (macOS ships 3.2: `brew install bash`; the scripts switch to a newer
+  bash automatically if they find one in the usual Homebrew/MacPorts locations)
+- A UTF-8 terminal is recommended, but not required
+- Depending on what you use: `apt`/`dnf`/`pacman`..., `snap`, `flatpak`, `brew`, `pip3`, `npm`,
+  `cargo`... (`App-manager.sh` detects what is available; `sudo` is needed to install, remove
+  or update system packages; `less` is used as a pager when present)
+- `Detect-manager.sh`: nothing special (`pgrep` helps detect the desktop environment)
+- `Midi-tester.sh`: Linux with ALSA (`aseqdump`/`aconnect`, package `alsa-utils`), user in the `audio` group
 
-## Auteurs
+## Authors
 
-Scripts réalisés dans le cadre de projets personnels.
+Scripts written for personal projects.

@@ -9,8 +9,8 @@ l'éditeur Scratch en ligne ou l'application [Scratch Desktop](https://scratch.m
 
 ```
 Projet-Scratch/
-├── dessin pour papa.sb3	← projet de dessin
-└── jeu 2/					← itérations successives d'un jeu
+├── dessin pour papa.sb3		← projet de dessin
+└── jeu 2/						← itérations successives d'un jeu
     ├── Projet Scratch 1.sb3
     ├── Projet Scratch 2.sb3
     ├── ...
