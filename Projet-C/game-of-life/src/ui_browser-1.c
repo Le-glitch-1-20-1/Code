@@ -6,7 +6,7 @@
 /*   By: le-glitch <le-glitch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/21 23:04:57 by le-glitch         #+#    #+#             */
-/*   Updated: 2026/07/11 10:27:04 by le-glitch        ###   ########.fr       */
+/*   Updated: 2026/11/08 16:44:11 by le-glitch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,9 @@ void	str_tolower(const char *src, char *dst, int maxlen)
 
 int	filter_match(const char *name, const char *search)
 {
-	char	dlow[128];
-	char	slow[64];
-	char	*slash;
+	char		dlow[128];
+	char		slow[64];
+	const char	*slash;
 
 	if (!search[0])
 		return (1);
