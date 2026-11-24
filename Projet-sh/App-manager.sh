@@ -1,30 +1,32 @@
 #!/usr/bin/env bash
-# App Manager - application manager for Linux, macOS and BSD.
+# App Manager - application manager for Linux.
 # Detects every package manager / install method on the system, then lets you
 # list, search, install, remove and (above all) upgrade everything from one place.
-set -o pipefail
-
-VERSION="3.0.0"
-readonly VERSION
-
-# >>> STYLE BEGIN v2.0 - shared console style, keep this block identical in every script >>>
-# Reference: STYLE-GUIDE.md. Portable: bash >= 4.0 on Linux, macOS, BSD, WSL, Git Bash, Termux.
+# >>> STYLE BEGIN v2.4 - shared console style, keep this block identical in every script >>>
+# Reference: STYLE-GUIDE.md. Portable: bash >= 3.2 on any Linux (WSL and Termux included).
+# Started from sh / dash / zsh, it relaunches itself under bash.
 # Degrades gracefully: ASCII symbols without UTF-8, plain text without colors, numbered
 # menus without a capable terminal. No external dependency except coreutils-like basics.
+# UI_ASCII=1 (environment) or --ascii forces the ASCII symbols.
 
-# ── Shell version guard (must stay first: nothing below may use bash 4+ syntax before it) ──
-if (( BASH_VERSINFO[0] < 4 )); then
-	if [[ -z "${_STYLE_REEXEC:-}" ]]; then
-		# macOS ships bash 3.2: use a newer bash from a well-known location if there is one
-		for _b in /opt/homebrew/bin/bash /usr/local/bin/bash /opt/local/bin/bash /usr/pkg/bin/bash; do
-			[[ -x "$_b" ]] && _STYLE_REEXEC=1 exec "$_b" "$0" "$@"
-		done
-	fi
-	printf 'This script needs bash 4.0 or newer (found %s).\n' "$BASH_VERSION" >&2
-	printf 'macOS: run "brew install bash". Other systems: install a recent bash package.\n' >&2
+# ── Bootstrap (plain POSIX sh syntax only: sh, dash or zsh read these lines before bash does) ──
+# Started with "sh script" or "zsh script": hand over to bash instead of dying on bash-only syntax.
+if [ -z "${BASH_VERSION:-}" ]; then
+	if command -v bash >/dev/null 2>&1; then exec bash "$0" "$@"; fi
+	printf 'This script needs bash, which was not found.\n' >&2
+	printf 'Install it (apt install bash, apk add bash, pkg install bash...).\n' >&2
 	exit 1
 fi
-unset _b _STYLE_REEXEC
+
+# ── Shell version guard (nothing below may use syntax newer than bash 3.2) ──
+if (( BASH_VERSINFO[0] < 3 || (BASH_VERSINFO[0] == 3 && BASH_VERSINFO[1] < 2) )); then
+	printf 'This script needs bash 3.2 or newer (found %s).\n' "$BASH_VERSION" >&2
+	printf 'Install a recent bash package (apt, dnf, pacman or apk: install bash).\n' >&2
+	exit 1
+fi
+
+# bash < 4 only accepts whole seconds as read timeout (used to tell a lone ESC from arrow keys)
+if (( BASH_VERSINFO[0] >= 4 )); then _KEY_TIMEOUT=0.05; else _KEY_TIMEOUT=1; fi
 
 # ── Safe environment ─────────────────────────────────────────────────────────
 IFS=$' \t\n'
@@ -43,6 +45,9 @@ harden_env() {
 }
 harden_env
 
+# Pass "$SEP" as an option of select_menu to draw a non-selectable divider line
+readonly SEP="---sep---"
+
 # ── Capabilities: UTF-8, terminal, colors ────────────────────────────────────
 # Without a UTF-8 locale ${#var} counts bytes and boxes/tables break: try to switch to one,
 # otherwise fall back to ASCII symbols.
@@ -58,19 +63,28 @@ _utf8_locale() {
 }
 
 UI_UTF8=false
+UI_UTF8_OK=false		# can the terminal display UTF-8? (used by the menu toggle)
 if _utf8_locale; then
-	UI_UTF8=true
+	UI_UTF8_OK=true
 elif command -v locale >/dev/null 2>&1; then
 	_avail=$'\n'"$(locale -a 2>/dev/null)"$'\n'
 	for _c in C.UTF-8 C.utf8 en_US.UTF-8 en_US.utf8; do
 		if [[ "$_avail" == *$'\n'"$_c"$'\n'* ]]; then
 			export LC_ALL="$_c"
-			_utf8_locale && UI_UTF8=true
+			_utf8_locale && UI_UTF8_OK=true
 			break
 		fi
 	done
 	unset _avail _c
 fi
+# String operations must count characters, not bytes (old bash, odd locales): otherwise the
+# boxes and tables would be misaligned, so stay in ASCII.
+if $UI_UTF8_OK; then
+	_t='é✓'
+	[[ ${#_t} -eq 2 && "${_t:1:1}" == '✓' ]] || UI_UTF8_OK=false
+	unset _t
+fi
+[[ "${UI_ASCII:-0}" != 1 ]] && $UI_UTF8_OK && UI_UTF8=true
 
 # Terminal control sequences are only used when TERM is set and not "dumb"
 UI_TERM=false
@@ -96,26 +110,45 @@ else
 	HIDE_CURSOR=''; SHOW_CURSOR=''
 fi
 
-# Symbols (Unicode when possible, ASCII otherwise)
-if $UI_UTF8; then
-	SYM_OK='[✓]'; SYM_ERR='[x]'; SYM_WARN='[!]'; SYM_INFO='[*]'; SYM_ASK='[?]'; SYM_SEL='[»]'
-	SYM_SKIP='○'; SYM_ARROW='→'; SYM_DOT='…'
-	BX_TL='╭'; BX_TR='╮'; BX_BL='╰'; BX_BR='╯'; BX_V='│'; BX_H='─'
-	TB_TL='┌'; TB_TM='┬'; TB_TR='┐'; TB_ML='├'; TB_MM='┼'; TB_MR='┤'
-	TB_BL='└'; TB_BM='┴'; TB_BR='┘'; TB_V='│'; TB_H='─'
-	SPIN_FRAMES='⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏'
-else
-	SYM_OK='[OK]'; SYM_ERR='[x]'; SYM_WARN='[!]'; SYM_INFO='[*]'; SYM_ASK='[?]'; SYM_SEL='[»]'
-	SYM_SKIP='-'; SYM_ARROW='->'; SYM_DOT='...'
-	BX_TL='+'; BX_TR='+'; BX_BL='+'; BX_BR='+'; BX_V='|'; BX_H='-'
-	TB_TL='+'; TB_TM='+'; TB_TR='+'; TB_ML='+'; TB_MM='+'; TB_MR='+'
-	TB_BL='+'; TB_BM='+'; TB_BR='+'; TB_V='|'; TB_H='-'
-	SPIN_FRAMES='|/-\'
-fi
+# Symbols (Unicode when possible, ASCII otherwise). Can be called again to switch mode.
+ui_set_symbols() {
+	if $UI_UTF8; then
+		SYM_OK='[✓]'; SYM_ERR='[x]'; SYM_WARN='[!]'; SYM_INFO='[*]'; SYM_ASK='[?]'; SYM_SEL='[»]'
+		SYM_SKIP='[-]'; SYM_ARROW='[→]'; SYM_DOT='…'
+		SYM_BOX_ON='[✓]'; SYM_BOX_OFF='[ ]'
+		BX_TL='╭'; BX_TR='╮'; BX_BL='╰'; BX_BR='╯'; BX_V='│'; BX_H='─'
+		TB_TL='┌'; TB_TM='┬'; TB_TR='┐'; TB_ML='├'; TB_MM='┼'; TB_MR='┤'
+		TB_BL='└'; TB_BM='┴'; TB_BR='┘'; TB_V='│'; TB_H='─'
+		SPIN_FRAMES='⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏'
+	else
+		SYM_OK='[OK]'; SYM_ERR='[x]'; SYM_WARN='[!]'; SYM_INFO='[*]'; SYM_ASK='[?]'; SYM_SEL='[>]'
+		SYM_SKIP='[-]'; SYM_ARROW='->'; SYM_DOT='...'
+		SYM_BOX_ON='[x]'; SYM_BOX_OFF='[ ]'
+		BX_TL='+'; BX_TR='+'; BX_BL='+'; BX_BR='+'; BX_V='|'; BX_H='-'
+		TB_TL='+'; TB_TM='+'; TB_TR='+'; TB_ML='+'; TB_MM='+'; TB_MR='+'
+		TB_BL='+'; TB_BM='+'; TB_BR='+'; TB_V='|'; TB_H='-'
+		SPIN_FRAMES='|/-\'
+	fi
+}
+ui_set_symbols
+
+# Switch to ASCII symbols (--ascii)
+ui_use_ascii() { UI_UTF8=false; ui_set_symbols; }
+
+# Toggle Unicode <-> ASCII (menu). Unicode only if the terminal supports it.
+ui_toggle_mode() {
+	if $UI_UTF8; then
+		UI_UTF8=false; ui_set_symbols
+		msg_info "ASCII mode enabled"
+	elif $UI_UTF8_OK; then
+		UI_UTF8=true; ui_set_symbols
+		msg_info "Unicode mode enabled"
+	else
+		msg_warn "This terminal has no UTF-8 locale: staying in ASCII mode."
+	fi
+}
+
 readonly RED GREEN YELLOW CYAN MAGENTA BOLD DIM RESET E_RED E_RESET HIDE_CURSOR SHOW_CURSOR
-readonly SYM_OK SYM_ERR SYM_WARN SYM_INFO SYM_ASK SYM_SEL SYM_SKIP SYM_ARROW SYM_DOT
-readonly BX_TL BX_TR BX_BL BX_BR BX_V BX_H TB_TL TB_TM TB_TR TB_ML TB_MM TB_MR TB_BL TB_BM TB_BR TB_V TB_H
-readonly SPIN_FRAMES
 
 # Pass "$SEP" as an option of select_menu to draw a non-selectable divider line
 readonly SEP="---sep---"
@@ -190,32 +223,49 @@ clear_screen() {
 }
 
 # ── Messages (printf only: text is never interpreted as escape sequences) ────
-msg_ok()   { local m="$*"; printf '  %s%s%s %s\n' "$GREEN" "$SYM_OK" "$RESET" "${m//[[:cntrl:]]/}"; }
-msg_err()  { local m="$*"; printf '  %s%s %s%s\n' "$E_RED" "$SYM_ERR" "${m//[[:cntrl:]]/}" "$E_RESET" >&2; }
-msg_warn() { local m="$*"; printf '  %s%s %s%s\n' "$YELLOW" "$SYM_WARN" "${m//[[:cntrl:]]/}" "$RESET"; }
-msg_info() { local m="$*"; printf '  %s%s%s %s\n' "$CYAN" "$SYM_INFO" "$RESET" "${m//[[:cntrl:]]/}"; }
-msg_dim()  { local m="$*"; printf '  %s%s%s\n' "$DIM" "${m//[[:cntrl:]]/}" "$RESET"; }
-die()      { msg_err "$*"; exit 1; }
+msg_ok()     { local m="$*"; printf '  %s%s%s %s\n' "$GREEN" "$SYM_OK" "$RESET" "${m//[[:cntrl:]]/}"; }
+msg_err()    { local m="$*"; printf '  %s%s %s%s\n' "$E_RED" "$SYM_ERR" "${m//[[:cntrl:]]/}" "$E_RESET" >&2; }
+msg_warn()   { local m="$*"; printf '  %s%s %s%s\n' "$YELLOW" "$SYM_WARN" "${m//[[:cntrl:]]/}" "$RESET"; }
+msg_info()   { local m="$*"; printf '  %s%s%s %s\n' "$CYAN" "$SYM_INFO" "$RESET" "${m//[[:cntrl:]]/}"; }
+msg_dim()    { local m="$*"; printf '  %s%s%s\n' "$DIM" "${m//[[:cntrl:]]/}" "$RESET"; }
+die()        { msg_err "$*"; exit 1; }
+
+# Skipped / cancelled / not applicable
+msg_skip()   { local m="$*"; printf '  %s%s %s%s\n' "$DIM" "$SYM_SKIP" "${m//[[:cntrl:]]/}" "$RESET"; }
+# Step in progress
+msg_step()   { local m="$*"; printf '  %s%s%s %s\n' "$CYAN" "$SYM_ARROW" "$RESET" "${m//[[:cntrl:]]/}"; }
+# msg_change "old" "new"  ->  old → new
+msg_change() {
+	local a="${1//[[:cntrl:]]/}" b="${2//[[:cntrl:]]/}"
+	printf '  %s%s%s %s %s%s%s %s%s%s\n' "$CYAN" "$SYM_INFO" "$RESET" "$a" "$CYAN" "$SYM_ARROW" "$RESET" "$BOLD" "$b" "$RESET"
+}
 
 # ── Layout: banner, rules, key/value, list items ─────────────────────────────
 # Rounded panel shown once at startup. Usage: banner "Title" ["Subtitle"]
 banner() {
-	local title="$1" subtitle="${2:-}" border blank
-	local -i width min_box box
+	local title="$1" subtitle="${2:-}" border blank indent
+	local -i width min_box box margin
 	width=$(term_width)
 	min_box=${#title}
 	(( ${#subtitle} > min_box )) && min_box=${#subtitle}
 	min_box+=4; (( min_box < 44 )) && min_box=44
 	box=$(( width > 70 ? 60 : width - 10 ))
 	(( box < min_box )) && box=$min_box
+
+	# Margin used to center the box
+	margin=$(( (width - box) / 2 ))
+	(( margin < 0 )) && margin=0
+	indent=$(rep " " "$margin")
+
 	border=$(rep "$BX_H" "$box")
 	blank=$(pad_center "" "$box")
-	printf '\n  %s%s%s%s%s\n' "$CYAN" "$BX_TL" "$border" "$BX_TR" "$RESET"
-	printf '  %s%s%s%s\n' "$CYAN" "$BX_V$blank$BX_V" "$RESET" ""
-	printf '  %s%s%s%s%s%s%s%s\n' "$CYAN" "$BX_V" "$BOLD" "$(pad_center "$title" "$box")" "$RESET" "$CYAN" "$BX_V" "$RESET"
-	printf '  %s%s%s%s%s%s%s%s\n' "$CYAN" "$BX_V" "$RESET$DIM" "$(pad_center "$subtitle" "$box")" "$RESET" "$CYAN" "$BX_V" "$RESET"
-	printf '  %s%s%s%s\n' "$CYAN" "$BX_V$blank$BX_V" "$RESET" ""
-	printf '  %s%s%s%s%s\n\n' "$CYAN" "$BX_BL" "$border" "$BX_BR" "$RESET"
+
+	printf '\n%s%s%s%s%s%s\n' "$indent" "$CYAN" "$BX_TL" "$border" "$BX_TR" "$RESET"
+	printf '%s%s%s%s\n' "$indent" "$CYAN" "$BX_V$blank$BX_V" "$RESET"
+	printf '%s%s%s%s%s%s%s%s%s\n' "$indent" "$CYAN" "$BX_V" "$BOLD" "$(pad_center "$title" "$box")" "$RESET" "$CYAN" "$BX_V" "$RESET"
+	printf '%s%s%s%s%s%s%s%s%s\n' "$indent" "$CYAN" "$BX_V" "$RESET$DIM" "$(pad_center "$subtitle" "$box")" "$RESET" "$CYAN" "$BX_V" "$RESET"
+	printf '%s%s%s%s\n' "$indent" "$CYAN" "$BX_V$blank$BX_V" "$RESET"
+	printf '%s%s%s%s%s%s\n\n' "$indent" "$CYAN" "$BX_BL" "$border" "$BX_BR" "$RESET"
 }
 
 # Horizontal rule, with an optional embedded title. Usage: hr ["Title"]
@@ -242,12 +292,12 @@ kv() {
 	printf '  %s: %s%s%s\n' "$REPLY" "$BOLD" "$v" "$RESET"
 }
 
-# "✔ name  detail  extra" line for detected / found things. Usage: item_ok name [detail] [extra]
+# "[✓] name  detail  extra" line for detected / found things. Usage: item_ok name [detail] [extra]
 # name and detail are cleaned; extra is trusted markup (e.g. a colored tag), never external text.
 item_ok() {
 	local n="${1//[[:cntrl:]]/}" d="${2:-}" x="${3:-}" nn
 	d=${d//[[:cntrl:]]/}
-	pad "$n" 12; nn=$REPLY
+	pad "$n" 14; nn=$REPLY
 	pad "$d" 30
 	printf '  %s%s%s %s %s%s%s%s\n' "$GREEN" "$SYM_OK" "$RESET" "$nn" "$DIM" "$REPLY" "$RESET" "${x:+  $x}"
 }
@@ -256,8 +306,10 @@ item_ok() {
 # Split a TAB-separated row into the global array _COLS (keeps empty fields: TAB alone
 # would collapse them, so tabs are first turned into a non-whitespace separator).
 _COLS=()
+_TAB=$'\t'; _US=$'\x1f'
 split_row() {
-	IFS=$'\x1f' read -ra _COLS <<< "${1//$'\t'/$'\x1f'}"
+	local row="${1//$_TAB/$_US}"
+	IFS=$_US read -ra _COLS <<< "$row"
 }
 
 # Bordered table. Usage: print_table $'Col1\tCol2' < rows
@@ -292,19 +344,20 @@ print_table() {
 		if (( i < ncol - 1 )); then top+="$TB_TM"; mid+="$TB_MM"; bot+="$TB_BM"
 		else top+="$TB_TR"; mid+="$TB_MR"; bot+="$TB_BR"; fi
 	done
+	# Borders (horizontal and vertical) all use DIM so the frame has one single tone
 	printf '  %s%s%s\n' "$DIM" "$top" "$RESET"
-	line="  $TB_V"
+	line="  ${DIM}${TB_V}${RESET}"
 	for ((i = 0; i < ncol; i++)); do
 		pad "${headers[i]}" "${widths[i]}"
-		line+=" ${BOLD}${CYAN}${REPLY}${RESET} $TB_V"
+		line+=" ${BOLD}${CYAN}${REPLY}${RESET} ${DIM}${TB_V}${RESET}"
 	done
 	printf '%s\n' "$line"
 	printf '  %s%s%s\n' "$DIM" "$mid" "$RESET"
 	for ((r = 0; r < nrows; r++)); do
-		line="  $TB_V"
+		line="  ${DIM}${TB_V}${RESET}"
 		for ((i = 0; i < ncol; i++)); do
 			pad "${cells[r * ncol + i]}" "${widths[i]}"
-			line+=" ${REPLY} $TB_V"
+			line+=" ${REPLY} ${DIM}${TB_V}${RESET}"
 		done
 		printf '%s\n' "$line"
 	done
@@ -325,7 +378,7 @@ spin_start() {
 		printf '%s' "$HIDE_CURSOR"
 		# Stops by itself if the parent dies without cleaning up
 		while kill -0 "$parent" 2>/dev/null; do
-			printf '\r  %s%s%s %s' "$CYAN" "${SPIN_FRAMES:i++%n:1}" "$RESET" "$msg"
+			printf '\r  %s%s%s %s%s' "$CYAN" "${SPIN_FRAMES:i++%n:1}" "$RESET" "$msg" "$SYM_DOT"
 			sleep "$SPIN_DELAY"
 		done
 	) &
@@ -341,7 +394,7 @@ spin_stop() {
 	printf '\r\033[K%s' "$SHOW_CURSOR"
 }
 
-# Run a command behind a spinner, then show ✔ / ✗. Usage: run_task "Message" cmd args...
+# Run a command behind a spinner, then show [✓] / [x]. Usage: run_task "Message" cmd args...
 run_task() {
 	local msg="$1" rc; shift
 	spin_start "$msg"
@@ -441,7 +494,7 @@ select_menu() {
 	while true; do
 		IFS= read -rsn1 key || { printf '%s' "$SHOW_CURSOR"; return 1; }
 		if [[ "$key" == $'\033' ]]; then
-			IFS= read -rsn2 -t 0.05 key || key=""
+			IFS= read -rsn2 -t "$_KEY_TIMEOUT" key || key=""
 			case "$key" in
 				'[A'|'OA') _menu_step -1 ;;
 				'[B'|'OB') _menu_step 1 ;;
@@ -472,7 +525,7 @@ _cb_draw() {
 		lbl=${_CB_OPTS[i]}
 		(( ${#lbl} > _MENU_W )) && lbl="${lbl:0:_MENU_W-${#SYM_DOT}}${SYM_DOT}"
 		printf '\033[2K'
-		if (( _CB_ON[i] )); then box="[${GREEN}${SYM_OK}${RESET}]"; else box="[ ]"; fi
+		if (( _CB_ON[i] )); then box="${GREEN}${SYM_BOX_ON}${RESET}"; else box="$SYM_BOX_OFF"; fi
 		if (( i == _CB_IDX )); then
 			printf '  %s%s%s%s %s %s%s%s%s\n' "$CYAN" "$BOLD" "$SYM_SEL" "$RESET" "$box" "$CYAN" "$BOLD" "$lbl" "$RESET"
 		else
@@ -524,7 +577,7 @@ checkbox_menu() {
 		IFS= read -rsn1 key || { printf '%s' "$SHOW_CURSOR"; return 1; }
 		case "$key" in
 			$'\033')
-				IFS= read -rsn2 -t 0.05 key || key=""
+				IFS= read -rsn2 -t "$_KEY_TIMEOUT" key || key=""
 				case "$key" in
 					'[A'|'OA') (( _CB_IDX = (_CB_IDX - 1 + count) % count )) ;;
 					'[B'|'OB') (( _CB_IDX = (_CB_IDX + 1) % count )) ;;
@@ -582,6 +635,11 @@ pager() {
 }
 # <<< STYLE END <<<
 
+set -o pipefail
+
+VERSION="3.1.0"
+readonly VERSION
+
 # ──────────────────────────────────────────────────────────────────────────────
 #  Global state
 # ──────────────────────────────────────────────────────────────────────────────
@@ -605,10 +663,10 @@ PM=""						# primary system package manager
 CHOSEN=""					# result of resolve_manager / choose_manager
 STALE=1						# package counts need recomputing
 SUDO_KEEPALIVE_PID=""
-declare -a MANAGERS=()		# ordered ids of the managers available on this system
-declare -a RESULTS=()		# per-manager upgrade results
-declare -a COUNT_ROWS=()	# cached package counts
-declare -A LABEL=() BIN=()
+MANAGERS=()					# ordered ids of the managers available on this system
+M_LABEL=()					# display labels, same order as MANAGERS (no associative arrays: bash 3.2)
+RESULTS=()					# per-manager upgrade results
+COUNT_ROWS=()				# cached package counts
 
 cleanup() {
 	drop_sudo
@@ -619,6 +677,19 @@ trap cleanup EXIT
 
 # Does manager $1 implement capability $2 (rows, outdated, upgrade, search, install, remove)?
 cap() { declare -F "${1}_${2}" >/dev/null; }
+
+# Lower-case text (bash 3.2 has no ${var,,}). Result in $REPLY.
+lower() { REPLY=$(printf '%s' "$1" | tr '[:upper:]' '[:lower:]'); }
+
+# Label of manager $1 (printed), and "is manager $1 registered?"
+lbl() {
+	local i
+	for i in "${!MANAGERS[@]}"; do
+		if [[ "${MANAGERS[i]}" == "$1" ]]; then printf '%s' "${M_LABEL[i]}"; return 0; fi
+	done
+	return 1
+}
+has_manager() { local i; for i in "${!MANAGERS[@]}"; do [[ "${MANAGERS[i]}" == "$1" ]] && return 0; done; return 1; }
 
 # Run a command as root (directly if already root, through sudo otherwise)
 as_root() {
@@ -722,16 +793,13 @@ os_name() {
 	if [[ -r /etc/os-release ]]; then
 		n=$(sed -n 's/^PRETTY_NAME=//p' /etc/os-release | head -n 1 | tr -d "\"'")
 	fi
-	if [[ -z "$n" ]] && have sw_vers; then
-		n="$(sw_vers -productName 2>/dev/null) $(sw_vers -productVersion 2>/dev/null)"
-	fi
 	printf '%s' "${n:-$(uname -s 2>/dev/null)}"
 }
 
 # ──────────────────────────────────────────────────────────────────────────────
 #  Detection
 # ──────────────────────────────────────────────────────────────────────────────
-register() { MANAGERS+=("$1"); LABEL[$1]="$2"; BIN[$1]="${3:-}"; }
+register() { MANAGERS+=("$1"); M_LABEL+=("$2"); }
 
 detect_system() {
 	PM=""
@@ -771,12 +839,6 @@ DETECT_TABLE=(
 	"System managers|eopkg|eopkg||"
 	"System managers|slackpkg|slackpkg||"
 	"System managers|pkg|pkg||"
-	"System managers|pkgin|pkgin||"
-	"System managers|pkg_add|pkg_add||"
-	"System managers|port|port||"
-	"System managers|winget|winget||"
-	"System managers|choco|choco||"
-	"System managers|scoop|scoop||"
 	"Universal formats|snap|snap|snap|Snap"
 	"Universal formats|flatpak|flatpak|flatpak|Flatpak"
 	"Universal formats|appimage|appimagetool|appimage|AppImage"
@@ -820,7 +882,7 @@ detect_managers() {
 		IFS='|' read -r group name cmd id label <<< "$entry"
 		[[ -n "$id" ]] || continue
 		have "$cmd" || continue
-		[[ -n "${LABEL[$id]:-}" ]] && continue		# already registered (e.g. pip / pip3)
+		has_manager "$id" && continue		# already registered (e.g. pip / pip3)
 		case "$id" in
 			yarn) [[ "$(yarn --version 2>/dev/null)" == 1.* ]] || continue ;;
 			pip)  [[ -n "$(pip_bin)" ]] || continue; cmd=$(pip_bin) ;;
@@ -832,10 +894,10 @@ detect_managers() {
 
 show_detection() {
 	local entry group name cmd id label path g any total=0 tag
-	local -a groups=(); local -A seen=()
+	local -a groups=(); local seen="|"
 	for entry in "${DETECT_TABLE[@]}"; do
 		group="${entry%%|*}"
-		[[ -n "${seen[$group]:-}" ]] || { seen[$group]=1; groups+=("$group"); }
+		[[ "$seen" == *"|$group|"* ]] || { seen+="$group|"; groups+=("$group"); }
 	done
 	for g in "${groups[@]}"; do
 		section "$g"; any=false
@@ -844,7 +906,7 @@ show_detection() {
 			[[ "$group" == "$g" ]] || continue
 			path=$(command -v "$cmd" 2>/dev/null) || continue
 			tag=""
-			[[ -n "$id" && -n "${LABEL[$id]:-}" ]] && tag="${GREEN}managed${RESET}"
+			[[ -n "$id" ]] && has_manager "$id" && tag="${GREEN}managed${RESET}"
 			item_ok "$name" "$path" "$tag"
 			(( ++total )); any=true
 		done
@@ -862,7 +924,7 @@ show_detection() {
 # Compact one-line summary used in the menu header
 show_managers() {
 	local id out=""
-	for id in "${MANAGERS[@]}"; do out+="${GREEN}${SYM_OK}${RESET} ${LABEL[$id]}   "; done
+	for id in "${MANAGERS[@]}"; do out+="${GREEN}${SYM_OK}${RESET} $(lbl "$id")   "; done
 	printf '  %sDetected:%s %s\n\n' "$DIM" "$RESET" "$out"
 }
 
@@ -1018,8 +1080,8 @@ pip_upgrade() {
 		return 2
 	fi
 	local pip; pip=$(pip_bin)
-	local -a pkgs
-	mapfile -t pkgs < <("$pip" --timeout 15 --retries 1 list --outdated --format=freeze 2>/dev/null | cut -d= -f1)
+	local -a pkgs=(); local p
+	while IFS= read -r p; do [[ -n "$p" ]] && pkgs+=("$p"); done < <("$pip" --timeout 15 --retries 1 list --outdated --format=freeze 2>/dev/null | cut -d= -f1)
 	if (( ${#pkgs[@]} == 0 )); then printf '  %sAlready up to date.%s\n' "$GREEN" "$RESET"; return 0; fi
 	"$pip" install --upgrade "${pkgs[@]}"
 }
@@ -1120,8 +1182,8 @@ cargo_upgrade() {
 		cargo install-update -a
 		return
 	fi
-	local -a crates; local c rc=0
-	mapfile -t crates < <(cargo install --list 2>/dev/null | grep -E '^[^[:space:]]' | grep -vF '(' | awk '{print $1}')
+	local -a crates=(); local c rc=0
+	while IFS= read -r c; do [[ -n "$c" ]] && crates+=("$c"); done < <(cargo install --list 2>/dev/null | grep -E '^[^[:space:]]' | grep -vF '(' | awk '{print $1}')
 	if (( ${#crates[@]} == 0 )); then msg_dim "No crates.io binaries installed."; return 0; fi
 	msg_dim "cargo-update not found: reinstalling each crate (cargo install cargo-update makes this faster)."
 	for c in "${crates[@]}"; do cargo install "$c" || rc=1; done
@@ -1142,18 +1204,20 @@ composer_search() { composer search "$1"; }
 composer_install() { composer global require "$1"; }
 composer_remove() { composer global remove "$1"; }
 
-# Table headers per manager
-declare -A HEADER=(
-	[system]=$'Package\tVersion'				[snap]=$'Name\tVersion\tNotes'
-	[flatpak]=$'Application\tName\tVersion'		[brew]=$'Package\tVersion'
-	[nix]=$'Package'							[appimage]=$'Path\tSize'
-	[pip]=$'Package\tVersion'					[pipx]=$'Package\tVersion'
-	[uv]=$'Tool\tVersion'						[conda]=$'Package\tVersion'
-	[npm]=$'Package\tVersion'					[yarn]=$'Package\tVersion'
-	[pnpm]=$'Package\tVersion'					[gem]=$'Gem\tVersion'
-	[cargo]=$'Crate\tVersion'					[rustup]=$'Toolchain'
-	[composer]=$'Package\tVersion'
-)
+# Table header (TAB-separated column titles) of manager $1
+table_header() {
+	case "$1" in
+		snap)			printf 'Name\tVersion\tNotes' ;;
+		flatpak)		printf 'Application\tName\tVersion' ;;
+		nix)			printf 'Package' ;;
+		appimage)		printf 'Path\tSize' ;;
+		uv)				printf 'Tool\tVersion' ;;
+		gem)			printf 'Gem\tVersion' ;;
+		cargo)			printf 'Crate\tVersion' ;;
+		rustup)			printf 'Toolchain' ;;
+		*)				printf 'Package\tVersion' ;;
+	esac
+}
 
 # ──────────────────────────────────────────────────────────────────────────────
 #  Manager selection
@@ -1161,7 +1225,8 @@ declare -A HEADER=(
 # Resolve a name given on the command line into CHOSEN (optionally requiring capability $2).
 # The name is only ever compared with known ids, never executed.
 resolve_manager() {
-	local want="${1,,}" id
+	local want id
+	lower "$1"; want=$REPLY
 	CHOSEN=""
 	case "$want" in
 		pip3) want="pip" ;;
@@ -1183,7 +1248,7 @@ choose_manager() {
 	local -a ids=() labels=()
 	CHOSEN=""
 	for id in "${MANAGERS[@]}"; do
-		if [[ -z "$capab" ]] || cap "$id" "$capab"; then ids+=("$id"); labels+=("${LABEL[$id]}"); fi
+		if [[ -z "$capab" ]] || cap "$id" "$capab"; then ids+=("$id"); labels+=("$(lbl "$id")"); fi
 	done
 	if (( ${#ids[@]} == 0 )); then msg_err "No manager available for this action."; return 1; fi
 	select_menu "$prompt" "${labels[@]}" || return 1
@@ -1206,31 +1271,33 @@ pick_manager() {
 #  Actions: list / count / check
 # ──────────────────────────────────────────────────────────────────────────────
 # Rows of one manager: TAB-separated, empty lines dropped, control characters removed
-rows_of() { "${1}_rows" 2>/dev/null | awk 'NF' | sanitize; }
+rows_of() { cap "$1" rows || return 0; "${1}_rows" 2>/dev/null | awk 'NF' | sanitize; }
 
-# List one manager. If $FILTER is set, only matching rows (case-insensitive,
-# whole line) are kept. With "quiet" as $2, managers without any match are hidden.
+# Keep only the lines containing $FILTER (case-insensitive, literal text, never a pattern)
+filter_rows() {
+	if [[ -z "$FILTER" ]]; then cat; return; fi
+	FILTER_TEXT="$FILTER" awk 'BEGIN { f = tolower(ENVIRON["FILTER_TEXT"]) } index(tolower($0), f) > 0'
+}
+
+# List one manager. If $FILTER is set, only matching rows are kept. With "quiet" as $2,
+# managers without any match are hidden.
 list_manager() {
-	local id="$1" quiet="${2:-}" r; local -a rows=() kept=()
-	mapfile -t rows < <(rows_of "$id")
-	if [[ -n "$FILTER" ]]; then
-		for r in "${rows[@]}"; do
-			[[ "${r,,}" == *"${FILTER,,}"* ]] && kept+=("$r")
-		done
-		rows=("${kept[@]}")
-		[[ "$quiet" == quiet ]] && (( ${#rows[@]} == 0 )) && return 0
-	fi
-	section "${LABEL[$id]}${FILTER:+  (filter: $FILTER - ${#rows[@]} found)}"
-	printf '%s\n' "${rows[@]}" | print_table "${HEADER[$id]}"
+	local id="$1" quiet="${2:-}" data n=0
+	data=$(rows_of "$id" | filter_rows)
+	if [[ -n "$data" ]]; then n=$(printf '%s\n' "$data" | wc -l); n=${n//[[:space:]]/}; fi
+	if [[ -n "$FILTER" && "$quiet" == quiet && "$n" == 0 ]]; then return 0; fi
+	section "$(lbl "$id")${FILTER:+  (filter: $FILTER - $n found)}"
+	printf '%s\n' "$data" | print_table "$(table_header "$id")"
 }
 
 list_all() {
 	local id
-	{ for id in "${MANAGERS[@]}"; do list_manager "$id" quiet; done; } | pager
+	{ for id in "${MANAGERS[@]}"; do cap "$id" rows && list_manager "$id" quiet; done; } | pager
 }
 
 list_by_name() {
-	local m="${1,,}"
+	local m
+	lower "${1:-}"; m=$REPLY
 	if [[ -z "$m" || "$m" == all ]]; then list_all; return; fi
 	resolve_manager "$m" rows || { msg_err "Unknown or unavailable manager: $1"; return 1; }
 	list_manager "$CHOSEN" | pager
@@ -1238,7 +1305,7 @@ list_by_name() {
 
 choose_list_target() {
 	local -a ids=(all) labels=("All"); local id
-	for id in "${MANAGERS[@]}"; do ids+=("$id"); labels+=("${LABEL[$id]}"); done
+	for id in "${MANAGERS[@]}"; do cap "$id" rows && { ids+=("$id"); labels+=("$(lbl "$id")"); }; done
 	select_menu "Which manager do you want to list?" "${labels[@]}" || return 1
 	CHOSEN="${ids[$SELECTED]}"
 }
@@ -1249,8 +1316,9 @@ count_totals() {
 		spin_start "Counting installed packages..."
 		COUNT_ROWS=()
 		for id in "${MANAGERS[@]}"; do
+			cap "$id" rows || continue
 			n=$(rows_of "$id" | wc -l); n=${n//[[:space:]]/}
-			COUNT_ROWS+=("${LABEL[$id]}"$'\t'"$n")
+			COUNT_ROWS+=("$(lbl "$id")"$'\t'"$n")
 		done
 		spin_stop
 		STALE=0
@@ -1263,7 +1331,7 @@ check_updates() {
 	msg_info "Checking for updates (package indexes are refreshed, nothing is installed)..."
 	for id in "${MANAGERS[@]}"; do
 		cap "$id" upgrade || continue
-		section "${LABEL[$id]}"
+		section "$(lbl "$id")"
 		if cap "$id" outdated; then
 			"${id}_outdated" 2>/dev/null | indent_or_ok
 		else
@@ -1278,12 +1346,12 @@ check_updates() {
 # Run one manager's upgrade and record the result (0 = ok, 2 = skipped, other = failed)
 upgrade_run() {
 	local id="$1" rc
-	section "${LABEL[$id]}"
+	section "$(lbl "$id")"
 	"${id}_upgrade"; rc=$?
 	case $rc in
-		0) RESULTS+=("${LABEL[$id]}"$'\t'"$SYM_OK Upgraded") ;;
-		2) RESULTS+=("${LABEL[$id]}"$'\t'"$SYM_SKIP Skipped") ;;
-		*) RESULTS+=("${LABEL[$id]}"$'\t'"$SYM_ERR Failed") ;;
+		0) RESULTS+=("$(lbl "$id")"$'\t'"$SYM_OK Upgraded") ;;
+		2) RESULTS+=("$(lbl "$id")"$'\t'"$SYM_SKIP Skipped") ;;
+		*) RESULTS+=("$(lbl "$id")"$'\t'"$SYM_ERR Failed") ;;
 	esac
 	return $rc
 }
@@ -1298,12 +1366,12 @@ update_all() {
 	local id; local -a targets=()
 	for id in "${MANAGERS[@]}"; do cap "$id" upgrade && targets+=("$id"); done
 	if (( ${#targets[@]} == 0 )); then msg_err "Nothing to update."; return 1; fi
-	printf '%sFull system update...%s\n\n' "$YELLOW" "$RESET"
+	msg_step "Full system update..."; echo
 	printf '  %s%sAdministrator (sudo) privileges may be required.%s\n\n' "$RED" "$BOLD" "$RESET"
 	echo "  Managers that will be updated:"
-	for id in "${targets[@]}"; do msg_info "${LABEL[$id]}"; done
+	for id in "${targets[@]}"; do msg_info "$(lbl "$id")"; done
 	echo
-	confirm "Confirm the global update?" || { echo "  Cancelled."; return 0; }
+	confirm "Confirm the global update?" || { msg_skip "Cancelled."; return 0; }
 	prime_sudo
 	RESULTS=()
 	local failed=0
@@ -1323,7 +1391,7 @@ update_all() {
 }
 
 update_selective() {
-	printf '%sSelective update%s\n\n' "$YELLOW" "$RESET"
+	msg_step "Selective update"; echo
 	if [[ -n "${1:-}" ]]; then
 		resolve_manager "$1" upgrade || { msg_err "Manager '$1' is unknown, unavailable or can't be upgraded."; return 1; }
 	else
@@ -1331,7 +1399,7 @@ update_selective() {
 	fi
 	local id="$CHOSEN" rc
 	if [[ "$id" == system ]]; then
-		confirm "Update the system packages?" || { echo "  Cancelled."; return 0; }
+		confirm "Update the system packages?" || { msg_skip "Cancelled."; return 0; }
 	fi
 	prime_sudo
 	RESULTS=()
@@ -1378,7 +1446,7 @@ remove_app() {
 	pick_manager "${2:-}" remove "Remove with which manager?" || return 1
 	pkg_allowed_for "$CHOSEN" "$pkg" || return 1
 	printf '  %sRemoving: %s%s%s\n' "$RED" "$BOLD" "$pkg" "$RESET"
-	confirm "Confirm?" || { echo "  Cancelled."; return 0; }
+	confirm "Confirm?" || { msg_skip "Cancelled."; return 0; }
 	"${CHOSEN}_remove" "$pkg"; rc=$?
 	STALE=1
 	return $rc
@@ -1393,7 +1461,7 @@ export_list() {
 	( umask 077; mkdir -p "$dir" ) && chmod 700 "$dir" || { msg_err "Cannot create $dir"; return 1; }
 	host=$(uname -n 2>/dev/null); host=${host//[^[:alnum:]._-]/_}
 	file="$dir/apps_${host:-host}_$(date +%Y%m%d_%H%M%S).txt"
-	printf '%sExporting to %s%s%s...\n\n' "$YELLOW" "$BOLD" "$file" "$RESET"
+	msg_step "Exporting to $file..."; echo
 	(
 		umask 077           # the list reveals every installed version: keep it private
 		set -o noclobber    # never overwrite (or follow a symlink to) an existing file
@@ -1403,7 +1471,8 @@ export_list() {
 			echo "  Date: $(date)"
 			echo "=========================================="
 			for id in "${MANAGERS[@]}"; do
-				printf '\n-- %s --------------------------\n' "${LABEL[$id]}"
+				cap "$id" rows || continue
+				printf '\n-- %s --------------------------\n' "$(lbl "$id")"
 				rows_of "$id" | awk -F'\t' '{ printf "%-45s %s\n", $1, $2 }'
 			done
 		} > "$file"
@@ -1430,6 +1499,8 @@ menu() {
 		"Remove an application"
 		"Export the full list to a text file"
 		"Detect managers & tools"
+		"Toggle ASCII / Unicode mode"
+		"$SEP" \
 		"Quit"
 	)
 	while true; do
@@ -1455,7 +1526,8 @@ menu() {
 			6) remove_app;									pause ;;
 			7) export_list;									pause ;;
 			8) show_detection;								pause ;;
-			9) printf '  %sSee you soon!%s\n\n' "$GREEN" "$RESET";	exit 0 ;;
+			9) ui_toggle_mode;								pause ;;
+			10) printf '  %sSee you soon!%s\n\n' "$GREEN" "$RESET";	exit 0 ;;
 		esac
 	done
 }
@@ -1486,8 +1558,13 @@ usage() {
                                     (if omitted, you'll be prompted)
         -e, --export                Export the full installed-app list to a file
         -y, --yes                   Auto-confirm any prompt (non-interactive)
+        -a, --ascii                 Force ASCII symbols (no Unicode)
         -v, --version               Show the program version and exit
         -h, --help                  Show this help
+
+    Environment:
+        UI_ASCII=1                  Same as --ascii
+        NO_COLOR=1                  Disable colors
 
     Examples:
         ./App-manager.sh --detect
@@ -1526,6 +1603,7 @@ main() {
 			--manager) need_arg "$@" || break; ACTION_MANAGER="$2"; shift ;;
 			-e|--export) DO_EXPORT=true ;;
 			-y|--yes) AUTO_YES=true ;;
+			-a|--ascii) ui_use_ascii ;;
 			-v|--version) echo "App Manager v${VERSION}"; exit 0 ;;
 			-h|--help) SHOW_HELP=true ;;
 			*) msg_err "Unknown option: $1"; BAD_ARGS=true ;;

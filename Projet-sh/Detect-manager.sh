@@ -1,30 +1,32 @@
-=#!/usr/bin/env bash
+#!/usr/bin/env bash
 # Detect Manager - package managers, build tools, system and desktop environment.
 # Reports which installation methods are available (with versions), then the operating
 # system, the kernel and, on Linux, the desktop environment.
-set -o pipefail
-
-VERSION="2.0.0"
-readonly VERSION
-
-# >>> STYLE BEGIN v2.0 - shared console style, keep this block identical in every script >>>
-# Reference: STYLE-GUIDE.md. Portable: bash >= 4.0 on Linux, macOS, BSD, WSL, Git Bash, Termux.
+# >>> STYLE BEGIN v2.4 - shared console style, keep this block identical in every script >>>
+# Reference: STYLE-GUIDE.md. Portable: bash >= 3.2 on any Linux (WSL and Termux included).
+# Started from sh / dash / zsh, it relaunches itself under bash.
 # Degrades gracefully: ASCII symbols without UTF-8, plain text without colors, numbered
 # menus without a capable terminal. No external dependency except coreutils-like basics.
+# UI_ASCII=1 (environment) or --ascii forces the ASCII symbols.
 
-# ── Shell version guard (must stay first: nothing below may use bash 4+ syntax before it) ──
-if (( BASH_VERSINFO[0] < 4 )); then
-	if [[ -z "${_STYLE_REEXEC:-}" ]]; then
-		# macOS ships bash 3.2: use a newer bash from a well-known location if there is one
-		for _b in /opt/homebrew/bin/bash /usr/local/bin/bash /opt/local/bin/bash /usr/pkg/bin/bash; do
-			[[ -x "$_b" ]] && _STYLE_REEXEC=1 exec "$_b" "$0" "$@"
-		done
-	fi
-	printf 'This script needs bash 4.0 or newer (found %s).\n' "$BASH_VERSION" >&2
-	printf 'macOS: run "brew install bash". Other systems: install a recent bash package.\n' >&2
+# ── Bootstrap (plain POSIX sh syntax only: sh, dash or zsh read these lines before bash does) ──
+# Started with "sh script" or "zsh script": hand over to bash instead of dying on bash-only syntax.
+if [ -z "${BASH_VERSION:-}" ]; then
+	if command -v bash >/dev/null 2>&1; then exec bash "$0" "$@"; fi
+	printf 'This script needs bash, which was not found.\n' >&2
+	printf 'Install it (apt install bash, apk add bash, pkg install bash...).\n' >&2
 	exit 1
 fi
-unset _b _STYLE_REEXEC
+
+# ── Shell version guard (nothing below may use syntax newer than bash 3.2) ──
+if (( BASH_VERSINFO[0] < 3 || (BASH_VERSINFO[0] == 3 && BASH_VERSINFO[1] < 2) )); then
+	printf 'This script needs bash 3.2 or newer (found %s).\n' "$BASH_VERSION" >&2
+	printf 'Install a recent bash package (apt, dnf, pacman or apk: install bash).\n' >&2
+	exit 1
+fi
+
+# bash < 4 only accepts whole seconds as read timeout (used to tell a lone ESC from arrow keys)
+if (( BASH_VERSINFO[0] >= 4 )); then _KEY_TIMEOUT=0.05; else _KEY_TIMEOUT=1; fi
 
 # ── Safe environment ─────────────────────────────────────────────────────────
 IFS=$' \t\n'
@@ -58,19 +60,28 @@ _utf8_locale() {
 }
 
 UI_UTF8=false
+UI_UTF8_OK=false		# can the terminal display UTF-8? (used by the menu toggle)
 if _utf8_locale; then
-	UI_UTF8=true
+	UI_UTF8_OK=true
 elif command -v locale >/dev/null 2>&1; then
 	_avail=$'\n'"$(locale -a 2>/dev/null)"$'\n'
 	for _c in C.UTF-8 C.utf8 en_US.UTF-8 en_US.utf8; do
 		if [[ "$_avail" == *$'\n'"$_c"$'\n'* ]]; then
 			export LC_ALL="$_c"
-			_utf8_locale && UI_UTF8=true
+			_utf8_locale && UI_UTF8_OK=true
 			break
 		fi
 	done
 	unset _avail _c
 fi
+# String operations must count characters, not bytes (old bash, odd locales): otherwise the
+# boxes and tables would be misaligned, so stay in ASCII.
+if $UI_UTF8_OK; then
+	_t='é✓'
+	[[ ${#_t} -eq 2 && "${_t:1:1}" == '✓' ]] || UI_UTF8_OK=false
+	unset _t
+fi
+[[ "${UI_ASCII:-0}" != 1 ]] && $UI_UTF8_OK && UI_UTF8=true
 
 # Terminal control sequences are only used when TERM is set and not "dumb"
 UI_TERM=false
@@ -96,26 +107,45 @@ else
 	HIDE_CURSOR=''; SHOW_CURSOR=''
 fi
 
-# Symbols (Unicode when possible, ASCII otherwise)
-if $UI_UTF8; then
-	SYM_OK='✔'; SYM_ERR='✗'; SYM_WARN='⚠'; SYM_INFO='•'; SYM_ASK='?'; SYM_SEL='»'
-	SYM_SKIP='○'; SYM_ARROW='→'; SYM_DOT='…'
-	BX_TL='╭'; BX_TR='╮'; BX_BL='╰'; BX_BR='╯'; BX_V='│'; BX_H='─'
-	TB_TL='┌'; TB_TM='┬'; TB_TR='┐'; TB_ML='├'; TB_MM='┼'; TB_MR='┤'
-	TB_BL='└'; TB_BM='┴'; TB_BR='┘'; TB_V='│'; TB_H='─'
-	SPIN_FRAMES='⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏'
-else
-	SYM_OK='+'; SYM_ERR='x'; SYM_WARN='!'; SYM_INFO='*'; SYM_ASK='?'; SYM_SEL='>'
-	SYM_SKIP='-'; SYM_ARROW='->'; SYM_DOT='...'
-	BX_TL='+'; BX_TR='+'; BX_BL='+'; BX_BR='+'; BX_V='|'; BX_H='-'
-	TB_TL='+'; TB_TM='+'; TB_TR='+'; TB_ML='+'; TB_MM='+'; TB_MR='+'
-	TB_BL='+'; TB_BM='+'; TB_BR='+'; TB_V='|'; TB_H='-'
-	SPIN_FRAMES='|/-\'
-fi
+# Symbols (Unicode when possible, ASCII otherwise). Can be called again to switch mode.
+ui_set_symbols() {
+	if $UI_UTF8; then
+		SYM_OK='[✓]'; SYM_ERR='[x]'; SYM_WARN='[!]'; SYM_INFO='[*]'; SYM_ASK='[?]'; SYM_SEL='[»]'
+		SYM_SKIP='[-]'; SYM_ARROW='[→]'; SYM_DOT='…'
+		SYM_BOX_ON='[✓]'; SYM_BOX_OFF='[ ]'
+		BX_TL='╭'; BX_TR='╮'; BX_BL='╰'; BX_BR='╯'; BX_V='│'; BX_H='─'
+		TB_TL='┌'; TB_TM='┬'; TB_TR='┐'; TB_ML='├'; TB_MM='┼'; TB_MR='┤'
+		TB_BL='└'; TB_BM='┴'; TB_BR='┘'; TB_V='│'; TB_H='─'
+		SPIN_FRAMES='⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏'
+	else
+		SYM_OK='[OK]'; SYM_ERR='[x]'; SYM_WARN='[!]'; SYM_INFO='[*]'; SYM_ASK='[?]'; SYM_SEL='[>]'
+		SYM_SKIP='[-]'; SYM_ARROW='->'; SYM_DOT='...'
+		SYM_BOX_ON='[x]'; SYM_BOX_OFF='[ ]'
+		BX_TL='+'; BX_TR='+'; BX_BL='+'; BX_BR='+'; BX_V='|'; BX_H='-'
+		TB_TL='+'; TB_TM='+'; TB_TR='+'; TB_ML='+'; TB_MM='+'; TB_MR='+'
+		TB_BL='+'; TB_BM='+'; TB_BR='+'; TB_V='|'; TB_H='-'
+		SPIN_FRAMES='|/-\'
+	fi
+}
+ui_set_symbols
+
+# Switch to ASCII symbols (--ascii)
+ui_use_ascii() { UI_UTF8=false; ui_set_symbols; }
+
+# Toggle Unicode <-> ASCII (menu). Unicode only if the terminal supports it.
+ui_toggle_mode() {
+	if $UI_UTF8; then
+		UI_UTF8=false; ui_set_symbols
+		msg_info "ASCII mode enabled"
+	elif $UI_UTF8_OK; then
+		UI_UTF8=true; ui_set_symbols
+		msg_info "Unicode mode enabled"
+	else
+		msg_warn "This terminal has no UTF-8 locale: staying in ASCII mode."
+	fi
+}
+
 readonly RED GREEN YELLOW CYAN MAGENTA BOLD DIM RESET E_RED E_RESET HIDE_CURSOR SHOW_CURSOR
-readonly SYM_OK SYM_ERR SYM_WARN SYM_INFO SYM_ASK SYM_SEL SYM_SKIP SYM_ARROW SYM_DOT
-readonly BX_TL BX_TR BX_BL BX_BR BX_V BX_H TB_TL TB_TM TB_TR TB_ML TB_MM TB_MR TB_BL TB_BM TB_BR TB_V TB_H
-readonly SPIN_FRAMES
 
 # Pass "$SEP" as an option of select_menu to draw a non-selectable divider line
 readonly SEP="---sep---"
@@ -190,32 +220,49 @@ clear_screen() {
 }
 
 # ── Messages (printf only: text is never interpreted as escape sequences) ────
-msg_ok()   { local m="$*"; printf '  %s%s%s %s\n' "$GREEN" "$SYM_OK" "$RESET" "${m//[[:cntrl:]]/}"; }
-msg_err()  { local m="$*"; printf '  %s%s %s%s\n' "$E_RED" "$SYM_ERR" "${m//[[:cntrl:]]/}" "$E_RESET" >&2; }
-msg_warn() { local m="$*"; printf '  %s%s %s%s\n' "$YELLOW" "$SYM_WARN" "${m//[[:cntrl:]]/}" "$RESET"; }
-msg_info() { local m="$*"; printf '  %s%s%s %s\n' "$CYAN" "$SYM_INFO" "$RESET" "${m//[[:cntrl:]]/}"; }
-msg_dim()  { local m="$*"; printf '  %s%s%s\n' "$DIM" "${m//[[:cntrl:]]/}" "$RESET"; }
-die()      { msg_err "$*"; exit 1; }
+msg_ok()     { local m="$*"; printf '  %s%s%s %s\n' "$GREEN" "$SYM_OK" "$RESET" "${m//[[:cntrl:]]/}"; }
+msg_err()    { local m="$*"; printf '  %s%s %s%s\n' "$E_RED" "$SYM_ERR" "${m//[[:cntrl:]]/}" "$E_RESET" >&2; }
+msg_warn()   { local m="$*"; printf '  %s%s %s%s\n' "$YELLOW" "$SYM_WARN" "${m//[[:cntrl:]]/}" "$RESET"; }
+msg_info()   { local m="$*"; printf '  %s%s%s %s\n' "$CYAN" "$SYM_INFO" "$RESET" "${m//[[:cntrl:]]/}"; }
+msg_dim()    { local m="$*"; printf '  %s%s%s\n' "$DIM" "${m//[[:cntrl:]]/}" "$RESET"; }
+die()        { msg_err "$*"; exit 1; }
+
+# Skipped / cancelled / not applicable
+msg_skip()   { local m="$*"; printf '  %s%s %s%s\n' "$DIM" "$SYM_SKIP" "${m//[[:cntrl:]]/}" "$RESET"; }
+# Step in progress
+msg_step()   { local m="$*"; printf '  %s%s%s %s\n' "$CYAN" "$SYM_ARROW" "$RESET" "${m//[[:cntrl:]]/}"; }
+# msg_change "old" "new"  ->  old → new
+msg_change() {
+	local a="${1//[[:cntrl:]]/}" b="${2//[[:cntrl:]]/}"
+	printf '  %s%s%s %s %s%s%s %s%s%s\n' "$CYAN" "$SYM_INFO" "$RESET" "$a" "$CYAN" "$SYM_ARROW" "$RESET" "$BOLD" "$b" "$RESET"
+}
 
 # ── Layout: banner, rules, key/value, list items ─────────────────────────────
 # Rounded panel shown once at startup. Usage: banner "Title" ["Subtitle"]
 banner() {
-	local title="$1" subtitle="${2:-}" border blank
-	local -i width min_box box
+	local title="$1" subtitle="${2:-}" border blank indent
+	local -i width min_box box margin
 	width=$(term_width)
 	min_box=${#title}
 	(( ${#subtitle} > min_box )) && min_box=${#subtitle}
 	min_box+=4; (( min_box < 44 )) && min_box=44
 	box=$(( width > 70 ? 60 : width - 10 ))
 	(( box < min_box )) && box=$min_box
+
+	# Margin used to center the box
+	margin=$(( (width - box) / 2 ))
+	(( margin < 0 )) && margin=0
+	indent=$(rep " " "$margin")
+
 	border=$(rep "$BX_H" "$box")
 	blank=$(pad_center "" "$box")
-	printf '\n  %s%s%s%s%s\n' "$CYAN" "$BX_TL" "$border" "$BX_TR" "$RESET"
-	printf '  %s%s%s%s\n' "$CYAN" "$BX_V$blank$BX_V" "$RESET" ""
-	printf '  %s%s%s%s%s%s%s%s\n' "$CYAN" "$BX_V" "$BOLD" "$(pad_center "$title" "$box")" "$RESET" "$CYAN" "$BX_V" "$RESET"
-	printf '  %s%s%s%s%s%s%s%s\n' "$CYAN" "$BX_V" "$RESET$DIM" "$(pad_center "$subtitle" "$box")" "$RESET" "$CYAN" "$BX_V" "$RESET"
-	printf '  %s%s%s%s\n' "$CYAN" "$BX_V$blank$BX_V" "$RESET" ""
-	printf '  %s%s%s%s%s\n\n' "$CYAN" "$BX_BL" "$border" "$BX_BR" "$RESET"
+
+	printf '\n%s%s%s%s%s%s\n' "$indent" "$CYAN" "$BX_TL" "$border" "$BX_TR" "$RESET"
+	printf '%s%s%s%s\n' "$indent" "$CYAN" "$BX_V$blank$BX_V" "$RESET"
+	printf '%s%s%s%s%s%s%s%s%s\n' "$indent" "$CYAN" "$BX_V" "$BOLD" "$(pad_center "$title" "$box")" "$RESET" "$CYAN" "$BX_V" "$RESET"
+	printf '%s%s%s%s%s%s%s%s%s\n' "$indent" "$CYAN" "$BX_V" "$RESET$DIM" "$(pad_center "$subtitle" "$box")" "$RESET" "$CYAN" "$BX_V" "$RESET"
+	printf '%s%s%s%s\n' "$indent" "$CYAN" "$BX_V$blank$BX_V" "$RESET"
+	printf '%s%s%s%s%s%s\n\n' "$indent" "$CYAN" "$BX_BL" "$border" "$BX_BR" "$RESET"
 }
 
 # Horizontal rule, with an optional embedded title. Usage: hr ["Title"]
@@ -242,12 +289,12 @@ kv() {
 	printf '  %s: %s%s%s\n' "$REPLY" "$BOLD" "$v" "$RESET"
 }
 
-# "✔ name  detail  extra" line for detected / found things. Usage: item_ok name [detail] [extra]
+# "[✓] name  detail  extra" line for detected / found things. Usage: item_ok name [detail] [extra]
 # name and detail are cleaned; extra is trusted markup (e.g. a colored tag), never external text.
 item_ok() {
 	local n="${1//[[:cntrl:]]/}" d="${2:-}" x="${3:-}" nn
 	d=${d//[[:cntrl:]]/}
-	pad "$n" 12; nn=$REPLY
+	pad "$n" 14; nn=$REPLY
 	pad "$d" 30
 	printf '  %s%s%s %s %s%s%s%s\n' "$GREEN" "$SYM_OK" "$RESET" "$nn" "$DIM" "$REPLY" "$RESET" "${x:+  $x}"
 }
@@ -256,8 +303,10 @@ item_ok() {
 # Split a TAB-separated row into the global array _COLS (keeps empty fields: TAB alone
 # would collapse them, so tabs are first turned into a non-whitespace separator).
 _COLS=()
+_TAB=$'\t'; _US=$'\x1f'
 split_row() {
-	IFS=$'\x1f' read -ra _COLS <<< "${1//$'\t'/$'\x1f'}"
+	local row="${1//$_TAB/$_US}"
+	IFS=$_US read -ra _COLS <<< "$row"
 }
 
 # Bordered table. Usage: print_table $'Col1\tCol2' < rows
@@ -292,19 +341,20 @@ print_table() {
 		if (( i < ncol - 1 )); then top+="$TB_TM"; mid+="$TB_MM"; bot+="$TB_BM"
 		else top+="$TB_TR"; mid+="$TB_MR"; bot+="$TB_BR"; fi
 	done
+	# Borders (horizontal and vertical) all use DIM so the frame has one single tone
 	printf '  %s%s%s\n' "$DIM" "$top" "$RESET"
-	line="  $TB_V"
+	line="  ${DIM}${TB_V}${RESET}"
 	for ((i = 0; i < ncol; i++)); do
 		pad "${headers[i]}" "${widths[i]}"
-		line+=" ${BOLD}${CYAN}${REPLY}${RESET} $TB_V"
+		line+=" ${BOLD}${CYAN}${REPLY}${RESET} ${DIM}${TB_V}${RESET}"
 	done
 	printf '%s\n' "$line"
 	printf '  %s%s%s\n' "$DIM" "$mid" "$RESET"
 	for ((r = 0; r < nrows; r++)); do
-		line="  $TB_V"
+		line="  ${DIM}${TB_V}${RESET}"
 		for ((i = 0; i < ncol; i++)); do
 			pad "${cells[r * ncol + i]}" "${widths[i]}"
-			line+=" ${REPLY} $TB_V"
+			line+=" ${REPLY} ${DIM}${TB_V}${RESET}"
 		done
 		printf '%s\n' "$line"
 	done
@@ -325,7 +375,7 @@ spin_start() {
 		printf '%s' "$HIDE_CURSOR"
 		# Stops by itself if the parent dies without cleaning up
 		while kill -0 "$parent" 2>/dev/null; do
-			printf '\r  %s%s%s %s' "$CYAN" "${SPIN_FRAMES:i++%n:1}" "$RESET" "$msg"
+			printf '\r  %s%s%s %s%s' "$CYAN" "${SPIN_FRAMES:i++%n:1}" "$RESET" "$msg" "$SYM_DOT"
 			sleep "$SPIN_DELAY"
 		done
 	) &
@@ -341,7 +391,7 @@ spin_stop() {
 	printf '\r\033[K%s' "$SHOW_CURSOR"
 }
 
-# Run a command behind a spinner, then show ✔ / ✗. Usage: run_task "Message" cmd args...
+# Run a command behind a spinner, then show [✓] / [x]. Usage: run_task "Message" cmd args...
 run_task() {
 	local msg="$1" rc; shift
 	spin_start "$msg"
@@ -387,7 +437,8 @@ _menu_step() {		# move to the next selectable entry (+1 / -1), skipping dividers
 }
 
 _menu_draw() {
-	local i lbl
+	local i lbl ind
+	ind=$(rep " " $(( ${#SYM_SEL} + 3 )))		# same width as "  [»] "
 	for i in "${!_MENU_OPTS[@]}"; do
 		lbl=${_MENU_OPTS[i]}
 		(( ${#lbl} > _MENU_W )) && lbl="${lbl:0:_MENU_W-${#SYM_DOT}}${SYM_DOT}"
@@ -397,7 +448,7 @@ _menu_draw() {
 		elif (( i == _MENU_IDX )); then
 			printf '  %s%s%s %s%s\n' "$CYAN" "$BOLD" "$SYM_SEL" "$lbl" "$RESET"
 		else
-			printf '    %s\n' "$lbl"
+			printf '%s%s\n' "$ind" "$lbl"
 		fi
 	done
 }
@@ -441,7 +492,7 @@ select_menu() {
 	while true; do
 		IFS= read -rsn1 key || { printf '%s' "$SHOW_CURSOR"; return 1; }
 		if [[ "$key" == $'\033' ]]; then
-			IFS= read -rsn2 -t 0.05 key || key=""
+			IFS= read -rsn2 -t "$_KEY_TIMEOUT" key || key=""
 			case "$key" in
 				'[A'|'OA') _menu_step -1 ;;
 				'[B'|'OB') _menu_step 1 ;;
@@ -467,16 +518,17 @@ SELECTED_IDX=()
 _CB_OPTS=(); _CB_ON=(); _CB_IDX=0
 
 _cb_draw() {
-	local i box lbl
+	local i box lbl ind
+	ind=$(rep " " $(( ${#SYM_SEL} + 3 )))
 	for i in "${!_CB_OPTS[@]}"; do
 		lbl=${_CB_OPTS[i]}
 		(( ${#lbl} > _MENU_W )) && lbl="${lbl:0:_MENU_W-${#SYM_DOT}}${SYM_DOT}"
 		printf '\033[2K'
-		if (( _CB_ON[i] )); then box="[${GREEN}${SYM_OK}${RESET}]"; else box="[ ]"; fi
+		if (( _CB_ON[i] )); then box="${GREEN}${SYM_BOX_ON}${RESET}"; else box="$SYM_BOX_OFF"; fi
 		if (( i == _CB_IDX )); then
 			printf '  %s%s%s%s %s %s%s%s%s\n' "$CYAN" "$BOLD" "$SYM_SEL" "$RESET" "$box" "$CYAN" "$BOLD" "$lbl" "$RESET"
 		else
-			printf '    %s %s\n' "$box" "$lbl"
+			printf '%s%s %s\n' "$ind" "$box" "$lbl"
 		fi
 	done
 }
@@ -524,7 +576,7 @@ checkbox_menu() {
 		IFS= read -rsn1 key || { printf '%s' "$SHOW_CURSOR"; return 1; }
 		case "$key" in
 			$'\033')
-				IFS= read -rsn2 -t 0.05 key || key=""
+				IFS= read -rsn2 -t "$_KEY_TIMEOUT" key || key=""
 				case "$key" in
 					'[A'|'OA') (( _CB_IDX = (_CB_IDX - 1 + count) % count )) ;;
 					'[B'|'OB') (( _CB_IDX = (_CB_IDX + 1) % count )) ;;
@@ -582,6 +634,11 @@ pager() {
 }
 # <<< STYLE END <<<
 
+set -o pipefail
+
+VERSION="2.1.0"
+readonly VERSION
+
 # ──────────────────────────────────────────────────────────────────────────────
 #  Global state
 # ──────────────────────────────────────────────────────────────────────────────
@@ -602,7 +659,6 @@ get_version() {		# $1 = command, $2 = version option(s)
 	local -a pre=() opts=()
 	read -ra opts <<< "${2:-}"
 	if have timeout; then pre=(timeout 3)
-	elif have gtimeout; then pre=(gtimeout 3)		# GNU coreutils on macOS
 	fi
 	out=$("${pre[@]}" "$1" "${opts[@]}" </dev/null 2>&1 | head -n 1 | sanitize)
 	out=${out#"${out%%[![:space:]]*}"}				# trim leading spaces
@@ -675,12 +731,6 @@ detect_tools() {
 	check eopkg		eopkg
 	check slackpkg	slackpkg	-h
 	check pkg		pkg			--version
-	check pkgin		pkgin		-v
-	check pkg_add	pkg_add		-h
-	check port		port		version
-	check winget	winget
-	check choco		choco		--version
-	check scoop		scoop		--version
 	SYS_HITS=$(( FOUND - before ))
 	group_end
 
@@ -716,6 +766,7 @@ detect_tools() {
 	check cmake		cmake
 	check gcc		gcc
 	check meson		meson
+	check clang		clang
 	check git		git
 	group_end
 
@@ -737,9 +788,6 @@ os_name() {
 	if [[ -r /etc/os-release ]]; then
 		n=$(sed -n 's/^PRETTY_NAME=//p' /etc/os-release | head -n 1 | tr -d "\"'")
 	fi
-	if [[ -z "$n" ]] && have sw_vers; then
-		n="$(sw_vers -productName 2>/dev/null) $(sw_vers -productVersion 2>/dev/null)"
-	fi
 	printf '%s' "${n:-unknown}"
 }
 
@@ -755,12 +803,6 @@ running() { have pgrep && pgrep -x "$1" >/dev/null 2>&1; }
 
 detect_desktop() {
 	section "Desktop environment"
-
-	# Linux desktops only: macOS and Windows have a single built-in desktop
-	case "$(uname -s 2>/dev/null)" in
-		Darwin) kv "Desktop" "macOS (Aqua)"; echo; return 0 ;;
-		MINGW*|MSYS*|CYGWIN*) kv "Desktop" "Windows"; echo; return 0 ;;
-	esac
 
 	# DE name: XDG_CURRENT_DESKTOP is the most reliable
 	local de="${XDG_CURRENT_DESKTOP:-${DESKTOP_SESSION:-}}" p
@@ -840,8 +882,13 @@ usage() {
     Detect Manager v${VERSION} - CLI usage
     Detects package managers, build tools, system and desktop environment.
 
+        -a, --ascii                 Force ASCII symbols (no Unicode)
         -v, --version               Show the program version and exit
         -h, --help                  Show this help
+
+    Environment:
+        UI_ASCII=1                  Same as --ascii
+        NO_COLOR=1                  Disable colors
 
     Example:
         ./Detect-manager.sh
@@ -853,6 +900,7 @@ main() {
 	local bad=false
 	while [[ $# -gt 0 ]]; do
 		case "$1" in
+			-a|--ascii)		ui_use_ascii ;;
 			-v|--version)	echo "Detect Manager v${VERSION}"; exit 0 ;;
 			-h|--help)		usage; exit 0 ;;
 			*)				msg_err "Unknown option: $1"; bad=true ;;

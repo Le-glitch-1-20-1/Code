@@ -1,29 +1,30 @@
 #!/usr/bin/env bash
 # MIDI Tester - listens to ALSA MIDI ports and prints the received messages live (Linux only).
-# The exit code of a pipeline is the last command that failed, not just the last one
-set -o pipefail
-
-VERSION="3.0.0"
-readonly VERSION
-
-# >>> STYLE BEGIN v2.0 - shared console style, keep this block identical in every script >>>
-# Reference: STYLE-GUIDE.md. Portable: bash >= 4.0 on Linux, macOS, BSD, WSL, Git Bash, Termux.
+# >>> STYLE BEGIN v2.4 - shared console style, keep this block identical in every script >>>
+# Reference: STYLE-GUIDE.md. Portable: bash >= 3.2 on any Linux (WSL and Termux included).
+# Started from sh / dash / zsh, it relaunches itself under bash.
 # Degrades gracefully: ASCII symbols without UTF-8, plain text without colors, numbered
 # menus without a capable terminal. No external dependency except coreutils-like basics.
+# UI_ASCII=1 (environment) or --ascii forces the ASCII symbols.
 
-# ── Shell version guard (must stay first: nothing below may use bash 4+ syntax before it) ──
-if (( BASH_VERSINFO[0] < 4 )); then
-	if [[ -z "${_STYLE_REEXEC:-}" ]]; then
-		# macOS ships bash 3.2: use a newer bash from a well-known location if there is one
-		for _b in /opt/homebrew/bin/bash /usr/local/bin/bash /opt/local/bin/bash /usr/pkg/bin/bash; do
-			[[ -x "$_b" ]] && _STYLE_REEXEC=1 exec "$_b" "$0" "$@"
-		done
-	fi
-	printf 'This script needs bash 4.0 or newer (found %s).\n' "$BASH_VERSION" >&2
-	printf 'macOS: run "brew install bash". Other systems: install a recent bash package.\n' >&2
+# ── Bootstrap (plain POSIX sh syntax only: sh, dash or zsh read these lines before bash does) ──
+# Started with "sh script" or "zsh script": hand over to bash instead of dying on bash-only syntax.
+if [ -z "${BASH_VERSION:-}" ]; then
+	if command -v bash >/dev/null 2>&1; then exec bash "$0" "$@"; fi
+	printf 'This script needs bash, which was not found.\n' >&2
+	printf 'Install it (apt install bash, apk add bash, pkg install bash...).\n' >&2
 	exit 1
 fi
-unset _b _STYLE_REEXEC
+
+# ── Shell version guard (nothing below may use syntax newer than bash 3.2) ──
+if (( BASH_VERSINFO[0] < 3 || (BASH_VERSINFO[0] == 3 && BASH_VERSINFO[1] < 2) )); then
+	printf 'This script needs bash 3.2 or newer (found %s).\n' "$BASH_VERSION" >&2
+	printf 'Install a recent bash package (apt, dnf, pacman or apk: install bash).\n' >&2
+	exit 1
+fi
+
+# bash < 4 only accepts whole seconds as read timeout (used to tell a lone ESC from arrow keys)
+if (( BASH_VERSINFO[0] >= 4 )); then _KEY_TIMEOUT=0.05; else _KEY_TIMEOUT=1; fi
 
 # ── Safe environment ─────────────────────────────────────────────────────────
 IFS=$' \t\n'
@@ -57,19 +58,28 @@ _utf8_locale() {
 }
 
 UI_UTF8=false
+UI_UTF8_OK=false		# can the terminal display UTF-8? (used by the menu toggle)
 if _utf8_locale; then
-	UI_UTF8=true
+	UI_UTF8_OK=true
 elif command -v locale >/dev/null 2>&1; then
 	_avail=$'\n'"$(locale -a 2>/dev/null)"$'\n'
 	for _c in C.UTF-8 C.utf8 en_US.UTF-8 en_US.utf8; do
 		if [[ "$_avail" == *$'\n'"$_c"$'\n'* ]]; then
 			export LC_ALL="$_c"
-			_utf8_locale && UI_UTF8=true
+			_utf8_locale && UI_UTF8_OK=true
 			break
 		fi
 	done
 	unset _avail _c
 fi
+# String operations must count characters, not bytes (old bash, odd locales): otherwise the
+# boxes and tables would be misaligned, so stay in ASCII.
+if $UI_UTF8_OK; then
+	_t='é✓'
+	[[ ${#_t} -eq 2 && "${_t:1:1}" == '✓' ]] || UI_UTF8_OK=false
+	unset _t
+fi
+[[ "${UI_ASCII:-0}" != 1 ]] && $UI_UTF8_OK && UI_UTF8=true
 
 # Terminal control sequences are only used when TERM is set and not "dumb"
 UI_TERM=false
@@ -95,26 +105,45 @@ else
 	HIDE_CURSOR=''; SHOW_CURSOR=''
 fi
 
-# Symbols (Unicode when possible, ASCII otherwise)
-if $UI_UTF8; then
-	SYM_OK='✔'; SYM_ERR='✗'; SYM_WARN='⚠'; SYM_INFO='•'; SYM_ASK='?'; SYM_SEL='»'
-	SYM_SKIP='○'; SYM_ARROW='→'; SYM_DOT='…'
-	BX_TL='╭'; BX_TR='╮'; BX_BL='╰'; BX_BR='╯'; BX_V='│'; BX_H='─'
-	TB_TL='┌'; TB_TM='┬'; TB_TR='┐'; TB_ML='├'; TB_MM='┼'; TB_MR='┤'
-	TB_BL='└'; TB_BM='┴'; TB_BR='┘'; TB_V='│'; TB_H='─'
-	SPIN_FRAMES='⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏'
-else
-	SYM_OK='+'; SYM_ERR='x'; SYM_WARN='!'; SYM_INFO='*'; SYM_ASK='?'; SYM_SEL='>'
-	SYM_SKIP='-'; SYM_ARROW='->'; SYM_DOT='...'
-	BX_TL='+'; BX_TR='+'; BX_BL='+'; BX_BR='+'; BX_V='|'; BX_H='-'
-	TB_TL='+'; TB_TM='+'; TB_TR='+'; TB_ML='+'; TB_MM='+'; TB_MR='+'
-	TB_BL='+'; TB_BM='+'; TB_BR='+'; TB_V='|'; TB_H='-'
-	SPIN_FRAMES='|/-\'
-fi
+# Symbols (Unicode when possible, ASCII otherwise). Can be called again to switch mode.
+ui_set_symbols() {
+	if $UI_UTF8; then
+		SYM_OK='[✓]'; SYM_ERR='[x]'; SYM_WARN='[!]'; SYM_INFO='[*]'; SYM_ASK='[?]'; SYM_SEL='[»]'
+		SYM_SKIP='[-]'; SYM_ARROW='[→]'; SYM_DOT='…'
+		SYM_BOX_ON='[✓]'; SYM_BOX_OFF='[ ]'
+		BX_TL='╭'; BX_TR='╮'; BX_BL='╰'; BX_BR='╯'; BX_V='│'; BX_H='─'
+		TB_TL='┌'; TB_TM='┬'; TB_TR='┐'; TB_ML='├'; TB_MM='┼'; TB_MR='┤'
+		TB_BL='└'; TB_BM='┴'; TB_BR='┘'; TB_V='│'; TB_H='─'
+		SPIN_FRAMES='⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏'
+	else
+		SYM_OK='[OK]'; SYM_ERR='[x]'; SYM_WARN='[!]'; SYM_INFO='[*]'; SYM_ASK='[?]'; SYM_SEL='[>]'
+		SYM_SKIP='[-]'; SYM_ARROW='->'; SYM_DOT='...'
+		SYM_BOX_ON='[x]'; SYM_BOX_OFF='[ ]'
+		BX_TL='+'; BX_TR='+'; BX_BL='+'; BX_BR='+'; BX_V='|'; BX_H='-'
+		TB_TL='+'; TB_TM='+'; TB_TR='+'; TB_ML='+'; TB_MM='+'; TB_MR='+'
+		TB_BL='+'; TB_BM='+'; TB_BR='+'; TB_V='|'; TB_H='-'
+		SPIN_FRAMES='|/-\'
+	fi
+}
+ui_set_symbols
+
+# Switch to ASCII symbols (--ascii)
+ui_use_ascii() { UI_UTF8=false; ui_set_symbols; }
+
+# Toggle Unicode <-> ASCII (menu). Unicode only if the terminal supports it.
+ui_toggle_mode() {
+	if $UI_UTF8; then
+		UI_UTF8=false; ui_set_symbols
+		msg_info "ASCII mode enabled"
+	elif $UI_UTF8_OK; then
+		UI_UTF8=true; ui_set_symbols
+		msg_info "Unicode mode enabled"
+	else
+		msg_warn "This terminal has no UTF-8 locale: staying in ASCII mode."
+	fi
+}
+
 readonly RED GREEN YELLOW CYAN MAGENTA BOLD DIM RESET E_RED E_RESET HIDE_CURSOR SHOW_CURSOR
-readonly SYM_OK SYM_ERR SYM_WARN SYM_INFO SYM_ASK SYM_SEL SYM_SKIP SYM_ARROW SYM_DOT
-readonly BX_TL BX_TR BX_BL BX_BR BX_V BX_H TB_TL TB_TM TB_TR TB_ML TB_MM TB_MR TB_BL TB_BM TB_BR TB_V TB_H
-readonly SPIN_FRAMES
 
 # Pass "$SEP" as an option of select_menu to draw a non-selectable divider line
 readonly SEP="---sep---"
@@ -189,32 +218,49 @@ clear_screen() {
 }
 
 # ── Messages (printf only: text is never interpreted as escape sequences) ────
-msg_ok()   { local m="$*"; printf '  %s%s%s %s\n' "$GREEN" "$SYM_OK" "$RESET" "${m//[[:cntrl:]]/}"; }
-msg_err()  { local m="$*"; printf '  %s%s %s%s\n' "$E_RED" "$SYM_ERR" "${m//[[:cntrl:]]/}" "$E_RESET" >&2; }
-msg_warn() { local m="$*"; printf '  %s%s %s%s\n' "$YELLOW" "$SYM_WARN" "${m//[[:cntrl:]]/}" "$RESET"; }
-msg_info() { local m="$*"; printf '  %s%s%s %s\n' "$CYAN" "$SYM_INFO" "$RESET" "${m//[[:cntrl:]]/}"; }
-msg_dim()  { local m="$*"; printf '  %s%s%s\n' "$DIM" "${m//[[:cntrl:]]/}" "$RESET"; }
-die()      { msg_err "$*"; exit 1; }
+msg_ok()     { local m="$*"; printf '  %s%s%s %s\n' "$GREEN" "$SYM_OK" "$RESET" "${m//[[:cntrl:]]/}"; }
+msg_err()    { local m="$*"; printf '  %s%s %s%s\n' "$E_RED" "$SYM_ERR" "${m//[[:cntrl:]]/}" "$E_RESET" >&2; }
+msg_warn()   { local m="$*"; printf '  %s%s %s%s\n' "$YELLOW" "$SYM_WARN" "${m//[[:cntrl:]]/}" "$RESET"; }
+msg_info()   { local m="$*"; printf '  %s%s%s %s\n' "$CYAN" "$SYM_INFO" "$RESET" "${m//[[:cntrl:]]/}"; }
+msg_dim()    { local m="$*"; printf '  %s%s%s\n' "$DIM" "${m//[[:cntrl:]]/}" "$RESET"; }
+die()        { msg_err "$*"; exit 1; }
+
+# Skipped / cancelled / not applicable
+msg_skip()   { local m="$*"; printf '  %s%s %s%s\n' "$DIM" "$SYM_SKIP" "${m//[[:cntrl:]]/}" "$RESET"; }
+# Step in progress
+msg_step()   { local m="$*"; printf '  %s%s%s %s\n' "$CYAN" "$SYM_ARROW" "$RESET" "${m//[[:cntrl:]]/}"; }
+# msg_change "old" "new"  ->  old → new
+msg_change() {
+	local a="${1//[[:cntrl:]]/}" b="${2//[[:cntrl:]]/}"
+	printf '  %s%s%s %s %s%s%s %s%s%s\n' "$CYAN" "$SYM_INFO" "$RESET" "$a" "$CYAN" "$SYM_ARROW" "$RESET" "$BOLD" "$b" "$RESET"
+}
 
 # ── Layout: banner, rules, key/value, list items ─────────────────────────────
 # Rounded panel shown once at startup. Usage: banner "Title" ["Subtitle"]
 banner() {
-	local title="$1" subtitle="${2:-}" border blank
-	local -i width min_box box
+	local title="$1" subtitle="${2:-}" border blank indent
+	local -i width min_box box margin
 	width=$(term_width)
 	min_box=${#title}
 	(( ${#subtitle} > min_box )) && min_box=${#subtitle}
 	min_box+=4; (( min_box < 44 )) && min_box=44
 	box=$(( width > 70 ? 60 : width - 10 ))
 	(( box < min_box )) && box=$min_box
+
+	# Margin used to center the box
+	margin=$(( (width - box) / 2 ))
+	(( margin < 0 )) && margin=0
+	indent=$(rep " " "$margin")
+
 	border=$(rep "$BX_H" "$box")
 	blank=$(pad_center "" "$box")
-	printf '\n  %s%s%s%s%s\n' "$CYAN" "$BX_TL" "$border" "$BX_TR" "$RESET"
-	printf '  %s%s%s%s\n' "$CYAN" "$BX_V$blank$BX_V" "$RESET" ""
-	printf '  %s%s%s%s%s%s%s%s\n' "$CYAN" "$BX_V" "$BOLD" "$(pad_center "$title" "$box")" "$RESET" "$CYAN" "$BX_V" "$RESET"
-	printf '  %s%s%s%s%s%s%s%s\n' "$CYAN" "$BX_V" "$RESET$DIM" "$(pad_center "$subtitle" "$box")" "$RESET" "$CYAN" "$BX_V" "$RESET"
-	printf '  %s%s%s%s\n' "$CYAN" "$BX_V$blank$BX_V" "$RESET" ""
-	printf '  %s%s%s%s%s\n\n' "$CYAN" "$BX_BL" "$border" "$BX_BR" "$RESET"
+
+	printf '\n%s%s%s%s%s%s\n' "$indent" "$CYAN" "$BX_TL" "$border" "$BX_TR" "$RESET"
+	printf '%s%s%s%s\n' "$indent" "$CYAN" "$BX_V$blank$BX_V" "$RESET"
+	printf '%s%s%s%s%s%s%s%s%s\n' "$indent" "$CYAN" "$BX_V" "$BOLD" "$(pad_center "$title" "$box")" "$RESET" "$CYAN" "$BX_V" "$RESET"
+	printf '%s%s%s%s%s%s%s%s%s\n' "$indent" "$CYAN" "$BX_V" "$RESET$DIM" "$(pad_center "$subtitle" "$box")" "$RESET" "$CYAN" "$BX_V" "$RESET"
+	printf '%s%s%s%s\n' "$indent" "$CYAN" "$BX_V$blank$BX_V" "$RESET"
+	printf '%s%s%s%s%s%s\n\n' "$indent" "$CYAN" "$BX_BL" "$border" "$BX_BR" "$RESET"
 }
 
 # Horizontal rule, with an optional embedded title. Usage: hr ["Title"]
@@ -241,12 +287,12 @@ kv() {
 	printf '  %s: %s%s%s\n' "$REPLY" "$BOLD" "$v" "$RESET"
 }
 
-# "✔ name  detail  extra" line for detected / found things. Usage: item_ok name [detail] [extra]
+# "[✓] name  detail  extra" line for detected / found things. Usage: item_ok name [detail] [extra]
 # name and detail are cleaned; extra is trusted markup (e.g. a colored tag), never external text.
 item_ok() {
 	local n="${1//[[:cntrl:]]/}" d="${2:-}" x="${3:-}" nn
 	d=${d//[[:cntrl:]]/}
-	pad "$n" 12; nn=$REPLY
+	pad "$n" 14; nn=$REPLY
 	pad "$d" 30
 	printf '  %s%s%s %s %s%s%s%s\n' "$GREEN" "$SYM_OK" "$RESET" "$nn" "$DIM" "$REPLY" "$RESET" "${x:+  $x}"
 }
@@ -255,8 +301,10 @@ item_ok() {
 # Split a TAB-separated row into the global array _COLS (keeps empty fields: TAB alone
 # would collapse them, so tabs are first turned into a non-whitespace separator).
 _COLS=()
+_TAB=$'\t'; _US=$'\x1f'
 split_row() {
-	IFS=$'\x1f' read -ra _COLS <<< "${1//$'\t'/$'\x1f'}"
+	local row="${1//$_TAB/$_US}"
+	IFS=$_US read -ra _COLS <<< "$row"
 }
 
 # Bordered table. Usage: print_table $'Col1\tCol2' < rows
@@ -291,19 +339,20 @@ print_table() {
 		if (( i < ncol - 1 )); then top+="$TB_TM"; mid+="$TB_MM"; bot+="$TB_BM"
 		else top+="$TB_TR"; mid+="$TB_MR"; bot+="$TB_BR"; fi
 	done
+	# Borders (horizontal and vertical) all use DIM so the frame has one single tone
 	printf '  %s%s%s\n' "$DIM" "$top" "$RESET"
-	line="  $TB_V"
+	line="  ${DIM}${TB_V}${RESET}"
 	for ((i = 0; i < ncol; i++)); do
 		pad "${headers[i]}" "${widths[i]}"
-		line+=" ${BOLD}${CYAN}${REPLY}${RESET} $TB_V"
+		line+=" ${BOLD}${CYAN}${REPLY}${RESET} ${DIM}${TB_V}${RESET}"
 	done
 	printf '%s\n' "$line"
 	printf '  %s%s%s\n' "$DIM" "$mid" "$RESET"
 	for ((r = 0; r < nrows; r++)); do
-		line="  $TB_V"
+		line="  ${DIM}${TB_V}${RESET}"
 		for ((i = 0; i < ncol; i++)); do
 			pad "${cells[r * ncol + i]}" "${widths[i]}"
-			line+=" ${REPLY} $TB_V"
+			line+=" ${REPLY} ${DIM}${TB_V}${RESET}"
 		done
 		printf '%s\n' "$line"
 	done
@@ -324,7 +373,7 @@ spin_start() {
 		printf '%s' "$HIDE_CURSOR"
 		# Stops by itself if the parent dies without cleaning up
 		while kill -0 "$parent" 2>/dev/null; do
-			printf '\r  %s%s%s %s' "$CYAN" "${SPIN_FRAMES:i++%n:1}" "$RESET" "$msg"
+			printf '\r  %s%s%s %s%s' "$CYAN" "${SPIN_FRAMES:i++%n:1}" "$RESET" "$msg" "$SYM_DOT"
 			sleep "$SPIN_DELAY"
 		done
 	) &
@@ -340,7 +389,7 @@ spin_stop() {
 	printf '\r\033[K%s' "$SHOW_CURSOR"
 }
 
-# Run a command behind a spinner, then show ✔ / ✗. Usage: run_task "Message" cmd args...
+# Run a command behind a spinner, then show [✓] / [x]. Usage: run_task "Message" cmd args...
 run_task() {
 	local msg="$1" rc; shift
 	spin_start "$msg"
@@ -386,7 +435,8 @@ _menu_step() {		# move to the next selectable entry (+1 / -1), skipping dividers
 }
 
 _menu_draw() {
-	local i lbl
+	local i lbl ind
+	ind=$(rep " " $(( ${#SYM_SEL} + 3 )))		# same width as "  [»] "
 	for i in "${!_MENU_OPTS[@]}"; do
 		lbl=${_MENU_OPTS[i]}
 		(( ${#lbl} > _MENU_W )) && lbl="${lbl:0:_MENU_W-${#SYM_DOT}}${SYM_DOT}"
@@ -396,7 +446,7 @@ _menu_draw() {
 		elif (( i == _MENU_IDX )); then
 			printf '  %s%s%s %s%s\n' "$CYAN" "$BOLD" "$SYM_SEL" "$lbl" "$RESET"
 		else
-			printf '    %s\n' "$lbl"
+			printf '%s%s\n' "$ind" "$lbl"
 		fi
 	done
 }
@@ -440,7 +490,7 @@ select_menu() {
 	while true; do
 		IFS= read -rsn1 key || { printf '%s' "$SHOW_CURSOR"; return 1; }
 		if [[ "$key" == $'\033' ]]; then
-			IFS= read -rsn2 -t 0.05 key || key=""
+			IFS= read -rsn2 -t "$_KEY_TIMEOUT" key || key=""
 			case "$key" in
 				'[A'|'OA') _menu_step -1 ;;
 				'[B'|'OB') _menu_step 1 ;;
@@ -466,16 +516,17 @@ SELECTED_IDX=()
 _CB_OPTS=(); _CB_ON=(); _CB_IDX=0
 
 _cb_draw() {
-	local i box lbl
+	local i box lbl ind
+	ind=$(rep " " $(( ${#SYM_SEL} + 3 )))
 	for i in "${!_CB_OPTS[@]}"; do
 		lbl=${_CB_OPTS[i]}
 		(( ${#lbl} > _MENU_W )) && lbl="${lbl:0:_MENU_W-${#SYM_DOT}}${SYM_DOT}"
 		printf '\033[2K'
-		if (( _CB_ON[i] )); then box="[${GREEN}${SYM_OK}${RESET}]"; else box="[ ]"; fi
+		if (( _CB_ON[i] )); then box="${GREEN}${SYM_BOX_ON}${RESET}"; else box="$SYM_BOX_OFF"; fi
 		if (( i == _CB_IDX )); then
 			printf '  %s%s%s%s %s %s%s%s%s\n' "$CYAN" "$BOLD" "$SYM_SEL" "$RESET" "$box" "$CYAN" "$BOLD" "$lbl" "$RESET"
 		else
-			printf '    %s %s\n' "$box" "$lbl"
+			printf '%s%s %s\n' "$ind" "$box" "$lbl"
 		fi
 	done
 }
@@ -523,7 +574,7 @@ checkbox_menu() {
 		IFS= read -rsn1 key || { printf '%s' "$SHOW_CURSOR"; return 1; }
 		case "$key" in
 			$'\033')
-				IFS= read -rsn2 -t 0.05 key || key=""
+				IFS= read -rsn2 -t "$_KEY_TIMEOUT" key || key=""
 				case "$key" in
 					'[A'|'OA') (( _CB_IDX = (_CB_IDX - 1 + count) % count )) ;;
 					'[B'|'OB') (( _CB_IDX = (_CB_IDX + 1) % count )) ;;
@@ -581,19 +632,31 @@ pager() {
 }
 # <<< STYLE END <<<
 
+set -o pipefail
+
+VERSION="3.2.0"
+readonly VERSION
+
 # ──────────────────────────────────────────────────────────────────────────────
 #  Global state
 # ──────────────────────────────────────────────────────────────────────────────
 SELECTED_PORTS=()			# ports given on the CLI or picked in the menu
 LIST_ONLY=false
 NONINTERACTIVE=false
+COMMAND=""					# "", "monitor" or "colortest"
+COLOR_NOTE=33				# colortest: MIDI note of the pad (33 = A1)
+COLOR_PORT="APC"			# colortest: text to look for in the output port name
+COLOR_DELAY=0.5				# colortest: seconds between two colors
+OUT_PORT=""					# colortest: CLIENT:PORT found by find_output_port
+OUT_NAME=""
 BAD_ARGS=false
 MISSING=0
 # Note names used to turn a MIDI note number into a readable name
 NOTE_NAMES=("C" "C#" "D" "D#" "E" "F" "F#" "G" "G#" "A" "A#" "B")
 # Detected ports and their human-readable names, filled by detect_ports
-declare -a ALL_PORTS=()
-declare -A PORT_NAMES=()
+ALL_PORTS=()
+ALL_NAMES=()				# display names, same order as ALL_PORTS
+declare -a SCAN_KEYS=() SCAN_NAMES=()		# result of scan_ports
 
 ui_traps
 # A listener is stopped with Ctrl+C on purpose: that is a normal end, not an error
@@ -602,6 +665,16 @@ trap 'printf "%s\n  %s%s%s\n" "$RESET" "$YELLOW" "Stopping listening." "$RESET";
 # ──────────────────────────────────────────────────────────────────────────────
 #  Helpers
 # ──────────────────────────────────────────────────────────────────────────────
+# Name of port "client:port" in $REPLY (empty and return 1 if it was not detected)
+port_name() {
+	local i
+	for i in "${!ALL_PORTS[@]}"; do
+		if [[ "${ALL_PORTS[i]}" == "$1" ]]; then REPLY="${ALL_NAMES[i]}"; return 0; fi
+	done
+	REPLY=""
+	return 1
+}
+
 # Turn a MIDI note number into a readable note name + octave (result in $REPLY, no subshell)
 note_name() {
 	local n=$((10#$1))
@@ -627,13 +700,13 @@ install_hint() {
 	fi
 }
 
-# Check the platform and the required tools, exit early if something is missing
+# Check the platform and the tools given as arguments, exit early if something is missing
 check_dependencies() {
 	local cmd
 	if [[ "$(uname -s 2>/dev/null)" != Linux ]]; then
 		die "ALSA is only available on Linux: this tool cannot run on $(uname -s 2>/dev/null)."
 	fi
-	for cmd in aseqdump aconnect; do
+	for cmd in "$@"; do
 		if ! have "$cmd"; then
 			msg_err "'$cmd' is not installed."
 			MISSING=1
@@ -652,13 +725,14 @@ check_dependencies() {
 # ──────────────────────────────────────────────────────────────────────────────
 #  Detection
 # ──────────────────────────────────────────────────────────────────────────────
-# Parse "aconnect -l" output with bash only (no grep -P, which BSD/busybox lack),
-# fill ALL_PORTS / PORT_NAMES and print each port found.
-detect_ports() {
-	local line key cnum="" cname="" pnum pname
+# Parse "aconnect FLAG" output with bash only (no grep -P, which busybox lacks) and fill the
+# parallel arrays SCAN_KEYS ("client:port") / SCAN_NAMES ("Client name / Port name").
+# FLAG is -l (every port), -i (readable ports) or -o (writable ports).
+scan_ports() {
+	local line cnum="" cname="" pnum pname
 	local re_client="^client[[:space:]]+([0-9]+):[[:space:]]+'(.*)'"
 	local re_port="^[[:space:]]+([0-9]+)[[:space:]]+'(.*)'"
-	section "Detected devices"
+	SCAN_KEYS=(); SCAN_NAMES=()
 	while IFS= read -r line; do
 		if [[ "$line" =~ $re_client ]]; then
 			cnum="${BASH_REMATCH[1]}"
@@ -671,14 +745,54 @@ detect_ports() {
 			# Names come from the hardware: strip control characters and trailing blanks
 			clean "$cname"; cname="${REPLY%"${REPLY##*[![:space:]]}"}"
 			clean "$pname"; pname="${REPLY%"${REPLY##*[![:space:]]}"}"
-			key="${cnum}:${pnum}"
-			ALL_PORTS+=("$key")
-			PORT_NAMES["$key"]="$cname / $pname"
-			item_ok "$key" "$cname $SYM_ARROW $pname"
+			SCAN_KEYS+=("${cnum}:${pnum}")
+			SCAN_NAMES+=("$cname / $pname")
 		fi
-	done < <(aconnect -l 2>/dev/null)
+	done < <(aconnect "$1" 2>/dev/null)
+}
+
+# Detect the MIDI ports, fill ALL_PORTS / PORT_NAMES and print each port found
+detect_ports() {
+	local i
+	section "Detected devices"
+	scan_ports -l
+	for i in "${!SCAN_KEYS[@]}"; do
+		ALL_PORTS+=("${SCAN_KEYS[i]}")
+		ALL_NAMES+=("${SCAN_NAMES[i]}")
+		item_ok "${SCAN_KEYS[i]}" "${SCAN_NAMES[i]//\// $SYM_ARROW}"
+	done
 	(( ${#ALL_PORTS[@]} )) || msg_dim "(none)"
 	echo
+}
+
+# Find the output port to send to: the first writable port whose name contains $1 and "Control"
+# (like the APC "Control" port). Without a "Control" port, a unique match is used with a warning.
+# Sets OUT_PORT / OUT_NAME. Lists the available output ports when nothing matches.
+find_output_port() {
+	local want="$1" i first=-1
+	OUT_PORT=""; OUT_NAME=""
+	scan_ports -o
+	for i in "${!SCAN_KEYS[@]}"; do
+		[[ "${SCAN_NAMES[i]}" == *"$want"* ]] || continue
+		(( first < 0 )) && first=$i
+		if [[ "${SCAN_NAMES[i]}" == *Control* ]]; then
+			OUT_PORT="${SCAN_KEYS[i]}"; OUT_NAME="${SCAN_NAMES[i]}"
+			return 0
+		fi
+	done
+	if (( first >= 0 )); then
+		OUT_PORT="${SCAN_KEYS[first]}"; OUT_NAME="${SCAN_NAMES[first]}"
+		msg_warn "No port containing 'Control' for '$want': using $OUT_PORT."
+		return 0
+	fi
+	msg_err "No output port found containing '$want'."
+	if (( ${#SCAN_KEYS[@]} )); then
+		echo "  Available output ports:"
+		for i in "${!SCAN_KEYS[@]}"; do msg_info "${SCAN_KEYS[i]}  ${SCAN_NAMES[i]}"; done
+	else
+		msg_dim "(no output port at all: is the device plugged in?)"
+	fi
+	return 1
 }
 
 # ──────────────────────────────────────────────────────────────────────────────
@@ -687,9 +801,9 @@ detect_ports() {
 # Let the user pick one or more detected ports, filling SELECTED_PORTS
 choose_ports_interactive() {
 	local -a labels=()
-	local key i
-	for key in "${ALL_PORTS[@]}"; do
-		labels+=("$key  ${PORT_NAMES[$key]}")
+	local i
+	for i in "${!ALL_PORTS[@]}"; do
+		labels+=("${ALL_PORTS[i]}  ${ALL_NAMES[i]}")
 	done
 	while true; do
 		checkbox_menu "Select port(s):" "${labels[@]}" || exit 1
@@ -711,6 +825,8 @@ show_menu() {
 		"Listen to all detected ports" \
 		"Choose specific port(s) to listen to" \
 		"Just list the ports, then exit" \
+		"Test the colors of an APC pad" \
+		"Toggle ASCII / Unicode mode" \
 		"$SEP" \
 		"Quit" || exit 1
 	echo
@@ -718,7 +834,9 @@ show_menu() {
 		0) SELECTED_PORTS=() ;;
 		1) choose_ports_interactive ;;
 		2) LIST_ONLY=true ;;
-		4) printf '  %sSee you soon!%s\n\n' "$GREEN" "$RESET"; exit 0 ;;
+		3) COMMAND=colortest; prompt_colortest_params ;;
+		4) ui_toggle_mode; echo; show_menu ;;
+		6) printf '  %sSee you soon!%s\n\n' "$GREEN" "$RESET"; exit 0 ;;
 	esac
 }
 
@@ -727,6 +845,17 @@ show_menu() {
 # ──────────────────────────────────────────────────────────────────────────────
 # Format and print one line coming from aseqdump.
 # Pure bash (regex + printf): no subprocess per event, so fast MIDI streams do not lag.
+# Current time in $TS: HH:MM:SS.mmm with bash 5 (EPOCHREALTIME), HH:MM:SS with bash 4.2+, else empty
+stamp() {
+	local t
+	if printf -v t '%(%H:%M:%S)T' -1 2>/dev/null; then
+		[[ -n "${EPOCHREALTIME:-}" ]] && t+=".${EPOCHREALTIME: -6:3}"
+		TS="${DIM}${t}${RESET}"
+	else
+		TS=""
+	fi
+}
+
 print_event() {
 	local line="$1" lc src rest pname ch_txt="" note="" vel="" ctrl="" val="" prog=""
 	local re_src='^[[:space:]]*([0-9]+:[0-9]+)[[:space:]]+(.*)$'
@@ -734,9 +863,11 @@ print_event() {
 	local re_note='note ([0-9]+)' re_vel='velocity ([0-9]+)' re_ctrl='controller ([0-9]+)'
 	local re_val='value (-?[0-9]+)' re_prog='program ([0-9]+)'
 	[[ "$line" =~ $re_src ]] || return
+	stamp
 	src="${BASH_REMATCH[1]}"; rest="${BASH_REMATCH[2]}"
-	lc="${rest,,}"
-	pname="${PORT_NAMES[$src]:-$src}"; pname="${pname:0:28}"
+	lc="$rest"			# matching is case-insensitive (nocasematch, set in listen_and_print)
+	port_name "$src" || REPLY="$src"
+	pname="${REPLY:0:28}"
 	pad "$pname" 28; pname="$REPLY"
 	[[ "$rest" =~ $re_ch ]] && ch_txt=" (ch ${BASH_REMATCH[1]})"
 	case "$lc" in
@@ -746,30 +877,30 @@ print_event() {
 			[[ "$lc" =~ $re_vel ]] && vel="${BASH_REMATCH[1]}"
 			note_name "$note"
 			if [[ "$vel" == 0 ]]; then
-				printf '  %-8s %s %-12s %-10s %s\n' "$src" "$pname" "Note OFF" "" "$REPLY$ch_txt"
+				printf '  %s %-8s %s %-12s %-10s %s\n' "$TS" "$src" "$pname" "Note OFF" "" "$REPLY$ch_txt"
 				return
 			fi
-			printf '  %s%-8s%s %s %s%-12s%s %-10s %s\n' "$GREEN" "$src" "$RESET" "$pname" "$BOLD" "Note ON" "$RESET" "vel=$vel" "$REPLY (MIDI $note)$ch_txt" ;;
+			printf '  %s %s%-8s%s %s %s%-12s%s %-10s %s\n' "$TS" "$GREEN" "$src" "$RESET" "$pname" "$BOLD" "Note ON" "$RESET" "vel=$vel" "$REPLY (MIDI $note)$ch_txt" ;;
 		*"note off"*)
 			[[ "$lc" =~ $re_note ]] || return
 			note_name "${BASH_REMATCH[1]}"
-			printf '  %-8s %s %-12s %-10s %s\n' "$src" "$pname" "Note OFF" "" "$REPLY$ch_txt" ;;
+			printf '  %s %-8s %s %-12s %-10s %s\n' "$TS" "$src" "$pname" "Note OFF" "" "$REPLY$ch_txt" ;;
 		*"control change"*)
 			[[ "$lc" =~ $re_ctrl ]] || return
 			ctrl="${BASH_REMATCH[1]}"
 			[[ "$lc" =~ $re_val ]] && val="${BASH_REMATCH[1]}"
-			printf '  %s%-8s%s %s %s%-12s%s %-10s %s\n' "$YELLOW" "$src" "$RESET" "$pname" "$YELLOW" "CC" "$RESET" "val=$val" "Controller #$ctrl$ch_txt" ;;
+			printf '  %s %s%-8s%s %s %s%-12s%s %-10s %s\n' "$TS" "$YELLOW" "$src" "$RESET" "$pname" "$YELLOW" "CC" "$RESET" "val=$val" "Controller #$ctrl$ch_txt" ;;
 		*"program change"*)
 			[[ "$lc" =~ $re_prog ]] && prog="${BASH_REMATCH[1]}"
-			printf '  %s%-8s%s %s %s%-12s%s %s\n' "$CYAN" "$src" "$RESET" "$pname" "$CYAN" "Prog CH" "$RESET" "#$prog$ch_txt" ;;
+			printf '  %s %s%-8s%s %s %s%-12s%s %s\n' "$TS" "$CYAN" "$src" "$RESET" "$pname" "$CYAN" "Prog CH" "$RESET" "#$prog$ch_txt" ;;
 		*"pitch bend"*)
 			[[ "$lc" =~ $re_val ]] && val="${BASH_REMATCH[1]}"
-			printf '  %s%-8s%s %s %s%-12s%s %s\n' "$CYAN" "$src" "$RESET" "$pname" "$CYAN" "Pitch" "$RESET" "$val$ch_txt" ;;
+			printf '  %s %s%-8s%s %s %s%-12s%s %s\n' "$TS" "$CYAN" "$src" "$RESET" "$pname" "$CYAN" "Pitch" "$RESET" "$val$ch_txt" ;;
 		*"channel pressure"*|*aftertouch*)
 			[[ "$lc" =~ $re_val ]] && val="${BASH_REMATCH[1]}"
-			printf '  %s%-8s%s %s %s%-12s%s %s\n' "$CYAN" "$src" "$RESET" "$pname" "$CYAN" "Aftertouch" "$RESET" "val=$val$ch_txt" ;;
+			printf '  %s %s%-8s%s %s %s%-12s%s %s\n' "$TS" "$CYAN" "$src" "$RESET" "$pname" "$CYAN" "Aftertouch" "$RESET" "val=$val$ch_txt" ;;
 		*sysex*|*"system exclusive"*)
-			printf '  %-8s %s %-12s\n' "$src" "$pname" "SysEx" ;;
+			printf '  %s %-8s %s %-12s\n' "$TS" "$src" "$pname" "SysEx" ;;
 	esac
 }
 
@@ -777,6 +908,7 @@ print_event() {
 listen_and_print() {
 	local ports_arg rc line
 	section "Listening"
+	shopt -s nocasematch
 	if (( ${#SELECTED_PORTS[@]} > 0 )); then
 		ports_arg=$(IFS=,; echo "${SELECTED_PORTS[*]}")
 		msg_ok "Listening on selected port(s): $ports_arg"
@@ -786,8 +918,8 @@ listen_and_print() {
 	fi
 	msg_dim "Press keys, pads, buttons - Ctrl+C to quit."
 	echo
-	printf '  %s%s%-8s %-28s %-12s %-10s %s%s\n' "$BOLD" "$CYAN" "PORT" "DEVICE / PORT" "TYPE" "VALUE" "DETAIL" "$RESET"
-	printf '  %s%s%s\n' "$DIM" "$(rep "$BX_H" 68)" "$RESET"
+	printf '  %s%s%-12s %-8s %-28s %-12s %-10s %s%s\n' "$BOLD" "$CYAN" "TIME" "PORT" "DEVICE / PORT" "TYPE" "VALUE" "DETAIL" "$RESET"
+	printf '  %s%s%s\n' "$DIM" "$(rep "$BX_H" 80)" "$RESET"
 	aseqdump -p "$ports_arg" | while IFS= read -r line; do
 		print_event "$line"
 	done
@@ -799,6 +931,58 @@ listen_and_print() {
 }
 
 # ──────────────────────────────────────────────────────────────────────────────
+#  Color test (APC pads)
+# ──────────────────────────────────────────────────────────────────────────────
+# Draw the progress line: bar, percentage, color number and elapsed time
+progress_line() {		# $1 = current color (0-127), $2 = start time in $SECONDS
+	local -i cur=$1 done_n total=128 width=40 el=$(( SECONDS - $2 ))
+	local on='#' off='-'
+	$UI_UTF8 && { on='█'; off='░'; }
+	done_n=$(( (cur + 1) * width / total ))
+	printf '\r  %sColor test%s %s%s%s%s%s %3d%%  %3d/127  %02d:%02d' \
+		"$BOLD" "$RESET" "$CYAN" "$(rep "$on" "$done_n")" "$DIM" "$(rep "$off" $(( width - done_n )))" "$RESET" \
+		$(( (cur + 1) * 100 / total )) "$cur" $(( el / 60 )) $(( el % 60 ))
+}
+
+# Ask for the colortest parameters (menu mode), keeping the defaults on an empty answer
+prompt_colortest_params() {
+	local v
+	ask "MIDI note of the pad [$COLOR_NOTE]: " && v=$REPLY || return 1
+	if [[ -n "$v" ]]; then valid_note "$v" || die "Invalid note: '$v' (expected 0-127)"; COLOR_NOTE=$((10#$v)); fi
+	ask "Part of the output port name [$COLOR_PORT]: " && v=$REPLY || return 1
+	[[ -n "$v" ]] && COLOR_PORT="$v"
+	ask "Delay between two colors in seconds [$COLOR_DELAY]: " && v=$REPLY || return 1
+	if [[ -n "$v" ]]; then valid_delay "$v" || die "Invalid delay: '$v' (expected 0-60, e.g. 0.5)"; COLOR_DELAY="$v"; fi
+}
+
+valid_note()  { [[ "$1" =~ ^[0-9]{1,3}$ ]] && (( 10#$1 <= 127 )); }
+valid_delay() { [[ "$1" =~ ^[0-9]{1,2}(\.[0-9]{1,3})?$ ]] && (( 10#${1%%.*} <= 60 )); }
+
+# Send every color (velocity 0-127) to one pad (Note On, channel 1) and show the progress
+color_test() {
+	local -i color start
+	local msg
+	section "Color test"
+	find_output_port "$COLOR_PORT" || return 1
+	msg_ok "Sending to $OUT_PORT  $OUT_NAME"
+	msg_dim "Note $COLOR_NOTE, colors 0-127, ${COLOR_DELAY}s between colors - Ctrl+C to stop."
+	echo
+	start=$SECONDS
+	for (( color = 0; color < 128; color++ )); do
+		printf -v msg '%02X %02X %02X' $(( 0x90 )) "$COLOR_NOTE" "$color"
+		if ! aseqsend -p "$OUT_PORT" "$msg" 2>/dev/null; then
+			echo
+			msg_err "aseqsend failed (is $OUT_PORT still connected?)."
+			return 1
+		fi
+		[[ -t 1 ]] && progress_line "$color" "$start"
+		sleep "$COLOR_DELAY"
+	done
+	[[ -t 1 ]] && echo
+	msg_ok "Done: 128 colors sent."
+}
+
+# ──────────────────────────────────────────────────────────────────────────────
 #  CLI
 # ──────────────────────────────────────────────────────────────────────────────
 usage() {
@@ -806,16 +990,35 @@ usage() {
     MIDI Tester v${VERSION} - CLI usage
     Without any option, the interactive menu is shown.
 
-        -p, --port CLIENT:PORT      Listen only on this port (repeatable)
+    Commands (optional first argument):
+        monitor                     Listen to the MIDI ports (default behavior of the options below)
+        colortest                   Send colors 0-127 to an APC pad (needs aseqsend)
+
+    Options:
+        -p, --port CLIENT:PORT      monitor: listen only on this port (repeatable)
         -l, --list                  Just list detected devices/ports, then exit
+        -a, --ascii                 Force ASCII symbols (no Unicode)
         -v, --version               Show the program version and exit
         -h, --help                  Show this help
+
+    Options of colortest:
+            --port TEXT             Part of the output port name to look for (default: APC)
+        -n, --note N                MIDI note of the pad, 0-127 (default: 33)
+        -d, --delay SECONDS         Delay between two colors, 0-60 (default: 0.5)
+
+    Environment:
+        UI_ASCII=1                  Same as --ascii
+        NO_COLOR=1                  Disable colors
+
+    Requires Linux (ALSA).
 
     Examples:
         ./Midi-tester.sh
         ./Midi-tester.sh --list
         ./Midi-tester.sh --port 20:0
         ./Midi-tester.sh -p 20:0 -p 24:0
+        ./Midi-tester.sh monitor
+        ./Midi-tester.sh colortest --port APC --note 33 --delay 0.2
 USAGE
 }
 
@@ -830,10 +1033,18 @@ need_arg() {
 # Entry point: parse CLI arguments, detect devices, then listen non-interactively or via the menu
 main() {
 	local p
+	case "${1:-}" in
+		monitor|colortest) COMMAND="$1"; shift ;;
+	esac
 	while [[ $# -gt 0 ]]; do
 		case "$1" in
-			-p|--port)		need_arg "$@" || break; SELECTED_PORTS+=("$2"); shift ;;
+			-p|--port)		need_arg "$@" || break
+							if [[ "$COMMAND" == colortest ]]; then COLOR_PORT="$2"; else SELECTED_PORTS+=("$2"); fi
+							shift ;;
+			-n|--note)		need_arg "$@" || break; valid_note "$2" || die "Invalid note: '$2' (expected 0-127)"; COLOR_NOTE=$((10#$2)); shift ;;
+			-d|--delay)		need_arg "$@" || break; valid_delay "$2" || die "Invalid delay: '$2' (expected 0-60, e.g. 0.5)"; COLOR_DELAY="$2"; shift ;;
 			-l|--list)		LIST_ONLY=true ;;
+			-a|--ascii)		ui_use_ascii ;;
 			-v|--version)	echo "MIDI Tester v${VERSION}"; exit 0 ;;
 			-h|--help)		usage; exit 0 ;;
 			*)				msg_err "Unknown option: $1"; BAD_ARGS=true ;;
@@ -847,8 +1058,12 @@ main() {
 		[[ "$p" =~ ^[0-9]+:[0-9]+$ ]] || die "Invalid port format: '$p' (expected CLIENT:PORT, e.g. 20:0)"
 	done
 
-	# Any CLI flag switches the script to non-interactive mode (menu is skipped)
-	if $LIST_ONLY || (( ${#SELECTED_PORTS[@]} > 0 )); then
+	# colortest parameters need a value that is shown on screen
+	clean "$COLOR_PORT"; COLOR_PORT=$REPLY
+	[[ -n "$COLOR_PORT" ]] || die "The port text must not be empty."
+
+	# Any CLI flag or command switches the script to non-interactive mode (menu is skipped)
+	if [[ -n "$COMMAND" ]] || $LIST_ONLY || (( ${#SELECTED_PORTS[@]} > 0 )); then
 		NONINTERACTIVE=true
 	fi
 	# No flag and no terminal: the menu cannot work
@@ -856,12 +1071,18 @@ main() {
 
 	clear_screen
 	banner "MIDI Tester v${VERSION}" "Live ALSA MIDI message viewer"
-	check_dependencies
+	if [[ "$COMMAND" == colortest ]]; then
+		check_dependencies aconnect aseqsend
+		trap 'printf "%s\n\n  %s%s%s\n" "$RESET" "$YELLOW" "Test stopped." "$RESET"; exit 0' INT
+		color_test
+		exit
+	fi
+	check_dependencies aconnect aseqdump
 	detect_ports
 
 	# A port given on the CLI must exist in the detected list (virtual ports are still allowed)
 	for p in "${SELECTED_PORTS[@]}"; do
-		[[ -n "${PORT_NAMES[$p]+x}" ]] || msg_warn "Port $p is not in the detected list (listening anyway)."
+		port_name "$p" || msg_warn "Port $p is not in the detected list (listening anyway)."
 	done
 
 	if (( ${#ALL_PORTS[@]} == 0 && ${#SELECTED_PORTS[@]} == 0 )); then
@@ -879,6 +1100,12 @@ main() {
 
 	# No CLI flag given: interactive menu (list all / choose ports / list only / quit)
 	$NONINTERACTIVE || show_menu
+	if [[ "$COMMAND" == colortest ]]; then
+		check_dependencies aconnect aseqsend
+		trap 'printf "%s\n\n  %s%s%s\n" "$RESET" "$YELLOW" "Test stopped." "$RESET"; exit 0' INT
+		color_test
+		exit
+	fi
 	$LIST_ONLY && exit 0
 	listen_and_print
 }
