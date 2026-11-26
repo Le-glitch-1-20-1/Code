@@ -1,9 +1,15 @@
 #!/usr/bin/env python3
 
 from fractions import Fraction
-import sympy as sp
 
-MAX_COFACTOR_DIM = 10
+_SP = None
+
+def _sp():
+	global _SP
+	if _SP is None:
+		import sympy as sp
+		_SP = sp
+	return _SP
 
 def _est_complexe_tuple(val):
 	return isinstance(val, tuple) and len(val) == 2
@@ -13,11 +19,26 @@ def _valider_reel_float(x):
 		raise ValueError("Les valeurs NaN et infinies ne sont pas autorisées.")
 
 def _fraction_si_rationnel(expr):
+	sp = _sp()
 	if isinstance(expr, sp.Integer):
 		return Fraction(int(expr), 1)
 	if isinstance(expr, sp.Rational):
 		return Fraction(int(expr.p), int(expr.q))
 	return expr
+
+def _entier_strict_positif(val, msg):
+	if isinstance(val, bool) or not isinstance(val, int) or val <= 0:
+		raise ValueError(msg)
+	return val
+
+def _expr_vers_exact(expr):
+	sp = _sp()
+	if expr.has(sp.nan, sp.oo, -sp.oo, sp.zoo):
+		raise ValueError("Les valeurs NaN et infinies ne sont pas autorisées.")
+	return _fraction_si_rationnel(expr)
+
+def _est_sympy(val):
+	return _SP is not None and isinstance(val, _SP.Basic)
 
 def to_exact_val(val):
 	if isinstance(val, bool):
@@ -32,24 +53,15 @@ def to_exact_val(val):
 	if isinstance(val, complex):
 		_valider_reel_float(val.real)
 		_valider_reel_float(val.imag)
+		sp = _sp()
 		re = sp.Rational(Fraction(str(val.real)))
 		im = sp.Rational(Fraction(str(val.imag)))
-		expr = sp.simplify(re + sp.I * im)
-		if expr.has(sp.nan, sp.oo, -sp.oo, sp.zoo):
-			raise ValueError("Les valeurs NaN et infinies ne sont pas autorisées.")
-		return _fraction_si_rationnel(expr)
+		return _expr_vers_exact(re + sp.I * im)
 	if _est_complexe_tuple(val):
-		re = to_sympy(val[0])
-		im = to_sympy(val[1])
-		expr = sp.simplify(re + sp.I * im)
-		if expr.has(sp.nan, sp.oo, -sp.oo, sp.zoo):
-			raise ValueError("Les valeurs NaN et infinies ne sont pas autorisées.")
-		return _fraction_si_rationnel(expr)
-	if isinstance(val, sp.Basic):
-		if val.has(sp.nan, sp.oo, -sp.oo, sp.zoo):
-			raise ValueError("Les valeurs NaN et infinies ne sont pas autorisées.")
-		expr = sp.simplify(val)
-		return _fraction_si_rationnel(expr)
+		sp = _sp()
+		return _expr_vers_exact(to_sympy(val[0]) + sp.I * to_sympy(val[1]))
+	if _est_sympy(val):
+		return _expr_vers_exact(val)
 	if isinstance(val, str):
 		texte = val.strip()
 		if not texte:
@@ -58,34 +70,35 @@ def to_exact_val(val):
 			return Fraction(texte)
 		except ValueError:
 			pass
+		sp = _sp()
 		try:
 			expr = sp.sympify(texte, locals={"i": sp.I})
 		except Exception as exc:
 			raise ValueError(f"Valeur invalide : {val!r}") from exc
-		if expr.has(sp.nan, sp.oo, -sp.oo, sp.zoo):
-			raise ValueError("Les valeurs NaN et infinies ne sont pas autorisées.")
-		expr = sp.simplify(expr)
-		return _fraction_si_rationnel(expr)
+		return _expr_vers_exact(expr)
 	raise TypeError(f"Type non supporté : {type(val).__name__}")
 
 def to_sympy(val):
 	v = to_exact_val(val)
 	if isinstance(v, Fraction):
-		return sp.Rational(v.numerator, v.denominator)
+		return _sp().Rational(v.numerator, v.denominator)
 	return v
 
-def _est_nul(val):
-	v = to_exact_val(val)
+def _est_nul_norm(v):
 	if isinstance(v, Fraction):
 		return v == 0
-	return bool(sp.simplify(v) == 0)
+	return bool(_sp().simplify(v) == 0)
+
+def _est_nul(val):
+	return _est_nul_norm(to_exact_val(val))
 
 def _cle_pivot(val):
 	v = to_exact_val(val)
-	if _est_nul(v):
+	if _est_nul_norm(v):
 		return (-1, 0.0)
 	if isinstance(v, Fraction):
 		return (2, float(abs(v)))
+	sp = _sp()
 	if v.is_number and not v.has(sp.Symbol):
 		try:
 			return (2, float(sp.Abs(v).evalf()))
@@ -93,34 +106,29 @@ def _cle_pivot(val):
 			pass
 	return (1, -float(sp.count_ops(v)))
 
-def _c_add(a, b):
+def _op_scalaire(a, b, f_op, sp_op, division=False):
 	va, vb = to_exact_val(a), to_exact_val(b)
 	if isinstance(va, Fraction) and isinstance(vb, Fraction):
-		return va + vb
-	return _fraction_si_rationnel(sp.simplify(to_sympy(va) + to_sympy(vb)))
+		if division and vb == 0:
+			raise ZeroDivisionError("Division par zéro.")
+		return f_op(va, vb)
+	sp = _sp()
+	sa, sb = to_sympy(va), to_sympy(vb)
+	if division and _est_nul_norm(sb):
+		raise ZeroDivisionError("Division par zéro.")
+	return _fraction_si_rationnel(sp.simplify(sp_op(sa, sb)))
+
+def _c_add(a, b):
+	return _op_scalaire(a, b, lambda x, y: x + y, lambda x, y: x + y)
 
 def _c_sous(a, b):
-	va, vb = to_exact_val(a), to_exact_val(b)
-	if isinstance(va, Fraction) and isinstance(vb, Fraction):
-		return va - vb
-	return _fraction_si_rationnel(sp.simplify(to_sympy(va) - to_sympy(vb)))
+	return _op_scalaire(a, b, lambda x, y: x - y, lambda x, y: x - y)
 
 def _c_mult(a, b):
-	va, vb = to_exact_val(a), to_exact_val(b)
-	if isinstance(va, Fraction) and isinstance(vb, Fraction):
-		return va * vb
-	return _fraction_si_rationnel(sp.simplify(to_sympy(va) * to_sympy(vb)))
+	return _op_scalaire(a, b, lambda x, y: x * y, lambda x, y: x * y)
 
 def _c_div(a, b):
-	va, vb = to_exact_val(a), to_exact_val(b)
-	if isinstance(va, Fraction) and isinstance(vb, Fraction):
-		if vb == 0:
-			raise ZeroDivisionError("Division par zéro.")
-		return va / vb
-	num, den = to_sympy(va), to_sympy(vb)
-	if _est_nul(den):
-		raise ZeroDivisionError("Division par zéro.")
-	return _fraction_si_rationnel(sp.simplify(num / den))
+	return _op_scalaire(a, b, lambda x, y: x / y, lambda x, y: x / y, division=True)
 
 def fmt_val(val):
 	v = to_exact_val(val)
@@ -130,7 +138,7 @@ def fmt_val(val):
 
 def valider_scalaire(val, nom="scalaire", autoriser_zero=True):
 	v = to_exact_val(val)
-	if not autoriser_zero and _est_nul(v):
+	if not autoriser_zero and _est_nul_norm(v):
 		raise ZeroDivisionError(f"Le paramètre '{nom}' ne peut pas être nul.")
 	return v
 
@@ -141,17 +149,16 @@ def _dimensions(mat):
 	return len(mat), len(mat[0])
 
 def valider_matrice_2d(M, nom="M"):
-	if isinstance(M, sp.MatrixBase):
+	if _est_sympy(M) and hasattr(M, "rows") and hasattr(M, "cols"):
 		if M.rows == 0 or M.cols == 0:
 			raise ValueError(f"'{nom}' doit être une matrice non vide à 2 dimensions.")
 		return _matrice(M.rows, M.cols, lambda i, j: to_exact_val(M[i, j]))
 	if not isinstance(M, (list, tuple)) or len(M) == 0:
 		raise ValueError(f"'{nom}' doit être une matrice non vide à 2 dimensions.")
-	l = len(M)
-	if not all(isinstance(ligne, (list, tuple)) and len(ligne) == len(M[0]) and len(ligne) > 0 for ligne in M):
+	nb_cols = len(M[0])
+	if not all(isinstance(ligne, (list, tuple)) and len(ligne) == nb_cols and nb_cols > 0 for ligne in M):
 		raise ValueError(f"'{nom}' doit être une matrice rectangulaire non vide à 2 dimensions.")
-	c = len(M[0])
-	return _matrice(l, c, lambda i, j: to_exact_val(M[i][j]))
+	return _matrice(len(M), nb_cols, lambda i, j: to_exact_val(M[i][j]))
 
 def valider_matrice_carree(M, nom="M"):
 	mat = valider_matrice_2d(M, nom=nom)
@@ -161,15 +168,13 @@ def valider_matrice_carree(M, nom="M"):
 	return mat
 
 def identite(n):
-	if not isinstance(n, int) or isinstance(n, bool) or n <= 0:
-		raise ValueError("La taille de la matrice identité doit être un entier strictement positif.")
+	_entier_strict_positif(n, "La taille de la matrice identité doit être un entier strictement positif.")
 	return _matrice(n, n, lambda i, j: Fraction(1, 1) if i == j else Fraction(0, 1))
 
 def _op_terme_a_terme(A, B, op, nom_op):
 	mat_A = valider_matrice_2d(A, "A")
 	mat_B = valider_matrice_2d(B, "B")
-	dim_A = _dimensions(mat_A)
-	dim_B = _dimensions(mat_B)
+	dim_A, dim_B = _dimensions(mat_A), _dimensions(mat_B)
 	if dim_A != dim_B:
 		raise ValueError(f"Dimensions incompatibles pour {nom_op} : {dim_A} et {dim_B}.")
 	l, c = dim_A
@@ -230,10 +235,15 @@ def div(A, B=None, scalaire=None):
 		return _matrice(l, c, lambda i, j: _c_div(mat_A[i][j], s))
 	if B is None:
 		raise ValueError("Vous devez fournir une matrice 'B' ou un 'scalaire'.")
-	return mult(mat_A, inverse(B))
+	mat_B = valider_matrice_carree(B, "B")
+	_, c_A = _dimensions(mat_A)
+	n_B, _ = _dimensions(mat_B)
+	if c_A != n_B:
+		raise ValueError(f"Dimensions incompatibles pour la division matricielle : {_dimensions(mat_A)} et {(n_B, n_B)}.")
+	return mult(mat_A, inverse(mat_B))
 
 def afficher_matrice(titre, M, sep=None):
-	if isinstance(M, (int, float, complex, Fraction, sp.Basic)) or _est_complexe_tuple(M):
+	if isinstance(M, (int, float, complex, Fraction)) or _est_complexe_tuple(M) or _est_sympy(M):
 		print(f"\n{titre} : {fmt_val(M)}")
 		return
 	arr = valider_matrice_2d(M, titre)
@@ -258,34 +268,36 @@ def sous_matrice(m, ligne, col):
 		raise IndexError(f"Indices ({ligne}, {col}) hors limites pour une matrice de taille {(l, c)}.")
 	return [[mat[i][j] for j in range(c) if j != col] for i in range(l) if i != ligne]
 
-def det(M, max_dim=MAX_COFACTOR_DIM):
+def _verifier_max_dim(n, max_dim):
+	if max_dim is not None and n > max_dim:
+		raise ValueError(f"Dimension {n} supérieure à la limite ({max_dim}).")
+
+def det(M, max_dim=None):
 	mat = valider_matrice_carree(M, "M")
 	n, _ = _dimensions(mat)
-	if n > max_dim:
-		raise ValueError(f"Dimension {n} supérieure à la limite sécurisée ({max_dim}) pour le calcul par cofacteurs.")
+	_verifier_max_dim(n, max_dim)
 	if n == 1:
-		return to_exact_val(mat[0][0])
+		return mat[0][0]
 	if n == 2:
 		return _c_sous(_c_mult(mat[0][0], mat[1][1]), _c_mult(mat[1][0], mat[0][1]))
 	total = Fraction(0, 1)
 	for l in range(n):
-		coeff = to_exact_val(mat[l][0])
-		if not _est_nul(coeff):
+		coeff = mat[l][0]
+		if not _est_nul_norm(coeff):
 			signe = Fraction(-1 if l % 2 else 1, 1)
 			mineur = det(sous_matrice(mat, l, 0), max_dim=max_dim)
 			total = _c_add(total, _c_mult(_c_mult(signe, coeff), mineur))
-	return _fraction_si_rationnel(sp.simplify(to_sympy(total))) if isinstance(total, sp.Basic) else total
+	return _fraction_si_rationnel(_sp().simplify(to_sympy(total))) if _est_sympy(total) else total
 
-def cof(M, max_dim=MAX_COFACTOR_DIM):
+def cof(M, max_dim=None):
 	mat = valider_matrice_carree(M, "M")
 	n, _ = _dimensions(mat)
-	if n > max_dim:
-		raise ValueError(f"Dimension {n} supérieure à la limite sécurisée ({max_dim}) pour la comatrice.")
+	_verifier_max_dim(n, max_dim)
 	if n == 1:
 		return _matrice(1, 1, lambda i, j: Fraction(1, 1))
 	if n == 2:
-		a, b = to_exact_val(mat[0][0]), to_exact_val(mat[0][1])
-		c_val, d_val = to_exact_val(mat[1][0]), to_exact_val(mat[1][1])
+		a, b = mat[0][0], mat[0][1]
+		c_val, d_val = mat[1][0], mat[1][1]
 		valeurs = [d_val, _c_mult(Fraction(-1, 1), c_val), _c_mult(Fraction(-1, 1), b), a]
 		return _matrice(2, 2, lambda i, j: valeurs[i * 2 + j])
 
@@ -299,69 +311,64 @@ def cof(M, max_dim=MAX_COFACTOR_DIM):
 def transposee(M):
 	mat = valider_matrice_2d(M, "M")
 	l, c = _dimensions(mat)
-	return _matrice(c, l, lambda j, i: to_exact_val(mat[i][j]))
+	return _matrice(c, l, lambda j, i: mat[i][j])
 
-def inverse(M, max_dim=MAX_COFACTOR_DIM):
-	mat = valider_matrice_carree(M, "M")
-	d = det(mat, max_dim=max_dim)
-	if _est_nul(d):
-		raise ValueError("La matrice n'est pas inversible (déterminant nul).")
-	adj = transposee(cof(mat, max_dim=max_dim))
-	n, _ = _dimensions(adj)
-	return _matrice(n, n, lambda l, c: _c_div(adj[l][c], d))
-
-def _pivot_augmentee(M):
+def inverse(M):
 	mat = valider_matrice_carree(M, "M")
 	n, _ = _dimensions(mat)
-	B = []
-	for i in range(n):
-		ligne = [to_exact_val(mat[i][j]) for j in range(n)]
-		ligne.extend(Fraction(1, 1) if i == j else Fraction(0, 1) for j in range(n))
-		B.append(ligne)
-	return B, n
+	B = [list(mat[i]) + [Fraction(1, 1) if i == j else Fraction(0, 1) for j in range(n)] for i in range(n)]
+	reduite, _ = gauss_jordan(B, colonnes_systeme=n)
+	if any(_est_nul_norm(reduite[i][i]) for i in range(n)):
+		raise ValueError("La matrice n'est pas inversible (déterminant nul).")
+	return [ligne[n:] for ligne in reduite]
 
-def _finaliser_augmentee(B, n):
-	for i in range(n):
-		for j in range(2 * n):
-			val = to_exact_val(B[i][j])
-			if isinstance(val, sp.Basic):
-				val = _fraction_si_rationnel(sp.simplify(val))
-			B[i][j] = val
-	return B, n
+def _pivot_generique(M, colonnes_systeme=None, reduire_complet=False):
+	mat = valider_matrice_2d(M, "M")
+	l, c = _dimensions(mat)
+	if colonnes_systeme is None:
+		nb_cols = c
+	else:
+		_entier_strict_positif(colonnes_systeme, f"'colonnes_systeme' doit être un entier entre 1 et {c}.")
+		if colonnes_systeme > c:
+			raise ValueError(f"'colonnes_systeme' doit être un entier entre 1 et {c}.")
+		nb_cols = colonnes_systeme
+	B = [list(ligne) for ligne in mat]
+	ligne_pivot = 0
+	for col in range(nb_cols):
+		if ligne_pivot >= l:
+			break
+		pivot_row = max(range(ligne_pivot, l), key=lambda r: _cle_pivot(B[r][col]))
+		if _est_nul_norm(B[pivot_row][col]):
+			continue
+		if pivot_row != ligne_pivot:
+			B[ligne_pivot], B[pivot_row] = B[pivot_row], B[ligne_pivot]
+		if reduire_complet:
+			pivot = B[ligne_pivot][col]
+			B[ligne_pivot] = [_c_div(val, pivot) for val in B[ligne_pivot]]
+			lignes_cibles = (i for i in range(l) if i != ligne_pivot)
+		else:
+			lignes_cibles = range(ligne_pivot + 1, l)
+		pivot = B[ligne_pivot][col]
+		for i in lignes_cibles:
+			if not _est_nul_norm(B[i][col]):
+				facteur = _c_div(B[i][col], pivot)
+				B[i] = [_c_sous(B[i][j], _c_mult(facteur, B[ligne_pivot][j])) for j in range(c)]
+		ligne_pivot += 1
+	for i in range(l):
+		for j in range(c):
+			val = B[i][j]
+			if _est_sympy(val):
+				B[i][j] = _fraction_si_rationnel(_sp().simplify(val))
+	return B, (nb_cols if nb_cols < c else None)
 
-def gauss_jordan(M):
-	B, n = _pivot_augmentee(M)
-	for k in range(n):
-		pivot_row = max(range(k, n), key=lambda r: _cle_pivot(B[r][k]))
-		if _est_nul(B[pivot_row][k]):
-			raise ValueError("La matrice est singulière (non inversible).")
-		if pivot_row != k:
-			B[k], B[pivot_row] = B[pivot_row], B[k]
-		pivot = B[k][k]
-		B[k] = [_c_div(val, pivot) for val in B[k]]
-		for i in range(n):
-			if i != k and not _est_nul(B[i][k]):
-				facteur = B[i][k]
-				B[i] = [_c_sous(B[i][j], _c_mult(facteur, B[k][j])) for j in range(2 * n)]
-	return _finaliser_augmentee(B, n)
+def gauss(M, colonnes_systeme=None):
+	return _pivot_generique(M, colonnes_systeme=colonnes_systeme, reduire_complet=False)
 
-def gauss(M):
-	B, n = _pivot_augmentee(M)
-	for k in range(n):
-		pivot_row = max(range(k, n), key=lambda r: _cle_pivot(B[r][k]))
-		if _est_nul(B[pivot_row][k]):
-			raise ValueError("La matrice est singulière (non inversible).")
-		if pivot_row != k:
-			B[k], B[pivot_row] = B[pivot_row], B[k]
-		pivot = B[k][k]
-		for i in range(k + 1, n):
-			if not _est_nul(B[i][k]):
-				facteur = _c_div(B[i][k], pivot)
-				B[i] = [_c_sous(B[i][j], _c_mult(facteur, B[k][j])) for j in range(2 * n)]
-	return _finaliser_augmentee(B, n)
+def gauss_jordan(M, colonnes_systeme=None):
+	return _pivot_generique(M, colonnes_systeme=colonnes_systeme, reduire_complet=True)
 
 def factorielle_rapide(m: int) -> int:
-	if not isinstance(m, int) or isinstance(m, bool) or m < 0:
+	if isinstance(m, bool) or not isinstance(m, int) or m < 0:
 		raise ValueError("m doit être un entier positif ou nul.")
 	res = 1
 	for i in range(2, m + 1):
@@ -382,6 +389,7 @@ def k_parmi_n_factorise_base(n, k: int, factoriser_fin: bool = True):
 		for i in range(k):
 			prod_num *= (n_exact - Fraction(i, 1))
 		return prod_num / Fraction(fact_k, 1)
+	sp = _sp()
 	n_sym = to_sympy(n_exact)
 	prod_num = sp.Integer(1)
 	for i in range(k):
@@ -391,21 +399,25 @@ def k_parmi_n_factorise_base(n, k: int, factoriser_fin: bool = True):
 		return _fraction_si_rationnel(sp.factor(expr))
 	return _fraction_si_rationnel(sp.simplify(expr) if not n_sym.is_Symbol else expr)
 
-def indice_nilpotence_matrice(N, max_k=8):
-	n, _ = _dimensions(N)
+def indice_nilpotence_matrice(N, max_k=None):
+	mat = valider_matrice_carree(N, "N")
+	n, _ = _dimensions(mat)
+	limite = n if max_k is None else max_k
 	courante = identite(n)
-	for k in range(1, max_k + 1):
-		courante = mult(courante, N)
-		if all(_est_nul(courante[i][j]) for i in range(n) for j in range(n)):
+	for k in range(1, limite + 1):
+		courante = mult(courante, mat)
+		if all(_est_nul_norm(courante[i][j]) for i in range(n) for j in range(n)):
 			return k
 	return None
 
-def puissance_n_symbolique(A, sym_n=sp.Symbol("n", integer=True, nonnegative=True), max_k=8):
+def puissance_n_symbolique(A, sym_n=None, max_k=None):
+	sp = _sp()
+	if sym_n is None:
+		sym_n = sp.Symbol("n", integer=True, nonnegative=True)
 	mat = valider_matrice_carree(A, "A")
 	n, _ = _dimensions(mat)
 	lam = mat[0][0]
-	diagonale_constante = all(_est_nul(_c_sous(mat[i][i], lam)) for i in range(1, n))
-	if diagonale_constante:
+	if all(_est_nul_norm(_c_sous(mat[i][i], lam)) for i in range(1, n)):
 		N = sous(mat, mult(identite(n), scalaire=lam))
 		idx = indice_nilpotence_matrice(N, max_k=max_k)
 		if idx is not None:
@@ -414,165 +426,153 @@ def puissance_n_symbolique(A, sym_n=sp.Symbol("n", integer=True, nonnegative=Tru
 			for k in range(idx):
 				coeff_binom = to_sympy(k_parmi_n_factorise_base(sym_n, k))
 				facteur = sp.simplify(coeff_binom * (lam_sym ** (sym_n - k)))
-				terme = mult(puissance(N, k), scalaire=facteur)
-				resultat = add(resultat, terme)
+				resultat = add(resultat, mult(puissance(N, k), scalaire=facteur))
 			return resultat, f"Binôme de Newton (A = {fmt_val(lam)}*I + N, N^{idx} = 0)"
 	sp_mat = sp.Matrix(n, n, lambda i, j: to_sympy(mat[i][j]))
 	try:
 		res_sp = sp.simplify(sp_mat ** sym_n)
-		resultat = _matrice(n, n, lambda i, j: to_exact_val(res_sp[i, j]))
-		return resultat, "Diagonalisation / Forme de Jordan (SymPy)"
+		return _matrice(n, n, lambda i, j: to_exact_val(res_sp[i, j])), "Diagonalisation / Forme de Jordan (SymPy)"
 	except Exception as exc:
 		raise ValueError(f"Impossible de calculer A^n symboliquement : {exc}") from exc
-
-def _demander_dimensions(nom="M", carree=False, lignes_imposees=None, cols_imposees=None):
-	while True:
-		try:
-			if carree:
-				if lignes_imposees is not None:
-					l = c = int(lignes_imposees)
-					print(f"Dimension imposée pour {nom} (carrée) : {l}x{c}")
-					return l, c
-				n = int(input(f"Taille n de la matrice carrée {nom} (n x n) : ").strip())
-				if n <= 0:
-					print("La taille doit être strictement positive.")
-					continue
-				return n, n
-			if lignes_imposees is not None:
-				l = int(lignes_imposees)
-				print(f"Nombre de lignes imposé pour {nom} : {l}")
-			else:
-				l = int(input(f"Nombre de lignes de {nom} : ").strip())
-			if cols_imposees is not None:
-				c = int(cols_imposees)
-				print(f"Nombre de colonnes imposé pour {nom} : {c}")
-			else:
-				c = int(input(f"Nombre de colonnes de {nom} : ").strip())
-			if l <= 0 or c <= 0:
-				print("Les dimensions doivent être strictement positives.")
-				continue
-			return l, c
-		except ValueError:
-			print("Veuillez entrer des entiers valides.")
-
-def saisir_matrice_manuellement(nom="M", carree=False, lignes_imposees=None, cols_imposees=None):
-	contrainte = "carrée" if carree else "rectangulaire (2D)"
-	print(f"\n--- Saisie de la matrice {nom} [{contrainte}] ---")
-	l, c = _demander_dimensions(nom=nom, carree=carree, lignes_imposees=lignes_imposees, cols_imposees=cols_imposees)
-	print("Entre chaque ligne (ex: 'a b', '1 -2 3/4' ou '1 + 2*i, 0, -i') :")
-	lignes = []
-	for i in range(l):
-		while True:
-			brute = input(f"Ligne {i + 1}/{l} : ").strip()
-			elements = [el.strip() for el in (brute.split(",") if "," in brute else brute.split()) if el.strip()]
-			if len(elements) != c:
-				print(f"Attendu {c} élément(s), reçu {len(elements)}. Réessaie.")
-				continue
-			try:
-				ligne_validee = [to_exact_val(el) for el in elements]
-				lignes.append(ligne_validee)
-				break
-			except Exception as exc:
-				print(f"Valeur invalide ({exc}). Réessaie la ligne.")
-	mat = valider_matrice_2d(lignes, nom=nom)
-	if carree:
-		return valider_matrice_carree(mat, nom=nom)
-	return mat
-
-def _demander_scalaire(nom="scalaire", autoriser_zero=True):
-	while True:
-		saisie = input(f"Entrez le {nom} (ex: 'a', '2', '-3/4', '1+i') : ").strip()
-		try:
-			return valider_scalaire(saisie, nom=nom, autoriser_zero=autoriser_zero)
-		except Exception as exc:
-			print(f"Valeur invalide ({exc}). Réessaie.")
 
 def _demander_entier(message):
 	while True:
 		try:
 			return int(input(message).strip())
 		except ValueError:
-			print("Veuillez entrer un entier valide.")
+			print("Entier invalide.")
+
+def _demander_entier_positif(message):
+	while True:
+		val = _demander_entier(message)
+		if val > 0:
+			return val
+		print("Entier > 0 requis.")
+
+def saisir_matrice_manuellement(nom="M", l=None, c=None):
+	if l is None and c is None:
+		n = _demander_entier_positif(f"Taille {nom} (n x n) : ")
+		l = c = n
+	elif l is None:
+		l = _demander_entier_positif(f"Lignes {nom} : ")
+	elif c is None:
+		c = _demander_entier_positif(f"Colonnes {nom} : ")
+	print(f"\n--- {nom} ({l}x{c}) | '1 -2 3/4' ou '1+2*i, 0, a' ---")
+	lignes = []
+	for i in range(l):
+		while True:
+			brute = input(f"L{i + 1}/{l} : ").strip()
+			elements = [el.strip() for el in (brute.split(",") if "," in brute else brute.split()) if el.strip()]
+			if len(elements) != c:
+				print(f"Attendu {c}, reçu {len(elements)}.")
+				continue
+			try:
+				lignes.append([to_exact_val(el) for el in elements])
+				break
+			except Exception as exc:
+				print(f"Erreur : {exc}")
+	return valider_matrice_2d(lignes, nom=nom)
+
+def _demander_scalaire(nom="k", autoriser_zero=True):
+	while True:
+		saisie = input(f"Scalaire {nom} : ").strip()
+		try:
+			return valider_scalaire(saisie, nom=nom, autoriser_zero=autoriser_zero)
+		except Exception as exc:
+			print(f"Erreur : {exc}")
+
+def _demander_colonnes_sep(nb_cols):
+	if nb_cols <= 1:
+		return None
+	rep = input(f"Colonnes à gauche de '|' (Entrée = aucune, 1..{nb_cols - 1}) : ").strip()
+	if not rep:
+		return None
+	val = int(rep)
+	if not (1 <= val < nb_cols):
+		raise ValueError(f"Séparateur entre 1 et {nb_cols - 1} requis.")
+	return val
 
 def executer_operation_menu(choix):
-	if choix == "1":
-		print("\n[add] A + B : deux matrices de mêmes dimensions (l x c).")
-		A = saisir_matrice_manuellement("A")
-		l_A, c_A = _dimensions(A)
-		B = saisir_matrice_manuellement("B", lignes_imposees=l_A, cols_imposees=c_A)
-		afficher_matrice("A + B", add(A, B))
-	elif choix == "2":
-		print("\n[sous] A - B : deux matrices de mêmes dimensions (l x c).")
-		A = saisir_matrice_manuellement("A")
-		l_A, c_A = _dimensions(A)
-		B = saisir_matrice_manuellement("B", lignes_imposees=l_A, cols_imposees=c_A)
-		afficher_matrice("A - B", sous(A, B))
+	if choix in {"1", "2"}:
+		n = _demander_entier_positif("Taille (n x n) : ")
+		A = saisir_matrice_manuellement("A", l=n, c=n)
+		B = saisir_matrice_manuellement("B", l=n, c=n)
+		if choix == "1":
+			afficher_matrice("A + B", add(A, B))
+		else:
+			afficher_matrice("A - B", sous(A, B))
 	elif choix == "3":
-		print("\n[mult] Multiplication : (A * B) ou (A * scalaire).")
-		print("  1. Matrice A (l x c) * Matrice B (c x m)")
-		print("  2. Matrice A (l x c) * Scalaire")
-		sous_choix = input("Type de multiplication : ").strip()
-		A = saisir_matrice_manuellement("A")
-		_, c_A = _dimensions(A)
+		print("\n[mult] 1: A * B (3 valeurs: l, c, m) | 2: A * k (1 valeur: n)")
+		sous_choix = input("Mode : ").strip()
 		if sous_choix == "1":
-			B = saisir_matrice_manuellement("B", lignes_imposees=c_A)
+			l = _demander_entier_positif("Lignes A (l) : ")
+			c = _demander_entier_positif("Colonnes A / Lignes B (c) : ")
+			m = _demander_entier_positif("Colonnes B (m) : ")
+			A = saisir_matrice_manuellement("A", l=l, c=c)
+			B = saisir_matrice_manuellement("B", l=c, c=m)
 			afficher_matrice("A * B", mult(A, B=B))
 		elif sous_choix == "2":
-			s = _demander_scalaire("scalaire", autoriser_zero=True)
+			n = _demander_entier_positif("Taille A (n x n) : ")
+			A = saisir_matrice_manuellement("A", l=n, c=n)
+			s = _demander_scalaire("k", autoriser_zero=True)
 			afficher_matrice(f"A * ({fmt_val(s)})", mult(A, scalaire=s))
 		else:
-			print("Sous-choix invalide.")
+			print("Mode invalide.")
 	elif choix == "4":
-		print("\n[div] Division : (A * B^(-1)) ou (A / scalaire).")
-		print("  1. Matrice A (l x c) / Matrice carrée inversible B (m x m)")
-		print("  2. Matrice A (l x c) / Scalaire non nul")
-		sous_choix = input("Type de division : ").strip()
-		A = saisir_matrice_manuellement("A")
+		print("\n[div] 1: A / B (1 valeur: n) | 2: A / k (1 valeur: n)")
+		sous_choix = input("Mode : ").strip()
 		if sous_choix == "1":
-			B = saisir_matrice_manuellement("B", carree=True)
+			n = _demander_entier_positif("Taille (n x n) : ")
+			A = saisir_matrice_manuellement("A", l=n, c=n)
+			B = saisir_matrice_manuellement("B", l=n, c=n)
 			afficher_matrice("A / B", div(A, B=B))
 		elif sous_choix == "2":
-			s = _demander_scalaire("scalaire", autoriser_zero=False)
+			n = _demander_entier_positif("Taille A (n x n) : ")
+			A = saisir_matrice_manuellement("A", l=n, c=n)
+			s = _demander_scalaire("k", autoriser_zero=False)
 			afficher_matrice(f"A / ({fmt_val(s)})", div(A, scalaire=s))
 		else:
-			print("Sous-choix invalide.")
+			print("Mode invalide.")
 	elif choix == "5":
-		print("\n[puissance] M^k : matrice M obligatoirement carrée (n x n) et exposant entier k.")
-		M = saisir_matrice_manuellement("M", carree=True)
-		k = _demander_entier("Exposant entier k (positif, nul ou négatif si inversible) : ")
-		afficher_matrice(f"M^({k})", puissance(M, k))
+		print("\n[puissance] M ^ k")
+		M = saisir_matrice_manuellement("M")
+		k = _demander_entier("Exposant k : ")
+		afficher_matrice(f"M ^ ({k})", puissance(M, k))
 	elif choix == "6":
-		print("\n[det] Déterminant : matrice M obligatoirement carrée (n x n).")
-		M = saisir_matrice_manuellement("M", carree=True)
-		afficher_matrice("Déterminant det(M)", det(M))
+		print("\n[det] det(M)")
+		M = saisir_matrice_manuellement("M")
+		afficher_matrice("det(M)", det(M))
 	elif choix == "7":
-		print("\n[cof] Comatrice : matrice M obligatoirement carrée (n x n).")
-		M = saisir_matrice_manuellement("M", carree=True)
-		afficher_matrice("Comatrice cof(M)", cof(M))
+		print("\n[cof] cof(M)")
+		M = saisir_matrice_manuellement("M")
+		afficher_matrice("cof(M)", cof(M))
 	elif choix == "8":
-		print("\n[transposee] Transposée : n'importe quelle matrice.")
-		M = saisir_matrice_manuellement("M", carree=False)
-		afficher_matrice("Transposée M^T", transposee(M))
+		print("\n[transposee] M ^ T")
+		M = saisir_matrice_manuellement("M")
+		afficher_matrice("M ^ T", transposee(M))
 	elif choix == "9":
-		print("\n[inverse] Inverse : matrice carrée (n x n).")
-		M = saisir_matrice_manuellement("M", carree=True)
-		afficher_matrice("Inverse", inverse(M))
+		print("\n[inverse] M ^ (-1)")
+		M = saisir_matrice_manuellement("M")
+		afficher_matrice("M ^ (-1)", inverse(M))
 	elif choix == "10":
-		print("\n[gauss] Gauss : matrice carrée (n x n).")
-		M = saisir_matrice_manuellement("M", carree=True)
-		g, sep = gauss(M)
+		print("\n[gauss] Pivot de Gauss")
+		M = saisir_matrice_manuellement("M")
+		_, c = _dimensions(M)
+		sep_in = _demander_colonnes_sep(c)
+		g, sep = gauss(M, colonnes_systeme=sep_in)
 		afficher_matrice("Gauss", g, sep=sep)
 	elif choix == "11":
-		print("\n[gauss_jordan] Gauss-Jordan : matrice carrée (n x n).")
-		M = saisir_matrice_manuellement("M", carree=True)
-		gj, sep = gauss_jordan(M)
+		print("\n[gauss_jordan] Gauss-Jordan")
+		M = saisir_matrice_manuellement("M")
+		_, c = _dimensions(M)
+		sep_in = _demander_colonnes_sep(c)
+		gj, sep = gauss_jordan(M, colonnes_systeme=sep_in)
 		afficher_matrice("Gauss-Jordan", gj, sep=sep)
 	elif choix == "12":
-		print("\n[puissance_n] Calcul de A ^ n : matrice carrée (n x n).")
-		A = saisir_matrice_manuellement("A", carree=True)
-		sym_n = sp.Symbol("n", integer=True, nonnegative=True)
-		An, methode = puissance_n_symbolique(A, sym_n=sym_n)
-		print(f"Méthode utilisée : {methode}")
+		print("\n[puissance_n] A ^ n")
+		A = saisir_matrice_manuellement("A")
+		An, methode = puissance_n_symbolique(A)
+		print(f"Méthode : {methode}")
 		afficher_matrice("A ^ n", An)
 
 def main():
@@ -591,7 +591,7 @@ def main():
 		print(" 11. gauss_jordan  --> Gauss-Jordan")
 		print(" 12. puissance_n   --> A ^ n")
 		print("  0. quitter")
-		choix = input("Choix de l'opération : ").strip()
+		choix = input("Choix : ").strip()
 		if choix == "0":
 			break
 		if choix not in {str(i) for i in range(1, 13)}:
