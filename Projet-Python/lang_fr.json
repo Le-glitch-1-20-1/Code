@@ -436,7 +436,8 @@
   "(Use arrow keys)": "(Utilisez les flèches)",
   "(Use arrow keys to move, <space> to select, <a> to toggle, <i> to invert)": "(Flèches pour se déplacer, <espace> pour cocher, <a> pour tout basculer, <i> pour inverser)",
   "Yes": "Oui",
-  "No": "Non"
+  "No": "Non",
+  "Plain console display used (add --no-ui to hide this message).": "Affichage console simple utilisé (ajoutez --no-ui pour masquer ce message)."
  },
  "patterns": [
   [
@@ -1141,6 +1142,28 @@
     3,
     "px  -  graine ",
     4
+   ]
+  ],
+  [
+   [
+    "display_layer.py not loaded: the '",
+    0,
+    "' module is missing (pip install rich questionary)."
+   ],
+   [
+    "display_layer.py non chargé : le module '",
+    0,
+    "' est manquant (pip install rich questionary)."
+   ]
+  ],
+  [
+   [
+    "display_layer.py not loaded: ",
+    0
+   ],
+   [
+    "display_layer.py non chargé : ",
+    0
    ]
   ],
   [

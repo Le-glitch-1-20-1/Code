@@ -483,13 +483,19 @@ def load_display() -> ConsoleDisplay:
 	folder: str = os.path.dirname(os.path.abspath(__file__))
 	if folder not in sys.path:
 		sys.path.insert(0, folder)
-	try:
-		import display_layer
-	except ImportError:
+	if not os.path.isfile(os.path.join(folder, "display_layer.py")):
 		return simple_console
 	try:
+		import display_layer
 		return display_layer.create_display(simple_console) or simple_console
-	except Exception:
+	except Exception as exc:
+		# The layer is present but could not start: say why, then use the plain console
+		missing: str | None = getattr(exc, "name", None) if isinstance(exc, ImportError) else None
+		if missing:
+			simple_console.muted(tr(f"display_layer.py not loaded: the '{missing}' module is missing (pip install rich questionary)."))
+		else:
+			simple_console.muted(tr(f"display_layer.py not loaded: {exc}"))
+		simple_console.muted(tr("Plain console display used (add --no-ui to hide this message)."))
 		return simple_console
 
 
