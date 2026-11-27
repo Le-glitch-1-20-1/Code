@@ -494,79 +494,79 @@ def _demander_colonnes_sep(nb_cols):
 
 def executer_operation_menu(choix):
 	if choix in {"1", "2"}:
-		n = _demander_entier_positif("Taille (n x n) : ")
-		A = saisir_matrice_manuellement("A", l=n, c=n)
-		B = saisir_matrice_manuellement("B", l=n, c=n)
+        l = _demander_entier_positif("Nombre de lignes de A et B : ")
+        n = _demander_entier_positif("Nombre de colones de A et B : ")
+        A = saisir_matrice_manuellement("A", l=l, c=c)
+		B = saisir_matrice_manuellement("B", l=l, c=c)
 		if choix == "1":
 			afficher_matrice("A + B", add(A, B))
 		else:
 			afficher_matrice("A - B", sous(A, B))
 	elif choix == "3":
-		print("\n[mult] 1: A * B (3 valeurs: l, c, m) | 2: A * k (1 valeur: n)")
+		print("\n[mult] 1: A * B | 2: A * k")
 		sous_choix = input("Mode : ").strip()
 		if sous_choix == "1":
-			l = _demander_entier_positif("Lignes A (l) : ")
-			c = _demander_entier_positif("Colonnes A / Lignes B (c) : ")
-			m = _demander_entier_positif("Colonnes B (m) : ")
+			l = _demander_entier_positif("Nombre de lignes de A : ")
+			c = _demander_entier_positif("Nombre de colonnes de A | Nombre de lignes de B : ")
+			m = _demander_entier_positif("Nombre de Colonnes de B : ")
 			A = saisir_matrice_manuellement("A", l=l, c=c)
 			B = saisir_matrice_manuellement("B", l=c, c=m)
 			afficher_matrice("A * B", mult(A, B=B))
 		elif sous_choix == "2":
-			n = _demander_entier_positif("Taille A (n x n) : ")
-			A = saisir_matrice_manuellement("A", l=n, c=n)
+            l = _demander_entier_positif("Nombre de lignes de A : ")
+			c = _demander_entier_positif("Nombre de colones de A : ")
+			A = saisir_matrice_manuellement("A", l=l, c=c)
 			s = _demander_scalaire("k", autoriser_zero=True)
 			afficher_matrice(f"A * ({fmt_val(s)})", mult(A, scalaire=s))
 		else:
 			print("Mode invalide.")
 	elif choix == "4":
-		print("\n[div] 1: A / B (1 valeur: n) | 2: A / k (1 valeur: n)")
+		print("\n[div] 1: A / B | 2: A / k")
 		sous_choix = input("Mode : ").strip()
 		if sous_choix == "1":
-			n = _demander_entier_positif("Taille (n x n) : ")
-			A = saisir_matrice_manuellement("A", l=n, c=n)
-			B = saisir_matrice_manuellement("B", l=n, c=n)
+			A = saisir_matrice_manuellement("A")
+			B = saisir_matrice_manuellement("B")
 			afficher_matrice("A / B", div(A, B=B))
 		elif sous_choix == "2":
-			n = _demander_entier_positif("Taille A (n x n) : ")
-			A = saisir_matrice_manuellement("A", l=n, c=n)
+			A = saisir_matrice_manuellement("A")
 			s = _demander_scalaire("k", autoriser_zero=False)
 			afficher_matrice(f"A / ({fmt_val(s)})", div(A, scalaire=s))
 		else:
 			print("Mode invalide.")
 	elif choix == "5":
-		print("\n[puissance] M ^ k")
-		M = saisir_matrice_manuellement("M")
+		print("\n[puissance] A ^ k")
+		A = saisir_matrice_manuellement("A")
 		k = _demander_entier("Exposant k : ")
-		afficher_matrice(f"M ^ ({k})", puissance(M, k))
+		afficher_matrice(f"A ^ ({k})", puissance(A, k))
 	elif choix == "6":
-		print("\n[det] det(M)")
-		M = saisir_matrice_manuellement("M")
-		afficher_matrice("det(M)", det(M))
+		print("\n[det] det(A)")
+		A = saisir_matrice_manuellement("A")
+		afficher_matrice("det(A)", det(A))
 	elif choix == "7":
-		print("\n[cof] cof(M)")
-		M = saisir_matrice_manuellement("M")
-		afficher_matrice("cof(M)", cof(M))
+		print("\n[cof] cof(A)")
+		A = saisir_matrice_manuellement("A")
+		afficher_matrice("cof(A)", cof(A))
 	elif choix == "8":
-		print("\n[transposee] M ^ T")
-		M = saisir_matrice_manuellement("M")
-		afficher_matrice("M ^ T", transposee(M))
+		print("\n[transposee] A ^ T")
+		A = saisir_matrice_manuellement("A")
+		afficher_matrice("A ^ T", transposee(A))
 	elif choix == "9":
-		print("\n[inverse] M ^ (-1)")
-		M = saisir_matrice_manuellement("M")
-		afficher_matrice("M ^ (-1)", inverse(M))
+		print("\n[inverse] A ^ (-1)")
+		A = saisir_matrice_manuellement("A")
+		afficher_matrice("A ^ (-1)", inverse(A))
 	elif choix == "10":
 		print("\n[gauss] Pivot de Gauss")
-		M = saisir_matrice_manuellement("M")
-		_, c = _dimensions(M)
+		A = saisir_matrice_manuellement("A")
+		_, c = _dimensions(A)
 		sep_in = _demander_colonnes_sep(c)
-		g, sep = gauss(M, colonnes_systeme=sep_in)
+		g, sep = gauss(A, colonnes_systeme=sep_in)
 		afficher_matrice("Gauss", g, sep=sep)
 	elif choix == "11":
 		print("\n[gauss_jordan] Gauss-Jordan")
-		M = saisir_matrice_manuellement("M")
-		_, c = _dimensions(M)
+		A = saisir_matrice_manuellement("A")
+		_, c = _dimensions(A)
 		sep_in = _demander_colonnes_sep(c)
-		gj, sep = gauss_jordan(M, colonnes_systeme=sep_in)
+		gj, sep = gauss_jordan(A, colonnes_systeme=sep_in)
 		afficher_matrice("Gauss-Jordan", gj, sep=sep)
 	elif choix == "12":
 		print("\n[puissance_n] A ^ n")
@@ -582,7 +582,7 @@ def main():
 		print("  2. sous          --> A - B")
 		print("  3. mult          --> A * B | A * k")
 		print("  4. div           --> A / B | A / k")
-		print("  5. puissance     --> M ^ k")
+		print("  5. puissance     --> A ^ k")
 		print("  6. det           --> Déterminant")
 		print("  7. cof           --> Comatrice")
 		print("  8. transposee    --> Transposée")
@@ -603,4 +603,4 @@ def main():
 			print(f"\n[Erreur] {exc}")
 
 if __name__ == "__main__":
-	main()
+    main()
