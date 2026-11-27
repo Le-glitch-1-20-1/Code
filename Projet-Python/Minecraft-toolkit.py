@@ -1,23 +1,500 @@
 #!/usr/bin/env python3
 """Minecraft world analysis toolkit: map area calculator and dragon egg finder."""
-from __future__		import annotations
 import argparse
 import gzip
 import io
 import os
 import struct
 import sys
+import time
 import zlib
-import questionary
 from abc			import ABC, abstractmethod
 from dataclasses	import dataclass
 from typing			import Optional
-from rich.console	import Console
-from rich.panel		import Panel
-from rich.rule		import Rule
-from rich.table		import Table
 
-console: Console = Console()
+# ============================================================================
+# DISPLAY
+# By default the script only uses print() and input() (ConsoleDisplay class).
+# If the file "display_layer.py" is next to the script, it is loaded
+# automatically and adds a display layer (colours, menus, bars...).
+# To prevent it from loading:
+#   - run the script with the  --no-ui  option
+#   - or set the environment variable  PROJECT_NO_UI=1
+#   - or set ACTIVE = False in display_layer.py (or delete the file)
+#
+# LANGUAGE
+# Messages are in English by default. To get them in French, the file
+# "lang_fr.json" must be next to the script, then:
+#   - run the script with  --lang fr
+#   - or set the environment variable  PROJECT_LANG=fr
+# ============================================================================
+
+import json
+import re
+
+_LINE_OPEN: list[bool] = [False]
+
+
+def _pick_language() -> str:
+	# Read (and remove) --lang xx / --lang=xx from the command line, then PROJECT_LANG
+	lang: str = os.environ.get("PROJECT_LANG", "en").strip().lower() or "en"
+	args: list[str] = sys.argv
+	i: int = 1
+	while i < len(args):
+		if args[i] == "--lang" and i + 1 < len(args):
+			lang = args[i + 1].strip().lower()
+			del args[i:i + 2]
+			continue
+		if args[i].startswith("--lang="):
+			lang = args[i].split("=", 1)[1].strip().lower()
+			del args[i]
+			continue
+		i += 1
+	return lang
+
+
+class _Translator:
+	# Translates English messages using lang_<code>.json; returns the text unchanged otherwise
+	def __init__(self, lang: str) -> None:
+		self.lang: str = "en"
+		self.exact: dict[str, str] = {}
+		self.patterns: list[tuple[re.Pattern[str], list]] = []
+		if lang == "en":
+			return
+		path: str = os.path.join(os.path.dirname(os.path.abspath(__file__)), f"lang_{lang}.json")
+		try:
+			with open(path, encoding="utf-8") as handle:
+				data: dict = json.load(handle)
+		except (OSError, ValueError):
+			return
+		self.lang = lang
+		self.exact = data.get("exact", {})
+		for source, target in data.get("patterns", []):
+			literal: str = "".join(p for p in source if isinstance(p, str))
+			if len(literal.strip()) < 3:
+				continue
+			regex: str = "".join(re.escape(p) if isinstance(p, str) else f"(?P<p{p}>.*?)" for p in source)
+			self.patterns.append((re.compile(regex + r"\Z", re.DOTALL), target, len(literal)))
+		self.patterns.sort(key=lambda item: -item[2])
+
+	def __call__(self, text: object) -> object:
+		if self.lang == "en" or not isinstance(text, str) or not text:
+			return text
+		found: str | None = self._lookup(text)
+		if found is not None:
+			return found
+		if "\n" in text:
+			return "\n".join(self._lookup(row) or row for row in text.split("\n"))
+		return text
+
+	def _exact(self, text: str) -> str | None:
+		if text in self.exact:
+			return self.exact[text]
+		stripped: str = text.strip()
+		if stripped and stripped != text and stripped in self.exact:
+			start: int = text.index(stripped)
+			return text[:start] + self.exact[stripped] + text[start + len(stripped):]
+		return None
+
+	def _lookup(self, text: str) -> str | None:
+		found: str | None = self._exact(text)
+		if found is not None:
+			return found
+		for regex, target, _ in self.patterns:
+			match = regex.match(text)
+			if match:
+				values: dict[str, str] = match.groupdict()
+				# Inserted values (e.g. a "[DRY RUN] " prefix) are translated too if known
+				return "".join(p if isinstance(p, str) else (self._exact(values.get(f"p{p}", "")) or values.get(f"p{p}", "")) for p in target)
+		return None
+
+
+tr: _Translator = _Translator(_pick_language())
+
+
+def _translate_argparse() -> None:
+	# Translate the help texts given to argparse (descriptions, options, epilogs)
+	if tr.lang == "en":
+		return
+	import argparse
+	original_init = argparse.ArgumentParser.__init__
+	original_add = argparse._ActionsContainer.add_argument
+	original_group = argparse._ActionsContainer.add_argument_group
+
+	def init(self, *args, **kwargs):
+		for key in ("description", "epilog"):
+			if key in kwargs:
+				kwargs[key] = tr(kwargs[key])
+		original_init(self, *args, **kwargs)
+
+	def add_argument(self, *args, **kwargs):
+		if "help" in kwargs:
+			kwargs["help"] = tr(kwargs["help"])
+		return original_add(self, *args, **kwargs)
+
+	def add_argument_group(self, *args, **kwargs):
+		args = tuple(tr(a) for a in args)
+		if "description" in kwargs:
+			kwargs["description"] = tr(kwargs["description"])
+		return original_group(self, *args, **kwargs)
+
+	argparse.ArgumentParser.__init__ = init
+	argparse._ActionsContainer.add_argument = add_argument
+	argparse._ActionsContainer.add_argument_group = add_argument_group
+	original_parser = argparse._SubParsersAction.add_parser
+
+	def add_parser(self, name, **kwargs):
+		if "help" in kwargs:
+			kwargs["help"] = tr(kwargs["help"])
+		return original_parser(self, name, **kwargs)
+
+	argparse._SubParsersAction.add_parser = add_parser
+
+
+_translate_argparse()
+
+
+def _write(*args: object, **kwargs: object) -> None:
+	# print() that first breaks the line if a progress bar is using the current line
+	if _LINE_OPEN[0]:
+		print()
+		_LINE_OPEN[0] = False
+	print(*args, **kwargs)
+
+
+def _input(prompt: str) -> str:
+	# input() that first breaks the line if a progress bar is using the current line
+	if _LINE_OPEN[0]:
+		print()
+		_LINE_OPEN[0] = False
+	return input(prompt)
+
+
+class _ConsoleProgress:
+	# Simple text progress bar (a single line rewritten with \r)
+	def __init__(self, total: float | None, description: str = "") -> None:
+		self.total: float | None = total
+		self.done: float = 0
+		self.description: str = tr(description)
+		self._last: int = -1
+		self._length: int = 0
+
+	def __enter__(self) -> "_ConsoleProgress":
+		self._display(force=True)
+		return self
+
+	def __exit__(self, *exc: object) -> None:
+		self._display(force=True)
+		print()
+		_LINE_OPEN[0] = False
+
+	def advance(self, n: float = 1, description: str | None = None) -> None:
+		self.done += n
+		if description is not None:
+			self.description = tr(description)
+		self._display()
+
+	def set_value(self, done: float | None = None, total: float | None = None, description: str | None = None) -> None:
+		if done is not None:
+			self.done = done
+		if total is not None:
+			self.total = total
+		if description is not None:
+			self.description = tr(description)
+		self._display()
+
+	def _display(self, force: bool = False) -> None:
+		if self.total:
+			percent: int = int(min(self.done, self.total) * 100 / self.total)
+			if percent == self._last and not force:
+				return
+			self._last = percent
+			row: str = f"{self.description} : {percent:3d}% ({int(self.done)}/{int(self.total)})"
+		else:
+			row = f"{self.description} : {int(self.done)}"
+		# The spaces erase what is left of a longer previous line
+		if not _LINE_OPEN[0]:
+			self._length = 0
+		print("\r" + row.ljust(self._length), end="", flush=True)
+		self._length = len(row)
+		_LINE_OPEN[0] = True
+
+
+class _ConsoleMultiProgress:
+	# Several tasks tracked at once, shown on a single line
+	def __init__(self, tasks: list[tuple[str, float]]) -> None:
+		self.tasks: list[list] = [[tr(name), float(total), 0.0] for name, total in tasks]
+
+	def __enter__(self) -> "_ConsoleMultiProgress":
+		return self
+
+	def __exit__(self, *exc: object) -> None:
+		self._display()
+		print()
+		_LINE_OPEN[0] = False
+
+	def advance(self, index: int, n: float = 1) -> None:
+		task: list = self.tasks[index]
+		task[2] = min(task[1], task[2] + n)
+		self._display()
+
+	def finished(self) -> bool:
+		return all(t[2] >= t[1] for t in self.tasks)
+
+	def _display(self) -> None:
+		pieces: list[str] = [f"{name} {int(done * 100 / total) if total else 100:3d}%" for name, total, done in self.tasks]
+		print("\r" + " | ".join(pieces), end="", flush=True)
+		_LINE_OPEN[0] = True
+
+
+class _ConsoleStatus:
+	# "In progress..." message shown before a long operation
+	def __init__(self, message: str) -> None:
+		self.message: str = tr(message)
+
+	def __enter__(self) -> "_ConsoleStatus":
+		_write(f"{self.message} ...", flush=True)
+		return self
+
+	def __exit__(self, *exc: object) -> None:
+		pass
+
+	def update(self, message: str) -> None:
+		_write(f"{tr(message)} ...", flush=True)
+
+
+class ConsoleDisplay:
+	# Minimal display: only _write() and _input(), no dependency
+	def __init__(self) -> None:
+		self.tr: _Translator = tr
+		self.lang: str = tr.lang
+
+	def clear(self) -> None:
+		_write()
+
+	def banner(self, title: str, subtitle: str = "") -> None:
+		title, subtitle = tr(title), tr(subtitle)
+		width: int = max(len(title), len(subtitle)) + 4
+		_write("=" * width)
+		_write(f"  {title}")
+		if subtitle:
+			_write(f"  {subtitle}")
+		_write("=" * width)
+		_write()
+
+	def section(self, title: str) -> None:
+		_write()
+		_write(f"--- {tr(title)} ---")
+
+	def info(self, message: str = "") -> None:
+		_write(tr(message))
+
+	def muted(self, message: str) -> None:
+		_write(tr(message))
+
+	def success(self, message: str) -> None:
+		_write(f"[OK] {tr(message)}")
+
+	def warning(self, message: str) -> None:
+		_write(f"{tr('[WARNING]')} {tr(message)}")
+
+	def error(self, message: str) -> None:
+		_write(f"{tr('[ERROR]')} {tr(message)}", file=sys.stderr)
+
+	def block(self, text: str, title: str | None = None) -> None:
+		# Framed text (equivalent of a panel)
+		if title:
+			_write(f"[{tr(title)}]")
+		_write(tr(text))
+		_write()
+
+	def key_values(self, pairs: list[tuple[str, object]], title: str | None = None) -> None:
+		# Aligned "key: value" list
+		if title:
+			_write(f"[{tr(title)}]")
+		pairs = [(tr(str(key)), tr(value)) for key, value in pairs]
+		width: int = max((len(key) for key, _ in pairs), default=0)
+		for key, value in pairs:
+			_write(f"  {key:<{width}} : {value}")
+		_write()
+
+	def table(self, columns: list[str], rows: list[list[object]], title: str | None = None) -> None:
+		# Text table with aligned columns
+		columns = [tr(str(c)) for c in columns]
+		cells: list[list[str]] = [[str(tr(c)) for c in row] for row in rows]
+		widths: list[int] = [len(c) for c in columns]
+		for row in cells:
+			for i, c in enumerate(row):
+				if i < len(widths):
+					widths[i] = max(widths[i], len(c))
+		if title:
+			_write(tr(title))
+		_write(" | ".join(c.ljust(widths[i]) for i, c in enumerate(columns)))
+		_write("-+-".join("-" * w for w in widths))
+		for row in cells:
+			_write(" | ".join(c.ljust(widths[i]) if i < len(widths) else c for i, c in enumerate(row)))
+		_write()
+
+	def tree(self, root: str, children: list) -> None:
+		# children: list of str or of (name, sub_children) tuples
+		_write(tr(root))
+		self._tree(children, "")
+
+	def _tree(self, children: list, prefix: str) -> None:
+		for i, child in enumerate(children):
+			last: bool = i == len(children) - 1
+			name: str = child[0] if isinstance(child, tuple) else str(child)
+			_write(f"{prefix}{'`-- ' if last else '|-- '}{tr(name)}")
+			if isinstance(child, tuple):
+				self._tree(child[1], prefix + ("    " if last else "|   "))
+
+	def code(self, text: str, language: str = "", title: str | None = None) -> None:
+		if title:
+			_write(f"[{tr(title)}]")
+		for number, row in enumerate(text.splitlines(), 1):
+			_write(f"{number:3d} | {row}")
+		_write()
+
+	def markdown(self, text: str) -> None:
+		_write(tr(text))
+		_write()
+
+	def log(self, level: str, message: str) -> None:
+		_write(f"[{time.strftime('%H:%M:%S')}] {level:<8} {tr(message)}")
+
+	def ask(self, question: str, default: str | None = None) -> str | None:
+		# Returns None if the user cancels (Ctrl+C / Ctrl+D)
+		suffix: str = f" [{default}]" if default else ""
+		try:
+			answer: str = _input(f"{tr(question)}{suffix} : ").strip()
+		except (EOFError, KeyboardInterrupt):
+			_write()
+			return None
+		return answer if answer else (default if default is not None else "")
+
+	def ask_path(self, question: str, default: str | None = None) -> str | None:
+		return self.ask(question, default)
+
+	def ask_number(self, question: str, default: float | None = None, integer: bool = True, minimum: float | None = None, maximum: float | None = None) -> float | int | None:
+		# Ask again until the input is a valid number
+		while True:
+			raw_value: str | None = self.ask(question, None if default is None else str(default))
+			if raw_value is None:
+				return None
+			try:
+				value: float | int = int(raw_value) if integer else float(raw_value)
+			except ValueError:
+				_write(tr("  Invalid value, try again."))
+				continue
+			if minimum is not None and value < minimum:
+				_write(tr(f"  Value must be >= {minimum}."))
+				continue
+			if maximum is not None and value > maximum:
+				_write(tr(f"  Value must be <= {maximum}."))
+				continue
+			return value
+
+	def confirm(self, question: str, default: bool = False) -> bool | None:
+		hint: str = tr("Y/n") if default else tr("y/N")
+		while True:
+			try:
+				answer: str = _input(f"{tr(question)} ({hint}) : ").strip().lower()
+			except (EOFError, KeyboardInterrupt):
+				_write()
+				return None
+			if not answer:
+				return default
+			if answer in ("y", "yes", "o", "oui"):
+				return True
+			if answer in ("n", "no", "non"):
+				return False
+			_write(tr("  Answer y or n."))
+
+	def choose(self, question: str, options: list[str], default: str | None = None) -> str | None:
+		# Numbered menu; returns the chosen option (untranslated) or None if cancelled
+		if not options:
+			return None
+		_write(tr(question))
+		for i, option in enumerate(options, 1):
+			_write(f"  {i}. {tr(option)}")
+		default_index: int | None = options.index(default) + 1 if default in options else None
+		while True:
+			try:
+				raw_value: str = _input(tr(f"Your choice (1-{len(options)})") + (f" [{default_index}]" if default_index else "") + " : ").strip()
+			except (EOFError, KeyboardInterrupt):
+				_write()
+				return None
+			if not raw_value and default_index:
+				return options[default_index - 1]
+			if raw_value.isdigit() and 1 <= int(raw_value) <= len(options):
+				return options[int(raw_value) - 1]
+			_write(tr("  Invalid choice."))
+
+	def choose_many(self, question: str, options: list[str], checked: list[str] | None = None) -> list[str] | None:
+		# Multiple selection: comma-separated numbers
+		_write(tr(question))
+		for i, option in enumerate(options, 1):
+			mark: str = "*" if checked and option in checked else " "
+			_write(f"  {i}. [{mark}] {tr(option)}")
+		while True:
+			try:
+				raw_value: str = _input(tr("Comma-separated numbers (empty = default selection, 'all' = everything): ")).strip().lower()
+			except (EOFError, KeyboardInterrupt):
+				_write()
+				return None
+			if not raw_value:
+				return list(checked or [])
+			if raw_value in ("all", "tout", "*"):
+				return list(options)
+			try:
+				indices: list[int] = [int(x) for x in raw_value.replace(" ", "").split(",") if x]
+			except ValueError:
+				_write(tr("  Invalid input."))
+				continue
+			if all(1 <= i <= len(options) for i in indices):
+				return [options[i - 1] for i in dict.fromkeys(indices)]
+			_write(tr("  Number out of range."))
+
+	def pause(self, message: str = "Press Enter to continue...") -> None:
+		try:
+			_input(f"\n{tr(message)}")
+		except (EOFError, KeyboardInterrupt):
+			_write()
+
+	def progress(self, total: float | None, description: str = "") -> _ConsoleProgress:
+		return _ConsoleProgress(total, description)
+
+	def multi_progress(self, tasks: list[tuple[str, float]]) -> _ConsoleMultiProgress:
+		return _ConsoleMultiProgress(tasks)
+
+	def status(self, message: str) -> _ConsoleStatus:
+		return _ConsoleStatus(message)
+
+
+def load_display() -> ConsoleDisplay:
+	# Load the optional display layer (display_layer.py) if it is present and allowed
+	simple_console: ConsoleDisplay = ConsoleDisplay()
+	if "--no-ui" in sys.argv:
+		sys.argv.remove("--no-ui")
+		return simple_console
+	if os.environ.get("PROJECT_NO_UI", "").strip() not in ("", "0"):
+		return simple_console
+	folder: str = os.path.dirname(os.path.abspath(__file__))
+	if folder not in sys.path:
+		sys.path.insert(0, folder)
+	try:
+		import display_layer
+	except ImportError:
+		return simple_console
+	try:
+		return display_layer.create_display(simple_console) or simple_console
+	except Exception:
+		return simple_console
+
+
+ui: ConsoleDisplay = load_display()
+# ============================================================================
+
 TARGET_EGG: str = "minecraft:dragon_egg"
 
 CONTAINER_TYPES: set[str] = {
@@ -63,30 +540,11 @@ DIMS_PAPER: list[tuple[str, str]] = [
 	("Nether", os.path.join("world_nether", "DIM-1", "region")),
 	("End", os.path.join("world_the_end", "DIM1", "region")),
 ]
-DIM_COLOR: dict[str, str] = {
-	"Overworld": "green",
-	"Nether": "red",
-	"End": "magenta",
-}
-DIM_ICON: dict[str, str] = {
-	"Overworld": "\U0001F30D",
-	"Nether": "\U0001F525",
-	"End": "\U0001F30C",
-}
-
 MENU_CHOICES: list[str] = [
-	"Calculer la superficie de la carte",
-	"Chercher l'oeuf de dragon",
-	"Quitter",
+	"Compute the map area",
+	"Find the dragon egg",
+	"Quit",
 ]
-MENU_STYLE: questionary.Style = questionary.Style([
-	("selected", "fg:cyan bold"),
-	("pointer", "fg:cyan bold"),
-	("highlighted", "fg:cyan"),
-	("answer", "fg:green bold"),
-	("question", "bold"),
-])
-
 TAG_END: int = 0
 TAG_BYTE: int = 1
 TAG_SHORT: int = 2
@@ -103,7 +561,7 @@ TAG_LONG_ARRAY: int = 12
 
 @dataclass
 class AreaResult:
-	# Resultat du scan d'une dimension pour le calcul de superficie
+	# Result of scanning a dimension for the area computation
 	chunks: int
 	blocks: int
 	mca_count: int
@@ -116,7 +574,7 @@ class AreaResult:
 
 @dataclass
 class EggBlock:
-	# Position d'un oeuf de dragon place comme bloc dans le monde
+	# Position of a dragon egg placed as a block in the world
 	dimension: str
 	x: int
 	y: int
@@ -124,7 +582,7 @@ class EggBlock:
 
 @dataclass
 class EggContainer:
-	# Position d'un oeuf de dragon range dans un conteneur
+	# Position of a dragon egg stored in a container
 	dimension: str
 	container: str
 	x: int
@@ -132,41 +590,41 @@ class EggContainer:
 	z: int
 
 class MinecraftTool(ABC):
-	# Interface commune a tous les outils du toolkit
+	# Common interface for every tool of the toolkit
 
 	@abstractmethod
 	def run(self, save_dir: str) -> None:
 		raise NotImplementedError
 
 def detect_dims(save_dir: str) -> tuple[list[tuple[str, str]], str]:
-	# Detecte si la sauvegarde est de structure Vanilla ou Paper/Spigot
+	# Detect whether the save uses the Vanilla or Paper/Spigot layout
 	if os.path.isdir(os.path.join(save_dir, "world")):
 		return DIMS_PAPER, "Paper/Spigot"
 	if os.path.isdir(os.path.join(save_dir, "region")):
 		return DIMS_VANILLA, "Vanilla"
-	return DIMS_PAPER, "inconnu"
+	return DIMS_PAPER, "unknown"
 
 def fmt_big(n: int) -> str:
-	# Formate un grand nombre avec un separateur espace
+	# Format a large number with a space separator
 	return f"{n:,}".replace(",", " ")
 
 def bar(ratio: float, width: int = 30) -> str:
-	# Construit une barre de progression ASCII
+	# Build an ASCII progress bar
 	filled: int = round(ratio * width)
 	return "\u2588" * filled + "\u2591" * (width - filled)
 
 def read_fmt(buf: io.BytesIO, fmt: str) -> int:
-	# Lit et decode une valeur binaire selon le format donne
+	# Read and decode a binary value with the given format
 	size: int = struct.calcsize(fmt)
 	return struct.unpack(fmt, buf.read(size))[0]
 
 def read_string(buf: io.BytesIO) -> str:
-	# Lit une chaine NBT prefixee par sa longueur
+	# Read a length-prefixed NBT string
 	length: int = read_fmt(buf, ">H")
 	return buf.read(length).decode("utf-8", errors="replace")
 
 def skip_payload(buf: io.BytesIO, tag_type: int) -> None:
-	# Avance dans le buffer sans decoder la valeur du tag
+	# Move forward in the buffer without decoding the tag value
 	if tag_type == TAG_BYTE:
 		buf.read(1)
 	elif tag_type == TAG_SHORT:
@@ -204,7 +662,7 @@ def skip_payload(buf: io.BytesIO, tag_type: int) -> None:
 		buf.read(n * 8)
 
 def parse_payload(buf: io.BytesIO, tag_type: int) -> object:
-	# Decode la valeur d'un tag NBT selon son type
+	# Decode the value of an NBT tag according to its type
 	if tag_type == TAG_BYTE:
 		return read_fmt(buf, ">b")
 	if tag_type == TAG_SHORT:
@@ -237,7 +695,7 @@ def parse_payload(buf: io.BytesIO, tag_type: int) -> object:
 	return None
 
 def parse_compound(buf: io.BytesIO) -> dict[str, object]:
-	# Decode un tag composite NBT en dictionnaire Python
+	# Decode an NBT compound tag into a Python dictionary
 	result: dict[str, object] = {}
 	while True:
 		tag_type: int = read_fmt(buf, ">b")
@@ -248,7 +706,7 @@ def parse_compound(buf: io.BytesIO) -> dict[str, object]:
 	return result
 
 def parse_nbt_root(data: bytes) -> dict[str, object]:
-	# Decode la racine d'un document NBT deja decompresse
+	# Decode the root of an already decompressed NBT document
 	buf: io.BytesIO = io.BytesIO(data)
 	tag_type: int = read_fmt(buf, ">b")
 	if tag_type == TAG_END:
@@ -258,7 +716,7 @@ def parse_nbt_root(data: bytes) -> dict[str, object]:
 	return payload if isinstance(payload, dict) else {}
 
 def decode_section(section: dict[str, object]) -> list[str]:
-	# Decode la palette et les indices de blocs d'une section de chunk
+	# Decode the palette and block indices of a chunk section
 	block_states: object = section.get("block_states") or section
 	if not isinstance(block_states, dict):
 		return []
@@ -292,14 +750,14 @@ def decode_section(section: dict[str, object]) -> list[str]:
 	return blocks[:4096]
 
 def block_index_to_local(index: int) -> tuple[int, int, int]:
-	# Convertit un index lineaire de bloc en coordonnees locales x, y, z
+	# Convert a linear block index to local x, y, z coordinates
 	y: int = (index >> 8) & 0xF
 	z: int = (index >> 4) & 0xF
 	x: int = index & 0xF
 	return x, y, z
 
 def iter_chunks(mca_path: str) -> list[bytes]:
-	# Extrait et decompresse les donnees NBT de chaque chunk d'un fichier .mca
+	# Extract and decompress the NBT data of every chunk in a .mca file
 	chunks: list[bytes] = []
 	with open(mca_path, "rb") as f:
 		header: bytes = f.read(4096)
@@ -329,7 +787,7 @@ def iter_chunks(mca_path: str) -> list[bytes]:
 	return chunks
 
 def search_items_for_egg(items: object) -> bool:
-	# Parcourt recursivement une liste d'objets NBT pour trouver l'oeuf de dragon
+	# Recursively walk a list of NBT objects to find the dragon egg
 	if not isinstance(items, list):
 		return False
 	item: object
@@ -355,10 +813,10 @@ def search_items_for_egg(items: object) -> bool:
 	return False
 
 class AreaCalculator(MinecraftTool):
-	# Calcule la superficie de chunks generes dans chaque dimension
+	# Compute the area of generated chunks in each dimension
 
 	def count_chunks_in_mca(self, mca_path: str) -> int:
-		# Compte les chunks presents dans un fichier .mca
+		# Count the chunks present in a .mca file
 		count: int = 0
 		try:
 			with open(mca_path, "rb") as f:
@@ -377,7 +835,7 @@ class AreaCalculator(MinecraftTool):
 		return count
 
 	def scan_dimension(self, save_dir: str, rel_path: str) -> Optional[AreaResult]:
-		# Scanne une dimension et calcule ses bornes et sa superficie
+		# Scan a dimension and compute its bounds and area
 		region_dir: str = os.path.join(save_dir, rel_path)
 		if not os.path.isdir(region_dir):
 			return None
@@ -420,13 +878,13 @@ class AreaCalculator(MinecraftTool):
 		)
 
 	def run(self, save_dir: str) -> None:
-		# Affiche l'analyse de superficie pour toutes les dimensions trouvees
+		# Show the area analysis for every dimension found
 		dims: list[tuple[str, str]]
 		server_type: str
 		dims, server_type = detect_dims(save_dir)
-		console.print(Rule("[bold yellow]Superficie de la carte[/]"))
-		console.print(f"[dim]{save_dir}[/]")
-		console.print(f"[dim]Structure detectee : {server_type}[/]\n")
+		ui.section("Map area")
+		ui.muted(save_dir)
+		ui.muted(f"Detected structure: {server_type}\n")
 		results: dict[str, AreaResult] = {}
 		dim_name: str
 		rel_path: str
@@ -435,37 +893,31 @@ class AreaCalculator(MinecraftTool):
 			if data is not None:
 				results[dim_name] = data
 		if not results:
-			console.print("[yellow]Aucune dimension trouvee dans ce dossier.[/]\n")
+			ui.warning("No dimension found in this folder.")
 			return
 		max_chunks: int = max(r.chunks for r in results.values()) or 1
 		for dim_name, data in results.items():
-			color: str = DIM_COLOR.get(dim_name, "cyan")
-			icon: str = DIM_ICON.get(dim_name, "")
 			ratio: float = data.chunks / max_chunks
-			table: Table = Table(box=None, show_header=False, padding=(0, 2))
-			table.add_column("Cle", style=color)
-			table.add_column("Valeur", style="bold white")
-			table.add_row("Fichiers .mca", fmt_big(data.mca_count))
-			table.add_row("Chunks generes", fmt_big(data.chunks))
-			table.add_row("Superficie", f"{fmt_big(data.blocks)} blocs2 ({data.blocks / 1_000_000:.2f} km2)")
-			table.add_row("Emprise X", f"{data.min_bx} -> {data.max_bx}")
-			table.add_row("Emprise Z", f"{data.min_bz} -> {data.max_bz}")
-			table.add_row("Progression", f"{bar(ratio)} {ratio * 100:.1f}%")
-			console.print(Panel(table, title=f"[bold]{icon} {dim_name}[/]", border_style=color))
+			ui.key_values([
+				(".mca files", fmt_big(data.mca_count)),
+				("Generated chunks", fmt_big(data.chunks)),
+				("Area", f"{fmt_big(data.blocks)} blocks² ({data.blocks / 1_000_000:.2f} km2)"),
+				("X span", f"{data.min_bx} -> {data.max_bx}"),
+				("Z span", f"{data.min_bz} -> {data.max_bz}"),
+				("Progression", f"{bar(ratio)} {ratio * 100:.1f}%"),
+			], title=dim_name)
 		total_chunks: int = sum(r.chunks for r in results.values())
 		total_blocks: int = sum(r.blocks for r in results.values())
-		console.print(Panel(
-			f"[bold green]Chunks totaux : {fmt_big(total_chunks)}[/]\n"
-			f"[bold green]Superficie totale : {fmt_big(total_blocks)} blocs2 ({total_blocks / 1_000_000:.2f} km2)[/]",
-			title="[bold]Total toutes dimensions[/]",
-			border_style="green",
-		))
+		ui.key_values([
+			("Total chunks", fmt_big(total_chunks)),
+			("Total area", f"{fmt_big(total_blocks)} blocks² ({total_blocks / 1_000_000:.2f} km2)"),
+		], title="Total, all dimensions")
 
 class DragonEggFinder(MinecraftTool):
-	# Recherche l'oeuf de dragon place en bloc ou range dans un conteneur
+	# Look for the dragon egg placed as a block or stored in a container
 
 	def scan_chunk(self, nbt: dict[str, object], blocks_out: list[EggBlock], containers_out: list[EggContainer], dim_label: str) -> None:
-		# Analyse un chunk decode a la recherche de l'oeuf de dragon
+		# Scan a decoded chunk looking for the dragon egg
 		level: object = nbt.get("Level") or nbt
 		if not isinstance(level, dict):
 			return
@@ -509,7 +961,7 @@ class DragonEggFinder(MinecraftTool):
 					containers_out.append(EggContainer(dim_label, be_id.replace("minecraft:", ""), bx, by, bz))
 
 	def scan_region_dir(self, region_dir: str, dim_label: str, blocks_out: list[EggBlock], containers_out: list[EggContainer]) -> None:
-		# Scanne tous les fichiers .mca d'un dossier region
+		# Scan every .mca file of a region folder
 		if not os.path.isdir(region_dir):
 			return
 		mca_files: list[str] = sorted(f for f in os.listdir(region_dir) if f.endswith(".mca"))
@@ -525,102 +977,85 @@ class DragonEggFinder(MinecraftTool):
 					continue
 
 	def run(self, save_dir: str) -> None:
-		# Affiche les emplacements trouves de l'oeuf de dragon
+		# Show the dragon egg locations found
 		dims: list[tuple[str, str]]
 		server_type: str
 		dims, server_type = detect_dims(save_dir)
-		console.print(Rule("[bold magenta]Recherche de l'oeuf de dragon[/]"))
-		console.print(f"[dim]Structure detectee : {server_type}[/]\n")
+		ui.section("Searching for the dragon egg")
+		ui.muted(f"Detected structure: {server_type}\n")
 		all_blocks: list[EggBlock] = []
 		all_containers: list[EggContainer] = []
 		dim_label: str
 		rel_path: str
 		for dim_label, rel_path in dims:
 			region_dir: str = os.path.join(save_dir, rel_path)
-			with console.status(f"[cyan]Analyse de {dim_label}...[/]"):
+			with ui.status(f"Scanning {dim_label}"):
 				self.scan_region_dir(region_dir, dim_label, all_blocks, all_containers)
 		if not all_blocks and not all_containers:
-			console.print("[gold1]Aucun oeuf de dragon trouve dans aucune dimension.[/]\n")
+			ui.warning("No dragon egg found in any dimension.")
 			return
 		if all_blocks:
-			table_blocks: Table = Table(title="Oeuf de dragon place dans le monde", border_style="magenta")
-			table_blocks.add_column("Dimension", style="magenta")
-			table_blocks.add_column("X", justify="right")
-			table_blocks.add_column("Y", justify="right")
-			table_blocks.add_column("Z", justify="right")
-			eb: EggBlock
-			for eb in sorted(all_blocks, key=lambda r: (r.x, r.z)):
-				table_blocks.add_row(eb.dimension, str(eb.x), str(eb.y), str(eb.z))
-			console.print(table_blocks)
+			ui.table(
+				["Dimension", "X", "Y", "Z"],
+				[[eb.dimension, eb.x, eb.y, eb.z] for eb in sorted(all_blocks, key=lambda r: (r.x, r.z))],
+				title="Dragon egg placed in the world",
+			)
 		if all_containers:
-			table_containers: Table = Table(title="Oeuf de dragon dans un conteneur", border_style="gold1")
-			table_containers.add_column("Dimension", style="gold1")
-			table_containers.add_column("Conteneur")
-			table_containers.add_column("X", justify="right")
-			table_containers.add_column("Y", justify="right")
-			table_containers.add_column("Z", justify="right")
-			ec: EggContainer
-			for ec in sorted(all_containers, key=lambda r: (r.x, r.z)):
-				table_containers.add_row(ec.dimension, ec.container, str(ec.x), str(ec.y), str(ec.z))
-			console.print(table_containers)
+			ui.table(
+				["Dimension", "Container", "X", "Y", "Z"],
+				[[ec.dimension, ec.container, ec.x, ec.y, ec.z] for ec in sorted(all_containers, key=lambda r: (r.x, r.z))],
+				title="Dragon egg in a container",
+			)
 		total: int = len(all_blocks) + len(all_containers)
-		console.print(f"\n[bold green]Total : {total} emplacement(s) trouve(s)[/]\n")
+		ui.success(f"Total: {total} location(s) found")
 
 def splash_screen() -> None:
-	# Efface la console et affiche la banniere d'accueil
-	console.clear()
-	console.print()
-	console.print(Panel(
-		"[bold cyan]  Minecraft Toolkit  [/]\n"
-		"[dim]Analyse de sauvegardes Minecraft[/]",
-		border_style="cyan",
-		padding=(1, 8),
-	))
-	console.print()
+	# Show the welcome banner
+	ui.banner("Minecraft Toolkit", "Minecraft save analysis")
 
 def prompt_save_dir() -> Optional[str]:
-	# Demande a l'utilisateur le chemin du dossier de sauvegarde
-	path: Optional[str] = questionary.path("Chemin du dossier de sauvegarde :").ask()
+	# Ask the user for the save folder path
+	path: Optional[str] = ui.ask_path("Path of the save folder")
 	if path is None:
 		return None
 	path = os.path.expanduser(path)
 	if not os.path.isdir(path):
-		console.print(f"[red]Erreur : '{path}' n'est pas un dossier valide.[/]")
+		ui.error(f"'{path}' is not a valid folder.")
 		return None
 	return path
 
 def run_interactive_menu() -> None:
-	# Boucle du menu interactif principal
+	# Main interactive menu loop
 	splash_screen()
 	while True:
-		choice: Optional[str] = questionary.select(
-			"Que veux-tu faire ?", choices=MENU_CHOICES, style=MENU_STYLE
-		).ask()
-		if choice is None or choice == "Quitter":
-			console.print("[yellow]Au revoir ![/]")
+		choice: Optional[str] = ui.choose("What do you want to do?", MENU_CHOICES)
+		if choice is None or choice == "Quit":
+			ui.info("Goodbye!")
 			break
 		save_dir: Optional[str] = prompt_save_dir()
 		if save_dir is not None:
-			console.print()
+			ui.info()
 			tool: MinecraftTool = AreaCalculator() if choice == MENU_CHOICES[0] else DragonEggFinder()
 			tool.run(save_dir)
-		input("\n  [ Appuie sur Entree pour revenir au menu... ]")
+		ui.pause("Press Enter to return to the menu...")
 		splash_screen()
 
 def parse_args() -> argparse.Namespace:
-	# Definit et analyse les arguments de la ligne de commande
+	# Define and parse the command-line arguments
 	parser: argparse.ArgumentParser = argparse.ArgumentParser(description="Minecraft world analysis toolkit.")
-	parser.add_argument("--dir", type=str, default=None, help="Chemin du dossier de sauvegarde")
-	parser.add_argument("--mode", type=str, choices=["area", "egg"], default=None, help="Outil a executer directement")
+	parser.add_argument("--no-ui", action="store_true", help="Disable the optional display layer (display_layer.py)")
+	parser.add_argument("--lang", choices=["en", "fr"], help="Select the language of the messages (en or fr).")
+	parser.add_argument("--dir", type=str, default=None, help="Path of the save folder")
+	parser.add_argument("--mode", type=str, choices=["area", "egg"], default=None, help="Tool to run directly")
 	return parser.parse_args()
 
 def main() -> None:
-	# Point d'entree du programme
+	# Program entry point
 	args: argparse.Namespace = parse_args()
 	if args.dir is not None and args.mode is not None:
 		save_dir: str = os.path.expanduser(args.dir)
 		if not os.path.isdir(save_dir):
-			console.print(f"[red]Erreur : '{save_dir}' n'est pas un dossier valide.[/]")
+			ui.error(f"'{save_dir}' is not a valid folder.")
 			sys.exit(1)
 		tool: MinecraftTool = AreaCalculator() if args.mode == "area" else DragonEggFinder()
 		tool.run(save_dir)

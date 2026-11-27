@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-from __future__						import annotations
 import argparse
 import hashlib
 import logging
@@ -9,7 +8,7 @@ import subprocess
 import sys
 import warnings
 import pillow_heif
-import questionary
+import time
 from abc							import ABC, abstractmethod
 from collections					import defaultdict
 from datetime						import datetime
@@ -18,22 +17,491 @@ from types							import SimpleNamespace
 from typing							import Optional
 from moviepy.video.io.VideoFileClip	import VideoFileClip
 from PIL							import ExifTags, Image, UnidentifiedImageError
-from rich.console					import Console
-from rich.panel						import Panel
-from rich.progress					import BarColumn, MofNCompleteColumn, Progress, SpinnerColumn, TextColumn, TimeElapsedColumn
-from rich.table						import Table
-from rich.tree						import Tree
 
-console: Console = Console()
+# ============================================================================
+# DISPLAY
+# By default the script only uses print() and input() (ConsoleDisplay class).
+# If the file "display_layer.py" is next to the script, it is loaded
+# automatically and adds a display layer (colours, menus, bars...).
+# To prevent it from loading:
+#   - run the script with the  --no-ui  option
+#   - or set the environment variable  PROJECT_NO_UI=1
+#   - or set ACTIVE = False in display_layer.py (or delete the file)
+#
+# LANGUAGE
+# Messages are in English by default. To get them in French, the file
+# "lang_fr.json" must be next to the script, then:
+#   - run the script with  --lang fr
+#   - or set the environment variable  PROJECT_LANG=fr
+# ============================================================================
+
+import json
+import re
+
+_LINE_OPEN: list[bool] = [False]
+
+
+def _pick_language() -> str:
+	# Read (and remove) --lang xx / --lang=xx from the command line, then PROJECT_LANG
+	lang: str = os.environ.get("PROJECT_LANG", "en").strip().lower() or "en"
+	args: list[str] = sys.argv
+	i: int = 1
+	while i < len(args):
+		if args[i] == "--lang" and i + 1 < len(args):
+			lang = args[i + 1].strip().lower()
+			del args[i:i + 2]
+			continue
+		if args[i].startswith("--lang="):
+			lang = args[i].split("=", 1)[1].strip().lower()
+			del args[i]
+			continue
+		i += 1
+	return lang
+
+
+class _Translator:
+	# Translates English messages using lang_<code>.json; returns the text unchanged otherwise
+	def __init__(self, lang: str) -> None:
+		self.lang: str = "en"
+		self.exact: dict[str, str] = {}
+		self.patterns: list[tuple[re.Pattern[str], list]] = []
+		if lang == "en":
+			return
+		path: str = os.path.join(os.path.dirname(os.path.abspath(__file__)), f"lang_{lang}.json")
+		try:
+			with open(path, encoding="utf-8") as handle:
+				data: dict = json.load(handle)
+		except (OSError, ValueError):
+			return
+		self.lang = lang
+		self.exact = data.get("exact", {})
+		for source, target in data.get("patterns", []):
+			literal: str = "".join(p for p in source if isinstance(p, str))
+			if len(literal.strip()) < 3:
+				continue
+			regex: str = "".join(re.escape(p) if isinstance(p, str) else f"(?P<p{p}>.*?)" for p in source)
+			self.patterns.append((re.compile(regex + r"\Z", re.DOTALL), target, len(literal)))
+		self.patterns.sort(key=lambda item: -item[2])
+
+	def __call__(self, text: object) -> object:
+		if self.lang == "en" or not isinstance(text, str) or not text:
+			return text
+		found: str | None = self._lookup(text)
+		if found is not None:
+			return found
+		if "\n" in text:
+			return "\n".join(self._lookup(row) or row for row in text.split("\n"))
+		return text
+
+	def _exact(self, text: str) -> str | None:
+		if text in self.exact:
+			return self.exact[text]
+		stripped: str = text.strip()
+		if stripped and stripped != text and stripped in self.exact:
+			start: int = text.index(stripped)
+			return text[:start] + self.exact[stripped] + text[start + len(stripped):]
+		return None
+
+	def _lookup(self, text: str) -> str | None:
+		found: str | None = self._exact(text)
+		if found is not None:
+			return found
+		for regex, target, _ in self.patterns:
+			match = regex.match(text)
+			if match:
+				values: dict[str, str] = match.groupdict()
+				# Inserted values (e.g. a "[DRY RUN] " prefix) are translated too if known
+				return "".join(p if isinstance(p, str) else (self._exact(values.get(f"p{p}", "")) or values.get(f"p{p}", "")) for p in target)
+		return None
+
+
+tr: _Translator = _Translator(_pick_language())
+
+
+def _translate_argparse() -> None:
+	# Translate the help texts given to argparse (descriptions, options, epilogs)
+	if tr.lang == "en":
+		return
+	import argparse
+	original_init = argparse.ArgumentParser.__init__
+	original_add = argparse._ActionsContainer.add_argument
+	original_group = argparse._ActionsContainer.add_argument_group
+
+	def init(self, *args, **kwargs):
+		for key in ("description", "epilog"):
+			if key in kwargs:
+				kwargs[key] = tr(kwargs[key])
+		original_init(self, *args, **kwargs)
+
+	def add_argument(self, *args, **kwargs):
+		if "help" in kwargs:
+			kwargs["help"] = tr(kwargs["help"])
+		return original_add(self, *args, **kwargs)
+
+	def add_argument_group(self, *args, **kwargs):
+		args = tuple(tr(a) for a in args)
+		if "description" in kwargs:
+			kwargs["description"] = tr(kwargs["description"])
+		return original_group(self, *args, **kwargs)
+
+	argparse.ArgumentParser.__init__ = init
+	argparse._ActionsContainer.add_argument = add_argument
+	argparse._ActionsContainer.add_argument_group = add_argument_group
+	original_parser = argparse._SubParsersAction.add_parser
+
+	def add_parser(self, name, **kwargs):
+		if "help" in kwargs:
+			kwargs["help"] = tr(kwargs["help"])
+		return original_parser(self, name, **kwargs)
+
+	argparse._SubParsersAction.add_parser = add_parser
+
+
+_translate_argparse()
+
+
+def _write(*args: object, **kwargs: object) -> None:
+	# print() that first breaks the line if a progress bar is using the current line
+	if _LINE_OPEN[0]:
+		print()
+		_LINE_OPEN[0] = False
+	print(*args, **kwargs)
+
+
+def _input(prompt: str) -> str:
+	# input() that first breaks the line if a progress bar is using the current line
+	if _LINE_OPEN[0]:
+		print()
+		_LINE_OPEN[0] = False
+	return input(prompt)
+
+
+class _ConsoleProgress:
+	# Simple text progress bar (a single line rewritten with \r)
+	def __init__(self, total: float | None, description: str = "") -> None:
+		self.total: float | None = total
+		self.done: float = 0
+		self.description: str = tr(description)
+		self._last: int = -1
+		self._length: int = 0
+
+	def __enter__(self) -> "_ConsoleProgress":
+		self._display(force=True)
+		return self
+
+	def __exit__(self, *exc: object) -> None:
+		self._display(force=True)
+		print()
+		_LINE_OPEN[0] = False
+
+	def advance(self, n: float = 1, description: str | None = None) -> None:
+		self.done += n
+		if description is not None:
+			self.description = tr(description)
+		self._display()
+
+	def set_value(self, done: float | None = None, total: float | None = None, description: str | None = None) -> None:
+		if done is not None:
+			self.done = done
+		if total is not None:
+			self.total = total
+		if description is not None:
+			self.description = tr(description)
+		self._display()
+
+	def _display(self, force: bool = False) -> None:
+		if self.total:
+			percent: int = int(min(self.done, self.total) * 100 / self.total)
+			if percent == self._last and not force:
+				return
+			self._last = percent
+			row: str = f"{self.description} : {percent:3d}% ({int(self.done)}/{int(self.total)})"
+		else:
+			row = f"{self.description} : {int(self.done)}"
+		# The spaces erase what is left of a longer previous line
+		if not _LINE_OPEN[0]:
+			self._length = 0
+		print("\r" + row.ljust(self._length), end="", flush=True)
+		self._length = len(row)
+		_LINE_OPEN[0] = True
+
+
+class _ConsoleMultiProgress:
+	# Several tasks tracked at once, shown on a single line
+	def __init__(self, tasks: list[tuple[str, float]]) -> None:
+		self.tasks: list[list] = [[tr(name), float(total), 0.0] for name, total in tasks]
+
+	def __enter__(self) -> "_ConsoleMultiProgress":
+		return self
+
+	def __exit__(self, *exc: object) -> None:
+		self._display()
+		print()
+		_LINE_OPEN[0] = False
+
+	def advance(self, index: int, n: float = 1) -> None:
+		task: list = self.tasks[index]
+		task[2] = min(task[1], task[2] + n)
+		self._display()
+
+	def finished(self) -> bool:
+		return all(t[2] >= t[1] for t in self.tasks)
+
+	def _display(self) -> None:
+		pieces: list[str] = [f"{name} {int(done * 100 / total) if total else 100:3d}%" for name, total, done in self.tasks]
+		print("\r" + " | ".join(pieces), end="", flush=True)
+		_LINE_OPEN[0] = True
+
+
+class _ConsoleStatus:
+	# "In progress..." message shown before a long operation
+	def __init__(self, message: str) -> None:
+		self.message: str = tr(message)
+
+	def __enter__(self) -> "_ConsoleStatus":
+		_write(f"{self.message} ...", flush=True)
+		return self
+
+	def __exit__(self, *exc: object) -> None:
+		pass
+
+	def update(self, message: str) -> None:
+		_write(f"{tr(message)} ...", flush=True)
+
+
+class ConsoleDisplay:
+	# Minimal display: only _write() and _input(), no dependency
+	def __init__(self) -> None:
+		self.tr: _Translator = tr
+		self.lang: str = tr.lang
+
+	def clear(self) -> None:
+		_write()
+
+	def banner(self, title: str, subtitle: str = "") -> None:
+		title, subtitle = tr(title), tr(subtitle)
+		width: int = max(len(title), len(subtitle)) + 4
+		_write("=" * width)
+		_write(f"  {title}")
+		if subtitle:
+			_write(f"  {subtitle}")
+		_write("=" * width)
+		_write()
+
+	def section(self, title: str) -> None:
+		_write()
+		_write(f"--- {tr(title)} ---")
+
+	def info(self, message: str = "") -> None:
+		_write(tr(message))
+
+	def muted(self, message: str) -> None:
+		_write(tr(message))
+
+	def success(self, message: str) -> None:
+		_write(f"[OK] {tr(message)}")
+
+	def warning(self, message: str) -> None:
+		_write(f"{tr('[WARNING]')} {tr(message)}")
+
+	def error(self, message: str) -> None:
+		_write(f"{tr('[ERROR]')} {tr(message)}", file=sys.stderr)
+
+	def block(self, text: str, title: str | None = None) -> None:
+		# Framed text (equivalent of a panel)
+		if title:
+			_write(f"[{tr(title)}]")
+		_write(tr(text))
+		_write()
+
+	def key_values(self, pairs: list[tuple[str, object]], title: str | None = None) -> None:
+		# Aligned "key: value" list
+		if title:
+			_write(f"[{tr(title)}]")
+		pairs = [(tr(str(key)), tr(value)) for key, value in pairs]
+		width: int = max((len(key) for key, _ in pairs), default=0)
+		for key, value in pairs:
+			_write(f"  {key:<{width}} : {value}")
+		_write()
+
+	def table(self, columns: list[str], rows: list[list[object]], title: str | None = None) -> None:
+		# Text table with aligned columns
+		columns = [tr(str(c)) for c in columns]
+		cells: list[list[str]] = [[str(tr(c)) for c in row] for row in rows]
+		widths: list[int] = [len(c) for c in columns]
+		for row in cells:
+			for i, c in enumerate(row):
+				if i < len(widths):
+					widths[i] = max(widths[i], len(c))
+		if title:
+			_write(tr(title))
+		_write(" | ".join(c.ljust(widths[i]) for i, c in enumerate(columns)))
+		_write("-+-".join("-" * w for w in widths))
+		for row in cells:
+			_write(" | ".join(c.ljust(widths[i]) if i < len(widths) else c for i, c in enumerate(row)))
+		_write()
+
+	def tree(self, root: str, children: list) -> None:
+		# children: list of str or of (name, sub_children) tuples
+		_write(tr(root))
+		self._tree(children, "")
+
+	def _tree(self, children: list, prefix: str) -> None:
+		for i, child in enumerate(children):
+			last: bool = i == len(children) - 1
+			name: str = child[0] if isinstance(child, tuple) else str(child)
+			_write(f"{prefix}{'`-- ' if last else '|-- '}{tr(name)}")
+			if isinstance(child, tuple):
+				self._tree(child[1], prefix + ("    " if last else "|   "))
+
+	def code(self, text: str, language: str = "", title: str | None = None) -> None:
+		if title:
+			_write(f"[{tr(title)}]")
+		for number, row in enumerate(text.splitlines(), 1):
+			_write(f"{number:3d} | {row}")
+		_write()
+
+	def markdown(self, text: str) -> None:
+		_write(tr(text))
+		_write()
+
+	def log(self, level: str, message: str) -> None:
+		_write(f"[{time.strftime('%H:%M:%S')}] {level:<8} {tr(message)}")
+
+	def ask(self, question: str, default: str | None = None) -> str | None:
+		# Returns None if the user cancels (Ctrl+C / Ctrl+D)
+		suffix: str = f" [{default}]" if default else ""
+		try:
+			answer: str = _input(f"{tr(question)}{suffix} : ").strip()
+		except (EOFError, KeyboardInterrupt):
+			_write()
+			return None
+		return answer if answer else (default if default is not None else "")
+
+	def ask_path(self, question: str, default: str | None = None) -> str | None:
+		return self.ask(question, default)
+
+	def ask_number(self, question: str, default: float | None = None, integer: bool = True, minimum: float | None = None, maximum: float | None = None) -> float | int | None:
+		# Ask again until the input is a valid number
+		while True:
+			raw_value: str | None = self.ask(question, None if default is None else str(default))
+			if raw_value is None:
+				return None
+			try:
+				value: float | int = int(raw_value) if integer else float(raw_value)
+			except ValueError:
+				_write(tr("  Invalid value, try again."))
+				continue
+			if minimum is not None and value < minimum:
+				_write(tr(f"  Value must be >= {minimum}."))
+				continue
+			if maximum is not None and value > maximum:
+				_write(tr(f"  Value must be <= {maximum}."))
+				continue
+			return value
+
+	def confirm(self, question: str, default: bool = False) -> bool | None:
+		hint: str = tr("Y/n") if default else tr("y/N")
+		while True:
+			try:
+				answer: str = _input(f"{tr(question)} ({hint}) : ").strip().lower()
+			except (EOFError, KeyboardInterrupt):
+				_write()
+				return None
+			if not answer:
+				return default
+			if answer in ("y", "yes", "o", "oui"):
+				return True
+			if answer in ("n", "no", "non"):
+				return False
+			_write(tr("  Answer y or n."))
+
+	def choose(self, question: str, options: list[str], default: str | None = None) -> str | None:
+		# Numbered menu; returns the chosen option (untranslated) or None if cancelled
+		if not options:
+			return None
+		_write(tr(question))
+		for i, option in enumerate(options, 1):
+			_write(f"  {i}. {tr(option)}")
+		default_index: int | None = options.index(default) + 1 if default in options else None
+		while True:
+			try:
+				raw_value: str = _input(tr(f"Your choice (1-{len(options)})") + (f" [{default_index}]" if default_index else "") + " : ").strip()
+			except (EOFError, KeyboardInterrupt):
+				_write()
+				return None
+			if not raw_value and default_index:
+				return options[default_index - 1]
+			if raw_value.isdigit() and 1 <= int(raw_value) <= len(options):
+				return options[int(raw_value) - 1]
+			_write(tr("  Invalid choice."))
+
+	def choose_many(self, question: str, options: list[str], checked: list[str] | None = None) -> list[str] | None:
+		# Multiple selection: comma-separated numbers
+		_write(tr(question))
+		for i, option in enumerate(options, 1):
+			mark: str = "*" if checked and option in checked else " "
+			_write(f"  {i}. [{mark}] {tr(option)}")
+		while True:
+			try:
+				raw_value: str = _input(tr("Comma-separated numbers (empty = default selection, 'all' = everything): ")).strip().lower()
+			except (EOFError, KeyboardInterrupt):
+				_write()
+				return None
+			if not raw_value:
+				return list(checked or [])
+			if raw_value in ("all", "tout", "*"):
+				return list(options)
+			try:
+				indices: list[int] = [int(x) for x in raw_value.replace(" ", "").split(",") if x]
+			except ValueError:
+				_write(tr("  Invalid input."))
+				continue
+			if all(1 <= i <= len(options) for i in indices):
+				return [options[i - 1] for i in dict.fromkeys(indices)]
+			_write(tr("  Number out of range."))
+
+	def pause(self, message: str = "Press Enter to continue...") -> None:
+		try:
+			_input(f"\n{tr(message)}")
+		except (EOFError, KeyboardInterrupt):
+			_write()
+
+	def progress(self, total: float | None, description: str = "") -> _ConsoleProgress:
+		return _ConsoleProgress(total, description)
+
+	def multi_progress(self, tasks: list[tuple[str, float]]) -> _ConsoleMultiProgress:
+		return _ConsoleMultiProgress(tasks)
+
+	def status(self, message: str) -> _ConsoleStatus:
+		return _ConsoleStatus(message)
+
+
+def load_display() -> ConsoleDisplay:
+	# Load the optional display layer (display_layer.py) if it is present and allowed
+	simple_console: ConsoleDisplay = ConsoleDisplay()
+	if "--no-ui" in sys.argv:
+		sys.argv.remove("--no-ui")
+		return simple_console
+	if os.environ.get("PROJECT_NO_UI", "").strip() not in ("", "0"):
+		return simple_console
+	folder: str = os.path.dirname(os.path.abspath(__file__))
+	if folder not in sys.path:
+		sys.path.insert(0, folder)
+	try:
+		import display_layer
+	except ImportError:
+		return simple_console
+	try:
+		return display_layer.create_display(simple_console) or simple_console
+	except Exception:
+		return simple_console
+
+
+ui: ConsoleDisplay = load_display()
+# ============================================================================
+
 VERSION: str = "1.0.0"
-ANSI_COLORS: dict[str, str] = {
-	"red": "31",
-	"green": "32",
-	"yellow": "33",
-	"cyan": "36",
-	"magenta": "35",
-	"bold": "1",
-}
 IMAGE_TARGET_EXTENSIONS: set[str] = {".png", ".webp", ".bmp", ".tiff", ".tif", ".heic", ".heif", ".jpeg"}
 DUPLICATE_SCAN_EXTENSIONS: set[str] = {".jpg", ".jpeg", ".png", ".bmp", ".gif", ".tiff", ".webp"}
 VIDEO_EXTENSIONS: tuple[str, ...] = (
@@ -42,106 +510,79 @@ VIDEO_EXTENSIONS: tuple[str, ...] = (
 )
 RENAME_EXTENSIONS: set[str] = IMAGE_TARGET_EXTENSIONS | {".jpg", ".jpeg", ".gif"} | set(VIDEO_EXTENSIONS) | {".mp4"}
 MENU_CHOICES: list[str] = [
-	"Convertir des images en JPEG",
-	"Convertir des videos en MP4",
-	"Detecter les doublons d'images",
-	"Renommer les fichiers par date de prise",
-	"Quitter",
+	"Convert images to JPEG",
+	"Convert videos to MP4",
+	"Detect duplicate images",
+	"Rename files by capture date",
+	"Quit",
 ]
-MENU_STYLE: questionary.Style = questionary.Style([
-	("selected", "fg:cyan bold"),
-	("pointer", "fg:cyan bold"),
-	("highlighted", "fg:cyan"),
-	("answer", "fg:green bold"),
-	("question", "bold"),
-])
 logger: logging.Logger = logging.getLogger("media_toolkit")
 logger.setLevel(logging.WARNING)
 logger.propagate = False
 warnings.filterwarnings("ignore", category=UserWarning)
 pillow_heif.register_heif_opener()
 
-def colorize(text: str, color: str) -> str:
-	# Encadre le texte avec les codes ANSI de la couleur demandee
-	code: str = ANSI_COLORS.get(color, "0")
-	return f"\033[{code}m{text}\033[0m"
-
 def info(message: str) -> None:
-	# Affiche un message normal dans la console
-	print(message)
+	# Show a normal message in the console
+	ui.info(message)
 
 def warn(message: str) -> None:
-	# Affiche un avertissement colore et l'ecrit dans le journal de fichier
-	print(colorize(f"⚠ {message}", "yellow"))
+	# Show a warning and write it to the log file
+	ui.warning(message)
 	logger.warning(message)
 
 def error(message: str) -> None:
-	# Affiche une erreur coloree et l'ecrit dans le journal de fichier
-	print(colorize(f"✗ {message}", "red"))
+	# Show an error and write it to the log file
+	ui.error(message)
 	logger.error(message)
 
 def print_banner() -> None:
-	# Efface la console puis affiche le panneau de bienvenue du programme
-	console.clear()
-	console.print(Panel(
-		f"[bold cyan]  Media Toolkit v{VERSION}  [/]\n"
-		"[dim]Conversion d'images, de videos et detection de doublons[/]",
-		border_style="cyan",
-		padding=(1, 8),
-	))
+	# Show the program header
+	ui.banner(f"Media Toolkit v{VERSION}", "Image and video conversion and duplicate detection")
 
 def resolve_path(raw: str) -> Path:
-	# Developpe "~" et resout un chemin brut en chemin absolu
+	# Expand "~" and resolve a raw path to an absolute path
 	return Path(raw).expanduser().resolve()
 
 def validate_folder(path: Path) -> None:
-	# Quitte le programme si le chemin est manquant, invalide ou illisible
+	# Exit the program if the path is missing, invalid or unreadable
 	if not path.exists():
-		error(f"Le chemin n'existe pas : '{path}'")
+		error(f"The path does not exist: '{path}'")
 		sys.exit(1)
 	if not path.is_dir():
-		error(f"Le chemin n'est pas un dossier : '{path}'")
+		error(f"The path is not a folder: '{path}'")
 		sys.exit(1)
 	if not os.access(path, os.R_OK):
-		error(f"Aucune permission de lecture sur : '{path}'")
+		error(f"No read permission on: '{path}'")
 		sys.exit(1)
 
 def print_summary(prefix: str, counts: dict[str, int]) -> None:
-	# Affiche un tableau recapitulatif des resultats
-	table: Table = Table(show_header=True, header_style="bold magenta", border_style="bright_black")
-	table.add_column("Reussis", justify="center")
-	table.add_column("Ignores", justify="center")
-	table.add_column("Echecs", justify="center")
-	table.add_row(
-		colorize(str(counts["success"]), "green"),
-		colorize(str(counts["skipped"]), "yellow"),
-		colorize(str(counts["error"]), "red" if counts["error"] else "green"),
-	)
+	# Show a summary table of the results
 	if prefix:
-		print(prefix)
-	console.print(table)
+		ui.info(prefix)
+	ui.table(["Succeeded", "Ignored", "Failures"], [[counts["success"], counts["skipped"], counts["error"]]])
 
 def hash_image(image_path: Path) -> Optional[str]:
-	# Calcule un hash MD5 du contenu pixel decode d'une image
+	# Compute an MD5 hash of an image's decoded pixel content
 	try:
 		with Image.open(image_path) as img:
 			img_bytes: bytes = img.convert("RGB").tobytes()
 		return hashlib.md5(img_bytes).hexdigest()
 	except FileNotFoundError:
-		warn(f"Fichier introuvable : '{image_path}'")
+		warn(f"File not found: '{image_path}'")
 	except PermissionError:
-		warn(f"Permission refusee : '{image_path}'")
+		warn(f"Permission denied: '{image_path}'")
 	except UnidentifiedImageError:
-		warn(f"Format d'image non reconnu : '{image_path.name}'")
+		warn(f"Unrecognised image format: '{image_path.name}'")
 	except OSError as e:
-		warn(f"Erreur systeme sur '{image_path.name}': {e}")
+		warn(f"System error on '{image_path.name}': {e}")
 	except Exception as e:
-		warn(f"Erreur inattendue sur '{image_path.name}': {e}")
+		warn(f"Unexpected error on '{image_path.name}': {e}")
 	return None
 
 def load_hashes(hash_file: Path) -> dict[str, dict[str, str]]:
-	# Charge la base de hash d'images depuis le disque, en tolerant les lignes mal formees
-	# et les lignes issues d'un ancien format (2 champs : hash|nom_fichier, sans dossier).
+	# Load the image hash database from disk, tolerating malformed lines
+	# and lines from an old format (2 fields: hash|file_name, without folder).
 	if not hash_file.exists():
 		return {}
 	hashes: dict[str, dict[str, str]] = defaultdict(dict)
@@ -159,7 +600,7 @@ def load_hashes(hash_file: Path) -> dict[str, dict[str, str]]:
 					folder_key, hash_value, file_name = parts
 					hashes[folder_key][hash_value] = file_name
 				elif len(parts) == 2:
-					# Ancien format sans folder_key : on le range en portee globale.
+					# Old format without folder_key: store it in the global scope.
 					hash_value, file_name = parts
 					hashes["_global_"][hash_value] = file_name
 					legacy_count += 1
@@ -168,21 +609,21 @@ def load_hashes(hash_file: Path) -> dict[str, dict[str, str]]:
 					if len(malformed_examples) < 3:
 						malformed_examples.append(line_num)
 	except PermissionError:
-		warn(f"Impossible de lire le fichier de hash (permission refusee) : '{hash_file}'.")
+		warn(f"Cannot read the hash file (permission denied): '{hash_file}'.")
 	except UnicodeDecodeError:
-		warn(f"Erreur d'encodage du fichier de hash : '{hash_file}'.")
+		warn(f"Hash file encoding error: '{hash_file}'.")
 	except OSError as e:
-		warn(f"Erreur systeme en lisant le fichier de hash : {e}.")
+		warn(f"System error while reading the hash file: {e}.")
 	if legacy_count:
-		warn(f"{legacy_count} ligne(s) au format d'un ancien fichier de hash, converties en portee globale.")
+		warn(f"{legacy_count} line(s) in an old hash file format, converted to global scope.")
 	if malformed_count:
 		examples: str = ", ".join(str(n) for n in malformed_examples)
 		suffix: str = "..." if malformed_count > len(malformed_examples) else ""
-		warn(f"{malformed_count} ligne(s) mal formee(s) dans le fichier de hash, ignorees (ex. lignes {examples}{suffix}).")
+		warn(f"{malformed_count} malformed line(s) in the hash file, ignored (e.g. lines {examples}{suffix}).")
 	return hashes
 
 def save_hashes(hashes: dict[str, dict[str, str]], hash_file: Path) -> bool:
-	# Sauvegarde la base de hash d'images sur le disque via un fichier temporaire
+	# Save the image hash database to disk through a temporary file
 	tmp_file: Path = hash_file.with_suffix(".tmp")
 	try:
 		with tmp_file.open("w", encoding="utf-8") as f:
@@ -192,11 +633,11 @@ def save_hashes(hashes: dict[str, dict[str, str]], hash_file: Path) -> bool:
 		tmp_file.replace(hash_file)
 		return True
 	except PermissionError:
-		error(f"Permission refusee pour ecrire le fichier de hash : '{hash_file}'.")
+		error(f"Permission denied to write the hash file: '{hash_file}'.")
 	except OSError as e:
-		error(f"Erreur systeme en sauvant le fichier de hash : {e}")
+		error(f"System error while saving the hash file: {e}")
 	except Exception as e:
-		error(f"Erreur inattendue en sauvant le fichier de hash : {e}")
+		error(f"Unexpected error while saving the hash file: {e}")
 	finally:
 		if tmp_file.exists():
 			try:
@@ -206,7 +647,7 @@ def save_hashes(hashes: dict[str, dict[str, str]], hash_file: Path) -> bool:
 	return False
 
 def get_unique_destination(dest_folder: Path, filename: str) -> Path:
-	# Construit un chemin de destination sans collision en ajoutant un suffixe numerique
+	# Build a collision-free destination path by adding a numeric suffix
 	dest: Path = dest_folder / filename
 	if not dest.exists():
 		return dest
@@ -220,7 +661,7 @@ def get_unique_destination(dest_folder: Path, filename: str) -> Path:
 	return dest
 
 def resolve_copies_dest(file_path: Path, root_folder: Path, copies_folder: Path, flat: bool) -> Path:
-	# Calcule le dossier de destination d'un doublon, en miroir sauf si "flat"
+	# Compute the destination folder of a duplicate, mirrored unless "flat"
 	if flat:
 		return copies_folder
 	try:
@@ -229,63 +670,62 @@ def resolve_copies_dest(file_path: Path, root_folder: Path, copies_folder: Path,
 		mirrored.mkdir(parents=True, exist_ok=True)
 		return mirrored
 	except ValueError:
-		warn(f"Impossible de reproduire le chemin pour '{file_path.name}', repli sur flat.")
+		warn(f"Cannot reproduce the path for '{file_path.name}', falling back to flat.")
 		return copies_folder
 	except PermissionError:
-		warn("Permission refusee pour creer le dossier miroir, repli sur flat.")
+		warn("Permission denied to create the mirror folder, falling back to flat.")
 		return copies_folder
 	except OSError as e:
-		warn(f"Erreur systeme en creant le dossier miroir : {e}. Repli sur flat.")
+		warn(f"System error while creating the mirror folder: {e}. Falling back to flat.")
 		return copies_folder
 
 def safe_move(src: Path, dst: Path) -> bool:
-	# Deplace un fichier vers sa destination, journalise et renvoie False en cas d'echec
+	# Move a file to its destination, log it and return False on failure
 	try:
 		shutil.move(str(src), dst)
 		return True
 	except PermissionError:
-		error(f"Permission refusee pour deplacer '{src.name}'.")
+		error(f"Permission denied to move '{src.name}'.")
 	except shutil.Error as e:
-		error(f"Deplacement echoue pour '{src.name}': {e}")
+		error(f"Move failed for '{src.name}': {e}")
 	except OSError as e:
-		error(f"Erreur systeme en deplacant '{src.name}': {e}")
+		error(f"System error while moving '{src.name}': {e}")
 	except Exception as e:
-		error(f"Erreur inattendue en deplacant '{src.name}': {e}")
+		error(f"Unexpected error while moving '{src.name}': {e}")
 	return False
 
 class MediaProcessor(ABC):
-	# Interface commune a tout traitement de media du toolkit
+	# Common interface for every media processor of the toolkit
 	@abstractmethod
 	def collect(self, root: Path, recursive: bool) -> list:
-		# Recense les fichiers a traiter dans le dossier donne
+		# List the files to process in the given folder
 		raise NotImplementedError
 
 	@abstractmethod
 	def run(self, args: argparse.Namespace) -> None:
-		# Point d'entree de la sous-commande associee
+		# Entry point of the matching subcommand
 		raise NotImplementedError
 
 class ImageConverter(MediaProcessor):
-	# Convertit les images supportees d'un dossier en JPEG
+	# Convert the supported images of a folder to JPEG
 	def collect(self, root: Path, recursive: bool) -> list[Path]:
-		# Parcourt recursivement ou non le dossier a la recherche d'images a convertir
+		# Walk the folder (recursively or not) looking for images to convert
 		pattern: str = "**/*" if recursive else "*"
 		found: list[Path] = []
-		with Progress(SpinnerColumn(), TextColumn("[cyan]Analyse... {task.completed} fichier(s)"), console=console, transient=True) as progress:
-			task: int = progress.add_task("scan", total=None)
+		with ui.progress(None, "Scanning (files found)") as progress:
 			for p in root.glob(pattern):
 				try:
 					if p.is_file() and p.suffix.lower() in IMAGE_TARGET_EXTENSIONS:
 						found.append(p)
-						progress.advance(task)
+						progress.advance()
 				except PermissionError:
-					warn(f"Acces refuse : {p}")
+					warn(f"Access denied: {p}")
 				except OSError as e:
-					warn(f"Erreur systeme sur {p}: {e}")
+					warn(f"System error on {p}: {e}")
 		return found
 
 	def convert_one(self, file_path: Path, quality: int, delete_original: bool, dry_run: bool) -> str:
-		# Convertit une image unique en JPEG, supprime l'original si demande
+		# Convert a single image to JPEG, delete the original if requested
 		target_path: Path = file_path.with_suffix(".jpg")
 		if target_path.exists() and target_path != file_path:
 			return "skipped"
@@ -299,67 +739,59 @@ class ImageConverter(MediaProcessor):
 				file_path.unlink()
 			return "success"
 		except Exception as exc:
-			error(f"Echec sur {file_path}: {exc}")
+			error(f"Failed on {file_path}: {exc}")
 			return "error"
 
 	def run(self, args: argparse.Namespace) -> None:
-		# Point d'entree de la sous-commande "images"
+		# Entry point of the "images" subcommand
 		root: Path = resolve_path(args.path)
 		validate_folder(root)
 		if not (1 <= args.quality <= 95):
-			error("La qualite doit etre comprise entre 1 et 95.")
+			error("Quality must be between 1 and 95.")
 			sys.exit(1)
 		files: list[Path] = self.collect(root, args.recursive)
 		if not files:
-			info("Aucun fichier a convertir dans ce dossier.")
+			info("No file to convert in this folder.")
 			return
-		prefix: str = colorize("[SIMULATION] ", "magenta") if args.dry_run else ""
-		info(f"\n{prefix}Traitement de {len(files)} fichier(s)")
+		prefix: str = tr("[DRY RUN] ") if args.dry_run else ""
+		info(f"\n{prefix}Processing {len(files)} file(s)")
 		counts: dict[str, int] = {"success": 0, "skipped": 0, "error": 0}
 		try:
-			with Progress(
-				TextColumn("[bold blue]{task.fields[name]:<30}"),
-				BarColumn(bar_width=30),
-				MofNCompleteColumn(),
-				TimeElapsedColumn(),
-				console=console,
-			) as progress:
-				task: int = progress.add_task("images", total=len(files), name="Conversion")
+			with ui.progress(len(files), "Conversion") as progress:
 				for file_path in files:
-					progress.update(task, name=file_path.name[:30])
+					progress.set_value(description=file_path.name[:30])
 					result: str = self.convert_one(file_path, args.quality, args.delete, args.dry_run)
 					counts[result] += 1
-					progress.advance(task)
+					progress.advance()
 		except KeyboardInterrupt:
-			info("\nInterruption clavier detectee. Arret.")
+			info("\nKeyboard interrupt detected. Stopping.")
 		print_summary(prefix, counts)
 		if counts["error"]:
-			info("Details dans le journal si l'option a ete activee.")
+			info("Details in the log if the option was enabled.")
 
 class VideoConverter(MediaProcessor):
-	# Convertit les videos supportees d'un dossier en MP4
+	# Convert the supported videos of a folder to MP4
 	def collect(self, root: Path, recursive: bool) -> list[str]:
-		# Parcourt recursivement ou non le dossier a la recherche de videos a convertir
+		# Walk the folder (recursively or not) looking for videos to convert
 		found: list[str] = []
-		with Progress(SpinnerColumn(), TextColumn("[cyan]Analyse... {task.completed} fichier(s)"), console=console, transient=True) as progress:
-			task: int = progress.add_task("scan", total=None)
+		with ui.progress(None, "Scanning (files found)") as progress:
 			if recursive:
 				for dirpath, _, files in os.walk(root):
 					for filename in files:
 						ext: str = os.path.splitext(filename)[1].lower()
 						if ext in VIDEO_EXTENSIONS:
 							found.append(os.path.join(dirpath, filename))
-							progress.advance(task)
+							progress.advance()
 			else:
 				for filename in os.listdir(root):
 					ext = os.path.splitext(filename)[1].lower()
 					if ext in VIDEO_EXTENSIONS:
 						found.append(os.path.join(root, filename))
-						progress.advance(task)
+						progress.advance()
 		return found
 
 	def convert_one(self, file_path: str, dry_run: bool, delete_original: bool) -> str:
-		# Convertit une video unique en MP4 (H.264 + AAC), supprime l'original si demande
+		# Convert a single video to MP4 (H.264 + AAC), delete the original if requested
 		directory: str = os.path.dirname(file_path)
 		name_part: str = os.path.splitext(os.path.basename(file_path))[0]
 		target_path: str = os.path.join(directory, f"{name_part}.mp4")
@@ -374,57 +806,49 @@ class VideoConverter(MediaProcessor):
 				os.remove(file_path)
 			return "success"
 		except Exception as e:
-			error(f"Echec sur {file_path}: {e}")
+			error(f"Failed on {file_path}: {e}")
 			return "error"
 
 	def run(self, args: argparse.Namespace) -> None:
-		# Point d'entree de la sous-commande "videos"
+		# Entry point of the "videos" subcommand
 		root: Path = resolve_path(args.path)
 		validate_folder(root)
 		videos: list[str] = self.collect(root, args.recursive)
 		if not videos:
-			info("Aucune video trouvee dans ce dossier.")
+			info("No video found in this folder.")
 			return
-		prefix: str = colorize("[SIMULATION] ", "magenta") if args.dry_run else ""
-		info(f"\n{prefix}Traitement de {len(videos)} video(s)")
+		prefix: str = tr("[DRY RUN] ") if args.dry_run else ""
+		info(f"\n{prefix}Processing {len(videos)} video(s)")
 		counts: dict[str, int] = {"success": 0, "skipped": 0, "error": 0}
 		try:
-			with Progress(
-				TextColumn("[bold blue]{task.fields[name]:<30}"),
-				BarColumn(bar_width=30),
-				MofNCompleteColumn(),
-				TimeElapsedColumn(),
-				console=console,
-			) as progress:
-				task: int = progress.add_task("videos", total=len(videos), name="Conversion")
+			with ui.progress(len(videos), "Conversion") as progress:
 				for file_path in videos:
-					progress.update(task, name=os.path.basename(file_path)[:30])
+					progress.set_value(description=os.path.basename(file_path)[:30])
 					result: str = self.convert_one(file_path, args.dry_run, args.delete)
 					counts[result] += 1
-					progress.advance(task)
+					progress.advance()
 		except KeyboardInterrupt:
-			info("\nInterruption clavier detectee. Arret.")
+			info("\nKeyboard interrupt detected. Stopping.")
 		print_summary(prefix, counts)
 		if counts["error"]:
-			info("Details dans le journal si l'option a ete activee.")
+			info("Details in the log if the option was enabled.")
 
 class DuplicateDetector(MediaProcessor):
-	# Detecte les images en double par hash du contenu pixel et les deplace dans "copies/"
+	# Detect duplicate images by pixel content hash and move them to "copies/"
 	def collect(self, root: Path, recursive: bool) -> list[Path]:
-		# Parcourt le dossier a la recherche d'images candidates a la detection de doublons
+		# Walk the folder looking for images to check for duplicates
 		found: list[Path] = []
 		pattern: str = "**/*" if recursive else "*"
-		with Progress(SpinnerColumn(), TextColumn("[cyan]Analyse... {task.completed} fichier(s)"), console=console, transient=True) as progress:
-			task: int = progress.add_task("scan", total=None)
+		with ui.progress(None, "Scanning (files found)") as progress:
 			for p in root.glob(pattern):
 				try:
 					if p.is_file() and p.suffix.lower() in DUPLICATE_SCAN_EXTENSIONS:
 						found.append(p)
-						progress.advance(task)
+						progress.advance()
 				except PermissionError:
-					warn(f"Acces refuse : '{p}'")
+					warn(f"Access denied: '{p}'")
 				except OSError as e:
-					warn(f"Erreur systeme sur '{p}': {e}")
+					warn(f"System error on '{p}': {e}")
 		return found
 
 	def detect_and_move(
@@ -435,15 +859,15 @@ class DuplicateDetector(MediaProcessor):
 		dry_run: bool = False,
 		global_scope: bool = False,
 	) -> None:
-		# Detecte les images en double (par hash du contenu pixel) et deplace les extras dans "copies/"
+		# Detect duplicate images (by pixel content hash) and move the extras to "copies/"
 		copies_folder: Path = folder_path / "copies"
 		try:
 			copies_folder.mkdir(exist_ok=True)
 		except PermissionError:
-			error(f"Impossible de creer le dossier 'copies' : permission refusee dans '{folder_path}'.")
+			error(f"Cannot create the 'copies' folder: permission denied in '{folder_path}'.")
 			return
 		except OSError as e:
-			error(f"Impossible de creer le dossier 'copies' : {e}")
+			error(f"Cannot create the 'copies' folder: {e}")
 			return
 		hash_file: Path = copies_folder / "image_hashes.txt"
 		error_log: Path = copies_folder / "errors-report.txt"
@@ -454,17 +878,16 @@ class DuplicateDetector(MediaProcessor):
 			file_handler.setLevel(logging.WARNING)
 			logger.addHandler(file_handler)
 		except PermissionError:
-			warn("Impossible d'ecrire le journal d'erreurs (permission refusee).")
+			warn("Cannot write the error log (permission denied).")
 		except OSError as e:
-			warn(f"Impossible de creer le journal d'erreurs : {e}.")
+			warn(f"Cannot create the error log: {e}.")
 		hashes: dict[str, dict[str, str]] = defaultdict(dict, load_hashes(hash_file))
 		try:
-			info("Recherche des fichiers image...")
+			info("Looking for image files...")
 			files: list[Path] = []
 			pattern: str = "**/*" if recursive else "*"
 			try:
-				with Progress(SpinnerColumn(), TextColumn("[cyan]Analyse... {task.completed} fichier(s)"), console=console, transient=True) as progress:
-					task: int = progress.add_task("scan", total=None)
+				with ui.progress(None, "Scanning (files found)") as progress:
 					for p in folder_path.glob(pattern):
 						try:
 							if (
@@ -474,42 +897,35 @@ class DuplicateDetector(MediaProcessor):
 								and p.parent != copies_folder
 							):
 								files.append(p)
-								progress.advance(task)
+								progress.advance()
 						except PermissionError:
-							warn(f"Acces refuse : '{p}'")
+							warn(f"Access denied: '{p}'")
 						except OSError as e:
-							warn(f"Erreur systeme sur '{p}': {e}")
+							warn(f"System error on '{p}': {e}")
 			except PermissionError:
-				error(f"Impossible de lister le dossier '{folder_path}' : permission refusee.")
+				error(f"Cannot list the folder '{folder_path}' : permission denied.")
 			except OSError as e:
-				error(f"Erreur systeme en parcourant le dossier : {e}")
+				error(f"System error while walking the folder: {e}")
 			if not files:
-				info("Aucun fichier image trouve.")
+				info("No image file found.")
 				return
-			mode_label: str = "recursif" if recursive else "dossier racine uniquement"
-			dest_label: str = "flat" if flat else "structure miroir"
-			scope_label: str = "global (tous dossiers)" if global_scope else "par dossier"
-			prefix: str = colorize("[SIMULATION] ", "magenta") if dry_run else ""
+			mode_label: str = "recursive" if recursive else "root folder only"
+			dest_label: str = "flat" if flat else "mirror structure"
+			scope_label: str = "global (all folders)" if global_scope else "per folder"
+			prefix: str = tr("[DRY RUN] ") if dry_run else ""
 			info(
-				f"\n{prefix}Traitement de {len(files)} image(s) "
+				f"\n{prefix}Processing {len(files)} image(s) "
 				f"[mode: {mode_label} | copies: {dest_label} | detection: {scope_label}]"
 			)
 			counts: dict[str, int] = {"success": 0, "skipped": 0, "error": 0}
 			moved_details: list[str] = []
-			with Progress(
-				TextColumn("[bold blue]{task.fields[name]:<30}"),
-				BarColumn(bar_width=30),
-				MofNCompleteColumn(),
-				TimeElapsedColumn(),
-				console=console,
-			) as progress:
-				task = progress.add_task("dup", total=len(files), name="Analyse")
+			with ui.progress(len(files), "Analysis") as progress:
 				for file_path in files:
-					progress.update(task, name=file_path.name[:30])
+					progress.set_value(description=file_path.name[:30])
 					image_hash: Optional[str] = hash_image(file_path)
 					if image_hash is None:
 						counts["error"] += 1
-						progress.advance(task)
+						progress.advance()
 						continue
 					folder_key: str = "_global_" if global_scope else str(file_path.parent.relative_to(folder_path))
 					folder_hashes: dict[str, str] = hashes[folder_key]
@@ -531,28 +947,28 @@ class DuplicateDetector(MediaProcessor):
 					else:
 						folder_hashes[image_hash] = file_path.name
 						counts["skipped"] += 1
-					progress.advance(task)
+					progress.advance()
 			if not dry_run:
 				if not save_hashes(hashes, hash_file):
-					warn("Le fichier de hash n'a pas pu etre sauvegarde. Progres possiblement perdu.")
+					warn("The hash file could not be saved. Progress may be lost.")
 			if moved_details:
-				action: str = "detecte(s)" if dry_run else "deplace(s)"
-				info(colorize(f"\n{prefix}{len(moved_details)} doublon(s) {action} :", "cyan"))
+				action: str = "detected" if dry_run else "moved"
+				ui.info(f"\n{prefix}{len(moved_details)} duplicate(s) {action} :")
 				for f in moved_details:
 					info(f"  - {f}")
 			print_summary(prefix, counts)
 			if counts["error"]:
-				info(f"Details : {error_log}")
-			info(colorize("Termine.", "green"))
+				info(f"Details: {error_log}")
+			ui.success("Done.")
 		except KeyboardInterrupt:
-			info("\nInterruption clavier detectee. Sauvegarde des hash...")
+			info("\nKeyboard interrupt detected. Saving hashes...")
 			if not dry_run:
 				save_hashes(hashes, hash_file)
-			info("Hash sauvegardes. Sortie propre.")
+			info("Hashes saved. Clean exit.")
 		except Exception as e:
-			error(f"\nErreur fatale inattendue : {e}")
+			error(f"\nUnexpected fatal error: {e}")
 			if not dry_run:
-				info("Tentative de sauvegarde des hash avant de quitter...")
+				info("Trying to save the hashes before exiting...")
 				save_hashes(hashes, hash_file)
 			raise
 		finally:
@@ -564,7 +980,7 @@ class DuplicateDetector(MediaProcessor):
 					pass
 
 	def run(self, args: argparse.Namespace) -> None:
-		# Point d'entree de la sous-commande "duplicates"
+		# Entry point of the "duplicates" subcommand
 		folder_path: Path = resolve_path(args.path)
 		validate_folder(folder_path)
 		self.detect_and_move(
@@ -576,7 +992,7 @@ class DuplicateDetector(MediaProcessor):
 		)
 
 def get_image_datetime(file_path: Path) -> Optional[datetime]:
-	# Lit la date de prise de vue dans les metadonnees EXIF d'une image
+	# Read the capture date from an image's EXIF metadata
 	try:
 		with Image.open(file_path) as img:
 			exif = img.getexif()
@@ -587,7 +1003,7 @@ def get_image_datetime(file_path: Path) -> Optional[datetime]:
 			except Exception:
 				pass
 			if not date_str:
-				date_str = exif.get(306)  # DateTime (tag standard)
+				date_str = exif.get(306)  # DateTime (standard tag)
 			if date_str:
 				return datetime.strptime(str(date_str).strip(), "%Y:%m:%d %H:%M:%S")
 	except Exception:
@@ -595,7 +1011,7 @@ def get_image_datetime(file_path: Path) -> Optional[datetime]:
 	return None
 
 def get_video_datetime(file_path: Path) -> Optional[datetime]:
-	# Lit la date de creation d'une video via ffprobe (deja utilise par moviepy/ffmpeg)
+	# Read a video's creation date with ffprobe (already used by moviepy/ffmpeg)
 	try:
 		result = subprocess.run(
 			[
@@ -614,7 +1030,7 @@ def get_video_datetime(file_path: Path) -> Optional[datetime]:
 	return None
 
 def get_capture_datetime(file_path: Path) -> datetime:
-	# Determine la date de prise d'un fichier : metadonnees si possible, sinon date de modification
+	# Determine a file's capture date: metadata if possible, otherwise modification date
 	ext: str = file_path.suffix.lower()
 	dt: Optional[datetime] = None
 	if ext in VIDEO_EXTENSIONS or ext == ".mp4":
@@ -629,38 +1045,37 @@ def get_capture_datetime(file_path: Path) -> datetime:
 	return dt
 
 def format_date_key(dt: datetime) -> str:
-	# Formate une date en "JJ-MM-AAAA_HHhMM", ex: 12-12-2009_12h05
+	# Format a date as "DD-MM-YYYY_HHhMM", e.g. 12-12-2009_12h05
 	return dt.strftime("%d-%m-%Y_%Hh%M")
 
 class MediaRenamer(MediaProcessor):
-	# Renomme les fichiers media selon leur date de prise (photo/video), avec suffixe -N en cas d'egalite
+	# Rename media files by capture date (photo/video), with a -N suffix on ties
 	def collect(self, root: Path, recursive: bool) -> list[Path]:
-		# Parcourt recursivement ou non le dossier a la recherche de fichiers a renommer
+		# Walk the folder (recursively or not) looking for files to rename
 		pattern: str = "**/*" if recursive else "*"
 		found: list[Path] = []
-		with Progress(SpinnerColumn(), TextColumn("[cyan]Analyse... {task.completed} fichier(s)"), console=console, transient=True) as progress:
-			task: int = progress.add_task("scan", total=None)
+		with ui.progress(None, "Scanning (files found)") as progress:
 			for p in root.glob(pattern):
 				try:
 					if p.is_file() and p.suffix.lower() in RENAME_EXTENSIONS:
 						found.append(p)
-						progress.advance(task)
+						progress.advance()
 				except PermissionError:
-					warn(f"Acces refuse : '{p}'")
+					warn(f"Access denied: '{p}'")
 				except OSError as e:
-					warn(f"Erreur systeme sur '{p}': {e}")
+					warn(f"System error on '{p}': {e}")
 		return found
 
 	def rename_all(self, folder_path: Path, recursive: bool, dry_run: bool) -> None:
-		# Renomme chaque fichier trouve selon sa date de prise, en ajoutant "-N" quand plusieurs
-		# fichiers partagent la meme date et la meme minute.
-		info("Recherche des fichiers a renommer...")
+		# Rename every file found by its capture date, adding "-N" when several
+		# files share the same date and minute.
+		info("Looking for files to rename...")
 		files: list[Path] = self.collect(folder_path, recursive)
 		if not files:
-			info("Aucun fichier a renommer dans ce dossier.")
+			info("No file to rename in this folder.")
 			return
-		prefix: str = colorize("[SIMULATION] ", "magenta") if dry_run else ""
-		info(f"\n{prefix}Traitement de {len(files)} fichier(s)")
+		prefix: str = tr("[DRY RUN] ") if dry_run else ""
+		info(f"\n{prefix}Processing {len(files)} file(s)")
 		groups: dict[tuple[Path, str], list[Path]] = defaultdict(list)
 		for f in files:
 			date_key: str = format_date_key(get_capture_datetime(f))
@@ -670,24 +1085,17 @@ class MediaRenamer(MediaProcessor):
 		counts: dict[str, int] = {"success": 0, "skipped": 0, "error": 0}
 		renamed_details: list[str] = []
 		try:
-			with Progress(
-				TextColumn("[bold blue]{task.fields[name]:<30}"),
-				BarColumn(bar_width=30),
-				MofNCompleteColumn(),
-				TimeElapsedColumn(),
-				console=console,
-			) as progress:
-				task: int = progress.add_task("rename", total=len(files), name="Renommage")
+			with ui.progress(len(files), "Renaming") as progress:
 				for (parent, date_key), group_files in groups.items():
 					use_suffix: bool = len(group_files) > 1
 					for index, file_path in enumerate(group_files, start=1):
-						progress.update(task, name=file_path.name[:30])
+						progress.set_value(description=file_path.name[:30])
 						suffix: str = f"-{index}" if use_suffix else ""
 						new_name: str = f"{date_key}{suffix}{file_path.suffix}"
 						dest: Path = parent / new_name
 						if dest == file_path:
 							counts["skipped"] += 1
-							progress.advance(task)
+							progress.advance()
 							continue
 						if dest.exists():
 							dest = get_unique_destination(parent, new_name)
@@ -700,23 +1108,23 @@ class MediaRenamer(MediaProcessor):
 								counts["success"] += 1
 								renamed_details.append(f"{file_path.name} -> {dest.name}")
 							except PermissionError:
-								error(f"Permission refusee pour renommer '{file_path.name}'.")
+								error(f"Permission denied to rename '{file_path.name}'.")
 								counts["error"] += 1
 							except OSError as e:
-								error(f"Erreur systeme en renommant '{file_path.name}': {e}")
+								error(f"System error while renaming '{file_path.name}': {e}")
 								counts["error"] += 1
-						progress.advance(task)
+						progress.advance()
 		except KeyboardInterrupt:
-			info("\nInterruption clavier detectee. Arret.")
+			info("\nKeyboard interrupt detected. Stopping.")
 		if renamed_details:
-			action: str = "detecte(s)" if dry_run else "renomme(s)"
-			info(colorize(f"\n{prefix}{len(renamed_details)} fichier(s) {action} :", "cyan"))
+			action: str = "detected" if dry_run else "renamed"
+			ui.info(f"\n{prefix}{len(renamed_details)} file(s) {action} :")
 			for line in renamed_details:
 				info(f"  - {line}")
 		print_summary(prefix, counts)
 
 	def run(self, args: argparse.Namespace) -> None:
-		# Point d'entree de la sous-commande "rename"
+		# Entry point of the "rename" subcommand
 		folder_path: Path = resolve_path(args.path)
 		validate_folder(folder_path)
 		self.rename_all(folder_path, recursive=args.recursive, dry_run=args.dry_run)
@@ -727,84 +1135,75 @@ DUPLICATE_DETECTOR: DuplicateDetector = DuplicateDetector()
 MEDIA_RENAMER: MediaRenamer = MediaRenamer()
 
 def run_images_interactive() -> None:
-	# Recueille les options de conversion d'images via des invites graphiques
-	path: Optional[str] = questionary.text("Chemin du dossier a traiter :", style=MENU_STYLE).ask()
-	quality_raw: Optional[str] = questionary.text("Qualite JPEG, 1-95 [95] :", style=MENU_STYLE).ask()
-	quality: int
-	try:
-		quality = int(quality_raw) if quality_raw else 95
-	except ValueError:
-		quality = 95
-	recursive: Optional[bool] = questionary.confirm("Analyser aussi les sous-dossiers ?", default=True, style=MENU_STYLE).ask()
-	delete: Optional[bool] = questionary.confirm("Supprimer les originaux apres conversion ?", default=False, style=MENU_STYLE).ask()
-	dry_run: Optional[bool] = questionary.confirm("Simuler sans convertir aucun fichier ?", default=False, style=MENU_STYLE).ask()
-	IMAGE_CONVERTER.run(SimpleNamespace(path=path, quality=quality, recursive=recursive, delete=delete, dry_run=dry_run))
+	# Collect the image conversion options
+	path: Optional[str] = ui.ask_path("Path of the folder to process")
+	if not path:
+		return
+	quality = ui.ask_number("JPEG quality, 1-95", 95, minimum=1, maximum=95)
+	if quality is None:
+		return
+	recursive: Optional[bool] = ui.confirm("Also scan subfolders?", default=True)
+	delete: Optional[bool] = ui.confirm("Delete the originals after conversion?", default=False)
+	dry_run: Optional[bool] = ui.confirm("Simulate without converting any file?", default=False)
+	IMAGE_CONVERTER.run(SimpleNamespace(path=path, quality=int(quality), recursive=bool(recursive), delete=bool(delete), dry_run=bool(dry_run)))
 
 def run_videos_interactive() -> None:
-	# Recueille les options de conversion de videos via des invites graphiques
-	path: Optional[str] = questionary.text("Chemin du dossier a traiter :", style=MENU_STYLE).ask()
-	recursive: Optional[bool] = questionary.confirm("Analyser aussi les sous-dossiers ?", default=True, style=MENU_STYLE).ask()
-	delete: Optional[bool] = questionary.confirm("Supprimer les originaux apres conversion ?", default=False, style=MENU_STYLE).ask()
-	dry_run: Optional[bool] = questionary.confirm("Simuler sans convertir aucun fichier ?", default=False, style=MENU_STYLE).ask()
-	VIDEO_CONVERTER.run(SimpleNamespace(path=path, recursive=recursive, delete=delete, dry_run=dry_run))
+	# Collect the video conversion options
+	path: Optional[str] = ui.ask_path("Path of the folder to process")
+	if not path:
+		return
+	recursive: Optional[bool] = ui.confirm("Also scan subfolders?", default=True)
+	delete: Optional[bool] = ui.confirm("Delete the originals after conversion?", default=False)
+	dry_run: Optional[bool] = ui.confirm("Simulate without converting any file?", default=False)
+	VIDEO_CONVERTER.run(SimpleNamespace(path=path, recursive=bool(recursive), delete=bool(delete), dry_run=bool(dry_run)))
 
 def show_flat_vs_mirror_trees() -> None:
-	# Illustre visuellement, via deux arborescences, la difference entre
-	# le rangement "a plat" et le rangement "en miroir" des doublons.
-	console.print(colorize("Exemple : des doublons trouves ici...", "cyan"))
-	source: Tree = Tree("[bold]photos/[/]")
-	vacances: Tree = source.add("[bold]vacances/[/]")
-	vacances.add("plage.jpg")
-	famille: Tree = source.add("[bold]famille/[/]")
-	famille.add("noel.jpg")
-	console.print(source)
-	console.print()
-	flat_tree: Tree = Tree("[bold]copies/[/]  [dim](a plat)[/]")
-	flat_tree.add("plage.jpg")
-	flat_tree.add("noel.jpg")
-	mirror_tree: Tree = Tree("[bold]copies/[/]  [dim](en miroir)[/]")
-	m_vacances: Tree = mirror_tree.add("[bold]vacances/[/]")
-	m_vacances.add("plage.jpg")
-	m_famille: Tree = mirror_tree.add("[bold]famille/[/]")
-	m_famille.add("noel.jpg")
-	console.print(colorize("...seront ranges comme ceci :", "cyan"))
-	console.print(flat_tree)
-	console.print()
-	console.print(mirror_tree)
-	console.print()
+	# Illustrate, with two trees, the difference between
+	# the "flat" and "mirrored" ways of storing duplicates.
+	ui.info("Example: duplicates found here...")
+	ui.tree("photos/", [("vacances/", ["plage.jpg"]), ("famille/", ["noel.jpg"])])
+	ui.info()
+	ui.info("...will be stored like this:")
+	ui.tree("copies/  (flat)", ["plage.jpg", "noel.jpg"])
+	ui.info()
+	ui.tree("copies/  (mirrored)", [("vacances/", ["plage.jpg"]), ("famille/", ["noel.jpg"])])
+	ui.info()
 
 def run_duplicates_interactive() -> None:
-	# Recueille les options de detection de doublons via des invites graphiques
-	path: Optional[str] = questionary.text("Chemin du dossier a analyser :", style=MENU_STYLE).ask()
-	recursive: Optional[bool] = questionary.confirm("Analyser aussi les sous-dossiers ?", default=False, style=MENU_STYLE).ask()
+	# Collect the duplicate detection options
+	path: Optional[str] = ui.ask_path("Path of the folder to scan")
+	if not path:
+		return
+	recursive: Optional[bool] = ui.confirm("Also scan subfolders?", default=False)
 	show_flat_vs_mirror_trees()
-	flat: Optional[bool] = questionary.confirm(
-		"Deplacer les doublons a plat (un seul dossier 'copies/') plutot qu'en miroir (sous-dossiers reproduits) ?",
+	flat: Optional[bool] = ui.confirm(
+		"Move duplicates flat (a single 'copies/' folder) rather than mirrored (subfolders reproduced)?",
 		default=True,
-		style=MENU_STYLE,
-	).ask()
-	global_scope: Optional[bool] = questionary.confirm("Detecter les doublons sur tous les dossiers a la fois ?", default=False, style=MENU_STYLE).ask()
-	dry_run: Optional[bool] = questionary.confirm("Simuler sans deplacer aucun fichier ?", default=False, style=MENU_STYLE).ask()
-	DUPLICATE_DETECTOR.run(SimpleNamespace(path=path, recursive=recursive, flat=flat, global_scope=global_scope, dry_run=dry_run))
+	)
+	global_scope: Optional[bool] = ui.confirm("Detect duplicates across all folders at once?", default=False)
+	dry_run: Optional[bool] = ui.confirm("Simulate without moving any file?", default=False)
+	DUPLICATE_DETECTOR.run(SimpleNamespace(path=path, recursive=bool(recursive), flat=flat is not False, global_scope=bool(global_scope), dry_run=bool(dry_run)))
 
 def run_rename_interactive() -> None:
-	# Recueille les options de renommage via des invites graphiques
-	path: Optional[str] = questionary.text("Chemin du dossier a traiter :", style=MENU_STYLE).ask()
-	recursive: Optional[bool] = questionary.confirm("Analyser aussi les sous-dossiers ?", default=True, style=MENU_STYLE).ask()
-	info(colorize("Format : JJ-MM-AAAA_HHhMM, ex. 12-12-2009_12h05 (un numero -N est ajoute en cas d'egalite).", "cyan"))
-	dry_run: Optional[bool] = questionary.confirm("Simuler sans renommer aucun fichier ?", default=False, style=MENU_STYLE).ask()
-	MEDIA_RENAMER.run(SimpleNamespace(path=path, recursive=recursive, dry_run=dry_run))
+	# Collect the renaming options
+	path: Optional[str] = ui.ask_path("Path of the folder to process")
+	if not path:
+		return
+	recursive: Optional[bool] = ui.confirm("Also scan subfolders?", default=True)
+	ui.info("Format: DD-MM-YYYY_HHhMM, e.g. 12-12-2009_12h05 (a -N number is added on ties).")
+	dry_run: Optional[bool] = ui.confirm("Simulate without renaming any file?", default=False)
+	MEDIA_RENAMER.run(SimpleNamespace(path=path, recursive=bool(recursive), dry_run=bool(dry_run)))
 
 def run_interactive_menu() -> None:
-	# Menu interactif affiche quand le script est lance sans sous-commande
-	choice: Optional[str] = questionary.select("Que voulez-vous faire ?", choices=MENU_CHOICES, style=MENU_STYLE).ask()
-	if choice is None or "Quitter" in choice:
-		info(colorize("A bientot !", "green"))
+	# Interactive menu shown when the script is run without a subcommand
+	choice: Optional[str] = ui.choose("What would you like to do?", MENU_CHOICES)
+	if choice is None or "Quit" in choice:
+		ui.success("See you soon!")
 		sys.exit(0)
-	console.print()
-	if "doublons" in choice:
+	ui.info()
+	if "duplicate" in choice:
 		run_duplicates_interactive()
-	elif "Renommer" in choice:
+	elif "Rename" in choice:
 		run_rename_interactive()
 	elif "images" in choice:
 		run_images_interactive()
@@ -812,79 +1211,81 @@ def run_interactive_menu() -> None:
 		run_videos_interactive()
 
 def build_parser() -> argparse.ArgumentParser:
-	# Construit le CLI argparse : options globales et sous-commandes images/videos/duplicates
+	# Build the argparse CLI: global options and images/videos/duplicates subcommands
 	parser: argparse.ArgumentParser = argparse.ArgumentParser(
 		prog="media_toolkit.py",
-		description="Convertit des images en JPEG, des videos en MP4, detecte/deplace les doublons d'images, ou renomme les fichiers par date de prise.",
+		description="Convert images to JPEG, videos to MP4, detect/move duplicate images, or rename files by capture date.",
 		epilog=(
-			"Exemples :\n"
-			"  media_toolkit.py images /chemin/du/dossier\n"
-			"  media_toolkit.py videos /chemin/du/dossier --no-recursive\n"
-			"  media_toolkit.py duplicates /chemin/du/dossier --recursive --dry-run\n"
-			"  media_toolkit.py rename /chemin/du/dossier --recursive\n"
+			"Examples:\n"
+			"  media_toolkit.py images /path/to/folder\n"
+			"  media_toolkit.py videos /path/to/folder --no-recursive\n"
+			"  media_toolkit.py duplicates /path/to/folder --recursive --dry-run\n"
+			"  media_toolkit.py rename /path/to/folder --recursive\n"
 		),
 		formatter_class=argparse.RawDescriptionHelpFormatter,
 	)
-	parser.add_argument("--version", action="version", version=f"%(prog)s {VERSION}", help="Affiche la version du programme et quitte.")
+	parser.add_argument("--version", action="version", version=f"%(prog)s {VERSION}", help="Print the program version and exit.")
+	parser.add_argument("--no-ui", action="store_true", help="Disable the optional display layer (display_layer.py).")
+	parser.add_argument("--lang", choices=["en", "fr"], help="Select the language of the messages (en or fr).")
 	subparsers = parser.add_subparsers(dest="command", required=False, metavar="{images,videos,duplicates,rename}")
 	images_parser: argparse.ArgumentParser = subparsers.add_parser(
 		"images",
-		help="Convertit les images (PNG, WEBP, BMP, TIFF, HEIC/HEIF, ...) en JPEG.",
-		description="Convertit chaque image supportee d'un dossier au format JPEG.",
+		help="Convert images (PNG, WEBP, BMP, TIFF, HEIC/HEIF, ...) to JPEG.",
+		description="Convert every supported image in a folder to JPEG.",
 		formatter_class=argparse.ArgumentDefaultsHelpFormatter,
 	)
-	images_parser.add_argument("path", help="Chemin du dossier a traiter.")
-	images_parser.add_argument("--quality", type=int, default=95, metavar="N", help="Qualite JPEG, 1-95.")
-	images_parser.add_argument("--recursive", action=argparse.BooleanOptionalAction, default=True, help="Analyse aussi les sous-dossiers.")
-	images_parser.add_argument("--delete", action=argparse.BooleanOptionalAction, default=False, help="Supprime les originaux apres conversion.")
-	images_parser.add_argument("--dry-run", action=argparse.BooleanOptionalAction, default=False, help="Simule sans convertir aucun fichier.")
+	images_parser.add_argument("path", help="Path of the folder to process.")
+	images_parser.add_argument("--quality", type=int, default=95, metavar="N", help="JPEG quality, 1-95.")
+	images_parser.add_argument("--recursive", action=argparse.BooleanOptionalAction, default=True, help="Also scan subfolders.")
+	images_parser.add_argument("--delete", action=argparse.BooleanOptionalAction, default=False, help="Delete the originals after conversion.")
+	images_parser.add_argument("--dry-run", action=argparse.BooleanOptionalAction, default=False, help="Simulate without converting any file.")
 	images_parser.set_defaults(func=IMAGE_CONVERTER.run)
 	videos_parser: argparse.ArgumentParser = subparsers.add_parser(
 		"videos",
-		help="Convertit les videos (MOV, MKV, AVI, WMV, ...) en MP4.",
-		description="Convertit chaque video supportee d'un dossier en MP4 (H.264 + AAC).",
+		help="Convert videos (MOV, MKV, AVI, WMV, ...) to MP4.",
+		description="Convert every supported video in a folder to MP4 (H.264 + AAC).",
 		formatter_class=argparse.ArgumentDefaultsHelpFormatter,
 	)
-	videos_parser.add_argument("path", help="Chemin du dossier a traiter.")
-	videos_parser.add_argument("--recursive", action=argparse.BooleanOptionalAction, default=True, help="Analyse aussi les sous-dossiers.")
-	videos_parser.add_argument("--delete", action=argparse.BooleanOptionalAction, default=False, help="Supprime les originaux apres conversion.")
-	videos_parser.add_argument("--dry-run", action=argparse.BooleanOptionalAction, default=False, help="Simule sans convertir aucun fichier.")
+	videos_parser.add_argument("path", help="Path of the folder to process.")
+	videos_parser.add_argument("--recursive", action=argparse.BooleanOptionalAction, default=True, help="Also scan subfolders.")
+	videos_parser.add_argument("--delete", action=argparse.BooleanOptionalAction, default=False, help="Delete the originals after conversion.")
+	videos_parser.add_argument("--dry-run", action=argparse.BooleanOptionalAction, default=False, help="Simulate without converting any file.")
 	videos_parser.set_defaults(func=VIDEO_CONVERTER.run)
 	duplicates_parser: argparse.ArgumentParser = subparsers.add_parser(
 		"duplicates",
-		help="Detecte les images en double et les deplace dans un sous-dossier 'copies'.",
-		description="Detecte les images visuellement identiques (hash du contenu pixel) et deplace les extras dans 'copies'.",
+		help="Detect duplicate images and move them to a 'copies' subfolder.",
+		description="Detect visually identical images (pixel content hash) and move the extras to 'copies'.",
 		formatter_class=argparse.ArgumentDefaultsHelpFormatter,
 	)
-	duplicates_parser.add_argument("path", help="Chemin du dossier a analyser.")
-	duplicates_parser.add_argument("--recursive", action=argparse.BooleanOptionalAction, default=False, help="Analyse aussi les sous-dossiers.")
+	duplicates_parser.add_argument("path", help="Path of the folder to scan.")
+	duplicates_parser.add_argument("--recursive", action=argparse.BooleanOptionalAction, default=False, help="Also scan subfolders.")
 	duplicates_parser.add_argument(
 		"--flat",
 		action=argparse.BooleanOptionalAction,
 		default=True,
 		help=(
-			"Deplace les doublons a plat, tous regroupes dans 'copies/' (defaut), "
-			"plutot qu'en miroir ou 'copies/' reproduit la meme arborescence de "
-			"sous-dossiers que celle ou chaque doublon a ete trouve."
+			"Move duplicates flat, all grouped in 'copies/' (default), "
+			"rather than mirrored, where 'copies/' reproduces the same subfolder tree "
+			"as the one where each duplicate was found."
 		),
 	)
-	duplicates_parser.add_argument("--global-scope", action=argparse.BooleanOptionalAction, default=False, help="Detecte les doublons sur tous les dossiers a la fois.")
-	duplicates_parser.add_argument("--dry-run", action=argparse.BooleanOptionalAction, default=False, help="Simule sans deplacer aucun fichier.")
+	duplicates_parser.add_argument("--global-scope", action=argparse.BooleanOptionalAction, default=False, help="Detect duplicates across all folders at once.")
+	duplicates_parser.add_argument("--dry-run", action=argparse.BooleanOptionalAction, default=False, help="Simulate without moving any file.")
 	duplicates_parser.set_defaults(func=DUPLICATE_DETECTOR.run)
 	rename_parser: argparse.ArgumentParser = subparsers.add_parser(
 		"rename",
-		help="Renomme les photos/videos selon leur date de prise (JJ-MM-AAAA_HHhMM).",
-		description="Renomme chaque fichier media selon sa date de prise (EXIF pour les photos, metadonnees ffprobe pour les videos, sinon date de modification). Ajoute un suffixe -N quand plusieurs fichiers partagent la meme date et la meme minute.",
+		help="Rename photos/videos by capture date (DD-MM-YYYY_HHhMM).",
+		description="Rename every media file by its capture date (EXIF for photos, ffprobe metadata for videos, otherwise modification date). Adds a -N suffix when several files share the same date and minute.",
 		formatter_class=argparse.ArgumentDefaultsHelpFormatter,
 	)
-	rename_parser.add_argument("path", help="Chemin du dossier a traiter.")
-	rename_parser.add_argument("--recursive", action=argparse.BooleanOptionalAction, default=True, help="Analyse aussi les sous-dossiers.")
-	rename_parser.add_argument("--dry-run", action=argparse.BooleanOptionalAction, default=False, help="Simule sans renommer aucun fichier.")
+	rename_parser.add_argument("path", help="Path of the folder to process.")
+	rename_parser.add_argument("--recursive", action=argparse.BooleanOptionalAction, default=True, help="Also scan subfolders.")
+	rename_parser.add_argument("--dry-run", action=argparse.BooleanOptionalAction, default=False, help="Simulate without renaming any file.")
 	rename_parser.set_defaults(func=MEDIA_RENAMER.run)
 	return parser
 
 def main() -> None:
-	# Point d'entree : parse les arguments, affiche la banniere, puis lance la commande choisie
+	# Entry point: parse the arguments, show the banner, then run the chosen command
 	parser: argparse.ArgumentParser = build_parser()
 	args: argparse.Namespace = parser.parse_args()
 	print_banner()

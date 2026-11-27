@@ -1,0 +1,2639 @@
+{
+ "exact": {
+  "visualize_aco": "visualiser_aco",
+  "Solving the TSP with ant colony optimisation (ACO)": "Résolution du TSP par colonie de fourmis (ACO)",
+  "--cities": "--villes",
+  "Number of randomly generated cities": "Nombre de villes générées aléatoirement",
+  "--ants": "--fourmis",
+  "Number of ants per iteration": "Nombre de fourmis par itération",
+  "Weight of the pheromone influence": "Poids de l'influence des phéromones",
+  "Weight of the visibility influence (1/distance)": "Poids de l'influence de la visibilité (1/distance)",
+  "Pheromone evaporation rate (0 to 1)": "Taux d'évaporation des phéromones (0 à 1)",
+  "Number of algorithm iterations": "Nombre d'itérations de l'algorithme",
+  "Disable the optional display layer (display_layer.py)": "Desactive la couche d'affichage optionnelle (display_layer.py)",
+  "--seed": "--graine",
+  "Random seed to reproduce a result": "Graine aléatoire pour reproduire un résultat",
+  "Travelling salesman by ant colony": "Voyageur de commerce par colonie de fourmis",
+  "Number of cities": "Nombre de villes",
+  "Number of ants": "Nombre de fourmis",
+  "Alpha (pheromone weight)": "Alpha (poids pheromones)",
+  "Beta (visibility weight)": "Beta (poids visibilite)",
+  "Evaporation rate": "Taux d'evaporation",
+  "Number of iterations": "Nombre d'iterations",
+  "Random seed (empty for random)": "Graine aleatoire (vide pour aleatoire)",
+  "Generate an HTML report of every file on the partitions": "Génère un rapport HTML de tous les fichiers des partitions",
+  "Building the HTML report": "Construction du rapport HTML",
+  "Writing the output files": "Écriture des fichiers de sortie",
+  "Language": "Langue",
+  "(all)": "(toutes)",
+  "Report": "Rapport",
+  "Compressed report": "Rapport compressé",
+  "Errors": "Erreurs",
+  "Report generated successfully": "Rapport généré avec succès",
+  "All the options above can also be entered through the interactive\nform: just run the script without arguments to open it\n(or add -i / --interactive to force it even with other options).": "Tous les paramètres ci-dessus peuvent aussi être saisis via le formulaire\ninteractif : lance simplement le script sans arguments pour l'ouvrir\n(ou ajoute -i / --interactive pour le forcer même avec d'autres options).",
+  "Print the program version and exit.": "Affiche la version du programme et quitte.",
+  "Force the interactive form to open even with other options": "Force l'ouverture du formulaire interactif même avec d'autres options",
+  "Report settings": "Configuration du rapport",
+  "Output language / Langue des messages:": "Langue des messages / Output language :",
+  "Cancelled.": "Annulé.",
+  "Extensions to include (comma-separated, empty = all)": "Extensions à inclure (séparées par des virgules, vide = toutes)",
+  "Output file": "Fichier de sortie",
+  "Settings summary": "Résumé de la configuration",
+  "Start the scan with these settings?": "Lancer l'analyse avec ces paramètres ?",
+  "The Template/depmap/ folder (with depmap.html, depmap.css, depmap.js) must be shipped next to this script.": "Le dossier Template/depmap/ (avec depmap.html, depmap.css, depmap.js) doit être livré à côté de ce script.",
+  "The HTML file was not modified — check that the template contains these 'const' declarations.": "Le fichier HTML n'a pas été modifié — vérifie que le template contient bien ces déclarations 'const'.",
+  "Generating the dependency map": "Génération de la carte de dépendances",
+  "Scanning source files": "Scan des fichiers sources",
+  "Analysing functions and includes": "Analyse des fonctions et includes",
+  "Building dependencies": "Construction des dépendances",
+  "Computing the layout": "Calcul de la disposition (layout)",
+  "Generating the HTML file": "Génération du fichier HTML",
+  "Nodes": "Nœuds",
+  "Edges": "Arêtes",
+  "Groups": "Groupes",
+  "Output": "Sortie",
+  ".bak backup": "Sauvegarde .bak",
+  "yes": "oui",
+  "no": "non",
+  "Map generated successfully": "Carte générée avec succès",
+  "All the options above can also be entered through the interactive\nform: just run the script without --src to open it\n(or add -i / --interactive to force it even with --src).": "Tous les paramètres ci-dessus peuvent aussi être saisis via le formulaire\ninteractif : lance simplement le script sans --src pour l'ouvrir\n(ou ajoute -i / --interactive pour le forcer même avec --src).",
+  "Generate Dependency_map.html from a project's C/C++ sources.": "Génère Dependency_map.html depuis les sources C/C++ d'un projet.",
+  "Source folder (positional, legacy syntax)": "Dossier source (positionnel, compat. ancienne syntaxe)",
+  "Output HTML file (positional, legacy syntax)": "Fichier HTML de sortie (positionnel, compat. ancienne syntaxe)",
+  "Source folder, or project root if it contains src/ and/or include/ (default: asked interactively)": "Dossier source, ou racine du projet si elle contient src/ et/ou include/ (défaut: demandé interactivement)",
+  "Output HTML file (default: <script_folder>/Dependency_map.html)": "Fichier HTML de sortie (défaut: <dossier_du_script>/Dependency_map.html)",
+  "Project name shown in the header (default: source folder name)": "Nom du projet affiché dans l'en-tête (défaut: nom du dossier source)",
+  "Extensions to scan, comma-separated (default: %s)": "Extensions à scanner, séparées par des virgules (défaut: %s)",
+  "Optional JSON file {\"prefix_or_regex\": \"group\"} to override automatic detection": "Fichier JSON optionnel {\"préfixe_ou_regex\": \"groupe\"} pour surcharger la détection auto",
+  "Scan the subfolders of src/ recursively (default: enabled)": "Scanne les sous-dossiers de src/ récursivement (défaut: activé)",
+  "Only scan the src/ folder directly": "Ne scanne que le dossier src/ directement",
+  "Create a .bak file before writing the output (default: disabled)": "Crée un fichier .bak avant d'écrire la sortie (défaut: désactivé)",
+  "Force the interactive form to open even if --src is given": "Force l'ouverture du formulaire interactif même si --src est fourni",
+  "This folder does not exist": "Ce dossier n'existe pas",
+  "This file does not exist": "Ce fichier n'existe pas",
+  "Dependency map settings": "Configuration de la carte de dépendances",
+  "Folder containing the .c and .h files (project root if src/ and/or include/ exist)": "Dossier contenant les fichiers .c et .h (racine du projet si src/ et/ou include/ existent)",
+  "Project title (Enter = source folder name)": "Titre du projet (Entrée = nom du dossier source)",
+  "Extensions to scan:": "Extensions à scanner :",
+  "No extension selected.": "Aucune extension sélectionnée.",
+  "Groups JSON file (optional, Enter to skip)": "Fichier JSON de groupes (optionnel, Entrée pour ignorer)",
+  "Scan subfolders recursively?": "Scanner les sous-dossiers récursivement ?",
+  "Create a .bak backup file before writing the output?": "Créer un fichier de sauvegarde .bak avant d'écrire la sortie ?",
+  "Source folder": "Dossier source",
+  "Title": "Titre",
+  "Groups file": "Fichier de groupes",
+  "(none)": "(aucun)",
+  "Recursive": "Récursif",
+  "Start the generation with these settings?": "Lancer la génération avec ces paramètres ?",
+  "Generate Dependency_map.html from C/C++ sources": "Génère Dependency_map.html depuis des sources C/C++",
+  "dashboard": "tableau_de_bord",
+  "Interactive terminal UI demo (plain console, or Rich & Questionary via display_layer.py).": "Démo d'interface terminal interactive (console simple, ou Rich & Questionary via display_layer.py).",
+  "Run a demo directly without the menu (see the list below).": "Lance directement une démo sans passer par le menu (voir la liste ci-dessous).",
+  "Disable the optional display layer (display_layer.py).": "Desactive la couche d'affichage optionnelle (display_layer.py).",
+  "List the available demos and exit.": "Liste les démos disponibles et quitte.",
+  "Cell size": "Taille case",
+  "Line thickness": "Epaisseur lignes",
+  "Start cell": "Case de départ",
+  "Strawberry cell": "Cellule fraise",
+  "Folder used to read and write the maze files.": "Dossier utilise pour lire et ecrire les fichiers du labyrinthe.",
+  "Convert images to JPEG": "Convertir des images en JPEG",
+  "Convert videos to MP4": "Convertir des videos en MP4",
+  "Detect duplicate images": "Detecter les doublons d'images",
+  "Rename files by capture date": "Renommer les fichiers par date de prise",
+  "Quit": "Quitter",
+  "Image and video conversion and duplicate detection": "Conversion d'images, de videos et detection de doublons",
+  "Succeeded": "Reussis",
+  "Ignored": "Ignores",
+  "Failures": "Echecs",
+  "Permission denied to create the mirror folder, falling back to flat.": "Permission refusee pour creer le dossier miroir, repli sur flat.",
+  "Scanning (files found)": "Analyse (fichiers trouves)",
+  "Quality must be between 1 and 95.": "La qualite doit etre comprise entre 1 et 95.",
+  "No file to convert in this folder.": "Aucun fichier a convertir dans ce dossier.",
+  "[DRY RUN] ": "[SIMULATION] ",
+  "\nKeyboard interrupt detected. Stopping.": "\nInterruption clavier detectee. Arret.",
+  "Details in the log if the option was enabled.": "Details dans le journal si l'option a ete activee.",
+  "No video found in this folder.": "Aucune video trouvee dans ce dossier.",
+  "Cannot write the error log (permission denied).": "Impossible d'ecrire le journal d'erreurs (permission refusee).",
+  "Looking for image files...": "Recherche des fichiers image...",
+  "No image file found.": "Aucun fichier image trouve.",
+  "recursive": "recursif",
+  "root folder only": "dossier racine uniquement",
+  "mirror structure": "structure miroir",
+  "global (all folders)": "global (tous dossiers)",
+  "per folder": "par dossier",
+  "Analysis": "Analyse",
+  "The hash file could not be saved. Progress may be lost.": "Le fichier de hash n'a pas pu etre sauvegarde. Progres possiblement perdu.",
+  "detected": "detecte(s)",
+  "moved": "deplace(s)",
+  "Done.": "Termine.",
+  "\nKeyboard interrupt detected. Saving hashes...": "\nInterruption clavier detectee. Sauvegarde des hash...",
+  "Hashes saved. Clean exit.": "Hash sauvegardes. Sortie propre.",
+  "Trying to save the hashes before exiting...": "Tentative de sauvegarde des hash avant de quitter...",
+  "Looking for files to rename...": "Recherche des fichiers a renommer...",
+  "No file to rename in this folder.": "Aucun fichier a renommer dans ce dossier.",
+  "Renaming": "Renommage",
+  "renamed": "renomme(s)",
+  "Path of the folder to process": "Chemin du dossier a traiter",
+  "JPEG quality, 1-95": "Qualite JPEG, 1-95",
+  "Also scan subfolders?": "Analyser aussi les sous-dossiers ?",
+  "Delete the originals after conversion?": "Supprimer les originaux apres conversion ?",
+  "Simulate without converting any file?": "Simuler sans convertir aucun fichier ?",
+  "Example: duplicates found here...": "Exemple : des doublons trouves ici...",
+  "...will be stored like this:": "...seront ranges comme ceci :",
+  "copies/  (flat)": "copies/  (a plat)",
+  "copies/  (mirrored)": "copies/  (en miroir)",
+  "Path of the folder to scan": "Chemin du dossier a analyser",
+  "Move duplicates flat (a single 'copies/' folder) rather than mirrored (subfolders reproduced)?": "Deplacer les doublons a plat (un seul dossier 'copies/') plutot qu'en miroir (sous-dossiers reproduits) ?",
+  "Detect duplicates across all folders at once?": "Detecter les doublons sur tous les dossiers a la fois ?",
+  "Simulate without moving any file?": "Simuler sans deplacer aucun fichier ?",
+  "Format: DD-MM-YYYY_HHhMM, e.g. 12-12-2009_12h05 (a -N number is added on ties).": "Format : JJ-MM-AAAA_HHhMM, ex. 12-12-2009_12h05 (un numero -N est ajoute en cas d'egalite).",
+  "Simulate without renaming any file?": "Simuler sans renommer aucun fichier ?",
+  "What would you like to do?": "Que voulez-vous faire ?",
+  "See you soon!": "A bientot !",
+  "duplicate": "doublons",
+  "Rename": "Renommer",
+  "Convert images to JPEG, videos to MP4, detect/move duplicate images, or rename files by capture date.": "Convertit des images en JPEG, des videos en MP4, detecte/deplace les doublons d'images, ou renomme les fichiers par date de prise.",
+  "Examples:\n  media_toolkit.py images /path/to/folder\n  media_toolkit.py videos /path/to/folder --no-recursive\n  media_toolkit.py duplicates /path/to/folder --recursive --dry-run\n  media_toolkit.py rename /path/to/folder --recursive\n": "Exemples :\n  media_toolkit.py images /chemin/du/dossier\n  media_toolkit.py videos /chemin/du/dossier --no-recursive\n  media_toolkit.py duplicates /chemin/du/dossier --recursive --dry-run\n  media_toolkit.py rename /chemin/du/dossier --recursive\n",
+  "Convert images (PNG, WEBP, BMP, TIFF, HEIC/HEIF, ...) to JPEG.": "Convertit les images (PNG, WEBP, BMP, TIFF, HEIC/HEIF, ...) en JPEG.",
+  "Convert every supported image in a folder to JPEG.": "Convertit chaque image supportee d'un dossier au format JPEG.",
+  "Path of the folder to process.": "Chemin du dossier a traiter.",
+  "JPEG quality, 1-95.": "Qualite JPEG, 1-95.",
+  "Also scan subfolders.": "Analyse aussi les sous-dossiers.",
+  "Delete the originals after conversion.": "Supprime les originaux apres conversion.",
+  "Simulate without converting any file.": "Simule sans convertir aucun fichier.",
+  "Convert videos (MOV, MKV, AVI, WMV, ...) to MP4.": "Convertit les videos (MOV, MKV, AVI, WMV, ...) en MP4.",
+  "Convert every supported video in a folder to MP4 (H.264 + AAC).": "Convertit chaque video supportee d'un dossier en MP4 (H.264 + AAC).",
+  "Detect duplicate images and move them to a 'copies' subfolder.": "Detecte les images en double et les deplace dans un sous-dossier 'copies'.",
+  "Detect visually identical images (pixel content hash) and move the extras to 'copies'.": "Detecte les images visuellement identiques (hash du contenu pixel) et deplace les extras dans 'copies'.",
+  "Path of the folder to scan.": "Chemin du dossier a analyser.",
+  "Move duplicates flat, all grouped in 'copies/' (default), rather than mirrored, where 'copies/' reproduces the same subfolder tree as the one where each duplicate was found.": "Deplace les doublons a plat, tous regroupes dans 'copies/' (defaut), plutot qu'en miroir ou 'copies/' reproduit la meme arborescence de sous-dossiers que celle ou chaque doublon a ete trouve.",
+  "Detect duplicates across all folders at once.": "Detecte les doublons sur tous les dossiers a la fois.",
+  "Simulate without moving any file.": "Simule sans deplacer aucun fichier.",
+  "Rename photos/videos by capture date (DD-MM-YYYY_HHhMM).": "Renomme les photos/videos selon leur date de prise (JJ-MM-AAAA_HHhMM).",
+  "Rename every media file by its capture date (EXIF for photos, ffprobe metadata for videos, otherwise modification date). Adds a -N suffix when several files share the same date and minute.": "Renomme chaque fichier media selon sa date de prise (EXIF pour les photos, metadonnees ffprobe pour les videos, sinon date de modification). Ajoute un suffixe -N quand plusieurs fichiers partagent la meme date et la meme minute.",
+  "Simulate without renaming any file.": "Simule sans renommer aucun fichier.",
+  "Compute the map area": "Calculer la superficie de la carte",
+  "Find the dragon egg": "Chercher l'oeuf de dragon",
+  "unknown": "inconnu",
+  "Map area": "Superficie de la carte",
+  "No dimension found in this folder.": "Aucune dimension trouvee dans ce dossier.",
+  ".mca files": "Fichiers .mca",
+  "Generated chunks": "Chunks generes",
+  "Area": "Superficie",
+  "X span": "Emprise X",
+  "Z span": "Emprise Z",
+  "Total chunks": "Chunks totaux",
+  "Total area": "Superficie totale",
+  "Total, all dimensions": "Total toutes dimensions",
+  "Searching for the dragon egg": "Recherche de l'oeuf de dragon",
+  "No dragon egg found in any dimension.": "Aucun oeuf de dragon trouve dans aucune dimension.",
+  "Dragon egg placed in the world": "Oeuf de dragon place dans le monde",
+  "Container": "Conteneur",
+  "Dragon egg in a container": "Oeuf de dragon dans un conteneur",
+  "Minecraft save analysis": "Analyse de sauvegardes Minecraft",
+  "Path of the save folder": "Chemin du dossier de sauvegarde",
+  "What do you want to do?": "Que veux-tu faire ?",
+  "Goodbye!": "Au revoir !",
+  "Press Enter to return to the menu...": "Appuyez sur Entree pour revenir au menu...",
+  "Tool to run directly": "Outil a executer directement",
+  "Show a row of Pascal's triangle": "Afficher une ligne du triangle de Pascal",
+  "Expand a binomial (a + b)^n": "Developper un binome (a + b)^n",
+  "Pascal's triangle and binomial expansion": "Triangle de Pascal et developpement de binomes",
+  "Row number": "Numero de la ligne",
+  "Value or symbol for a": "Valeur ou symbole pour a",
+  "Value or symbol for b": "Valeur ou symbole pour b",
+  "Value of n": "Valeur de n",
+  "Also show in LaTeX?": "Aussi afficher en LaTeX ?",
+  "binomial": "binome",
+  "Print a row of Pascal's triangle or expand a binomial (a + b)^n.": "Affiche une ligne du triangle de Pascal ou developpe un binome (a + b)^n.",
+  "Examples:\n  pascal_triangle_binomial.py --triangle 5\n  pascal_triangle_binomial.py --binomial \"x,y,3\" --latex\n": "Exemples :\n  pascal_triangle_binomial.py --triangle 5\n  pascal_triangle_binomial.py --binomial \"x,y,3\" --latex\n",
+  "Print row N of Pascal's triangle (N >= 0).": "Affiche la ligne N du triangle de Pascal (N >= 0).",
+  "Expand the binomial (A + B)^N, e.g. --binomial \"x,-y,3\".": "Developpe le binome (A + B)^N, ex: --binomial \"x,-y,3\".",
+  "Also print the result in LaTeX notation.": "Affiche aussi le resultat en notation LaTeX.",
+  "Force the interactive menu, prefilled with the other options.": "Force le menu interactif, pre-rempli avec les autres options.",
+  "Hide a message in an image": "Cacher un message dans une image",
+  "Reveal a message from an image": "Reveler un message d'une image",
+  "Hide and reveal messages in images": "Cacher et reveler des messages dans des images",
+  "No suitable byte value found (unexpected).": "Aucune valeur de byte adaptee trouvee (inattendu).",
+  "The message is empty.": "Le message est vide.",
+  "Encoding": "Encodage",
+  "Decoding": "Decodage",
+  "Cannot fully read a hidden message in this image (it may not contain one, or the image is too small/corrupted).": "Impossible de lire completement un message cache dans cette image (elle n'en contient peut-etre pas, ou l'image est trop petite/corrompue).",
+  "Where should the message be hidden?": "Ou cacher le message ?",
+  "In a brand new image": "Dans une image toute neuve",
+  "In an existing image (keeps its appearance)": "Dans une image existante (garde son apparence)",
+  "Message to hide (\\n, \\t, \\r are supported)": "Message a cacher (\\n, \\t, \\r sont supportes)",
+  "existing": "existante",
+  "Choose the image to hide the message in:": "Choisissez l'image dans laquelle cacher le message :",
+  "Self-check passed: the message can be recovered from this image.": "Auto-verification reussie : le message peut etre recupere depuis cette image.",
+  "Self-check failed, the message was not recovered correctly.": "L'auto-verification a echoue, le message n'a pas ete correctement recupere.",
+  "Choose the image to analyse:": "Choisissez l'image a analyser :",
+  "Hide": "Cacher",
+  "Reveal": "Reveler",
+  "Message to hide": "Message a cacher",
+  "Hide or reveal a text message in the parity of an image's colour channels.": "Cache ou revele un message texte dans les parites des canaux couleur d'une image.",
+  "Examples:\n  steganography.py hide \"my secret message\"\n  steganography.py hide \"my message\" --image photo.png\n  steganography.py reveal image/hidden_message.png\n": "Exemples :\n  steganography.py hide \"mon message secret\"\n  steganography.py hide \"mon message\" --image photo.png\n  steganography.py reveal image/hidden_message.png\n",
+  "Folder used to look for/save images (default: image/).": "Dossier utilise pour chercher/enregistrer les images (defaut : image/).",
+  "Hide a message in a new or existing image.": "Cache un message dans une image neuve ou existante.",
+  "Hide a text message in the parity of an image's colour channels.": "Cache un message texte dans les parites des canaux couleur d'une image.",
+  "Message to hide (prompted if omitted).": "Message a cacher (invite si omis).",
+  "Existing image to hide the message in.": "Image existante dans laquelle cacher le message.",
+  "Output path (default: <image-dir>/hidden_message.png).": "Chemin de sortie (defaut : <image-dir>/hidden_message.png).",
+  "Reveal a message hidden in an image.": "Revele un message cache dans une image.",
+  "Reveal a text message hidden in the parity of an image's colour channels.": "Revele un message texte cache dans les parites des canaux couleur d'une image.",
+  "Path of the image to analyse.": "Chemin de l'image a analyser.",
+  "NaN and infinite values are not allowed.": "Les valeurs NaN et infinies ne sont pas autorisées.",
+  "Booleans are not allowed.": "Les booléens ne sont pas autorisés.",
+  "Empty string not allowed.": "Chaîne vide non autorisée.",
+  "Division by zero.": "Division par zéro.",
+  "scalar": "scalaire",
+  "The identity matrix size must be a strictly positive integer.": "La taille de la matrice identité doit être un entier strictement positif.",
+  "addition": "l'addition",
+  "subtraction": "la soustraction",
+  "You must provide a matrix 'B' or a 'scalar'.": "Vous devez fournir une matrice 'B' ou un 'scalaire'.",
+  "The exponent must be an integer.": "L'exposant doit être un entier.",
+  "Specify either 'B' (matrix) or 'scalar', not both.": "Spécifiez soit 'B' (matrice), soit 'scalaire', pas les deux.",
+  "submatrix must only be called on a matrix of at least 3x3 to produce at least a 2x2.": "sous_matrice ne doit être appelée que sur une matrice d'au moins 3x3 pour produire au minimum du 2x2.",
+  "The matrix is not invertible (zero determinant).": "La matrice n'est pas inversible (déterminant nul).",
+  "m must be a non-negative integer.": "m doit être un entier positif ou nul.",
+  "k must be a concrete integer.": "k doit être un entier concret.",
+  "Diagonalisation / Jordan form (SymPy)": "Diagonalisation / Forme de Jordan (SymPy)",
+  "Invalid integer.": "Entier invalide.",
+  "Integer > 0 required.": "Entier > 0 requis.",
+  "Number of rows of A and B: ": "Nombre de lignes de A et B : ",
+  "Number of columns of A and B: ": "Nombre de colonnes de A et B : ",
+  "Number of rows of A: ": "Nombre de lignes de A : ",
+  "Number of columns of A | Number of rows of B: ": "Nombre de colonnes de A | Nombre de lignes de B : ",
+  "Number of columns of B: ": "Nombre de Colonnes de B : ",
+  "Number of columns of A: ": "Nombre de colones de A : ",
+  "Invalid mode.": "Mode invalide.",
+  "[power] A ^ k": "[puissance] A ^ k",
+  "Exponent k: ": "Exposant k : ",
+  "[transpose] A ^ T": "[transposee] A ^ T",
+  "[gauss] Gaussian elimination": "[gauss] Pivot de Gauss",
+  "[power_n] A ^ n": "[puissance_n] A ^ n",
+  "sub           --> A - B": "sous          --> A - B",
+  "power         --> A ^ k": "puissance     --> A ^ k",
+  "det           --> Determinant": "det           --> Déterminant",
+  "cof           --> Cofactor matrix": "cof           --> Comatrice",
+  "transpose     --> Transpose": "transposee    --> Transposée",
+  "gauss         --> Gaussian elimination": "gauss         --> Pivot de Gauss",
+  "power_n       --> A ^ n": "puissance_n   --> A ^ n",
+  "quit": "quitter",
+  "Operations menu": "Menu des opérations",
+  "Operation:": "Opération :",
+  "_ConsoleProgress": "_ProgressionConsole",
+  "_ConsoleMultiProgress": "_MultiProgressionConsole",
+  "_ConsoleStatus": "_StatutConsole",
+  "  Invalid value, try again.": "  Valeur invalide, recommencez.",
+  "  Answer y or n.": "  Repondez par o ou n.",
+  "  Invalid choice.": "  Choix invalide.",
+  "Comma-separated numbers (empty = default selection, 'all' = everything): ": "Numeros separes par des virgules (vide = selection par defaut, 'tout' = tout) : ",
+  "all": "tout",
+  "  Invalid input.": "  Saisie invalide.",
+  "  Number out of range.": "  Numero hors limites.",
+  "Press Enter to continue...": "Appuyez sur Entree pour continuer...",
+  "_RichProgress": "_ProgressionRiche",
+  "_RichMultiProgress": "_MultiProgressionRiche",
+  "Key": "Cle",
+  "Value": "Valeur",
+  "Invalid number": "Nombre invalide",
+  "matplotlib is not installed: running without animation.": "matplotlib n'est pas installe : execution sans animation.",
+  "Iteration": "Itération",
+  "Best tour length": "Longueur du meilleur trajet",
+  "[WARNING]": "[ATTENTION]",
+  "[ERROR]": "[ERREUR]",
+  "Y/n": "O/n",
+  "y/N": "o/N",
+  "Select the language of the messages (en or fr).": "Choisir la langue des messages (en ou fr).",
+  "Output language for console messages and file names (default: the --lang / PROJECT_LANG language).": "Langue des messages console et des noms de fichiers (par defaut : la langue de --lang / PROJECT_LANG).",
+  "Generate an HTML file report for all mounted partitions, using Template/.": "Génère un rapport HTML des fichiers de toutes les partitions montées, à partir de Template/.",
+  "list of file extensions to include, e.g. -e pdf jpg png": "liste des extensions de fichiers à inclure, ex : -e pdf jpg png",
+  "path of the generated HTML report": "chemin du rapport HTML généré",
+  "Connecting to database...": "Connexion à la base de données...",
+  "Cache warmed up successfully": "Cache préchargé avec succès",
+  "Received request GET /api/users": "Requête reçue GET /api/users",
+  "Slow query detected (312ms)": "Requête lente détectée (312 ms)",
+  "Retrying failed connection": "Nouvelle tentative de connexion",
+  "Background job finished": "Tâche de fond terminée",
+  "Memory usage at 74%": "Utilisation mémoire à 74 %",
+  "New client connected": "Nouveau client connecté",
+  "Simple loading bar": "Barre de chargement simple",
+  "Multiple bars in parallel": "Plusieurs barres en parallèle",
+  "Formatted table": "Tableau formaté",
+  "Real-time dashboard": "Tableau de bord en temps réel",
+  "Tree view": "Vue en arbre",
+  "Syntax highlighting": "Coloration syntaxique",
+  "Markdown rendering": "Rendu Markdown",
+  "Interactive form": "Formulaire interactif",
+  "Log stream simulation": "Simulation d'un flux de logs",
+  "Python interface demo": "Démo d'interface Python",
+  "All tasks completed!": "Toutes les tâches sont terminées !",
+  "Updated every 0.5s — Ctrl+C to stop\n": "Mis à jour toutes les 0,5 s — Ctrl+C pour arrêter\n",
+  "Dashboard closed.": "Tableau de bord fermé.",
+  "Tree rendered!": "Arbre affiché !",
+  "What is your name?": "Quel est votre nom ?",
+  "Favorite programming language?": "Langage de programmation préféré ?",
+  "Which features interest you?": "Quelles fonctionnalités vous intéressent ?",
+  "Submit the form?": "Envoyer le formulaire ?",
+  "Simulating 15 log lines...\n": "Simulation de 15 lignes de log...\n",
+  "Log stream ended.": "Flux de logs terminé.",
+  "What would you like to see?": "Que voulez-vous voir ?",
+  "Test results": "Résultats des tests",
+  "System Monitor": "Moniteur système",
+  "Type hints": "Annotations de type",
+  "CLI tools": "Outils en ligne de commande",
+  "Form cancelled.": "Formulaire annulé.",
+  "Form submitted": "Formulaire envoyé",
+  "End cell": "Case d'arrivée",
+  "MAZE SOLVER": "RÉSOLVEUR DE LABYRINTHE",
+  "Generate . Solve . Play": "Générer . Résoudre . Jouer",
+  "Maze Settings": "Paramètres du labyrinthe",
+  "Size preset": "Taille prédéfinie",
+  "Use a fixed random seed?": "Utiliser une graine aléatoire fixe ?",
+  "Maze Source": "Source du labyrinthe",
+  "Adjust pixel tolerance?": "Ajuster la tolérance des pixels ?",
+  "Delay between key presses (s)": "Délai entre les appuis de touches (s)",
+  "Maze generated": "Labyrinthe généré",
+  "Maze analysed": "Labyrinthe analysé",
+  "Movement complete": "Déplacement terminé",
+  "Maze solved. Image saved to maze_output/maze_solved.png": "Labyrinthe résolu. Image enregistrée dans maze_output/maze_solved.png",
+  "Pillow is required. Install it with: pip install Pillow": "Pillow est requis. Installez-le avec : pip install Pillow",
+  "No <canvas> element found on the page.": "Aucun élément <canvas> trouvé sur la page.",
+  "Start square not found. The image may not contain a valid maze, or the red marker is missing.": "Case de départ introuvable. L'image ne contient peut-être pas de labyrinthe valide, ou le marqueur rouge est absent.",
+  "Could not detect cell size - not enough white regions found. The image may be too dark or not a valid maze.": "Impossible de détecter la taille des cases - pas assez de zones blanches. L'image est peut-être trop sombre ou n'est pas un labyrinthe valide.",
+  "Info file path is empty.": "Le chemin du fichier d'informations est vide.",
+  "Wall thickness": "Épaisseur des murs",
+  "pynput is required for keyboard control.\n  Install with: pip install pynput": "pynput est requis pour le contrôle au clavier.\n  Installez-le avec : pip install pynput",
+  "Position yourself on the game window, then press Enter to start...": "Placez-vous sur la fenêtre du jeu, puis appuyez sur Entrée pour commencer...",
+  "Cell size (px)": "Taille des cases (px)",
+  "Wall width (px)": "Largeur des murs (px)",
+  "Seed value": "Valeur de la graine",
+  "Maze size": "Taille du labyrinthe",
+  "Image path": "Chemin de l'image",
+  "Generating maze...": "Génération du labyrinthe...",
+  "Calculating shortest path...": "Calcul du plus court chemin...",
+  "No path found in this maze.": "Aucun chemin trouvé dans ce labyrinthe.",
+  "--size custom requires --cols, --rows, --cell and --wall": "--size custom nécessite --cols, --rows, --cell et --wall",
+  "image_path must be provided when img_source='file'": "image_path doit être fourni quand img_source='file'",
+  "Please enter a whole number.": "Veuillez entrer un nombre entier.",
+  "Please enter a number.": "Veuillez entrer un nombre.",
+  "Generate a maze": "Générer un labyrinthe",
+  "Capture from maze.toys": "Capturer depuis maze.toys",
+  "URL - maze.toys (regular)": "URL - maze.toys (classique)",
+  "URL - maze.toys (daily)": "URL - maze.toys (du jour)",
+  "Local image file": "Fichier image local",
+  "Full URL": "URL complète",
+  "Analysing image...": "Analyse de l'image...",
+  "The 'selenium' package is required for URL capture.\n  Install with: pip install selenium webdriver-manager": "Le paquet 'selenium' est requis pour la capture par URL.\n  Installez-le avec : pip install selenium webdriver-manager",
+  "No URL provided.": "Aucune URL fournie.",
+  "Capturing maze from browser...": "Capture du labyrinthe depuis le navigateur...",
+  "Specify --url or --image": "Indiquez --url ou --image",
+  "Custom URL...": "URL personnalisée...",
+  "Minecraft Toolkit": "Boîte à outils Minecraft",
+  "Minecraft world analysis toolkit.": "Boîte à outils d'analyse de monde Minecraft.",
+  "n and k must be integers.": "n et k doivent être des entiers.",
+  "n and k must be non-negative integers.": "n et k doivent être des entiers positifs ou nuls.",
+  "Row number must be an integer.": "Le numéro de ligne doit être un entier.",
+  "Row number must be a non-negative integer.": "Le numéro de ligne doit être un entier positif ou nul.",
+  "a and b must be strings.": "a et b doivent être des chaînes de caractères.",
+  "n must be an integer.": "n doit être un entier.",
+  "n must be a non-negative integer.": "n doit être un entier positif ou nul.",
+  "No value entered.": "Aucune valeur saisie.",
+  "No value entered for n.": "Aucune valeur saisie pour n.",
+  "N must be a non-negative integer.": "N doit être un entier positif ou nul.",
+  "show this help message and exit": "affiche ce message d'aide et quitte",
+  "show program's version number and exit": "affiche la version du programme et quitte",
+  "End marker not detected. The maze image may be missing the destination marker, or the colour thresholds need adjustment.": "Marqueur d'arrivée non détecté. Il manque peut-être le marqueur de destination, ou les seuils de couleur doivent être ajustés.",
+  "selenium and webdriver-manager are required for URL capture.\n  Install with: pip install selenium webdriver-manager": "selenium et webdriver-manager sont requis pour la capture par URL.\n  Installez-les avec : pip install selenium webdriver-manager",
+  "Iterations": "Itérations",
+  "Scanning": "Analyse",
+  "Async": "Asynchrone",
+  "Disk": "Disque",
+  "Done!": "Terminé !",
+  "Download": "Téléchargement",
+  "Features": "Fonctionnalités",
+  "Loading": "Chargement",
+  "Name": "Nom",
+  "Processing": "Traitement",
+  "Saving": "Enregistrement",
+  "Status": "Statut",
+  "Time": "Temps",
+  "Testing": "Tests",
+  "Uptime": "Temps de fonctionnement",
+  "FAIL": "ECHEC",
+  "Columns": "Colonnes",
+  "Generation": "Génération",
+  "Goodbye.": "Au revoir.",
+  "Movement": "Déplacement",
+  "Moving": "Déplacement en cours",
+  "Rows": "Lignes",
+  "Solving": "Résolution",
+  "Generating maze": "Génération du labyrinthe",
+  "Calculating shortest path": "Calcul du plus court chemin",
+  "Analysing image": "Analyse de l'image",
+  "Capturing maze from browser": "Capture du labyrinthe depuis le navigateur",
+  "(Use arrow keys)": "(Utilisez les flèches)",
+  "(Use arrow keys to move, <space> to select, <a> to toggle, <i> to invert)": "(Flèches pour se déplacer, <espace> pour cocher, <a> pour tout basculer, <i> pour inverser)",
+  "Yes": "Oui",
+  "No": "Non"
+ },
+ "patterns": [
+  [
+   [
+    "Your choice (1-",
+    0,
+    ")"
+   ],
+   [
+    "Votre choix (1-",
+    0,
+    ")"
+   ]
+  ],
+  [
+   [
+    "Folder Report Generator v",
+    0
+   ],
+   [
+    "Générateur de rapport de dossiers v",
+    0
+   ]
+  ],
+  [
+   [
+    "Dependency Map Generator v",
+    0
+   ],
+   [
+    "Générateur de carte de dépendances v",
+    0
+   ]
+  ],
+  [
+   [
+    "MyApp Console v",
+    0
+   ],
+   [
+    "Console MyApp v",
+    0
+   ]
+  ],
+  [
+   [
+    0,
+    "x",
+    1,
+    "  -  cell ",
+    2,
+    "px  wall ",
+    3,
+    "px"
+   ],
+   [
+    0,
+    "x",
+    1,
+    "  -  case ",
+    2,
+    "px  mur ",
+    3,
+    "px"
+   ]
+  ],
+  [
+   [
+    "Position yourself on the game window,\nthen press ",
+    0,
+    " to start."
+   ],
+   [
+    "Placez-vous sur la fenêtre du jeu,\npuis appuyez sur ",
+    0,
+    " pour commencer."
+   ]
+  ],
+  [
+   [
+    "Path found  -  ",
+    0,
+    " steps"
+   ],
+   [
+    "Chemin trouvé  -  ",
+    0,
+    " étapes"
+   ]
+  ],
+  [
+   [
+    "Invalid maze dimensions: ",
+    0,
+    "x",
+    1,
+    " (must be >= 1)"
+   ],
+   [
+    "Dimensions du labyrinthe invalides : ",
+    0,
+    "x",
+    1,
+    " (doivent être >= 1)"
+   ]
+  ],
+  [
+   [
+    "Maze must be at least 2x2 (got ",
+    0,
+    "x",
+    1,
+    ")"
+   ],
+   [
+    "Le labyrinthe doit faire au moins 2x2 (reçu ",
+    0,
+    "x",
+    1,
+    ")"
+   ]
+  ],
+  [
+   [
+    "Cell size must be at least 4px (got ",
+    0,
+    ")"
+   ],
+   [
+    "La taille des cases doit être d'au moins 4px (reçu ",
+    0,
+    ")"
+   ]
+  ],
+  [
+   [
+    "Wall thickness must be at least 1px (got ",
+    0,
+    ")"
+   ],
+   [
+    "L'épaisseur des murs doit être d'au moins 1px (reçu ",
+    0,
+    ")"
+   ]
+  ],
+  [
+   [
+    "Wall thickness (",
+    0,
+    ") must be smaller than cell size (",
+    1,
+    ")"
+   ],
+   [
+    "L'épaisseur des murs (",
+    0,
+    ") doit être inférieure à la taille des cases (",
+    1,
+    ")"
+   ]
+  ],
+  [
+   [
+    "Failed to write image to: ",
+    0
+   ],
+   [
+    "Impossible d'écrire l'image dans : ",
+    0
+   ]
+  ],
+  [
+   [
+    "Failed to write processed image to: ",
+    0
+   ],
+   [
+    "Impossible d'écrire l'image traitée dans : ",
+    0
+   ]
+  ],
+  [
+   [
+    "Info file not found: ",
+    0,
+    "\nRun maze generation or capture first."
+   ],
+   [
+    "Fichier d'informations introuvable : ",
+    0,
+    "\nLancez d'abord la génération ou la capture du labyrinthe."
+   ]
+  ],
+  [
+   [
+    "Maze image not found: ",
+    0,
+    "\nRun generation or capture first."
+   ],
+   [
+    "Image du labyrinthe introuvable : ",
+    0,
+    "\nLancez d'abord la génération ou la capture."
+   ]
+  ],
+  [
+   [
+    "cell_size must be >= 1 (got ",
+    0,
+    ")"
+   ],
+   [
+    "cell_size doit être >= 1 (reçu ",
+    0,
+    ")"
+   ]
+  ],
+  [
+   [
+    "OpenCV could not read image: ",
+    0
+   ],
+   [
+    "OpenCV n'a pas pu lire l'image : ",
+    0
+   ]
+  ],
+  [
+   [
+    "Image (",
+    0,
+    "x",
+    1,
+    ") is too small for cell_size=",
+    2,
+    ". The maze may not have been generated correctly."
+   ],
+   [
+    "L'image (",
+    0,
+    "x",
+    1,
+    ") est trop petite pour cell_size=",
+    2,
+    ". Le labyrinthe n'a peut-être pas été généré correctement."
+   ]
+  ],
+  [
+   [
+    "Start cell ",
+    0,
+    " is not in the graph. It may be a wall or outside the maze."
+   ],
+   [
+    "La case de départ ",
+    0,
+    " n'est pas dans le graphe. C'est peut-être un mur ou elle est hors du labyrinthe."
+   ]
+  ],
+  [
+   [
+    "End cell ",
+    0,
+    " is not in the graph. It may be a wall or outside the maze."
+   ],
+   [
+    "La case d'arrivée ",
+    0,
+    " n'est pas dans le graphe. C'est peut-être un mur ou elle est hors du labyrinthe."
+   ]
+  ],
+  [
+   [
+    "Failed to write solved image to: ",
+    0
+   ],
+   [
+    "Impossible d'écrire l'image résolue dans : ",
+    0
+   ]
+  ],
+  [
+   [
+    "Path file not found: ",
+    0,
+    "\nRun maze solving first."
+   ],
+   [
+    "Fichier de chemin introuvable : ",
+    0,
+    "\nLancez d'abord la résolution du labyrinthe."
+   ]
+  ],
+  [
+   [
+    "Path file is empty: ",
+    0
+   ],
+   [
+    "Le fichier de chemin est vide : ",
+    0
+   ]
+  ],
+  [
+   [
+    "Speed must be >= 0 (got ",
+    0,
+    ")"
+   ],
+   [
+    "La vitesse doit être >= 0 (reçu ",
+    0,
+    ")"
+   ]
+  ],
+  [
+   [
+    "Tolerance must be between 0 and 255 (got ",
+    0,
+    ")"
+   ],
+   [
+    "La tolérance doit être entre 0 et 255 (reçu ",
+    0,
+    ")"
+   ]
+  ],
+  [
+   [
+    "Image not found: ",
+    0
+   ],
+   [
+    "Image introuvable : ",
+    0
+   ]
+  ],
+  [
+   [
+    "Unknown img_source: ",
+    0,
+    ". Expected 'url' or 'file'."
+   ],
+   [
+    "img_source inconnu : ",
+    0,
+    ". Attendu : 'url' ou 'file'."
+   ]
+  ],
+  [
+   [
+    "Cannot parse cell coordinates from info file: ",
+    0,
+    "\n  Start cell raw: ",
+    1,
+    "\n  End cell raw:   ",
+    2
+   ],
+   [
+    "Impossible de lire les coordonnées des cases dans le fichier d'informations : ",
+    0,
+    "\n  Case de départ brute : ",
+    1,
+    "\n  Case d'arrivée brute : ",
+    2
+   ]
+  ],
+  [
+   [
+    "File not found: ",
+    0
+   ],
+   [
+    "Fichier introuvable : ",
+    0
+   ]
+  ],
+  [
+   [
+    "Unknown size: ",
+    0,
+    "  (valid: ",
+    1,
+    ")"
+   ],
+   [
+    "Taille inconnue : ",
+    0,
+    "  (valides : ",
+    1,
+    ")"
+   ]
+  ],
+  [
+   [
+    "Invalid parameters: ",
+    0
+   ],
+   [
+    "Paramètres invalides : ",
+    0
+   ]
+  ],
+  [
+   [
+    "Could not write output files: ",
+    0
+   ],
+   [
+    "Impossible d'écrire les fichiers de sortie : ",
+    0
+   ]
+  ],
+  [
+   [
+    "Generation failed: ",
+    0
+   ],
+   [
+    "Échec de la génération : ",
+    0
+   ]
+  ],
+  [
+   [
+    "Missing file: ",
+    0
+   ],
+   [
+    "Fichier manquant : ",
+    0
+   ]
+  ],
+  [
+   [
+    "Data error: ",
+    0
+   ],
+   [
+    "Erreur de données : ",
+    0
+   ]
+  ],
+  [
+   [
+    "Solving failed: ",
+    0
+   ],
+   [
+    "Échec de la résolution : ",
+    0
+   ]
+  ],
+  [
+   [
+    "Movement failed: ",
+    0
+   ],
+   [
+    "Échec du déplacement : ",
+    0
+   ]
+  ],
+  [
+   [
+    "Malformed info file (line ",
+    0,
+    "): ",
+    1,
+    "\nExpected format:  Key: value"
+   ],
+   [
+    "Fichier d'informations mal formé (ligne ",
+    0,
+    ") : ",
+    1,
+    "\nFormat attendu :  Clé: valeur"
+   ]
+  ],
+  [
+   [
+    "Malformed path file at line ",
+    0,
+    ": ",
+    1,
+    "\nExpected format: col,row"
+   ],
+   [
+    "Fichier de chemin mal formé à la ligne ",
+    0,
+    " : ",
+    1,
+    "\nFormat attendu : col,ligne"
+   ]
+  ],
+  [
+   [
+    "--size custom requires --",
+    0
+   ],
+   [
+    "--size custom nécessite --",
+    0
+   ]
+  ],
+  [
+   [
+    "Detection failed: ",
+    0
+   ],
+   [
+    "Échec de la détection : ",
+    0
+   ]
+  ],
+  [
+   [
+    "Image analysis failed: ",
+    0
+   ],
+   [
+    "Échec de l'analyse de l'image : ",
+    0
+   ]
+  ],
+  [
+   [
+    "Capture failed: ",
+    0
+   ],
+   [
+    "Échec de la capture : ",
+    0
+   ]
+  ],
+  [
+   [
+    "Non-integer values at line ",
+    0,
+    ": ",
+    1
+   ],
+   [
+    "Valeurs non entières à la ligne ",
+    0,
+    " : ",
+    1
+   ]
+  ],
+  [
+   [
+    "Media Toolkit v",
+    0
+   ],
+   [
+    "Boîte à outils média v",
+    0
+   ]
+  ],
+  [
+   [
+    "Pascal & Binome Toolkit v",
+    0
+   ],
+   [
+    "Boîte à outils Pascal & binôme v",
+    0
+   ]
+  ],
+  [
+   [
+    "'--binomial' expects the format \"A,B,N\", got '",
+    0,
+    "'."
+   ],
+   [
+    "'--binomial' attend le format \"A,B,N\", reçu '",
+    0,
+    "'."
+   ]
+  ],
+  [
+   [
+    "'",
+    0,
+    "' is not a valid mathematical expression."
+   ],
+   [
+    "'",
+    0,
+    "' n'est pas une expression mathématique valide."
+   ]
+  ],
+  [
+   [
+    "Could not expand expression: ",
+    0
+   ],
+   [
+    "Impossible de développer l'expression : ",
+    0
+   ]
+  ],
+  [
+   [
+    "Could not format expression for display: ",
+    0
+   ],
+   [
+    "Impossible de mettre en forme l'expression pour l'affichage : ",
+    0
+   ]
+  ],
+  [
+   [
+    "Could not format result: ",
+    0
+   ],
+   [
+    "Impossible de mettre en forme le résultat : ",
+    0
+   ]
+  ],
+  [
+   [
+    "'",
+    0,
+    "' is not a valid integer."
+   ],
+   [
+    "'",
+    0,
+    "' n'est pas un entier valide."
+   ]
+  ],
+  [
+   [
+    "Could not compute term k=",
+    0,
+    ": ",
+    1
+   ],
+   [
+    "Impossible de calculer le terme k=",
+    0,
+    " : ",
+    1
+   ]
+  ],
+  [
+   [
+    "Could not generate LaTeX output: ",
+    0
+   ],
+   [
+    "Impossible de générer la sortie LaTeX : ",
+    0
+   ]
+  ],
+  [
+   [
+    "'",
+    0,
+    "' is not a valid integer for N."
+   ],
+   [
+    "'",
+    0,
+    "' n'est pas un entier valide pour N."
+   ]
+  ],
+  [
+   [
+    "Steganography Toolkit v",
+    0
+   ],
+   [
+    "Boîte à outils de stéganographie v",
+    0
+   ]
+  ],
+  [
+   [
+    0,
+    "x",
+    1,
+    "  -  cell ",
+    2,
+    "px  wall ",
+    3,
+    "px  -  seed ",
+    4
+   ],
+   [
+    0,
+    "x",
+    1,
+    "  -  case ",
+    2,
+    "px  mur ",
+    3,
+    "px  -  graine ",
+    4
+   ]
+  ],
+  [
+   [
+    "Iterations (best length ",
+    0,
+    ")"
+   ],
+   [
+    "Iterations (meilleure longueur ",
+    0,
+    ")"
+   ]
+  ],
+  [
+   [
+    "Best length found: ",
+    0
+   ],
+   [
+    "Meilleure longueur trouvée : ",
+    0
+   ]
+  ],
+  [
+   [
+    "Best tour: ",
+    0
+   ],
+   [
+    "Meilleur trajet : ",
+    0
+   ]
+  ],
+  [
+   [
+    0,
+    " duplicate file name(s) in the tree (only the last one found is kept, local #includes may become ambiguous):"
+   ],
+   [
+    0,
+    " nom(s) de fichier en doublon dans l'arborescence (seul le dernier trouvé est gardé, les #include locaux peuvent devenir ambigus) :"
+   ]
+  ],
+  [
+   [
+    "Error: neither ",
+    0,
+    " nor the template ",
+    1,
+    " exists."
+   ],
+   [
+    "Erreur : ni ",
+    0,
+    " ni le template ",
+    1,
+    " n'existent."
+   ]
+  ],
+  [
+   [
+    "→ New file created from the template: ",
+    0
+   ],
+   [
+    "→ Nouveau fichier créé depuis le template : ",
+    0
+   ]
+  ],
+  [
+   [
+    "Error: block(s) not found in ",
+    0,
+    " :"
+   ],
+   [
+    "Erreur : bloc(s) introuvable(s) dans ",
+    0,
+    " :"
+   ]
+  ],
+  [
+   [
+    "→ Backup created: ",
+    0
+   ],
+   [
+    "→ Sauvegarde créée : ",
+    0
+   ]
+  ],
+  [
+   [
+    "Cannot create the backup ",
+    0
+   ],
+   [
+    "Impossible de créer la sauvegarde ",
+    0
+   ]
+  ],
+  [
+   [
+    0,
+    " function(s) defined in several files (ambiguous call resolution):"
+   ],
+   [
+    0,
+    " fonction(s) définie(s) dans plusieurs fichiers (résolution d'appel ambiguë) :"
+   ]
+  ],
+  [
+   [
+    0,
+    " source file(s) with no detected function (check the signature style):"
+   ],
+   [
+    0,
+    " fichier(s) source sans fonction détectée (vérifier le style des signatures) :"
+   ]
+  ],
+  [
+   [
+    "Error: source folder not found: ",
+    0
+   ],
+   [
+    "Erreur : dossier source introuvable : ",
+    0
+   ]
+  ],
+  [
+   [
+    "→ src/ and/or include/ detected, scanning: ",
+    0
+   ],
+   [
+    "→ src/ et/ou include/ détectés, scan de : ",
+    0
+   ]
+  ],
+  [
+   [
+    "Error: no file (",
+    0,
+    ") found in ",
+    1
+   ],
+   [
+    "Erreur : aucun fichier (",
+    0,
+    ") trouvé dans ",
+    1
+   ]
+  ],
+  [
+   [
+    0,
+    " · ",
+    1,
+    " files (",
+    2,
+    " .c) · ",
+    3,
+    " links (recomputed from the source code)"
+   ],
+   [
+    0,
+    " · ",
+    1,
+    " fichiers (",
+    2,
+    " .c) · ",
+    3,
+    " liens (recalculé depuis le code source)"
+   ]
+  ],
+  [
+   [
+    "Extensions to scan, comma-separated (default: ",
+    0,
+    ")"
+   ],
+   [
+    "Extensions à scanner, séparées par des virgules (défaut: ",
+    0,
+    ")"
+   ]
+  ],
+  [
+   [
+    0,
+    " (fixed)"
+   ],
+   [
+    0,
+    " (fixe)"
+   ]
+  ],
+  [
+   [
+    "System Monitor (reading ",
+    0,
+    "/4)"
+   ],
+   [
+    "System Monitor (relevé ",
+    0,
+    "/4)"
+   ]
+  ],
+  [
+   [
+    "Demos available for -d/--demo:\n",
+    0
+   ],
+   [
+    "Démos disponibles pour -d/--demo :\n",
+    0
+   ]
+  ],
+  [
+   [
+    "The path does not exist: '",
+    0,
+    "'"
+   ],
+   [
+    "Le chemin n'existe pas : '",
+    0,
+    "'"
+   ]
+  ],
+  [
+   [
+    "The path is not a folder: '",
+    0,
+    "'"
+   ],
+   [
+    "Le chemin n'est pas un dossier : '",
+    0,
+    "'"
+   ]
+  ],
+  [
+   [
+    "No read permission on: '",
+    0,
+    "'"
+   ],
+   [
+    "Aucune permission de lecture sur : '",
+    0,
+    "'"
+   ]
+  ],
+  [
+   [
+    "File not found: '",
+    0,
+    "'"
+   ],
+   [
+    "Fichier introuvable : '",
+    0,
+    "'"
+   ]
+  ],
+  [
+   [
+    "Permission denied: '",
+    0,
+    "'"
+   ],
+   [
+    "Permission refusee : '",
+    0,
+    "'"
+   ]
+  ],
+  [
+   [
+    "Unrecognised image format: '",
+    0,
+    "'"
+   ],
+   [
+    "Format d'image non reconnu : '",
+    0,
+    "'"
+   ]
+  ],
+  [
+   [
+    "System error on '",
+    0,
+    "': ",
+    1
+   ],
+   [
+    "Erreur systeme sur '",
+    0,
+    "': ",
+    1
+   ]
+  ],
+  [
+   [
+    "Unexpected error on '",
+    0,
+    "': ",
+    1
+   ],
+   [
+    "Erreur inattendue sur '",
+    0,
+    "': ",
+    1
+   ]
+  ],
+  [
+   [
+    "Cannot read the hash file (permission denied): '",
+    0,
+    "'."
+   ],
+   [
+    "Impossible de lire le fichier de hash (permission refusee) : '",
+    0,
+    "'."
+   ]
+  ],
+  [
+   [
+    "Hash file encoding error: '",
+    0,
+    "'."
+   ],
+   [
+    "Erreur d'encodage du fichier de hash : '",
+    0,
+    "'."
+   ]
+  ],
+  [
+   [
+    "System error while reading the hash file: ",
+    0,
+    "."
+   ],
+   [
+    "Erreur systeme en lisant le fichier de hash : ",
+    0,
+    "."
+   ]
+  ],
+  [
+   [
+    0,
+    " line(s) in an old hash file format, converted to global scope."
+   ],
+   [
+    0,
+    " ligne(s) au format d'un ancien fichier de hash, converties en portee globale."
+   ]
+  ],
+  [
+   [
+    0,
+    " malformed line(s) in the hash file, ignored (e.g. lines ",
+    1,
+    2,
+    ")."
+   ],
+   [
+    0,
+    " ligne(s) mal formee(s) dans le fichier de hash, ignorees (ex. lignes ",
+    1,
+    2,
+    ")."
+   ]
+  ],
+  [
+   [
+    "Permission denied to write the hash file: '",
+    0,
+    "'."
+   ],
+   [
+    "Permission refusee pour ecrire le fichier de hash : '",
+    0,
+    "'."
+   ]
+  ],
+  [
+   [
+    "System error while saving the hash file: ",
+    0
+   ],
+   [
+    "Erreur systeme en sauvant le fichier de hash : ",
+    0
+   ]
+  ],
+  [
+   [
+    "Unexpected error while saving the hash file: ",
+    0
+   ],
+   [
+    "Erreur inattendue en sauvant le fichier de hash : ",
+    0
+   ]
+  ],
+  [
+   [
+    "Cannot reproduce the path for '",
+    0,
+    "', falling back to flat."
+   ],
+   [
+    "Impossible de reproduire le chemin pour '",
+    0,
+    "', repli sur flat."
+   ]
+  ],
+  [
+   [
+    "System error while creating the mirror folder: ",
+    0,
+    ". Falling back to flat."
+   ],
+   [
+    "Erreur systeme en creant le dossier miroir : ",
+    0,
+    ". Repli sur flat."
+   ]
+  ],
+  [
+   [
+    "Permission denied to move '",
+    0,
+    "'."
+   ],
+   [
+    "Permission refusee pour deplacer '",
+    0,
+    "'."
+   ]
+  ],
+  [
+   [
+    "Move failed for '",
+    0,
+    "': ",
+    1
+   ],
+   [
+    "Deplacement echoue pour '",
+    0,
+    "': ",
+    1
+   ]
+  ],
+  [
+   [
+    "System error while moving '",
+    0,
+    "': ",
+    1
+   ],
+   [
+    "Erreur systeme en deplacant '",
+    0,
+    "': ",
+    1
+   ]
+  ],
+  [
+   [
+    "Unexpected error while moving '",
+    0,
+    "': ",
+    1
+   ],
+   [
+    "Erreur inattendue en deplacant '",
+    0,
+    "': ",
+    1
+   ]
+  ],
+  [
+   [
+    "Access denied: ",
+    0
+   ],
+   [
+    "Acces refuse : ",
+    0
+   ]
+  ],
+  [
+   [
+    "System error on ",
+    0,
+    ": ",
+    1
+   ],
+   [
+    "Erreur systeme sur ",
+    0,
+    ": ",
+    1
+   ]
+  ],
+  [
+   [
+    "Failed on ",
+    0,
+    ": ",
+    1
+   ],
+   [
+    "Echec sur ",
+    0,
+    ": ",
+    1
+   ]
+  ],
+  [
+   [
+    "\n",
+    0,
+    "Processing ",
+    1,
+    " file(s)"
+   ],
+   [
+    "\n",
+    0,
+    "Traitement de ",
+    1,
+    " fichier(s)"
+   ]
+  ],
+  [
+   [
+    "\n",
+    0,
+    "Processing ",
+    1,
+    " video(s)"
+   ],
+   [
+    "\n",
+    0,
+    "Traitement de ",
+    1,
+    " video(s)"
+   ]
+  ],
+  [
+   [
+    "Access denied: '",
+    0,
+    "'"
+   ],
+   [
+    "Acces refuse : '",
+    0,
+    "'"
+   ]
+  ],
+  [
+   [
+    "Cannot create the 'copies' folder: permission denied in '",
+    0,
+    "'."
+   ],
+   [
+    "Impossible de creer le dossier 'copies' : permission refusee dans '",
+    0,
+    "'."
+   ]
+  ],
+  [
+   [
+    "Cannot create the 'copies' folder: ",
+    0
+   ],
+   [
+    "Impossible de creer le dossier 'copies' : ",
+    0
+   ]
+  ],
+  [
+   [
+    "Cannot create the error log: ",
+    0,
+    "."
+   ],
+   [
+    "Impossible de creer le journal d'erreurs : ",
+    0,
+    "."
+   ]
+  ],
+  [
+   [
+    "Cannot list the folder '",
+    0,
+    "' : permission denied."
+   ],
+   [
+    "Impossible de lister le dossier '",
+    0,
+    "' : permission refusee."
+   ]
+  ],
+  [
+   [
+    "System error while walking the folder: ",
+    0
+   ],
+   [
+    "Erreur systeme en parcourant le dossier : ",
+    0
+   ]
+  ],
+  [
+   [
+    "\n",
+    0,
+    "Processing ",
+    1,
+    " image(s) [mode: ",
+    2,
+    " | copies: ",
+    3,
+    " | detection: ",
+    4,
+    "]"
+   ],
+   [
+    "\n",
+    0,
+    "Traitement de ",
+    1,
+    " image(s) [mode: ",
+    2,
+    " | copies: ",
+    3,
+    " | detection: ",
+    4,
+    "]"
+   ]
+  ],
+  [
+   [
+    "\n",
+    0,
+    1,
+    " duplicate(s) ",
+    2,
+    " :"
+   ],
+   [
+    "\n",
+    0,
+    1,
+    " doublon(s) ",
+    2,
+    " :"
+   ]
+  ],
+  [
+   [
+    "Details: ",
+    0
+   ],
+   [
+    "Details : ",
+    0
+   ]
+  ],
+  [
+   [
+    "\nUnexpected fatal error: ",
+    0
+   ],
+   [
+    "\nErreur fatale inattendue : ",
+    0
+   ]
+  ],
+  [
+   [
+    "Permission denied to rename '",
+    0,
+    "'."
+   ],
+   [
+    "Permission refusee pour renommer '",
+    0,
+    "'."
+   ]
+  ],
+  [
+   [
+    "System error while renaming '",
+    0,
+    "': ",
+    1
+   ],
+   [
+    "Erreur systeme en renommant '",
+    0,
+    "': ",
+    1
+   ]
+  ],
+  [
+   [
+    "\n",
+    0,
+    1,
+    " file(s) ",
+    2,
+    " :"
+   ],
+   [
+    "\n",
+    0,
+    1,
+    " fichier(s) ",
+    2,
+    " :"
+   ]
+  ],
+  [
+   [
+    "Detected structure: ",
+    0,
+    "\n"
+   ],
+   [
+    "Structure detectee : ",
+    0,
+    "\n"
+   ]
+  ],
+  [
+   [
+    0,
+    " blocks² (",
+    1,
+    " km2)"
+   ],
+   [
+    0,
+    " blocs2 (",
+    1,
+    " km2)"
+   ]
+  ],
+  [
+   [
+    "Scanning ",
+    0
+   ],
+   [
+    "Analyse de ",
+    0
+   ]
+  ],
+  [
+   [
+    "Total: ",
+    0,
+    " location(s) found"
+   ],
+   [
+    "Total : ",
+    0,
+    " emplacement(s) trouve(s)"
+   ]
+  ],
+  [
+   [
+    "'",
+    0,
+    "' is not a valid folder."
+   ],
+   [
+    "'",
+    0,
+    "' n'est pas un dossier valide."
+   ]
+  ],
+  [
+   [
+    "Row ",
+    0,
+    " of Pascal's triangle"
+   ],
+   [
+    "Ligne ",
+    0,
+    " du triangle de Pascal"
+   ]
+  ],
+  [
+   [
+    "Mode (preselected): ",
+    0
+   ],
+   [
+    "Mode (pre-selectionne) : ",
+    0
+   ]
+  ],
+  [
+   [
+    "Row number (preselected): ",
+    0
+   ],
+   [
+    "Numero de ligne (pre-selectionne) : ",
+    0
+   ]
+  ],
+  [
+   [
+    "a = ",
+    0,
+    ", b = ",
+    1,
+    ", n = ",
+    2,
+    " (preselected)"
+   ],
+   [
+    "a = ",
+    0,
+    ", b = ",
+    1,
+    ", n = ",
+    2,
+    " (pre-selectionnes)"
+   ]
+  ],
+  [
+   [
+    "Message too long (max ",
+    0,
+    " bytes)."
+   ],
+   [
+    "Message trop long (max ",
+    0,
+    " bytes)."
+   ]
+  ],
+  [
+   [
+    "The message contains characters that cannot be decoded later: ",
+    0,
+    ". Only printable ASCII, tab and newline are supported."
+   ],
+   [
+    "Le message contient des caracteres qui ne pourront pas etre decodes ensuite : ",
+    0,
+    ". Seul l'ASCII imprimable, la tabulation et le retour a la ligne sont supportes."
+   ]
+  ],
+  [
+   [
+    "This image is too small: it has ",
+    0,
+    " pixels but the message needs at least ",
+    1,
+    ". Use a bigger image or a shorter message."
+   ],
+   [
+    "Cette image est trop petite : elle a ",
+    0,
+    " pixels mais le message en necessite au moins ",
+    1,
+    ". Utilisez une image plus grande ou un message plus court."
+   ]
+  ],
+  [
+   [
+    "No image found in '",
+    0,
+    "/'. Put an image there first."
+   ],
+   [
+    "Aucune image trouvee dans '",
+    0,
+    "/'. Placez-y une image d'abord."
+   ]
+  ],
+  [
+   [
+    "\nMessage hidden in '",
+    0,
+    "' -> saved as '",
+    1,
+    "'"
+   ],
+   [
+    "\nMessage cache dans '",
+    0,
+    "' -> sauvegarde sous '",
+    1,
+    "'"
+   ]
+  ],
+  [
+   [
+    "Image size: ",
+    0,
+    "x",
+    1,
+    " (",
+    2,
+    "/",
+    3,
+    " pixels touched)"
+   ],
+   [
+    "Taille de l'image : ",
+    0,
+    "x",
+    1,
+    " (",
+    2,
+    "/",
+    3,
+    " pixels touches)"
+   ]
+  ],
+  [
+   [
+    "Channels changed: ",
+    0,
+    "/",
+    1,
+    " (average change: ",
+    2,
+    ", max : ",
+    3,
+    ") — visually indistinguishable from the original."
+   ],
+   [
+    "Canaux modifies : ",
+    0,
+    "/",
+    1,
+    " (changement moyen : ",
+    2,
+    ", max : ",
+    3,
+    ") — visuellement indissociable de l'original."
+   ]
+  ],
+  [
+   [
+    "Error while saving the image: ",
+    0
+   ],
+   [
+    "Erreur lors de la sauvegarde de l'image : ",
+    0
+   ]
+  ],
+  [
+   [
+    "\nMessage hidden in an image of ",
+    0,
+    "x",
+    1,
+    "."
+   ],
+   [
+    "\nMessage cache dans une image ",
+    0,
+    "x",
+    1,
+    "."
+   ]
+  ],
+  [
+   [
+    "Saving as: ",
+    0
+   ],
+   [
+    "Sauvegarde sous : ",
+    0
+   ]
+  ],
+  [
+   [
+    "Error while reading '",
+    0,
+    "' : ",
+    1
+   ],
+   [
+    "Erreur en lisant '",
+    0,
+    "' : ",
+    1
+   ]
+  ],
+  [
+   [
+    "\nHidden message:\n",
+    0
+   ],
+   [
+    "\nMessage cache :\n",
+    0
+   ]
+  ],
+  [
+   [
+    "Saving as: ",
+    0,
+    " (",
+    1,
+    "x",
+    2,
+    ", ",
+    3,
+    "/",
+    4,
+    " channels adjusted by ",
+    5,
+    " on average, max ",
+    6,
+    ")"
+   ],
+   [
+    "Sauvegarde sous : ",
+    0,
+    " (",
+    1,
+    "x",
+    2,
+    ", ",
+    3,
+    "/",
+    4,
+    " canaux ajustes de ",
+    5,
+    " en moyenne, max ",
+    6,
+    ")"
+   ]
+  ],
+  [
+   [
+    "Saving as: ",
+    0,
+    " (",
+    1,
+    "x",
+    2,
+    ")"
+   ],
+   [
+    "Sauvegarde sous : ",
+    0,
+    " (",
+    1,
+    "x",
+    2,
+    ")"
+   ]
+  ],
+  [
+   [
+    "Invalid value: ",
+    0
+   ],
+   [
+    "Valeur invalide : ",
+    0
+   ]
+  ],
+  [
+   [
+    "Unsupported type: ",
+    0
+   ],
+   [
+    "Type non supporté : ",
+    0
+   ]
+  ],
+  [
+   [
+    "The parameter '",
+    0,
+    "' cannot be zero."
+   ],
+   [
+    "Le paramètre '",
+    0,
+    "' ne peut pas être nul."
+   ]
+  ],
+  [
+   [
+    "'",
+    0,
+    "' must be a non-empty 2D matrix."
+   ],
+   [
+    "'",
+    0,
+    "' doit être une matrice non vide à 2 dimensions."
+   ]
+  ],
+  [
+   [
+    "'",
+    0,
+    "' must be a non-empty rectangular 2D matrix."
+   ],
+   [
+    "'",
+    0,
+    "' doit être une matrice rectangulaire non vide à 2 dimensions."
+   ]
+  ],
+  [
+   [
+    "'",
+    0,
+    "' must be a square matrix (got ",
+    1,
+    ")."
+   ],
+   [
+    "'",
+    0,
+    "' doit être une matrice carrée (reçu ",
+    1,
+    ")."
+   ]
+  ],
+  [
+   [
+    "Incompatible dimensions for ",
+    0,
+    " : ",
+    1,
+    " and ",
+    2,
+    "."
+   ],
+   [
+    "Dimensions incompatibles pour ",
+    0,
+    " : ",
+    1,
+    " et ",
+    2,
+    "."
+   ]
+  ],
+  [
+   [
+    "Incompatible dimensions for matrix multiplication: ",
+    0,
+    " and ",
+    1,
+    "."
+   ],
+   [
+    "Dimensions incompatibles pour la multiplication matricielle : ",
+    0,
+    " et ",
+    1,
+    "."
+   ]
+  ],
+  [
+   [
+    "Incompatible dimensions for matrix division: ",
+    0,
+    " and ",
+    1,
+    "."
+   ],
+   [
+    "Dimensions incompatibles pour la division matricielle : ",
+    0,
+    " et ",
+    1,
+    "."
+   ]
+  ],
+  [
+   [
+    "Indices (",
+    0,
+    ", ",
+    1,
+    ") out of range for a matrix of size ",
+    2,
+    "."
+   ],
+   [
+    "Indices (",
+    0,
+    ", ",
+    1,
+    ") hors limites pour une matrice de taille ",
+    2,
+    "."
+   ]
+  ],
+  [
+   [
+    "Dimension ",
+    0,
+    " above the limit (",
+    1,
+    ")."
+   ],
+   [
+    "Dimension ",
+    0,
+    " supérieure à la limite (",
+    1,
+    ")."
+   ]
+  ],
+  [
+   [
+    "'system_columns' must be an integer between 1 and ",
+    0,
+    "."
+   ],
+   [
+    "'colonnes_systeme' doit être un entier entre 1 et ",
+    0,
+    "."
+   ]
+  ],
+  [
+   [
+    "Binomial theorem (A = ",
+    0,
+    "*I + N, N^",
+    1,
+    " = 0)"
+   ],
+   [
+    "Binôme de Newton (A = ",
+    0,
+    "*I + N, N^",
+    1,
+    " = 0)"
+   ]
+  ],
+  [
+   [
+    "Cannot compute A^n symbolically: ",
+    0
+   ],
+   [
+    "Impossible de calculer A^n symboliquement : ",
+    0
+   ]
+  ],
+  [
+   [
+    "Size ",
+    0,
+    " (n x n) : "
+   ],
+   [
+    "Taille ",
+    0,
+    " (n x n) : "
+   ]
+  ],
+  [
+   [
+    "Rows ",
+    0,
+    " : "
+   ],
+   [
+    "Lignes ",
+    0,
+    " : "
+   ]
+  ],
+  [
+   [
+    "Columns ",
+    0,
+    " : "
+   ],
+   [
+    "Colonnes ",
+    0,
+    " : "
+   ]
+  ],
+  [
+   [
+    0,
+    " (",
+    1,
+    "x",
+    2,
+    ") | '1 -2 3/4' or '1+2*i, 0, a'"
+   ],
+   [
+    0,
+    " (",
+    1,
+    "x",
+    2,
+    ") | '1 -2 3/4' ou '1+2*i, 0, a'"
+   ]
+  ],
+  [
+   [
+    "Expected ",
+    0,
+    ", got ",
+    1,
+    "."
+   ],
+   [
+    "Attendu ",
+    0,
+    ", reçu ",
+    1,
+    "."
+   ]
+  ],
+  [
+   [
+    "Scalar ",
+    0,
+    " : "
+   ],
+   [
+    "Scalaire ",
+    0,
+    " : "
+   ]
+  ],
+  [
+   [
+    "Columns left of '|' (Enter = none, 1..",
+    0,
+    ") : "
+   ],
+   [
+    "Colonnes à gauche de '|' (Entrée = aucune, 1..",
+    0,
+    ") : "
+   ]
+  ],
+  [
+   [
+    "Separator between 1 and ",
+    0,
+    " required."
+   ],
+   [
+    "Séparateur entre 1 et ",
+    0,
+    " requis."
+   ]
+  ],
+  [
+   [
+    "Method: ",
+    0
+   ],
+   [
+    "Méthode : ",
+    0
+   ]
+  ],
+  [
+   [
+    "[WARNING] ",
+    0
+   ],
+   [
+    "[ATTENTION] ",
+    0
+   ]
+  ],
+  [
+   [
+    "[ERROR] ",
+    0
+   ],
+   [
+    "[ERREUR] ",
+    0
+   ]
+  ],
+  [
+   [
+    "  Value must be >= ",
+    0,
+    "."
+   ],
+   [
+    "  La valeur doit etre >= ",
+    0,
+    "."
+   ]
+  ],
+  [
+   [
+    "  Value must be <= ",
+    0,
+    "."
+   ],
+   [
+    "  La valeur doit etre <= ",
+    0,
+    "."
+   ]
+  ],
+  [
+   [
+    "Your choice (1-",
+    0,
+    ")",
+    1,
+    " : "
+   ],
+   [
+    "Votre choix (1-",
+    0,
+    ")",
+    1,
+    " : "
+   ]
+  ],
+  [
+   [
+    "Must be >= ",
+    0
+   ],
+   [
+    "Doit etre >= ",
+    0
+   ]
+  ],
+  [
+   [
+    "Must be <= ",
+    0
+   ],
+   [
+    "Doit etre <= ",
+    0
+   ]
+  ],
+  [
+   [
+    "Best tour — iteration ",
+    0,
+    " — length ",
+    1
+   ],
+   [
+    "Meilleur trajet — itération ",
+    0,
+    " — longueur ",
+    1
+   ]
+  ]
+ ]
+}
