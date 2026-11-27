@@ -494,9 +494,9 @@ def _demander_colonnes_sep(nb_cols):
 
 def executer_operation_menu(choix):
 	if choix in {"1", "2"}:
-        l = _demander_entier_positif("Nombre de lignes de A et B : ")
-        n = _demander_entier_positif("Nombre de colones de A et B : ")
-        A = saisir_matrice_manuellement("A", l=l, c=c)
+		l = _demander_entier_positif("Nombre de lignes de A et B : ")
+		n = _demander_entier_positif("Nombre de colones de A et B : ")
+		A = saisir_matrice_manuellement("A", l=l, c=c)
 		B = saisir_matrice_manuellement("B", l=l, c=c)
 		if choix == "1":
 			afficher_matrice("A + B", add(A, B))
@@ -513,7 +513,7 @@ def executer_operation_menu(choix):
 			B = saisir_matrice_manuellement("B", l=c, c=m)
 			afficher_matrice("A * B", mult(A, B=B))
 		elif sous_choix == "2":
-            l = _demander_entier_positif("Nombre de lignes de A : ")
+			l = _demander_entier_positif("Nombre de lignes de A : ")
 			c = _demander_entier_positif("Nombre de colones de A : ")
 			A = saisir_matrice_manuellement("A", l=l, c=c)
 			s = _demander_scalaire("k", autoriser_zero=True)
